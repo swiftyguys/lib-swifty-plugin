@@ -12,7 +12,7 @@ class LibSwiftyPlugin
     }
 
     function hook_admin_add_swifty_menu( $name, $key, $func ) {
-        // Add the Swifty main admin menu. This same menu is used by ALL Swifty plugins!
+        // Add the Swifty main admin menu (once for all plugins).
         if ( empty ( $GLOBALS[ 'admin_page_hooks' ][ 'swifty_admin' ] ) ) {
             add_menu_page(
                 'Swifty',
