@@ -23,7 +23,7 @@ class LibSwiftyPlugin
             );
         }
 
-        // Add the admin submenu for our plugin
+        // Add the first submenu (general swifty settings)
         add_submenu_page(
             'swifty_admin',
             'Plugins',
@@ -48,7 +48,7 @@ class LibSwiftyPlugin
         return true;
     }
 
-    // The Swifty admin main menu page (For ALL Swifty plugins.
+    // The Swifty admin main menu page (For ALL Swifty plugins)
     function admin_swifty_menu_page() {
         echo "<h1>Swifty</h1>";
 
