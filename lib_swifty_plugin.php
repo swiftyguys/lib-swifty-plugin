@@ -52,7 +52,7 @@ class LibSwiftyPlugin
 
     // The Swifty admin main menu page (For ALL Swifty plugins)
     function admin_swifty_menu_page() {
-        echo "<h1>Swifty</h1>";
+        echo "<h1>Swifty plugins</h1>";
 
         echo "<h4><br>Active Swifty plugins:</h4>";
 
