@@ -61,4 +61,28 @@ class LibSwiftyPlugin
         }
     }
 
+    // change the permalink to postname option. Call this on plugin activation:
+    //require_once plugin_dir_path( __FILE__ ) . '../lib/swifty_plugin/lib_swifty_plugin.php';
+    //register_activation_hook( __FILE__, array( LibSwiftyPlugin::get_instance(), 'change_permalinks' ) );
+    public function change_permalinks()
+    {
+        add_action( 'permalink_structure_changed', array( &$this, 'action_permalink_structure_changed'), 10, 2 );
+
+        global $wp_rewrite;
+        $wp_rewrite->set_permalink_structure( '/%postname%/' );
+
+        remove_action( 'permalink_structure_changed', array( &$this, 'action_permalink_structure_changed' ) );
+    }
+
+    // helper function
+    public function action_permalink_structure_changed( $old_permalink_structure, $permalink_structure )
+    {
+        // make sure that the functions needed for writing htaccess are available
+        require_once(ABSPATH . 'wp-admin/includes/file.php');
+        require_once(ABSPATH . 'wp-admin/includes/misc.php');
+
+        // is only triggered when something actually has changed
+        global $wp_rewrite;
+        $wp_rewrite->flush_rules();
+    }
 }
