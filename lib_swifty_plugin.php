@@ -2,25 +2,24 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class LibSwiftyPlugin
-{
-    private static $instance;
+require_once plugin_dir_path( __FILE__ ) . 'lib_swifty_plugin_view.php';
+require_once plugin_dir_path( __FILE__ ) . 'php/lib/swifty_class-tgm-plugin-activation.php';
 
+class LibSwiftyPlugin extends LibSwiftyPluginView
+{
     protected $swifty_plugins = array();
 
     public function __construct()
     {
-        self::$instance = $this;
+        parent::__construct();
 
-        add_action( 'swifty_hook_admin_add_swifty_menu', array( &$this, 'hook_admin_add_swifty_menu' ), 99, 4 );
+
     }
 
-    public static function get_instance() {
+    public function action_plugins_loaded() {
+        parent::action_plugins_loaded();
 
-        if ( ! isset( self::$instance ) && ! ( self::$instance instanceof LibSwiftyPlugin ) ) {
-            self::$instance = new LibSwiftyPlugin();
-        }
-        return self::$instance;
+        add_action( 'swifty_hook_admin_add_swifty_menu', array( &$this, 'hook_admin_add_swifty_menu' ), 99, 4 );
     }
 
     function hook_admin_add_swifty_menu( $name, $key, $func, $register_plugin ) {
@@ -62,7 +61,6 @@ class LibSwiftyPlugin
     }
 
     // change the permalink to postname option. Call this on plugin activation:
-    //require_once plugin_dir_path( __FILE__ ) . '../lib/swifty_plugin/lib_swifty_plugin.php';
     //register_activation_hook( __FILE__, array( LibSwiftyPlugin::get_instance(), 'change_permalinks' ) );
     public function change_permalinks()
     {
