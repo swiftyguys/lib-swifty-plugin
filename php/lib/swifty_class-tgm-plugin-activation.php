@@ -85,6 +85,8 @@ if ( ! class_exists( 'Swifty_TGM_Plugin_Activation' ) ) {
 
         public $menu_url = '';
 
+        public $skip_notices_on_pages = array();
+
         /**
          * Flag to show admin notices or not.
          *
@@ -770,7 +772,7 @@ if ( ! class_exists( 'Swifty_TGM_Plugin_Activation' ) ) {
             }
 
             // Admin options pages already output settings_errors, so this is to avoid duplication.
-            if ( 'options-general' !== $current_screen->parent_base ) {
+            if ( ( 'options-general' !== $current_screen->parent_base ) && !in_array( $current_screen->id, $this->skip_notices_on_pages ) ) {
                 settings_errors( 'stgmpa' );
             }
 
@@ -824,21 +826,28 @@ if ( ! class_exists( 'Swifty_TGM_Plugin_Activation' ) ) {
          *
          * @param array $config Array of config options to pass as class properties.
          */
-        public function config( $config ) {
+        public function config( $config )
+        {
 
-            $keys = array( 'default_path', 'has_notices', 'dismissable', 'dismiss_msg', 'menu', 'menu_url', 'is_automatic', 'message', 'strings', 'theme_support' );
+            $keys = array( 'default_path', 'has_notices', 'dismissable', 'dismiss_msg', 'menu', 'menu_url', 'is_automatic', 'message', 'strings', 'theme_support', 'skip_notices_on_pages' );
 
             foreach ( $keys as $key ) {
-                if ( isset( $config[$key] ) ) {
-                    if ( is_array( $config[$key] ) ) {
-                        foreach ( $config[$key] as $subkey => $value ) {
-                            $this->{$key}[$subkey] = $value;
+                if ( isset( $config[ $key ] ) ) {
+                    if ( is_array( $config[ $key ] ) ) {
+                        if ( $key === 'skip_notices_on_pages' ) {
+                            foreach ( $config[ $key ] as $value ) {
+                                $this->{$key}[] = $value;
+                            }
+                        } else {
+                            foreach ( $config[ $key ] as $subkey => $value ) {
+                                $this->{$key}[ $subkey ] = $value;
+                            }
                         }
                     } else {
                         if ( $key === 'dismissable' ) { // keep this false when 1 plugin wants it
-                            $this->$key = $this->$key && $config[$key];
+                            $this->$key = $this->$key && $config[ $key ];
                         } else {
-                            $this->$key = $config[$key];
+                            $this->$key = $config[ $key ];
                         }
                     }
                 }
