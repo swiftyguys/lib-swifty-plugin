@@ -19,16 +19,35 @@ class LibSwiftyPluginView
         return self::$instance;
     }
 
-    public static $required_plugin_active_ninja_forms = false;
-    public static $required_plugin_active_shortcodes_ultimate = false;
-    public static $required_plugin_active_wordpress_canvas_gallery = false;
+    public static $required_active_plugins = array();
+
+    public static function is_required_plugin_active( $plugin_name )
+    {
+        // do we already know the answer?
+        if( array_key_exists ( $plugin_name, self::$required_active_plugins ) ) {
+            return self::$required_active_plugins[ $plugin_name ];
+        }
+        // no then we will find out: get all plugins and look for the plugin name in the directory name
+
+        if ( ! function_exists( 'get_plugins' ) ) {
+            require_once ABSPATH . 'wp-admin/includes/plugin.php';
+        }
+        $keys = array_keys( get_plugins() );
+
+        $slug = $plugin_name;
+        foreach ( $keys as $key ) {
+            if ( preg_match( '|^' . $slug .'/|', $key ) ) {
+                $slug = $key;
+                break;
+            }
+        }
+        return self::$required_active_plugins[ $plugin_name ] = is_plugin_active( $slug );
+    }
+
     public static $required_plugin_active_swifty_site = false;
 
     public function action_plugins_loaded()
     {
-        self::$required_plugin_active_ninja_forms = defined( 'NF_PLUGIN_VERSION' );
-        self::$required_plugin_active_shortcodes_ultimate = defined( 'SU_PLUGIN_FILE' );
-        self::$required_plugin_active_wordpress_canvas_gallery = defined( 'WC_GALLERY_VERSION' );
         self::$required_plugin_active_swifty_site = defined( 'SWIFTY_SITE_PLUGIN_URL' );
     }
 }
