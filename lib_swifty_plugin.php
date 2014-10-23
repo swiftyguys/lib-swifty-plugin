@@ -16,13 +16,7 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
 
     }
 
-    public function action_plugins_loaded() {
-        parent::action_plugins_loaded();
-
-        add_action( 'swifty_hook_admin_add_swifty_menu', array( &$this, 'hook_admin_add_swifty_menu' ), 99, 4 );
-    }
-
-    function hook_admin_add_swifty_menu( $name, $key, $func, $register_plugin ) {
+    public function admin_add_swifty_menu( $name, $key, $func, $register_plugin ) {
         // Add the Swifty main admin menu (once for all plugins).
         if ( empty ( $GLOBALS[ 'admin_page_hooks' ][ 'swifty_admin' ] ) ) {
             add_menu_page(
@@ -35,7 +29,7 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
         }
 
         // Add the admin submenu for our plugin
-        add_submenu_page(
+        $page = add_submenu_page(
             'swifty_admin',
             $name,
             $name,
@@ -47,6 +41,7 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
         if ( $register_plugin ) {
             $this->swifty_plugins[] = array('key' => $key, 'name' => $name);
         }
+        return $page;
     }
 
     // The Swifty admin main menu page (For ALL Swifty plugins)
