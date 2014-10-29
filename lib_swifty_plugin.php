@@ -55,6 +55,46 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
         }
     }
 
+    // Our plugin admin menu page
+    function admin_options_menu_page( $admin_page_title, $admin_page, $tab_general_title, $tab_general_method )
+    {
+        // example:
+        //global $oLocale;
+        //$admin_page_title = $oLocale[ 'Swifty Content Creator' ];
+        //$admin_page = $this->swifty_admin_page;
+        //$tab_general_title = 'General';
+        //$tab_general_method = array( $this, 'scc_tab_options_content' );
+
+        $settings_tabs = array( 'scc_options' => array( 'title' => $tab_general_title, 'method' => $tab_general_method ) );
+        $settings_tabs = apply_filters( 'swifty_admin_page_tabs_' . $admin_page, $settings_tabs );
+
+        // make sure the selected tab exists, last active might be not added this time for some reason
+        $tab = isset( $_GET[ 'tab' ] ) && array_key_exists( $_GET[ 'tab' ], $settings_tabs ) ? $_GET[ 'tab' ] : 'scc_options';
+
+        ?>
+        <div class='wrap'>
+            <h2><?php echo $admin_page_title; ?></h2>
+
+            <h2 class="nav-tab-wrapper">
+                <?php
+                foreach( $settings_tabs as $tab_page => $tab_info ) {
+                    $active_tab = $tab == $tab_page ? 'nav-tab-active' : '';
+                    echo '<a class="nav-tab ' . $active_tab . '" href="?page=' . $admin_page . '&tab=' . $tab_page . '">' . $tab_info[ 'title' ] . '</a>';
+                }
+                ?>
+            </h2>
+
+            <form action='options.php' method='post'>
+                <div class="main">
+                    <?php
+                    $settings_tabs[ $tab ][ 'method' ]();
+                    ?>
+                </div>
+            </form>
+        </div>
+    <?php
+    }
+
     // change the permalink to postname option. Call this on plugin activation:
     //register_activation_hook( __FILE__, array( LibSwiftyPlugin::get_instance(), 'change_permalinks' ) );
     public function change_permalinks()
