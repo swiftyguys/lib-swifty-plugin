@@ -118,4 +118,26 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
         global $wp_rewrite;
         $wp_rewrite->flush_rules();
     }
+
+    // find newer version of post, or return null if there is no newer autosave version
+    public function get_autosave_version_if_newer( $pid)
+    {
+        // Detect if there exists an autosave newer than the post and if that autosave is different than the post
+        $autosave = wp_get_post_autosave( $pid );
+        $post = get_post( $pid );
+        $newer_revision = null;
+        if( $autosave && mysql2date( 'U', $autosave->post_modified_gmt, false ) > mysql2date( 'U', $post->post_modified_gmt, false ) ) {
+            foreach( _wp_post_revision_fields() as $autosave_field => $_autosave_field ) {
+                if( normalize_whitespace( $autosave->$autosave_field ) != normalize_whitespace( $post->$autosave_field ) ) {
+                    if( $autosave_field === 'post_content' ) {
+                        $newer_revision = $autosave->$autosave_field;
+                    }
+                }
+            }
+            unset( $autosave_field, $_autosave_field );
+        }
+
+        return $newer_revision;
+    }
+
 }
