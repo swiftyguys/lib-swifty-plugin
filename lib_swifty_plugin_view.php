@@ -50,4 +50,10 @@ class LibSwiftyPluginView
     {
         self::$required_plugin_active_swifty_site = defined( 'SWIFTY_SITE_PLUGIN_URL' );
     }
+
+    // is swifty menu active?
+    public function is_ss_mode()
+    {
+        return ( ! empty( $_COOKIE[ 'ss_mode' ] ) && $_COOKIE[ 'ss_mode' ] === 'ss' );
+    }
 }
