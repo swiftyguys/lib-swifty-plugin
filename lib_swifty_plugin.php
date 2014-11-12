@@ -2,7 +2,9 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-require_once plugin_dir_path( __FILE__ ) . 'lib_swifty_plugin_view.php';
+if ( ! class_exists( 'LibSwiftyPluginView' ) ) {
+    require_once plugin_dir_path( __FILE__ ) . 'lib_swifty_plugin_view.php';
+}
 require_once plugin_dir_path( __FILE__ ) . 'php/lib/swifty_class-tgm-plugin-activation.php';
 
 class LibSwiftyPlugin extends LibSwiftyPluginView
