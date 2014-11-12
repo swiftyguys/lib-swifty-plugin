@@ -52,7 +52,7 @@ class LibSwiftyPluginView
     }
 
     // is swifty menu active?
-    public function is_ss_mode()
+    public static function is_ss_mode()
     {
         return ( ! empty( $_COOKIE[ 'ss_mode' ] ) && $_COOKIE[ 'ss_mode' ] === 'ss' );
     }
