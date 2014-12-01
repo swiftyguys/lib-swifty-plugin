@@ -106,8 +106,27 @@ class Wordpress {
         // Do setup actions that need to be done after login
         foreach( $this->story->data->testSettings->setup as $setupItem ) {
             $setupItem = (object) $setupItem ;
-            if( $setupItem->after_login == 'activate' && $setupItem->type == 'wp_plugin' ) {
+            if( $setupItem->type == 'wp_plugin' && $setupItem->after_login == 'activate' ) {
                 $this->ActivatePlugin( $setupItem->slug );
+            }
+        }
+    }
+
+    ////////////////////////////////////////
+
+    function Activate_License() {
+        $st = $this->st;
+
+        $this->story->EchoMsg( "Active License" );
+
+        $this->OpenSwiftySubMenu( $this->strings[ 's_submenu_swifty_content_creator' ] );
+        $st->usingTimer()->wait( 1, "Wait for Swifty Content Creator page." );
+
+        // Do setup actions that need to be done after activation
+        foreach( $this->story->data->testSettings->setup as $setupItem ) {
+            $setupItem = (object) $setupItem ;
+            if( $setupItem->type == 'api-manager' && $setupItem->action == 'activate' ) {
+                $this->ActivateSwiftyLicense( $setupItem->slug, $setupItem->plugin_prefix, $setupItem->email, $setupItem->key );
             }
         }
     }
@@ -147,7 +166,7 @@ class Wordpress {
     function ActivatePlugin( $pluginCode ) {
         $st = $this->st;
 
-        $this->story->EchoMsg( "Activate plugin: " . $pluginCode . ' ' . $this->IsPluginActivated( $pluginCode ) );
+        $this->story->EchoMsg( "Activate plugin: " . $pluginCode );
 
         $this->OpenAdminSubMenu( 'plugins', $this->strings[ 's_submenu_installed_plugins' ] );
         $st->usingTimer()->wait( 1, "Wait for Installed Plugin page." );
@@ -157,12 +176,36 @@ class Wordpress {
         }
     }
 
-    function IsPluginActivated( $pluginCode ) {
+    function IsPluginActivated( $pluginCode )
+    {
         $element = $this->story->FindElementsByXpath( 'descendant::a[contains(@href, "plugin=' . $pluginCode . '") and normalize-space(text()) = "' . $this->strings[ 's_deactivate' ] . '"]' );
 
         return ( $element && count( $element ) === 1 );
     }
 
+    ////////////////////////////////////////
+
+    function ActivateSwiftyLicense( $page, $plugin_prefix, $email, $key )
+    {
+        $st = $this->st;
+
+        $st->usingBrowser()->click()->linkWithText( $this->strings[ 's_tab_license' ] );
+        $st->usingTimer()->wait( 1, "Wait for Swifty Content Creator License tab." );
+
+        if( ! $this->IsSwiftyLicenseActivated( $page, $plugin_prefix ) ) {
+            $st->usingBrowser()->type( $email )->intoFieldWithId( "activation_email" );
+            $st->usingBrowser()->type( $key )->intoFieldWithId( "api_key" );
+            $st->usingBrowser()->click()->fieldWithName( 'submit' );
+        }
+    }
+
+    // only valid when the plugin page is active
+    function IsSwiftyLicenseActivated( $page, $plugin_prefix )
+    {
+        $element = $this->story->FindElementsByXpath( 'descendant::a[contains(@href, "page=' . $page . '_admin&tab=' . $plugin_prefix . '_deactivation")]' );
+
+        return ( $element && count( $element ) === 1 );
+    }
 
     ////////////////////////////////////////
 
@@ -171,9 +214,25 @@ class Wordpress {
 
         $this->story->EchoMsg( "Open admin sub-menu: " . $pluginCode . " -> " . $submenuText );
 
-        // Xpath for main menu button
-        $xpathMainmenuItem = 'descendant::li[@id = "menu-' . $pluginCode . '"]';
+        $this->OpenAdminSubMenuGeneric( 'menu-' . $pluginCode, $submenuText );
+    }
 
+    ////////////////////////////////////////
+
+    function OpenSwiftySubMenu( $submenuText )
+    {
+        $st = $this->st;
+
+        $this->story->EchoMsg( "Open swifty sub-menu: " . $submenuText );
+
+        $this->OpenAdminSubMenuGeneric( 'toplevel_page_swifty_admin', $submenuText );
+    }
+
+    function OpenAdminSubMenuGeneric( $menuId, $submenuText ) {
+        $st = $this->st;
+
+        // Xpath for main menu button
+        $xpathMainmenuItem = 'descendant::li[@id = "' . $menuId . '"]';
         // Open the admin page
         $st->usingBrowser()->gotoPage( "http://" . $this->story->data->testSettings->domain . "/wp-admin" );
 
