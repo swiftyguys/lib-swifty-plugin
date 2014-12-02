@@ -301,7 +301,8 @@ if ( ! class_exists( 'Swifty_TGM_Plugin_Activation' ) ) {
 
                 wp_enqueue_style( 'plugin-install' );
 
-                global $tab, $body_id;
+                global $tab;
+                global $body_id;
                 $body_id = $tab = 'plugin-information';
 
                 install_plugin_information();
@@ -1130,7 +1131,8 @@ if ( ! class_exists( 'STGMPA_List_Table' ) ) {
          */
         public function __construct() {
 
-            global $status, $page;
+            global $status;
+            global $page;
 
             parent::__construct(
                 array(

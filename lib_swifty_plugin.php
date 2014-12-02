@@ -9,7 +9,7 @@ require_once plugin_dir_path( __FILE__ ) . 'php/lib/swifty_class-tgm-plugin-acti
 
 class LibSwiftyPlugin extends LibSwiftyPluginView
 {
-    protected $swifty_plugins = array();
+    protected $our_swifty_plugins = array();
 
     public function __construct()
     {
@@ -41,7 +41,7 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
         );
 
         if ( $register_plugin ) {
-            $this->swifty_plugins[] = array('key' => $key, 'name' => $name);
+            $this->our_swifty_plugins[] = array('key' => $key, 'name' => $name);
         }
         return $page;
     }
@@ -52,7 +52,7 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
 
         echo "<h4><br>Active Swifty plugins:</h4>";
 
-        foreach( $this->swifty_plugins as $plugin ) {
+        foreach( $this->our_swifty_plugins as $plugin ) {
             echo '<a href="' . admin_url( 'admin.php?page=' . $plugin[ 'key' ] ) . '">' . $plugin[ 'name' ] . '</a><br>';
         }
     }
@@ -61,8 +61,8 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
     function admin_options_menu_page( $admin_page_title, $admin_page, $tab_general_title, $tab_general_method )
     {
         // example:
-        //global $oLocale;
-        //$admin_page_title = $oLocale[ 'Swifty Content Creator' ];
+        //global $scc_oLocale;
+        //$admin_page_title = $scc_oLocale[ 'Swifty Content Creator' ];
         //$admin_page = $this->swifty_admin_page;
         //$tab_general_title = 'General';
         //$tab_general_method = array( $this, 'scc_tab_options_content' );
