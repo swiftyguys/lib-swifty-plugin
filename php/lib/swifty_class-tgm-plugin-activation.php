@@ -65,12 +65,16 @@ if ( ! class_exists( 'Swifty_TGM_Plugin_Activation' ) ) {
 
         /**
          * Name of the querystring argument for the admin page.
+         * There is a problem with changing this value and using bulkinstaller. The assignment of this variable happens
+         * too late for this test later in the file:
+         * if ( isset( $_GET['page'] ) && Swifty_TGM_Plugin_Activation::$instance->menu === $_GET['page'] ) {
+         * It is better not to change this in a plugin
          *
          * @since 1.0.0
          *
          * @var string
          */
-        public $menu = 'stgmpa-install-plugins';
+        public $menu = 'swifty_required_plugins';
 
         /**
          * Default absolute path to folder containing pre-packaged plugin zip files.
@@ -1721,8 +1725,10 @@ if ( ! class_exists( 'STGMPA_List_Table' ) ) {
  *
  * @since 2.2.0
  */
-if ( ! class_exists( 'WP_Upgrader' ) && ( isset( $_GET['page'] ) && Swifty_TGM_Plugin_Activation::$instance->menu === $_GET['page'] ) ) {
-    require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+if ( isset( $_GET['page'] ) && Swifty_TGM_Plugin_Activation::$instance->menu === $_GET['page'] ) {
+    if( ! class_exists( 'WP_Upgrader' ) ) {
+        require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+    }
 
     if ( ! class_exists( 'TGM_Bulk_Installer' ) ) {
         /**

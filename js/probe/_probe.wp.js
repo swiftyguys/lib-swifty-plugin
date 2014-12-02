@@ -59,6 +59,64 @@
 
     ////////////////////////////////////////
 
+    probe.WP.AdminOpenSubmenuGeneric = {
+        Start: function( /*input*/ ) {
+            // Check if the WP menu is collapsed (to one icon) ( happens on small screens )
+            $( 'li#wp-admin-bar-menu-toggle' )
+                .IfVisible()
+                .OtherIfNotVisible( 'ul#adminmenu' )
+                .Click();
+
+            // Wait until the submenu becomes visible
+            $( 'ul#adminmenu' ).WaitForVisible( 'Step2' );
+        },
+
+        Step2: function( input ) {
+            // Click on the menu item in the left admin bar
+            $( this.GetSelMainmenu( input.menu_id ) )
+                .MustExist()
+                .Click();
+
+            // Wait until the submenu becomes visible
+            $( this.GetSelSubmenu( input.submenu_text ) ).WaitForFn( 'Wait2', 'Step3' );
+        },
+
+        Wait2: function( input ) {
+            // Trick WP into thinking the mouse hovers over the menu item (so the submenu popup opens)
+            // In some cases (WP version, screen size) this hover is needed
+            $( this.GetSelMainmenu( input.menu_id ) ).AddClass( 'opensub' );
+
+            // Is the submenu item visible?
+            var check = $( this.GetSelSubmenu( input.submenu_text ) ).IsVisible();
+
+            return { 'wait_result': check };
+        },
+
+        Step3: function( input ) {
+            $( this.GetSelMainmenu( input.menu_id ) )
+                .find( this.GetSelSubmenu( input.submenu_text ) )
+                .last()
+                .MustExist()
+                .Click();
+        },
+
+        /**
+         * @return string
+         */
+        GetSelMainmenu: function( id ) {
+            return 'li#' + id;
+        },
+
+        /**
+         * @return string
+         */
+        GetSelSubmenu: function( submenuText ) {
+            return 'a:contains("' + submenuText + '")';
+        }
+    };
+
+    ////////////////////////////////////////
+
     probe.WP.ActivatePlugin = {
         Start: function( input ) { // dorh Not tested
             $( 'a:contains("' + input.s_activate + '")[href*="plugin=' + input.plugin_code + '"]' ).Click();
@@ -106,6 +164,64 @@
                 .Click();
         }
     };
+
+    probe.WP.NoPagesExist = {
+        messageSel: '.no-items',
+
+        Start: function( input ) {
+            probe.QueueStory(
+                'WP.AdminOpenSubmenu',
+                {
+                    'plugin_code': 'pages',
+                    'submenu_text': 'All Pages'   // dojh: translation issue -> All Pages.
+                },
+                'Step2'
+            );
+        },
+
+        Step2: function( /*input*/ ) {
+            $( this.messageSel ).WaitForVisible( 'Step3' );
+        },
+
+        Step3: function( /*input*/ ) {
+            // dojh: translation issue -> No pages found.
+            $( this.messageSel + ' td:contains("No pages found")' ).MustExistOnce();
+        }
+    };
+
+    ////////////////////////////////////////
+
+    probe.WP.XPagesExist = {
+        Start: function( input ) {
+            probe.QueueStory(
+                'WP.AdminOpenSubmenu',
+                {
+                    'plugin_code': 'pages',
+                    'submenu_text': 'All Pages'   // dojh: translation issue -> All Pages.
+                },
+                'Step2'
+            );
+        },
+
+        Step2: function( /*input*/ ) {
+            $( this.getPageSelector() ).WaitForVisible( 'Step3' );
+        },
+
+        Step3: function( input ) {
+            $( this.getPageSelector() ).MustExistTimes( input.x_pages );
+        },
+
+        getPageSelector: function ( input ) {
+            var selector = '.type-page';
+
+            if ( input && typeof input === 'string' ) {
+                selector += ':contains("' + input + '")';
+            }
+
+            return selector;
+        }
+    };
+
 
     ////////////////////////////////////////
 
