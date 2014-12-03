@@ -89,7 +89,7 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
             <form action='options.php' method='post'>
                 <div class="main">
                     <?php
-                    $settings_tabs[ $tab ][ 'method' ]();
+                    call_user_func( $settings_tabs[ $tab ][ 'method' ] );
                     ?>
                 </div>
             </form>
