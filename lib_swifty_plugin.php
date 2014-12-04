@@ -77,6 +77,8 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
         <div class='wrap'>
             <h2><?php echo $admin_page_title; ?></h2>
 
+            <?php settings_errors( 'api-manager' ); ?>
+
             <h2 class="nav-tab-wrapper">
                 <?php
                 foreach( $settings_tabs as $tab_page => $tab_info ) {
