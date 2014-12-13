@@ -2,7 +2,7 @@ module.exports = function( grunt/*, options*/ ) {
     return {
         dist: {
             files: [
-                { expand: true, cwd: '<%= grunt.getSourcePath() %>', src: [ '**' ], dest: '<%= grunt.getDestPathPlugin() %>' }
+                { expand: true, cwd: '<%= grunt.getSourcePath() %>', src: [ '**', '!**/build/**' ], dest: '<%= grunt.getDestPathPlugin() %>' }
             ]
         },
         svn: {

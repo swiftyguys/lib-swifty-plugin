@@ -3,10 +3,20 @@ module.exports = function( grunt/*, options*/ ) {
         readme: {
             src: [ '<%= grunt.getSourcePath() %>readme.txt' ],
             dest: '<%= grunt.getDestPathPlugin() %>readme.txt',
-            replacements: [ {
+            replacements: [
+                {
                     from: 'RELEASE_TAG',
                     to: grunt.myPkg.version
-            } ]
+                },
+                {
+                    from: 'LICENSE_NAME',
+                    to: '<%= grunt.getLicenseName() %>'
+                },
+                {
+                    from: 'LICENSE_URI',
+                    to: '<%= grunt.getLicenseURI() %>'
+                }
+            ]
         },
         obfuscate: {
             src: '<%= grunt.getDestPathPlugin() %>**/*.php',

@@ -21,7 +21,10 @@ module.exports = {
             return grunt.getDestBasePath() + grunt.myPkg.version;
         };
         grunt.getDestPathPlugin = function() {
-            var s = grunt.getDestPath() + '/' + grunt.myCfg.plugin_code;
+            return grunt.getDestPath() + '/' + grunt.getDestPathPluginPart();
+        };
+        grunt.getDestPathPluginPart = function() {
+            var s = grunt.myCfg.plugin_code;
             if( process.env.PRO_TAG === ' Pro' ) {
                 s += '-pro';
             }
@@ -63,6 +66,12 @@ module.exports = {
         grunt.getYyyyMmDd = function() {
             var rightNow = new Date();
             return rightNow.toISOString().slice(0,10);
+        };
+        grunt.getLicenseName = function() {
+            return process.env.LICENSE_NAME;
+        };
+        grunt.getLicenseURI = function() {
+            return process.env.LICENSE_URI;
         };
 
         // Project configuration.

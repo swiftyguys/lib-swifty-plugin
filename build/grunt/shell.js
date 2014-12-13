@@ -256,6 +256,19 @@ module.exports = function( grunt/*, options*/ ) {
                 }
             }
         },
+        check_changelog_in_zip: {
+            command: 'unzip -c <%= grunt.getDestZip() %> <%= grunt.getDestPathPluginPart() %>readme.txt | grep "= ' + grunt.myPkg.version + ' ="',
+            options: {
+                execOptions: {
+                },
+                'callback': function(err, stdout, stderr, cb) {
+                    if( stdout.indexOf( grunt.myPkg.version ) < 0 ) {
+                        grunt.fatal( "\n\n========================================\n\nREADME FILE IN THE ZIP DOES NOT CONTAIN CHANGELOG FOR " + grunt.myPkg.version + "!!!!!!!!!!!!!!\n\n========================================\n\n\n" );
+                    }
+                    cb();
+                }
+            }
+        },
         upload_gdrive: {
             command: 'gdrive upload -f <%= grunt.getDestZip() %> -p 0B9usKfgdtpwIZ3VFcVpZYmY5VUU --share',
             options: {
@@ -283,6 +296,27 @@ module.exports = function( grunt/*, options*/ ) {
             }
         }
     };
+
+    // Create git tasks for ALL repos
+    var readmeContent = grunt.file.read( grunt.getSourcePath() + 'readme.txt' );
+    var readmeLines = readmeContent.split( "\n" );
+    var latestChangelogVersion = '';
+    var readmeSearching = 1;
+    readmeLines.forEach( function( o ) {
+        if( readmeSearching === 2 ) {
+            //console.log( '==============', o );
+            if( o.indexOf( '= ' ) === 0 && o.indexOf( ' =' ) > 0 ) {
+                latestChangelogVersion = o.substring( o.indexOf( '= ' ) + 2, o.indexOf( ' =' ) );
+                console.log( 'Found latest changelog version: ', latestChangelogVersion );
+                readmeSearching = 3;
+            }
+        }
+        if( readmeSearching === 1 ) {
+            if( o.indexOf( '== Changelog ==' ) >= 0 ) {
+                readmeSearching = 2;
+            }
+        }
+    } );
 
     for( var i = 0; i < 5; i++ ) {
         if( i < grunt.myCfg.git_pull_all.paths.length ) {
@@ -337,6 +371,35 @@ module.exports = function( grunt/*, options*/ ) {
                     }
                 }
             };
+            cfgOut[ 'git_sincetag_' + i ] = {
+                command: [
+                    'echo ""',
+                    'echo ""',
+                    'echo ""',
+                    'echo ""',
+                    'echo "========================================"',
+                    'echo "========================================"',
+                    'echo "========================================"',
+                    'echo "Commits since latest version in changelog:"',
+                    'git log --pretty=oneline ' + grunt.myCfg.git_pull_all.tagcode + latestChangelogVersion + '..HEAD | less',
+                    'echo ""',
+                    'echo "========================================"',
+                    'echo "========================================"',
+                    'echo "========================================"',
+                    'echo ""',
+                    'echo ""',
+                    'echo ""'
+                ].join( '; ' ),
+                options: {
+                    execOptions: {
+                        cwd: grunt.myCfg.git_pull_all.paths[ i ]
+                    },
+                    'callback': function( err, stdout, stderr, cb ) {
+                        //console.log( 'aaa', 'git log ' + grunt.myCfg.git_pull_all.tagcode + latestChangelogVersion + '..HEAD' );
+                        cb();
+                    }
+                }
+            };
         } else {
             cfgOut[ 'git_pull_' + i ] = {
                 command: ''
@@ -345,6 +408,9 @@ module.exports = function( grunt/*, options*/ ) {
                 command: ''
             };
             cfgOut[ 'git_tag_' + i ] = {
+                command: ''
+            };
+            cfgOut[ 'git_sincetag_' + i ] = {
                 command: ''
             };
         }

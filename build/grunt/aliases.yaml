@@ -5,6 +5,19 @@ do_dist_build:
   - 'env:dist'
   - 'helper_build'
 
+from_dialog_do_mainpull:
+  - 'from_dialog_do_pullall'
+  - 'from_dialog_do_mergedev'
+
+from_dialog_do_mainbuildfree:
+  - 'from_dialog_do_dist_mail'
+
+from_dialog_do_mainbuildpro:
+  - 'from_dialog_do_dist_pro_mail'
+
+from_dialog_do_mainreleasepro:
+  - 'from_dialog_do_pro_releaseswiftylife'
+
 from_dialog_do_dist:
   - 'env:dist'
   - 'helper_build'
@@ -84,7 +97,7 @@ helper_build:
   - 'if_requirejs'
   - 'if_clean_unwanted'
   - 'preprocess'
-#  - 'replace:readme'
+  - 'replace:readme'
   - 'uglify'
   - 'if_rename'
   - 'if_license'
@@ -110,9 +123,11 @@ helper_svnsubmit:
   - 'shell:git_push_tags'
 
 helper_release_swiftylife:
-  - 'shell:copy_zip_swiftylife'
-  - 'shell:mysql_update_version'
-  - 'shell:mysql_update_date'
+  - 'helper_git_commits_since_tag'
+  - 'shell:check_changelog_in_zip'
+#  - 'shell:copy_zip_swiftylife'
+#  - 'shell:mysql_update_version'
+#  - 'shell:mysql_update_date'
 
 helper_git_pull_all:
   - 'shell:git_pull_0'
@@ -134,6 +149,13 @@ helper_git_commit_and_tag:
   - 'shell:git_tag_2'
   - 'shell:git_tag_3'
   - 'shell:git_tag_4'
+
+helper_git_commits_since_tag:
+  - 'shell:git_sincetag_0'
+  - 'shell:git_sincetag_1'
+  - 'shell:git_sincetag_2'
+  - 'shell:git_sincetag_3'
+  - 'shell:git_sincetag_4'
 
 helper_obfuscate:
   - 'shell:find_first_comment'
