@@ -6,30 +6,32 @@ options=(
          . "Main actions:" off
          . "========================================" off
          . "" off
-         1 "Get latests masters and develops (a,b)" off
+         a "FREE version" off
+         b "PRO version" on
+         c "TEST version" off
          . "----------------------------------------" off
-         2 "Commit + tag + push ()" off
+         f "Test the zip" off
+         g "Mail the zip" on
          . "----------------------------------------" off
-         3 "Build + mail FREE version (c,f)" off
-         4 "Build + mail PRO version (c,d,f)" off
-         . "----------------------------------------" off
-         5 "Release FREE to public ()" off
-         6 "Release PRO to public (d,i)" off
+         1 "Get latests masters and develops" off
+         2 "Commit + tag + push" off
+         3 "Build" off
+         4 "Release to public" off
          . "" off
          . "========================================" off
          . "Individual actions (some can be combined):" off
          . "========================================" off
          . "" off
-         a "Pull all masters" off
-         b "Merge all develops" off
-         c "Build DIST version" off
-         d "And make it PRO version" off
-         e "Test" off
-         f "Send email" off
-         g "SVN update" off
-         h "SVN submit" off
-         i "Release on swiftylife.com" off
-         j "Commit and tag" off
+         k "Pull all masters" off
+         l "Merge all develops" off
+         m "Build DIST version" off
+         n "And make it PRO version" off
+         o "Test" off
+         p "Send email" off
+         q "SVN update" off
+         r "SVN submit" off
+         s "Release on swiftylife.com" off
+         t "Commit and tag" off
         )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 clear
@@ -38,6 +40,26 @@ gruntcmd=$startgruntcmd
 for choice in $choices
 do
     case $choice in
+        a)
+            sss="_mainvfree"
+            gruntcmd=$gruntcmd$sss
+            ;;
+        b)
+            sss="_mainvpro"
+            gruntcmd=$gruntcmd$sss
+            ;;
+        c)
+            sss="_mainvtest"
+            gruntcmd=$gruntcmd$sss
+            ;;
+        f)
+            sss="_maintest"
+            gruntcmd=$gruntcmd$sss
+            ;;
+        g)
+            sss="_mainmail"
+            gruntcmd=$gruntcmd$sss
+            ;;
         1)
             sss="_mainpull"
             gruntcmd=$gruntcmd$sss
@@ -47,58 +69,50 @@ do
             gruntcmd=$gruntcmd$sss
             ;;
         3)
-            sss="_mainbuildfree"
+            sss="_mainbuild"
             gruntcmd=$gruntcmd$sss
             ;;
         4)
-            sss="_mainbuildpro"
-            gruntcmd=$gruntcmd$sss
-            ;;
-        5)
-            sss="_mainreleasefree"
-            gruntcmd=$gruntcmd$sss
-            ;;
-        6)
             sss="_mainreleasepro"
             gruntcmd=$gruntcmd$sss
             ;;
-        a)
+        k)
             sss="_pullall"
             gruntcmd=$gruntcmd$sss
             ;;
-        b)
+        l)
             sss="_mergedev"
             gruntcmd=$gruntcmd$sss
             ;;
-        c)
+        m)
             sss="_dist"
             gruntcmd=$gruntcmd$sss
             ;;
-        d)
+        n)
             sss="_pro"
             gruntcmd=$gruntcmd$sss
             ;;
-        e)
+        o)
             sss="_test"
             gruntcmd=$gruntcmd$sss
             ;;
-        f)
+        p)
             sss="_mail"
             gruntcmd=$gruntcmd$sss
             ;;
-        g)
+        q)
             sss="_svnupdate"
             gruntcmd=$gruntcmd$sss
             ;;
-        h)
+        r)
             sss="_svnsubmit"
             gruntcmd=$gruntcmd$sss
             ;;
-        i)
+        s)
             sss="_releaseswiftylife"
             gruntcmd=$gruntcmd$sss
             ;;
-        j)
+        t)
             sss="_commitandtag"
             gruntcmd=$gruntcmd$sss
             ;;

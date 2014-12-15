@@ -30,6 +30,14 @@ module.exports = {
             }
             return s + '/';
         };
+        grunt.getPluginNameCompact = function() {
+            var s = grunt.myPkg.name;
+            if( process.env.PRO_TAG === ' Pro' ) {
+                s += 'Pro';
+            }
+            s = s.replace( /-/g, 'D' );
+            return s;
+        };
         grunt.getDestZip = function() {
             var s = grunt.getDestBasePath() + grunt.myPkg.name;
             if( process.env.PRO_TAG === ' Pro' ) {

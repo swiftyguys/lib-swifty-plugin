@@ -18,6 +18,20 @@ module.exports = function( grunt/*, options*/ ) {
                 }
             ]
         },
+        lib: {
+            src: '<%= grunt.getDestPathPlugin() %>**/*.php',
+            overwrite: true,
+            replacements: [
+                {
+                    from: 'LibSwiftyPluginView',
+                    to: '<%= grunt.getPluginNameCompact() %>LibSPluginView'
+                },
+                {
+                    from: 'LibSwiftyPlugin',
+                    to: '<%= grunt.getPluginNameCompact() %>LibSPlugin'
+                }
+            ]
+        },
         obfuscate: {
             src: '<%= grunt.getDestPathPlugin() %>**/*.php',
             overwrite: true,
