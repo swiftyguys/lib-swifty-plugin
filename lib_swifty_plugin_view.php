@@ -51,6 +51,30 @@ class LibSwiftyPluginView
         self::$required_plugin_active_swifty_site = defined( 'SWIFTY_SITE_PLUGIN_URL' );
     }
 
+    public static function add_swifty_to_admin_bar() {
+
+        // make sure that the font is loaded for the swifty icon:
+        // wp_enqueue_style( 'font_swiftysiteui.css', $this->this_plugin_url . 'css/font_swiftysiteui.css', false, $scc_version );
+        // in a hook of wp_head
+
+        global $wp_admin_bar;
+        global $scc_oLocale;
+
+        if( ! $wp_admin_bar->get_node( 'swifty' ) ) {
+
+            $title = '<span class="ab-icon"></span><span class="ab-label">' .$scc_oLocale[ 'Swifty' ] . '</span>';
+            $title .= '<span class="screen-reader-text">' . $scc_oLocale[ 'Swifty' ] . '</span>';
+
+            $wp_admin_bar->add_menu( array(
+                'id'    => 'swifty',
+                'title' => $title,
+                'meta'  => array(
+                    'title' => $scc_oLocale[ 'Swifty' ],
+                ),
+            ) );
+        }
+    }
+
     // is swifty menu active?
     public static function is_ss_mode()
     {
