@@ -19,9 +19,9 @@ module.exports = function( grunt/*, options*/ ) {
         },
         test : {
             PROBE: 'include',
-            RELEASE_TAG: grunt.myPkg.version,
-            BUILDUSE: 'source',
-            PROT: ''
+            BUILDUSE: 'source'//,
+            //RELEASE_TAG: grunt.myPkg.version,
+            //PROT: ''
         }
     };
 };

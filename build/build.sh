@@ -8,7 +8,6 @@ options=(
          . "" off
          a "FREE version" off
          b "PRO version" on
-         c "TEST version" off
          . "----------------------------------------" off
          f "Test the zip" off
          g "Mail the zip" on
@@ -46,10 +45,6 @@ do
             ;;
         b)
             sss="_mainvpro"
-            gruntcmd=$gruntcmd$sss
-            ;;
-        c)
-            sss="_mainvtest"
             gruntcmd=$gruntcmd$sss
             ;;
         f)

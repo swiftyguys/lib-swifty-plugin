@@ -119,7 +119,14 @@ class Wordpress {
 
         $this->story->EchoMsg( "Active License" );
 
-        $this->OpenSwiftySubMenu( $this->strings[ 's_submenu_swifty_content_creator' ] );
+        $s = $this->strings[ 's_submenu_swifty_content_creator' ];
+        $sp = '';
+        if( $this->story->params[ 'is_pro' ] === 'pro' ) {
+            $sp = ' Pro';
+        }
+        $s = str_replace( '{pro}', $sp, $s );
+
+        $this->OpenSwiftySubMenu( $s );
         $st->usingTimer()->wait( 1, "Wait for Swifty Content Creator page." );
 
         // Do setup actions that need to be done after activation
@@ -133,7 +140,7 @@ class Wordpress {
 
     ////////////////////////////////////////
 
-    function InstallPlugin( $relpath, $toAbspath ) {
+    function InstallPlugin( $relpath, $toAbspath, $plugin_path_1, $plugin_path_2 ) {
         $st = $this->st;
 
         $this->story->EchoMsg( "Install plugin: " . $relpath );
@@ -145,7 +152,9 @@ class Wordpress {
             $vmParams = array (
                 "install_now" => "plugin",
                 "code" => "swifty-page-manager",
-                "wp_plugin_relpath" => $relpath
+                "wp_plugin_relpath" => $relpath,
+                "wp_plugin_path_1" => $plugin_path_1,
+                "wp_plugin_path_2" => $plugin_path_2
             );
 
             // build up the provisioning definition

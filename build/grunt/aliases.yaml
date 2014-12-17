@@ -4,39 +4,43 @@
 ############################################
 ############################################
 
-############################################
 # Get latests masters and develops
-
 from_dialog_do_mainpull:
   - 'from_dialog_do_pullall_mergedev'
 
-
-############################################
 # Commit + tag + push
-
 from_dialog_do_maintag:
   - 'from_dialog_do_commitandtag'
 
-
-############################################
 # PRO version
 # Build
-
 from_dialog_do_mainvpro_mainbuild:
   - 'from_dialog_do_mainvpro'
   - 'from_dialog_do_mainbuild'
 
-
-############################################
 # PRO version
 # Build
 # Mail the zip
-
 from_dialog_do_mainvpro_mainmail_mainbuild:
   - 'from_dialog_do_mainvpro'
   - 'from_dialog_do_mainbuild'
   - 'from_dialog_do_mainmail'
 
+# PRO version
+# Build
+# Test the zip
+from_dialog_do_mainvpro_maintest_mainbuild:
+  - 'from_dialog_do_mainvpro'
+  - 'from_dialog_do_maintest_step1'
+  - 'from_dialog_do_mainbuild'
+  - 'from_dialog_do_maintest_step2'
+
+# PRO version
+# Test the zip
+from_dialog_do_mainvpro_maintest:
+  - 'from_dialog_do_mainvpro'
+  - 'from_dialog_do_maintest_step1'
+  - 'from_dialog_do_maintest_step2'
 
 ############################################
 ############################################
@@ -44,14 +48,11 @@ from_dialog_do_mainvpro_mainmail_mainbuild:
 ############################################
 ############################################
 
-############################################
 # Pull all masters
 # Merge all develops
-
 from_dialog_do_pullall_mergedev:
   - 'from_dialog_do_pullall'
   - 'from_dialog_do_mergedev'
-
 
 ############################################
 ############################################
@@ -59,48 +60,37 @@ from_dialog_do_pullall_mergedev:
 ############################################
 ############################################
 
-
-############################################
 # Pull all masters
-
 from_dialog_do_pullall:
   - 'helper_git_pull_all'
 
-
-############################################
 # Merge all develops
-
 from_dialog_do_mergedev:
   - 'helper_git_merge_dev'
 
-
-############################################
 # Commit and tag
-
 from_dialog_do_commitandtag:
   - 'helper_git_commit_and_tag'
 
-
-############################################
 # Set version to PRO
-
 from_dialog_do_mainvpro:
   - 'env:dist_pro' # Set environment vars to PRO
 
-
-############################################
 # Full build process
-
 from_dialog_do_mainbuild:
   - 'helper_build'
 
-
-############################################
 # Upload to Google Drive and send mail
-
 from_dialog_do_mainmail:
   - 'shell:upload_gdrive'
 
+# Prepare for testing
+from_dialog_do_maintest_step1:
+  - 'env:test' # Add environment vars for testing
+
+# Run the tests
+from_dialog_do_maintest_step2:
+  - 'shell:test1'
 
 ############################################
 ############################################
@@ -108,10 +98,7 @@ from_dialog_do_mainmail:
 ############################################
 ############################################
 
-
-############################################
 # git pull; of all repos
-
 helper_git_pull_all:
   - 'shell:git_pull_0'
   - 'shell:git_pull_1'
@@ -119,10 +106,7 @@ helper_git_pull_all:
   - 'shell:git_pull_3'
   - 'shell:git_pull_4'
 
-
-############################################
 # git pull master, fetch, merge develop; of all repos
-
 helper_git_merge_dev:
   - 'shell:git_merge_0'
   - 'shell:git_merge_1'
@@ -130,10 +114,7 @@ helper_git_merge_dev:
   - 'shell:git_merge_3'
   - 'shell:git_merge_4'
 
-
-############################################
 # git commit, tag, push; of all repos
-
 helper_git_commit_and_tag:
   - 'shell:git_tag_0'
   - 'shell:git_tag_1'
@@ -141,10 +122,7 @@ helper_git_commit_and_tag:
   - 'shell:git_tag_3'
   - 'shell:git_tag_4'
 
-
-############################################
 # Full build process
-
 helper_build:
   - 'if_check_version_exists' # Check in SVN tags or SwiftyLife DB that our current version does net yet exist
   - 'clean:dist' # Delete all files and zips that might already have been genereated for our version
@@ -162,7 +140,6 @@ helper_build:
   - 'replace:lib' # Replace classes in the lib files so even if lib is included in multiple activated plugins (but maybe with different lib versions) they will not conflict. Each plugin will use their own (renamed) version of the lib
   - 'helper_obfuscate' # Obfuscate all php
   - 'compress' # Create the zip
-
 
 ############################################
 # Obfuscate all php
@@ -205,15 +182,15 @@ from_dialog_do_dist_pro:
   - 'env:dist_pro'
   - 'helper_build'
 
-from_dialog_do_test:
-  - 'env:test'
-  - 'helper_build'
-  - 'shell:test1'
+#from_dialog_do_test:
+#  - 'env:test'
+#  - 'helper_build'
+#  - 'shell:test1'
 
-from_dialog_do_dist_test:
-  - 'env:test'
-  - 'helper_build'
-  - 'shell:test1'
+#from_dialog_do_dist_test:
+#  - 'env:test'
+#  - 'helper_build'
+#  - 'shell:test1'
 
 from_dialog_do_dist_mail:
   - 'env:dist'
@@ -280,10 +257,10 @@ helper_git_commits_since_tag:
   - 'shell:git_sincetag_3'
   - 'shell:git_sincetag_4'
 
-build_and_test:
-  - 'env:test'
-  - 'main_build'
-  - 'shell:test1'
+#build_and_test:
+#  - 'env:test'
+#  - 'main_build'
+#  - 'shell:test1'
 
 build_dist:
   - 'env:dist'

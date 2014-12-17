@@ -6,6 +6,11 @@ module.exports = function( grunt/*, options*/ ) {
                      ' -D platform=ec2' +
 //                         ' -D wp_version=3.7' +
                      ' -D wp_version=3.9.1' +
+                     //' -D plugin_path_1="swifty_page_manager"' +
+                     ' -D plugin_path_1="swifty_content_creator"' +
+                     //' -D plugin_path_2="swifty-page-manager"' +
+                     ' -D plugin_path_2="swifty-content-creator-pro"' +
+                     ' -D is_pro="pro"' +
                      ' -D lang=en' +
                      ' -d sl_ie9_win7' +
                      ' test_dist.php',
