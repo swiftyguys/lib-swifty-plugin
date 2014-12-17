@@ -97,9 +97,9 @@ class SSStory {
                 }
                 if( $setupItem->type == 'wp_plugin' ) {
                     if( isset( $this->params[ 'relpath' ] ) ) {
-                        $this->wordpress->InstallPlugin( $this->params[ 'relpath' ], $setupItem->to_abspath );
+                        $this->wordpress->InstallPlugin( $this->params[ 'relpath' ], $setupItem->to_abspath, $this->params[ 'plugin_path_1' ], $this->params[ 'plugin_path_2' ] );
                     } else {
-                        $this->wordpress->InstallPlugin( $setupItem->relpath, $setupItem->to_abspath );
+                        $this->wordpress->InstallPlugin( $setupItem->relpath, $setupItem->to_abspath, $this->params[ 'plugin_path_1' ], $this->params[ 'plugin_path_2' ] );
                     }
                 }
             }
@@ -289,7 +289,7 @@ class SSStory {
     ////////////////////////////////////////
 
     function EchoMsgJs( $s ) {
-        echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nJS = " . $s;
+        echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nJS = " . $s;
     }
 
     ////////////////////////////////////////

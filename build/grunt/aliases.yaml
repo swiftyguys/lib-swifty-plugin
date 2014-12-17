@@ -1,0 +1,287 @@
+############################################
+############################################
+# MAIN COMMANDS FROM BUILD.SH
+############################################
+############################################
+
+# Get latests masters and develops
+from_dialog_do_mainpull:
+  - 'from_dialog_do_pullall_mergedev'
+
+# Commit + tag + push
+from_dialog_do_maintag:
+  - 'from_dialog_do_commitandtag'
+
+# PRO version
+# Build
+from_dialog_do_mainvpro_mainbuild:
+  - 'from_dialog_do_mainvpro'
+  - 'from_dialog_do_mainbuild'
+
+# PRO version
+# Build
+# Mail the zip
+from_dialog_do_mainvpro_mainmail_mainbuild:
+  - 'from_dialog_do_mainvpro'
+  - 'from_dialog_do_mainbuild'
+  - 'from_dialog_do_mainmail'
+
+# PRO version
+# Build
+# Test the zip
+from_dialog_do_mainvpro_maintest_mainbuild:
+  - 'from_dialog_do_mainvpro'
+  - 'from_dialog_do_maintest_step1'
+  - 'from_dialog_do_mainbuild'
+  - 'from_dialog_do_maintest_step2'
+
+# PRO version
+# Test the zip
+from_dialog_do_mainvpro_maintest:
+  - 'from_dialog_do_mainvpro'
+  - 'from_dialog_do_maintest_step1'
+  - 'from_dialog_do_maintest_step2'
+
+############################################
+############################################
+# INDIVIDUAL COMMAND COMBINATIONS FROM BUILD.SH
+############################################
+############################################
+
+# Pull all masters
+# Merge all develops
+from_dialog_do_pullall_mergedev:
+  - 'from_dialog_do_pullall'
+  - 'from_dialog_do_mergedev'
+
+############################################
+############################################
+# SINGLE COMMANDS FROM BUILD.SH
+############################################
+############################################
+
+# Pull all masters
+from_dialog_do_pullall:
+  - 'helper_git_pull_all'
+
+# Merge all develops
+from_dialog_do_mergedev:
+  - 'helper_git_merge_dev'
+
+# Commit and tag
+from_dialog_do_commitandtag:
+  - 'helper_git_commit_and_tag'
+
+# Set version to PRO
+from_dialog_do_mainvpro:
+  - 'env:dist_pro' # Set environment vars to PRO
+
+# Full build process
+from_dialog_do_mainbuild:
+  - 'helper_build'
+
+# Upload to Google Drive and send mail
+from_dialog_do_mainmail:
+  - 'shell:upload_gdrive'
+
+# Prepare for testing
+from_dialog_do_maintest_step1:
+  - 'env:test' # Add environment vars for testing
+
+# Run the tests
+from_dialog_do_maintest_step2:
+  - 'shell:test1'
+
+############################################
+############################################
+# HELPERS
+############################################
+############################################
+
+# git pull; of all repos
+helper_git_pull_all:
+  - 'shell:git_pull_0'
+  - 'shell:git_pull_1'
+  - 'shell:git_pull_2'
+  - 'shell:git_pull_3'
+  - 'shell:git_pull_4'
+
+# git pull master, fetch, merge develop; of all repos
+helper_git_merge_dev:
+  - 'shell:git_merge_0'
+  - 'shell:git_merge_1'
+  - 'shell:git_merge_2'
+  - 'shell:git_merge_3'
+  - 'shell:git_merge_4'
+
+# git commit, tag, push; of all repos
+helper_git_commit_and_tag:
+  - 'shell:git_tag_0'
+  - 'shell:git_tag_1'
+  - 'shell:git_tag_2'
+  - 'shell:git_tag_3'
+  - 'shell:git_tag_4'
+
+# Full build process
+helper_build:
+  - 'if_check_version_exists' # Check in SVN tags or SwiftyLife DB that our current version does net yet exist
+  - 'clean:dist' # Delete all files and zips that might already have been genereated for our version
+  - 'copy:dist' # Copy all master sources to the generated folder for our version
+  - 'jshint' # Do a lint for all js files
+  - 'csslint' # Do a lint for all css files
+  - 'if_requirejs' # Do a requirejs build if needed for this plugin; will create concatenated js and css of all required files
+  - 'if_clean_unwanted' # Delete all files that are not needed in final zip
+  - 'preprocess' # Replace strings and removed lines based on environment vars; like @if and @ifdef
+  - 'replace:readme' # Set the current version etc in the readme
+  - 'uglify' # Compress and obfuscate js files and save them with .min in the filename
+  - 'if_rename' # If needed move files to their final directories
+  - 'if_license' # Add the correct license file
+  - 'cssmin' # Minify the css files
+  - 'replace:lib' # Replace classes in the lib files so even if lib is included in multiple activated plugins (but maybe with different lib versions) they will not conflict. Each plugin will use their own (renamed) version of the lib
+  - 'helper_obfuscate' # Obfuscate all php
+  - 'compress' # Create the zip
+
+############################################
+# Obfuscate all php
+
+helper_obfuscate:
+  - 'shell:find_first_comment' # Get the main comment of the plugin, which contains structured plugin info
+  - 'shell:find_globals' # Get a list of all global vars and put them in a temp obfuscate config as exception (so they will not be obfuscated)
+  - 'shell:obfuscate' # Obfuscate all php, remove all comments and remove most line endings and spacing
+  - 'replace:obfuscate' # Rename (obfuscate) a lot of specific string that obfuscate was not able to rename
+  - 'replace:obfuscate_insert_comment' # Place the main comment back (as it was incorrectly removed by obfuscate)
+
+
+############################################
+############################################
+# THE REST
+############################################
+############################################
+
+default:
+  - 'env:dist'
+
+do_dist_build:
+  - 'env:dist'
+  - 'helper_build'
+
+from_dialog_do_mainbuildfree:
+  - 'from_dialog_do_dist_mail'
+
+from_dialog_do_mainbuildpro:
+  - 'from_dialog_do_dist_pro_mail'
+
+from_dialog_do_mainreleasepro:
+  - 'from_dialog_do_pro_releaseswiftylife'
+
+from_dialog_do_dist:
+  - 'env:dist'
+  - 'helper_build'
+
+from_dialog_do_dist_pro:
+  - 'env:dist_pro'
+  - 'helper_build'
+
+#from_dialog_do_test:
+#  - 'env:test'
+#  - 'helper_build'
+#  - 'shell:test1'
+
+#from_dialog_do_dist_test:
+#  - 'env:test'
+#  - 'helper_build'
+#  - 'shell:test1'
+
+from_dialog_do_dist_mail:
+  - 'env:dist'
+  - 'helper_build'
+  - 'shell:upload_gdrive'
+
+from_dialog_do_dist_pro_mail_releaseswiftylife:
+  - 'env:dist_pro'
+  - 'helper_build'
+  - 'shell:upload_gdrive'
+  - 'from_dialog_do_releaseswiftylife'
+
+from_dialog_do_dist_svnupdate:
+  - 'env:dist'
+  - 'helper_build'
+  - 'helper_svnupdate'
+
+from_dialog_do_dist_svnsubmit:
+  - 'env:dist'
+  - 'helper_build'
+  - 'helper_svnsubmit'
+
+from_dialog_do_dist_svnupdate_svnsubmit:
+  - 'env:dist'
+  - 'helper_build'
+  - 'helper_svnupdate'
+  - 'helper_svnsubmit'
+
+from_dialog_do_releaseswiftylife:
+  - 'helper_release_swiftylife'
+
+from_dialog_do_pro_releaseswiftylife:
+  - 'env:dist_pro'
+  - 'helper_release_swiftylife'
+
+helper_svnupdate:
+  - 'shell:git_check_status'
+  - 'check_changelog'
+  - 'clean:svn'
+  - 'shell:svn_co'
+  - 'clean:svn_trunk'
+  - 'copy:svn'
+  - 'shell:svn_stat'
+
+helper_svnsubmit:
+  - 'shell:svn_add'
+  - 'shell:svn_ci'
+  - 'shell:svn_cp_trunk'
+  - 'shell:svn_ci_tags'
+  - 'shell:git_tag'
+  - 'shell:git_push_tags'
+
+helper_release_swiftylife:
+  - 'helper_git_commits_since_tag'
+  - 'shell:check_changelog_in_zip'
+#  - 'shell:copy_zip_swiftylife'
+#  - 'shell:mysql_update_version'
+#  - 'shell:mysql_update_date'
+
+helper_git_commits_since_tag:
+  - 'shell:git_sincetag_0'
+  - 'shell:git_sincetag_1'
+  - 'shell:git_sincetag_2'
+  - 'shell:git_sincetag_3'
+  - 'shell:git_sincetag_4'
+
+#build_and_test:
+#  - 'env:test'
+#  - 'main_build'
+#  - 'shell:test1'
+
+build_dist:
+  - 'env:dist'
+  - 'main_build'
+  - 'compress'
+
+svn_update:
+  - 'shell:git_check_status'
+  - /*'build_and_test'*/ 'build_dist'
+  - 'check_changelog'
+  - 'clean:svn'
+  - 'shell:svn_co'
+  - 'clean:svn_trunk'
+  - 'copy:svn'
+  - 'shell:upload_gdrive'
+  - 'shell:svn_stat'
+
+svn_submit:
+  - 'svn_update'
+  - 'shell:svn_ci'
+  - 'shell:svn_cp_trunk'
+  - 'shell:svn_ci_tags'
+  - 'shell:git_tag'
+  - 'shell:git_push_tags'
