@@ -68,7 +68,7 @@ do
             gruntcmd=$gruntcmd$sss
             ;;
         4)
-            sss="_mainreleasepro"
+            sss="_mainrelease"
             gruntcmd=$gruntcmd$sss
             ;;
         k)

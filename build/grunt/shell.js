@@ -303,6 +303,11 @@ module.exports = function( grunt/*, options*/ ) {
     };
 
     // Create git tasks for ALL repos
+    console.log( '' );
+    console.log( '========================================' );
+    console.log( '========================================' );
+    console.log( '========================================' );
+    console.log( 'Now working on version: ', grunt.myPkg.version );
     var readmeContent = grunt.file.read( grunt.getSourcePath() + 'readme.txt' );
     var readmeLines = readmeContent.split( "\n" );
     var latestChangelogVersion = '';
@@ -322,6 +327,10 @@ module.exports = function( grunt/*, options*/ ) {
             }
         }
     } );
+    console.log( '========================================' );
+    console.log( '========================================' );
+    console.log( '========================================' );
+    console.log( '' );
 
     for( var i = 0; i < 5; i++ ) {
         if( i < grunt.myCfg.git_pull_all.paths.length ) {

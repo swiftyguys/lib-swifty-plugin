@@ -13,6 +13,11 @@ from_dialog_do_maintag:
   - 'from_dialog_do_commitandtag'
 
 # PRO version
+# Commit + tag + push
+from_dialog_do_mainvpro_maintag:
+  - 'from_dialog_do_maintag' # It doesn't matter if pro is selected or not
+
+# PRO version
 # Build
 from_dialog_do_mainvpro_mainbuild:
   - 'from_dialog_do_mainvpro'
@@ -41,6 +46,12 @@ from_dialog_do_mainvpro_maintest:
   - 'from_dialog_do_mainvpro'
   - 'from_dialog_do_maintest_step1'
   - 'from_dialog_do_maintest_step2'
+
+# PRO version
+# Release to public
+from_dialog_do_mainvpro_mainrelease:
+  - 'from_dialog_do_mainvpro'
+  - 'from_dialog_do_mainrelease'
 
 ############################################
 ############################################
@@ -92,6 +103,10 @@ from_dialog_do_maintest_step1:
 from_dialog_do_maintest_step2:
   - 'shell:test1'
 
+# Release to public; either on wordpress.org or on swiftylife.com
+from_dialog_do_mainrelease:
+  - 'if_release'
+
 ############################################
 ############################################
 # HELPERS
@@ -122,6 +137,14 @@ helper_git_commit_and_tag:
   - 'shell:git_tag_3'
   - 'shell:git_tag_4'
 
+# git list commit messages since last tag; of al repos
+helper_git_commits_since_tag:
+  - 'shell:git_sincetag_0'
+  - 'shell:git_sincetag_1'
+  - 'shell:git_sincetag_2'
+  - 'shell:git_sincetag_3'
+  - 'shell:git_sincetag_4'
+
 # Full build process
 helper_build:
   - 'if_check_version_exists' # Check in SVN tags or SwiftyLife DB that our current version does net yet exist
@@ -141,9 +164,7 @@ helper_build:
   - 'helper_obfuscate' # Obfuscate all php
   - 'compress' # Create the zip
 
-############################################
 # Obfuscate all php
-
 helper_obfuscate:
   - 'shell:find_first_comment' # Get the main comment of the plugin, which contains structured plugin info
   - 'shell:find_globals' # Get a list of all global vars and put them in a temp obfuscate config as exception (so they will not be obfuscated)
@@ -151,6 +172,13 @@ helper_obfuscate:
   - 'replace:obfuscate' # Rename (obfuscate) a lot of specific string that obfuscate was not able to rename
   - 'replace:obfuscate_insert_comment' # Place the main comment back (as it was incorrectly removed by obfuscate)
 
+# Release on swiftylife.com
+helper_release_swiftylife:
+  - 'helper_git_commits_since_tag'
+  - 'shell:check_changelog_in_zip'
+  - 'shell:copy_zip_swiftylife'
+  - 'shell:mysql_update_version'
+  - 'shell:mysql_update_date'
 
 ############################################
 ############################################
@@ -242,20 +270,6 @@ helper_svnsubmit:
   - 'shell:svn_ci_tags'
   - 'shell:git_tag'
   - 'shell:git_push_tags'
-
-helper_release_swiftylife:
-  - 'helper_git_commits_since_tag'
-  - 'shell:check_changelog_in_zip'
-#  - 'shell:copy_zip_swiftylife'
-#  - 'shell:mysql_update_version'
-#  - 'shell:mysql_update_date'
-
-helper_git_commits_since_tag:
-  - 'shell:git_sincetag_0'
-  - 'shell:git_sincetag_1'
-  - 'shell:git_sincetag_2'
-  - 'shell:git_sincetag_3'
-  - 'shell:git_sincetag_4'
 
 #build_and_test:
 #  - 'env:test'

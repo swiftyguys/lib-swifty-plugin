@@ -129,6 +129,14 @@ module.exports = {
             }
         } );
 
+        grunt.registerTask( 'if_release', function() {
+            if( process.env.PRO_TAG === ' Pro' ) {
+                grunt.task.run( [ 'helper_release_swiftylife' ] );
+            } else {
+                grunt.task.run( [ 'dorh' ] );
+            }
+        } );
+
         grunt.registerTask( 'check_changelog', function() {
             var fileContent = grunt.file.read( grunt.getSourcePath() + 'readme.txt' );
             if( fileContent.indexOf( grunt.myPkg.version ) < 0 ) {
