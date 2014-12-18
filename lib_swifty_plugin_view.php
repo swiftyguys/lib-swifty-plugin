@@ -78,7 +78,7 @@ class LibSwiftyPluginView
     // is swifty menu active?
     public static function is_ss_mode()
     {
-        return ( ! empty( $_COOKIE[ 'ss_mode' ] ) && $_COOKIE[ 'ss_mode' ] === 'ss' );
+        return ( empty( $_COOKIE[ 'ss_mode' ] ) || $_COOKIE[ 'ss_mode' ] === 'ss' );
     }
 
     // find newer version of post, or return null if there is no newer autosave version
@@ -126,7 +126,14 @@ global $swifty_font_url;
 
 if( !isset( $swifty_font_version ) || ( $swifty_font_version < $font_version ) ) {
     $swifty_font_version = $font_version;
-    $swifty_font_url = plugin_dir_url( __FILE__ ) . 'css/swifty-font.css';
+
+    // we need to work around the plugin dir link we use in our development systems
+    $plugin_dir      = dirname( dirname( dirname( __FILE__ ) ) );
+    // get plugin name
+    $plugin_basename = basename( $plugin_dir );
+    $plugin_dir_url  = trailingslashit( plugins_url( rawurlencode( $plugin_basename ) ) );
+
+    $swifty_font_url = $plugin_dir_url . 'lib/swifty_plugin/css/swifty-font.css';
 }
 
 // load swifty font in both view and edit
