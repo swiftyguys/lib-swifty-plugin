@@ -69,7 +69,7 @@ class LibSwiftyPluginView
                 'id' => 'swifty',
                 'title' => $title,
                 'meta' => array(
-                    'title' => __( 'Swifty', 'swifty-menu' ),
+                    'title' => __( 'Swifty', 'swifty-plugin' ),
                 ),
             ) );
         }
@@ -101,18 +101,32 @@ class LibSwiftyPluginView
 
         return $newer_revision;
     }
-
 }
+
+// load the swifty font, only load the latest version.
 
 function enqueue_styles()
 {
+    global $swifty_font_url;
+    global $swifty_font_version;
+
     wp_enqueue_style(
         'swifty-font.css',
-        plugin_dir_url( __FILE__ ) . 'css/swifty-font.css'//,
-//            array(),
-//            $this->version,
-//            'all'
+        $swifty_font_url,
+        array(),
+        $swifty_font_version,
+        'all'
     );
+}
+
+$font_version = (int)'/*@echo FONT_RELEASE_TAG*/';
+
+global $swifty_font_version;
+global $swifty_font_url;
+
+if( !isset( $swifty_font_version ) || ( $swifty_font_version < $font_version ) ) {
+    $swifty_font_version = $font_version;
+    $swifty_font_url = plugin_dir_url( __FILE__ ) . 'css/swifty-font.css';
 }
 
 // load swifty font in both view and edit
