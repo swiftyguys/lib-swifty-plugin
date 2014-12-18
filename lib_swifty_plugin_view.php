@@ -78,7 +78,7 @@ class LibSwiftyPluginView
     // is swifty menu active?
     public static function is_ss_mode()
     {
-        return ( ! empty( $_COOKIE[ 'ss_mode' ] ) && $_COOKIE[ 'ss_mode' ] === 'ss' );
+        return ( empty( $_COOKIE[ 'ss_mode' ] ) || $_COOKIE[ 'ss_mode' ] === 'ss' );
     }
 
     // find newer version of post, or return null if there is no newer autosave version
