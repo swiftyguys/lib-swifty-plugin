@@ -11,7 +11,7 @@ class LibSwiftyPluginView
         self::$instance = $this;
 
         // allow every plugin to get to the initialization part, all plugins should be loaded then
-        add_action( 'plugins_loaded', array($this, 'action_plugins_loaded') );
+        add_action( 'plugins_loaded', array( $this, 'action_plugins_loaded' ) );
     }
 
     public static function get_instance()
@@ -51,10 +51,34 @@ class LibSwiftyPluginView
         self::$required_plugin_active_swifty_site = defined( 'SWIFTY_SITE_PLUGIN_URL' );
     }
 
+    public static function add_swifty_to_admin_bar() {
+
+        // make sure that the font is loaded for the swifty icon:
+        // wp_enqueue_style( 'font_swiftysiteui.css', $this->this_plugin_url . 'css/font_swiftysiteui.css', false, $scc_version );
+        // in a hook of wp_head
+
+        global $wp_admin_bar;
+        global $scc_oLocale;
+
+        if( ! $wp_admin_bar->get_node( 'swifty' ) ) {
+
+            $title = '<span class="ab-icon"></span><span class="ab-label">' . __( 'Swifty', 'swifty-plugin' ) . '</span>';
+            $title .= '<span class="screen-reader-text">' . __( 'Swifty', 'swifty-plugin' ) . '</span>';
+
+            $wp_admin_bar->add_menu( array(
+                'id' => 'swifty',
+                'title' => $title,
+                'meta' => array(
+                    'title' => __( 'Swifty', 'swifty-plugin' ),
+                ),
+            ) );
+        }
+    }
+
     // is swifty menu active?
     public static function is_ss_mode()
     {
-        return ( ! empty( $_COOKIE[ 'ss_mode' ] ) && $_COOKIE[ 'ss_mode' ] === 'ss' );
+        return ( empty( $_COOKIE[ 'ss_mode' ] ) || $_COOKIE[ 'ss_mode' ] === 'ss' );
     }
 
     // find newer version of post, or return null if there is no newer autosave version
@@ -78,3 +102,40 @@ class LibSwiftyPluginView
         return $newer_revision;
     }
 }
+
+// load the swifty font, only load the latest version.
+
+function enqueue_styles()
+{
+    global $swifty_font_url;
+    global $swifty_font_version;
+
+    wp_enqueue_style(
+        'swifty-font.css',
+        $swifty_font_url,
+        array(),
+        $swifty_font_version,
+        'all'
+    );
+}
+
+$font_version = (int)'/*@echo FONT_RELEASE_TAG*/';
+
+global $swifty_font_version;
+global $swifty_font_url;
+
+if( !isset( $swifty_font_version ) || ( $swifty_font_version < $font_version ) ) {
+    $swifty_font_version = $font_version;
+
+    // we need to work around the plugin dir link we use in our development systems
+    $plugin_dir      = dirname( dirname( dirname( __FILE__ ) ) );
+    // get plugin name
+    $plugin_basename = basename( $plugin_dir );
+    $plugin_dir_url  = trailingslashit( plugins_url( rawurlencode( $plugin_basename ) ) );
+
+    $swifty_font_url = $plugin_dir_url . 'lib/swifty_plugin/css/swifty-font.css';
+}
+
+// load swifty font in both view and edit
+add_action( 'wp_enqueue_scripts', 'enqueue_styles' );
+add_action( 'admin_enqueue_scripts', 'enqueue_styles' );

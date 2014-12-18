@@ -482,6 +482,9 @@ module.exports = function( grunt/*, options*/ ) {
                         cwd: grunt.myCfg.git_pull_all.paths[ i ]
                     },
                     'callback': function( err, stdout, stderr, cb ) {
+                        if( stdout.indexOf( 'CONFLICT' ) >= 0 ) {
+                            grunt.fatal( "\n\n========================================\n\nTHERE IS A CONFLICT IN THE MERGE!!!!!!!!!!!!!!\n\n========================================\n\n\n" );
+                        }
                         cb();
                     }
                 }
