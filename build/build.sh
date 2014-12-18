@@ -13,9 +13,10 @@ options=(
          g "Mail the zip" on
          . "----------------------------------------" off
          1 "Get latests masters and develops" off
-         2 "Commit + tag + push" off
+         2 "Update pot/po and up/download glotpress" off
          3 "Build" off
          4 "Release to public" off
+         5 "Commit + tag + push" off
          . "" off
          . "========================================" off
          . "Individual actions (some can be combined):" off
@@ -31,6 +32,8 @@ options=(
          r "SVN submit" off
          s "Release on swiftylife.com" off
          t "Commit and tag" off
+         u "Create pot and upload to glotpress" off
+         v "Download po from glotpress" off
         )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 clear
@@ -60,7 +63,7 @@ do
             gruntcmd=$gruntcmd$sss
             ;;
         2)
-            sss="_maintag"
+            sss="_mainpot"
             gruntcmd=$gruntcmd$sss
             ;;
         3)
@@ -69,6 +72,10 @@ do
             ;;
         4)
             sss="_mainrelease"
+            gruntcmd=$gruntcmd$sss
+            ;;
+        5)
+            sss="_maintag"
             gruntcmd=$gruntcmd$sss
             ;;
         k)
@@ -109,6 +116,14 @@ do
             ;;
         t)
             sss="_commitandtag"
+            gruntcmd=$gruntcmd$sss
+            ;;
+        u)
+            sss="_createpot"
+            gruntcmd=$gruntcmd$sss
+            ;;
+        v)
+            sss="_gettranslations"
             gruntcmd=$gruntcmd$sss
             ;;
     esac

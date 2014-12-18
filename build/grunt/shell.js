@@ -261,6 +261,124 @@ module.exports = function( grunt/*, options*/ ) {
                 }
             }
         },
+        import_pot_in_swiftylife: {
+            command: 'rm -f temp_<%= grunt.getPluginNameCompact() %>.pot' +
+                        '; msgcat ' +
+                            '<%= grunt.getSourcePath() %>languages/lang.pot ' +
+                            '<%= grunt.getSourcePath() %>pro/languages/lang.pot ' +
+                            '<%= grunt.getSourcePath() %>pro/languages/am/lang.pot ' +
+                            '<%= grunt.getSourcePath() %>lib/swifty_plugin/languages/lang.pot ' +
+                            '> temp_<%= grunt.getPluginNameCompact() %>.pot' +
+                        ' && perl -pi -e "s#../plugin/' + grunt.myCfg.plugin_code + '/##g" temp_<%= grunt.getPluginNameCompact() %>.pot' +
+                        ' && scp -P 2022 temp_<%= grunt.getPluginNameCompact() %>.pot translate@green.alphamegahosting.com:/var/www/vhosts/translate.swiftylife.com/httpdocs/scripts/temp_<%= grunt.getPluginNameCompact() %>.pot' +
+                        ' && ssh -t -p 2022 translate@green.alphamegahosting.com "' +
+                                'cd /var/www/vhosts/translate.swiftylife.com/httpdocs/scripts' +
+                                '; php import-originals.php -p ' + grunt.myCfg.plugin_code + ' -f temp_<%= grunt.getPluginNameCompact() %>.pot' +
+                                '; rm temp_<%= grunt.getPluginNameCompact() %>.pot' +
+                            '"' +
+                        '; rm -f temp_<%= grunt.getPluginNameCompact() %>.pot',
+            options: {
+                execOptions: {
+                },
+                'callback': function(err, stdout, stderr, cb) {
+                    cb();
+                }
+            }
+        },
+        download_po_from_swiftylife: {
+            command: 'rm -Rf temp_' + grunt.myCfg.plugin_code +
+                        '; ssh -t -p 2022 translate@green.alphamegahosting.com "' +
+                                'cd /var/www/vhosts/translate.swiftylife.com/httpdocs' +
+                                ' && ./export_po.sh ' + grunt.myCfg.plugin_code + ' "nl"' +
+                            '"' +
+                        ' && scp -P 2022 translate@green.alphamegahosting.com:/var/www/vhosts/translate.swiftylife.com/httpdocs/temp_' + grunt.myCfg.plugin_code + '.zip ./' +
+                        ' && ssh -t -p 2022 translate@green.alphamegahosting.com "' +
+                                'rm -f /var/www/vhosts/translate.swiftylife.com/httpdocs/temp_' + grunt.myCfg.plugin_code + '.zip' +
+                            '"' +
+                        ' && unzip temp_' + grunt.myCfg.plugin_code + '.zip' +
+                        '; rm -f temp_' + grunt.myCfg.plugin_code + '.zip',
+            options: {
+                execOptions: {
+                },
+                'callback': function(err, stdout, stderr, cb) {
+                    cb();
+                }
+            }
+        },
+        remove_temp_po: {
+            command: 'rm -Rf temp_' + grunt.myCfg.plugin_code,
+            options: {
+                execOptions: {
+                },
+                'callback': function(err, stdout, stderr, cb) {
+                    cb();
+                }
+            }
+        },
+        split_po: {
+            command: function( po ) {
+                return 'grep php temp_' + grunt.myCfg.plugin_code + '/' + po + '.po | grep -v php-format | cut --delimiter=":" -f 2 | sort | uniq | cut -b 2-; echo ' + po;
+            },
+            options: {
+                execOptions: {
+                },
+                'callback': function(err, stdout, stderr, cb) {
+                    var out = stdout.split( "\n" );
+                    var last = '';
+                    out.forEach( function( o ) {
+                        if( o !== '' ) {
+                            last = o;
+                        }
+                    } );
+                    out.forEach( function( o ) {
+                        if( o !== '' && o !== last ) {
+                            var s = o;
+                            s = s.replace( /\//g, '_-_-_' );
+                            grunt.task.run( [ 'shell:split_po_sub:' + last + ':' + s + ':' + o ] );
+                        }
+                    } );
+                    var po2 = last;
+                    if( po2 === 'nl' ) {
+                        po2 = 'nl_NL';
+                    }
+                    grunt.task.run( [ 'shell:split_po_next:' + last + ':' + po2 + ':lib_-_-_swifty_plugin_-_-_:lib/swifty_plugin/languages/' ] );
+                    grunt.task.run( [ 'shell:split_po_next:' + last + ':' + po2 + ':pro_-_-_am_-_-_:pro/languages/am/' ] );
+                    grunt.task.run( [ 'shell:split_po_next:' + last + ':' + po2 + ':pro_-_-_:pro/languages/' ] );
+                    grunt.task.run( [ 'shell:split_po_next:' + last + ':' + po2 + '::languages/' ] );
+                    cb();
+                }
+            }
+        },
+        split_po_sub: {
+            command: function( po, fileOut, file ) {
+                //return 'echo bbb' + po + 'ccc' + fileOut + 'ddd' + file;
+                return 'mkdir -p temp_' + grunt.myCfg.plugin_code + '/' + po +
+                        ' && msggrep -N ' + file + ' -o temp_' + grunt.myCfg.plugin_code + '/' + po + '/' + fileOut + '.po temp_' + grunt.myCfg.plugin_code + '/' + po + '.po';
+            },
+            options: {
+                execOptions: {
+                },
+                'callback': function(err, stdout, stderr, cb) {
+                    cb();
+                }
+            }
+        },
+        split_po_next: {
+            command: function( po, po2, filter, path ) {
+                return 'msgcat temp_' + grunt.myCfg.plugin_code + '/' + po + '/' + filter + '* > temp_' + grunt.myCfg.plugin_code + '/' + po + '/' + po + '.po' +
+                        ' && mkdir -p <%= grunt.getSourcePath() %>' + path +
+                        ' && mv -f temp_' + grunt.myCfg.plugin_code + '/' + po + '/' + po + '.po <%= grunt.getSourcePath() %>' + path + grunt.myCfg.plugin_code + '-' + po2 + '.po' +
+                        ' && msgfmt <%= grunt.getSourcePath() %>' + path + grunt.myCfg.plugin_code + '-' + po2 + '.po -o <%= grunt.getSourcePath() %>' + path + grunt.myCfg.plugin_code + '-' + po2 + '.mo' +
+                        ' && rm -f temp_' + grunt.myCfg.plugin_code + '/' + po + '/' + filter + '*';
+            },
+            options: {
+                execOptions: {
+                },
+                'callback': function(err, stdout, stderr, cb) {
+                    cb();
+                }
+            }
+        },
         check_changelog_in_zip: {
             command: 'unzip -c <%= grunt.getDestZip() %> <%= grunt.getDestPathPluginPart() %>readme.txt | grep "= ' + grunt.myPkg.version + ' ="',
             options: {

@@ -137,6 +137,13 @@ module.exports = {
             }
         } );
 
+        grunt.registerTask( 'loop_split_po', function() {
+            grunt.file.recurse( 'temp_' + grunt.myCfg.plugin_code, function( abspath, rootdir, subdir, filename ) {
+                var ar = filename.split( '.po' );
+                grunt.task.run( [ 'shell:split_po:' + ar[ 0 ] ] );
+            } );
+        } );
+
         grunt.registerTask( 'check_changelog', function() {
             var fileContent = grunt.file.read( grunt.getSourcePath() + 'readme.txt' );
             if( fileContent.indexOf( grunt.myPkg.version ) < 0 ) {

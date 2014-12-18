@@ -17,6 +17,14 @@ from_dialog_do_maintag:
 from_dialog_do_mainvpro_maintag:
   - 'from_dialog_do_maintag' # It doesn't matter if pro is selected or not
 
+# Update pot/po and up/download glotpress
+from_dialog_do_mainpot:
+  - 'from_dialog_do_createpot_gettranslations'
+
+# Update pot/po and up/download glotpress
+from_dialog_do_mainvpro_mainpot:
+  - 'from_dialog_do_mainpot' # It doesn't matter if pro is selected or not
+
 # PRO version
 # Build
 from_dialog_do_mainvpro_mainbuild:
@@ -65,6 +73,24 @@ from_dialog_do_pullall_mergedev:
   - 'from_dialog_do_pullall'
   - 'from_dialog_do_mergedev'
 
+# Create all pot files from the PHP sources and upload to glotpress
+# Download po files from glotpress and split a update them is source dirs
+from_dialog_do_createpot_gettranslations:
+  - 'from_dialog_do_createpot'
+  - 'from_dialog_do_gettranslations'
+
+# PRO version
+# Create all pot files from the PHP sources and upload to glotpress
+from_dialog_do_mainvpro_createpot:
+  - 'from_dialog_do_mainvpro'
+  - 'from_dialog_do_createpot'
+
+# PRO version
+# Download po files from glotpress
+from_dialog_do_mainvpro_gettranslations:
+  - 'from_dialog_do_mainvpro'
+  - 'from_dialog_do_gettranslations'
+
 ############################################
 ############################################
 # SINGLE COMMANDS FROM BUILD.SH
@@ -106,6 +132,20 @@ from_dialog_do_maintest_step2:
 # Release to public; either on wordpress.org or on swiftylife.com
 from_dialog_do_mainrelease:
   - 'if_release'
+
+# Create all pot files from the PHP sources and upload to glotpress
+from_dialog_do_createpot:
+  - 'pot:dist'
+  - 'pot:pro'
+  - 'pot:am'
+  - 'pot:lib'
+  - 'shell:import_pot_in_swiftylife'
+
+# Download po files from glotpress and split a update them is source dirs
+from_dialog_do_gettranslations:
+  - 'shell:download_po_from_swiftylife'
+  - 'loop_split_po'
+  - 'shell:remove_temp_po'
 
 ############################################
 ############################################
