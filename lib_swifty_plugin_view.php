@@ -11,7 +11,7 @@ class LibSwiftyPluginView
         self::$instance = $this;
 
         // allow every plugin to get to the initialization part, all plugins should be loaded then
-        add_action( 'plugins_loaded', array($this, 'action_plugins_loaded') );
+        add_action( 'plugins_loaded', array( $this, 'action_plugins_loaded' ) );
     }
 
     public static function get_instance()
@@ -62,14 +62,14 @@ class LibSwiftyPluginView
 
         if( ! $wp_admin_bar->get_node( 'swifty' ) ) {
 
-            $title = '<span class="ab-icon"></span><span class="ab-label">' .$scc_oLocale[ 'Swifty' ] . '</span>';
-            $title .= '<span class="screen-reader-text">' . $scc_oLocale[ 'Swifty' ] . '</span>';
+            $title = '<span class="ab-icon"></span><span class="ab-label">' . __( 'Swifty', 'swifty-plugin' ) . '</span>';
+            $title .= '<span class="screen-reader-text">' . __( 'Swifty', 'swifty-plugin' ) . '</span>';
 
             $wp_admin_bar->add_menu( array(
-                'id'    => 'swifty',
+                'id' => 'swifty',
                 'title' => $title,
-                'meta'  => array(
-                    'title' => $scc_oLocale[ 'Swifty' ],
+                'meta' => array(
+                    'title' => __( 'Swifty', 'swifty-plugin' ),
                 ),
             ) );
         }
@@ -102,3 +102,33 @@ class LibSwiftyPluginView
         return $newer_revision;
     }
 }
+
+// load the swifty font, only load the latest version.
+
+function enqueue_styles()
+{
+    global $swifty_font_url;
+    global $swifty_font_version;
+
+    wp_enqueue_style(
+        'swifty-font.css',
+        $swifty_font_url,
+        array(),
+        $swifty_font_version,
+        'all'
+    );
+}
+
+$font_version = (int)'/*@echo FONT_RELEASE_TAG*/';
+
+global $swifty_font_version;
+global $swifty_font_url;
+
+if( !isset( $swifty_font_version ) || ( $swifty_font_version < $font_version ) ) {
+    $swifty_font_version = $font_version;
+    $swifty_font_url = plugin_dir_url( __FILE__ ) . 'css/swifty-font.css';
+}
+
+// load swifty font in both view and edit
+add_action( 'wp_enqueue_scripts', 'enqueue_styles' );
+add_action( 'admin_enqueue_scripts', 'enqueue_styles' );
