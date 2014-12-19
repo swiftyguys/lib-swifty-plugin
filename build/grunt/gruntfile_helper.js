@@ -109,18 +109,18 @@ module.exports = {
             }
         } );
 
-        grunt.registerTask( 'if_rename', function() {
-            if( grunt.myCfg.rename.do ) {
-                grunt.task.run( [
-                    'rename:post_requirejs'
-                ] );
-            }
-        } );
-
         grunt.registerTask( 'if_clean_unwanted', function() {
             if( process.env.PROBE === 'none' ) {
                 grunt.task.run( [
                     'clean:unwanted'
+                ] );
+            }
+        } );
+
+        grunt.registerTask( 'if_clean_unwanted2', function() {
+            if( process.env.PROBE === 'none' ) {
+                grunt.task.run( [
+                    'clean:unwanted2'
                 ] );
             }
         } );

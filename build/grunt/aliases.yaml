@@ -202,7 +202,8 @@ helper_build:
   - 'preprocess' # Replace strings and removed lines based on environment vars; like @if and @ifdef
   - 'replace:readme' # Set the current version etc in the readme
   - 'uglify' # Compress and obfuscate js files and save them with .min in the filename
-  - 'if_rename' # If needed move files to their final directories
+  - 'rename:post_requirejs' # If needed move files to their final directories
+  - 'if_clean_unwanted2' # Phase 2 of delete all files that are not needed in final zip
   - 'if_license' # Add the correct license file
   - 'cssmin' # Minify the css files
   - 'replace:lib' # Replace classes in the lib files so even if lib is included in multiple activated plugins (but maybe with different lib versions) they will not conflict. Each plugin will use their own (renamed) version of the lib
