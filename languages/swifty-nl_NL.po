@@ -10,6 +10,12 @@ msgstr ""
 "X-Generator: GlotPress/0.1\n"
 "Project-Id-Version: Swifty Content Creator\n"
 
+#: php/lang.php:68 lib/swifty_plugin/lib_swifty_plugin_view.php:65
+#: lib/swifty_plugin/lib_swifty_plugin_view.php:66
+#: lib/swifty_plugin/lib_swifty_plugin_view.php:72
+msgid "Swifty"
+msgstr ""
+
 #: pro/am/admin/class-wc-api-manager-menu.php:57
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1352
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1439
@@ -199,27 +205,27 @@ msgstr ""
 msgid "Installing Plugin %1$s (%2$d/%3$d)"
 msgstr ""
 
-#: php/lang.php:101
+#: php/lang.php:104
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1419
 msgid "Type"
 msgstr ""
 
-#: php/main.php:684
+#: php/main.php:690
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:174
 msgid "Install Required Plugins"
 msgstr ""
 
-#: php/main.php:685
+#: php/main.php:691
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:175
 msgid "Install Plugins"
 msgstr ""
 
-#: php/main.php:686
+#: php/main.php:692
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:176
 msgid "Installing Plugin: %s"
 msgstr ""
 
-#: php/main.php:690
+#: php/main.php:696
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:180
 msgid ""
 "Sorry, but you do not have the correct permissions to install the %s plugin. "
@@ -232,21 +238,21 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: php/main.php:691
+#: php/main.php:697
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:181
 msgid "The following required plugin is currently inactive: %1$s."
 msgid_plural "The following required plugins are currently inactive: %1$s."
 msgstr[0] ""
 msgstr[1] ""
 
-#: php/main.php:692
+#: php/main.php:698
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:182
 msgid "The following recommended plugin is currently inactive: %1$s."
 msgid_plural "The following recommended plugins are currently inactive: %1$s."
 msgstr[0] ""
 msgstr[1] ""
 
-#: php/main.php:693
+#: php/main.php:699
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:183
 msgid ""
 "Sorry, but you do not have the correct permissions to activate the %s "
@@ -259,7 +265,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: php/main.php:695
+#: php/main.php:701
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:185
 msgid ""
 "Sorry, but you do not have the correct permissions to update the %s plugin. "
@@ -272,26 +278,26 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: php/main.php:696
+#: php/main.php:702
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:186
 msgid "Begin installing plugin"
 msgid_plural "Begin installing plugins"
 msgstr[0] ""
 msgstr[1] ""
 
-#: php/main.php:697
+#: php/main.php:703
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:187
 msgid "Begin activating plugin"
 msgid_plural "Begin activating plugins"
 msgstr[0] ""
 msgstr[1] ""
 
-#: php/main.php:698
+#: php/main.php:704
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:188
 msgid "Return to Required Plugins Installer"
 msgstr ""
 
-#: php/main.php:699
+#: php/main.php:705
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:190
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1986
 msgid "Plugin activated successfully."

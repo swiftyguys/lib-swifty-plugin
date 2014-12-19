@@ -367,9 +367,36 @@ module.exports = function( grunt/*, options*/ ) {
             command: function( po, po2, filter, path ) {
                 return 'msgcat temp_' + grunt.myCfg.plugin_code + '/' + po + '/' + filter + '* > temp_' + grunt.myCfg.plugin_code + '/' + po + '/' + po + '.po' +
                         ' && mkdir -p <%= grunt.getSourcePath() %>' + path +
-                        ' && mv -f temp_' + grunt.myCfg.plugin_code + '/' + po + '/' + po + '.po <%= grunt.getSourcePath() %>' + path + grunt.myCfg.plugin_code + '-' + po2 + '.po' +
-                        ' && msgfmt <%= grunt.getSourcePath() %>' + path + grunt.myCfg.plugin_code + '-' + po2 + '.po -o <%= grunt.getSourcePath() %>' + path + grunt.myCfg.plugin_code + '-' + po2 + '.mo' +
+                        ' && mv -f temp_' + grunt.myCfg.plugin_code + '/' + po + '/' + po + '.po <%= grunt.getSourcePath() %>' + path + 'swifty-' + po2 + '.po' +
+                        ' && msgfmt <%= grunt.getSourcePath() %>' + path + 'swifty-' + po2 + '.po -o <%= grunt.getSourcePath() %>' + path + 'swifty-' + po2 + '.mo' +
                         ' && rm -f temp_' + grunt.myCfg.plugin_code + '/' + po + '/' + filter + '*';
+            },
+            options: {
+                execOptions: {
+                },
+                'callback': function(err, stdout, stderr, cb) {
+                    cb();
+                }
+            }
+        },
+        join_po: {
+            command: function( po ) {
+                return 'msgcat ' +
+                            ' <%= grunt.getDestPathPlugin() %>languages/' + po + '.po' +
+                            ' <%= grunt.getDestPathPlugin() %>pro/languages/' + po + '.po' +
+                            ' <%= grunt.getDestPathPlugin() %>pro/languages/am/' + po + '.po' +
+                            ' <%= grunt.getDestPathPlugin() %>lib/swifty_plugin/languages/' + po + '.po' +
+                            ' > <%= grunt.getDestPathPlugin() %>languages/' + po + '.pot' +
+                        ' && rm -f <%= grunt.getDestPathPlugin() %>languages/' + po + '.po' +
+                        '; rm -f <%= grunt.getDestPathPlugin() %>languages/' + po + '.mo' +
+                        '; rm -f <%= grunt.getDestPathPlugin() %>pro/languages/' + po + '.po' +
+                        '; rm -f <%= grunt.getDestPathPlugin() %>pro/languages/' + po + '.mo' +
+                        '; rm -f <%= grunt.getDestPathPlugin() %>pro/languages/am/' + po + '.po' +
+                        '; rm -f <%= grunt.getDestPathPlugin() %>pro/languages/am/' + po + '.mo' +
+                        '; rm -f <%= grunt.getDestPathPlugin() %>lib/swifty_plugin/languages/' + po + '.po' +
+                        '; rm -f <%= grunt.getDestPathPlugin() %>lib/swifty_plugin/languages/' + po + '.mo' +
+                        '; mv -f <%= grunt.getDestPathPlugin() %>languages/' + po + '.pot <%= grunt.getDestPathPlugin() %>languages/' + po + '.po' +
+                        ' && msgfmt <%= grunt.getDestPathPlugin() %>languages/' + po + '.po -o <%= grunt.getDestPathPlugin() %>languages/' + po + '.mo';
             },
             options: {
                 execOptions: {

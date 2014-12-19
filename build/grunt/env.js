@@ -5,7 +5,8 @@ module.exports = function( grunt/*, options*/ ) {
             RELEASE_TAG: grunt.myPkg.version,
             BUILDUSE: 'build',
             LICENSE_NAME: 'GPLv2 or later',
-            LICENSE_URI: 'http://www.gnu.org/licenses/gpl-2.0.html'
+            LICENSE_URI: 'http://www.gnu.org/licenses/gpl-2.0.html',
+            FONT_REL_TAG: grunt.getFontReleaseTag()
         },
         dist_pro : {
             PROBE: 'none', // 'none', 'include'
@@ -15,7 +16,8 @@ module.exports = function( grunt/*, options*/ ) {
             BUILDUSE: 'build',
             PROT: 'api',
             LICENSE_NAME: 'Commercial',
-            LICENSE_URI: 'http://www.swiftylife.com'
+            LICENSE_URI: 'http://www.swiftylife.com',
+            FONT_REL_TAG: grunt.getFontReleaseTag()
         },
         test : {
             PROBE: 'include',

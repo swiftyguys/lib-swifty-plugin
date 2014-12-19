@@ -1,3 +1,7 @@
+//fs.stat( '../plugin/swifty-content-creator/lib/swifty_plugin/css/swifty-font.css', function( err, stats ) {
+//    console.log( 'bbb', stats );
+//} );
+//
 module.exports = {
 
     init: function( grunt ) {
@@ -81,6 +85,12 @@ module.exports = {
         grunt.getLicenseURI = function() {
             return process.env.LICENSE_URI;
         };
+        grunt.getFontReleaseTag = function() {
+            var file = '../plugin/swifty-content-creator/lib/swifty_plugin/css/swifty-font.css';
+            var filemod = ( require( 'fs' ).statSync( file ) ).mtime;
+            //console.log( 'aaa', file, filemod, filemod.getTime() );
+            return filemod.getTime();
+        };
 
         // Project configuration.
         grunt.initConfig( {
@@ -141,6 +151,15 @@ module.exports = {
             grunt.file.recurse( 'temp_' + grunt.myCfg.plugin_code, function( abspath, rootdir, subdir, filename ) {
                 var ar = filename.split( '.po' );
                 grunt.task.run( [ 'shell:split_po:' + ar[ 0 ] ] );
+            } );
+        } );
+
+        grunt.registerTask( 'loop_join_po', function() {
+            grunt.file.recurse( grunt.getDestPathPlugin() + 'languages/', function( abspath, rootdir, subdir, filename ) {
+                var ar = filename.split( '.p' );
+                if( ar.length > 1 && ar[ 1 ] === 'o' ) {
+                    grunt.task.run( [ 'shell:join_po:' + ar[ 0 ] ] );
+                }
             } );
         } );
 

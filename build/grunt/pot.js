@@ -2,7 +2,7 @@ module.exports = function( grunt/*, options*/ ) {
     return {
         dist: {
             options: {
-                text_domain: 'swifty-cc', // Is not yet used by grunt-pot
+                text_domain: 'swifty', // Is not yet used by grunt-pot
                 dest: '<%= grunt.getSourcePath() %>languages/lang.pot',
                 overwrite: true,
                 encoding: 'UTF-8',
@@ -72,7 +72,7 @@ module.exports = function( grunt/*, options*/ ) {
         },
         pro: {
             options: {
-                text_domain: 'swifty-cc', // Is not yet used by grunt-pot
+                text_domain: 'swifty', // Is not yet used by grunt-pot
                 dest: '<%= grunt.getSourcePath() %>pro/languages/lang.pot',
                 overwrite: true,
                 encoding: 'UTF-8',
@@ -142,7 +142,7 @@ module.exports = function( grunt/*, options*/ ) {
         },
         am: {
             options: {
-                text_domain: 'swifty-cc', // Is not yet used by grunt-pot
+                text_domain: 'swifty', // Is not yet used by grunt-pot
                 dest: '<%= grunt.getSourcePath() %>pro/languages/am/lang.pot',
                 overwrite: true,
                 encoding: 'UTF-8',
@@ -212,7 +212,7 @@ module.exports = function( grunt/*, options*/ ) {
         },
         lib: {
             options: {
-                text_domain: 'swifty-cc', // Is not yet used by grunt-pot
+                text_domain: 'swifty', // Is not yet used by grunt-pot
                 dest: '<%= grunt.getSourcePath() %>lib/swifty_plugin/languages/lang.pot',
                 overwrite: true,
                 encoding: 'UTF-8',

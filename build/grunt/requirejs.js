@@ -7,6 +7,8 @@ module.exports = function( grunt/*, options*/ ) {
                 mainConfigFile: '<%= grunt.getDestPathPlugin() %>require_config.js',
                 out: '<%= grunt.getDestPathPlugin() %>js/' + grunt.myCfg.plugin_code + '.js',
 
+                namespace: 'swifty',
+
                 include: [ 'requireLib' ], // Include RequireJs itself
                 optimize: 'none',
 

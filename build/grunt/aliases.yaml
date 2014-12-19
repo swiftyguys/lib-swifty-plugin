@@ -207,6 +207,7 @@ helper_build:
   - 'cssmin' # Minify the css files
   - 'replace:lib' # Replace classes in the lib files so even if lib is included in multiple activated plugins (but maybe with different lib versions) they will not conflict. Each plugin will use their own (renamed) version of the lib
   - 'helper_obfuscate' # Obfuscate all php
+  - 'helper_fix_translations' # Fix all translations
   - 'compress' # Create the zip
 
 # Obfuscate all php
@@ -224,6 +225,11 @@ helper_release_swiftylife:
   - 'shell:copy_zip_swiftylife'
   - 'shell:mysql_update_version'
   - 'shell:mysql_update_date'
+
+# Release on swiftylife.com
+helper_fix_translations:
+  - 'loop_join_po' # merge all po files per language
+  - 'clean:languages' # remove unwanted language files and folders
 
 ############################################
 ############################################

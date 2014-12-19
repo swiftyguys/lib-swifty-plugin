@@ -119,7 +119,7 @@ function enqueue_styles()
     );
 }
 
-$font_version = (int)'/*@echo FONT_RELEASE_TAG*/';
+$font_version = (int)'/*@echo FONT_REL_TAG*/';
 
 global $swifty_font_version;
 global $swifty_font_url;
