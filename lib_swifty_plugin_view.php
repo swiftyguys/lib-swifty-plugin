@@ -107,16 +107,18 @@ class LibSwiftyPluginView
 
 function enqueue_styles()
 {
-    global $swifty_font_url;
-    global $swifty_font_version;
+    if ( is_user_logged_in() ) {
+        global $swifty_font_url;
+        global $swifty_font_version;
 
-    wp_enqueue_style(
-        'swifty-font.css',
-        $swifty_font_url,
-        array(),
-        $swifty_font_version,
-        'all'
-    );
+        wp_enqueue_style(
+            'swifty-font.css',
+            $swifty_font_url,
+            array(),
+            $swifty_font_version,
+            'all'
+        );
+    }
 }
 
 $font_version = (int)'/*@echo FONT_RELEASE_TAG*/';
