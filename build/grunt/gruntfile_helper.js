@@ -1,7 +1,3 @@
-//fs.stat( '../plugin/swifty-content-creator/lib/swifty_plugin/css/swifty-font.css', function( err, stats ) {
-//    console.log( 'bbb', stats );
-//} );
-//
 module.exports = {
 
     init: function( grunt ) {
@@ -28,11 +24,14 @@ module.exports = {
             return grunt.getDestPath() + '/' + grunt.getDestPathPluginPart();
         };
         grunt.getDestPathPluginPart = function() {
+            return grunt.getDestPathPluginPartNoSlash() + '/';
+        };
+        grunt.getDestPathPluginPartNoSlash = function() {
             var s = grunt.myCfg.plugin_code;
             if( process.env.PRO_TAG === ' Pro' ) {
                 s += '-pro';
             }
-            return s + '/';
+            return s;
         };
         grunt.getPluginNameCompact = function() {
             var s = grunt.myPkg.name;
@@ -56,7 +55,11 @@ module.exports = {
             return 'temp_obfuscate_cfg.yml';
         };
         grunt.getObfuscateReplaceDef = function() {
-            var cfg = grunt.file.readJSON( grunt.getSourcePath() + 'pro/build/obfuscate_replace.json' );
+            var cfg = [];
+            var fn = grunt.getSourcePath() + 'pro/build/obfuscate_replace.json';
+            if( grunt.file.exists( fn ) ) {
+                cfg = grunt.file.readJSON( fn );
+            }
             //console.log( '=====', cfg );
             return cfg;
         };
@@ -85,11 +88,74 @@ module.exports = {
         grunt.getLicenseURI = function() {
             return process.env.LICENSE_URI;
         };
+        grunt.getSourcePathTest1 = function() {
+            return grunt.myCfg.base_path.replace( /-/g, '_' );
+        };
+
         grunt.getFontReleaseTag = function() {
-            var file = '../plugin/swifty-content-creator/lib/swifty_plugin/css/swifty-font.css';
+            var file = '../plugin/' + grunt.myCfg.plugin_code + '/lib/swifty_plugin/css/swifty-font.css';
             var filemod = ( require( 'fs' ).statSync( file ) ).mtime;
             //console.log( 'aaa', file, filemod, filemod.getTime() );
             return filemod.getTime();
+        };
+
+        grunt.getForTestIsPro = function() {
+            var s = '';
+            if( process.env.PRO_TAG === ' Pro' ) {
+                s += 'pro';
+            }
+            return s;
+        };
+
+        grunt.getCommandImportPotInSwiftylife = function() {
+            var s = 'rm -f temp_<%= grunt.getPluginNameCompact() %>.pot' +
+                    '; msgcat ' +
+                        '<%= grunt.getSourcePath() %>languages/lang.pot ';
+                if( grunt.file.isDir( grunt.getSourcePath() + 'pro' ) ) {
+                    s +=
+                        '<%= grunt.getSourcePath() %>pro/languages/lang.pot ' +
+                        '<%= grunt.getSourcePath() %>pro/languages/am/lang.pot ';
+                }
+                s +=
+                        '<%= grunt.getSourcePath() %>lib/swifty_plugin/languages/lang.pot ' +
+                        '> temp_<%= grunt.getPluginNameCompact() %>.pot' +
+                    ' && perl -pi -e "s#../plugin/' + grunt.myCfg.plugin_code + '/##g" temp_<%= grunt.getPluginNameCompact() %>.pot' +
+                    ' && scp -P 2022 temp_<%= grunt.getPluginNameCompact() %>.pot translate@green.alphamegahosting.com:/var/www/vhosts/translate.swiftylife.com/httpdocs/scripts/temp_<%= grunt.getPluginNameCompact() %>.pot' +
+                    ' && ssh -t -p 2022 translate@green.alphamegahosting.com "' +
+                            'cd /var/www/vhosts/translate.swiftylife.com/httpdocs/scripts' +
+                            '; php import-originals.php -p ' + grunt.myCfg.plugin_code + ' -f temp_<%= grunt.getPluginNameCompact() %>.pot' +
+                            '; rm temp_<%= grunt.getPluginNameCompact() %>.pot' +
+                        '"' +
+                    '; rm -f temp_<%= grunt.getPluginNameCompact() %>.pot';
+            return s;
+        };
+
+        grunt.getCommandJoinPO = function( po ) {
+            var s = 'msgcat ' +
+                        ' <%= grunt.getDestPathPlugin() %>languages/' + po + '.po';
+                if( grunt.file.isDir( grunt.getSourcePath() + 'pro' ) ) {
+                    s +=
+                        ' <%= grunt.getDestPathPlugin() %>pro/languages/' + po + '.po' +
+                        ' <%= grunt.getDestPathPlugin() %>pro/languages/am/' + po + '.po';
+                }
+                s +=
+                        ' <%= grunt.getDestPathPlugin() %>lib/swifty_plugin/languages/' + po + '.po' +
+                        ' > <%= grunt.getDestPathPlugin() %>languages/' + po + '.pot' +
+                    ' && rm -f <%= grunt.getDestPathPlugin() %>languages/' + po + '.po' +
+                    '; rm -f <%= grunt.getDestPathPlugin() %>languages/' + po + '.mo';
+                if( grunt.file.isDir( grunt.getSourcePath() + 'pro' ) ) {
+                    s +=
+                    '; rm -f <%= grunt.getDestPathPlugin() %>pro/languages/' + po + '.po' +
+                    '; rm -f <%= grunt.getDestPathPlugin() %>pro/languages/' + po + '.mo' +
+                    '; rm -f <%= grunt.getDestPathPlugin() %>pro/languages/am/' + po + '.po' +
+                    '; rm -f <%= grunt.getDestPathPlugin() %>pro/languages/am/' + po + '.mo';
+                }
+                s +=
+                    '; rm -f <%= grunt.getDestPathPlugin() %>lib/swifty_plugin/languages/' + po + '.po' +
+                    '; rm -f <%= grunt.getDestPathPlugin() %>lib/swifty_plugin/languages/' + po + '.mo' +
+                    '; mv -f <%= grunt.getDestPathPlugin() %>languages/' + po + '.pot <%= grunt.getDestPathPlugin() %>languages/' + po + '.po' +
+                    ' && msgfmt <%= grunt.getDestPathPlugin() %>languages/' + po + '.po -o <%= grunt.getDestPathPlugin() %>languages/' + po + '.mo';
+            return s;
         };
 
         // Project configuration.
@@ -147,8 +213,15 @@ module.exports = {
             }
         } );
 
+        grunt.registerTask( 'if_helper_obfuscate', function() {
+            if( process.env.PRO_TAG === ' Pro' ) {
+                grunt.task.run( [ 'helper_obfuscate' ] );
+            }
+        } );
+
         grunt.registerTask( 'loop_split_po', function() {
             grunt.file.recurse( 'temp_' + grunt.myCfg.plugin_code, function( abspath, rootdir, subdir, filename ) {
+                console.log( '===', filename );
                 var ar = filename.split( '.po' );
                 grunt.task.run( [ 'shell:split_po:' + ar[ 0 ] ] );
             } );
@@ -169,5 +242,22 @@ module.exports = {
                 grunt.fatal( "\n\n========================================\n\nREADME FILE DOES NOT CONTAIN CHANGELOG FOR " + grunt.myPkg.version + "!!!!!!!!!!!!!!\n\n========================================\n\n\n" );
             }
         } );
+
+        grunt.registerTask( 'if_pot_pro', function() {
+            if( grunt.file.isDir( grunt.getSourcePath() + 'pro' ) ) {
+                grunt.task.run( [
+                    'pot:pro'
+                ] );
+            }
+        } );
+
+        grunt.registerTask( 'if_pot_am', function() {
+            if( grunt.file.isDir( grunt.getSourcePath() + 'pro' ) ) {
+                grunt.task.run( [
+                    'pot:am'
+                ] );
+            }
+        } );
+
     }
 };

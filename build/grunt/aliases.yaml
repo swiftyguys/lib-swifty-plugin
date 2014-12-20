@@ -30,6 +30,21 @@ from_dialog_do_mainpot:
 from_dialog_do_mainvpro_mainpot:
   - 'from_dialog_do_mainpot' # It doesn't matter if pro is selected or not
 
+# FREE version
+# Build
+from_dialog_do_mainvfree_mainbuild:
+  - 'from_dialog_do_mainvfree'
+  - 'from_dialog_do_mainbuild'
+
+# PRO version
+# Build
+# Test the zip
+from_dialog_do_mainvfree_maintest_mainbuild:
+  - 'from_dialog_do_mainvfree'
+  - 'from_dialog_do_maintest_step1'
+  - 'from_dialog_do_mainbuild'
+  - 'from_dialog_do_maintest_step2'
+
 # PRO version
 # Build
 from_dialog_do_mainvpro_mainbuild:
@@ -114,6 +129,10 @@ from_dialog_do_mergedev:
 from_dialog_do_commitandtag:
   - 'helper_git_commit_and_tag'
 
+# Set version to FREE
+from_dialog_do_mainvfree:
+  - 'env:dist' # Set environment vars to FREE
+
 # Set version to PRO
 from_dialog_do_mainvpro:
   - 'env:dist_pro' # Set environment vars to PRO
@@ -141,8 +160,8 @@ from_dialog_do_mainrelease:
 # Create all pot files from the PHP sources and upload to glotpress
 from_dialog_do_createpot:
   - 'pot:dist'
-  - 'pot:pro'
-  - 'pot:am'
+  - 'if_pot_pro'
+  - 'if_pot_am'
   - 'pot:lib'
   - 'shell:import_pot_in_swiftylife'
 
@@ -207,7 +226,7 @@ helper_build:
   - 'if_license' # Add the correct license file
   - 'cssmin' # Minify the css files
   - 'replace:lib' # Replace classes in the lib files so even if lib is included in multiple activated plugins (but maybe with different lib versions) they will not conflict. Each plugin will use their own (renamed) version of the lib
-  - 'helper_obfuscate' # Obfuscate all php
+  - 'if_helper_obfuscate' # Obfuscate all php; if needed
   - 'helper_fix_translations' # Fix all translations
   - 'compress' # Create the zip
 

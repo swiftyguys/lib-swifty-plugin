@@ -1,12 +1,12 @@
-# Translation of Swifty Page Manager in Dutch
+# Translation of Swifty Page Manager in Chinese (China)
 # This file is distributed under the same license as the Swifty Page Manager package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2014-12-20 15:08:13+0000\n"
+"PO-Revision-Date: 2014-12-17 08:44:19+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: GlotPress/0.1\n"
 "Project-Id-Version: Swifty Page Manager\n"
 
@@ -26,7 +26,7 @@ msgstr ""
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:176
 msgid "Installing Plugin: %s"
-msgstr "Plugin wordt geinstalleerd: %s"
+msgstr ""
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:177
 msgid "Something went wrong."
@@ -36,13 +36,11 @@ msgstr ""
 msgid "This theme requires the following plugin: %1$s."
 msgid_plural "This theme requires the following plugins: %1$s."
 msgstr[0] ""
-msgstr[1] ""
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:179
 msgid "This theme recommends the following plugin: %1$s."
 msgid_plural "This theme recommends the following plugins: %1$s."
 msgstr[0] ""
-msgstr[1] ""
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:180
 msgid ""
@@ -54,19 +52,16 @@ msgid_plural ""
 "plugins. Contact the administrator of this site for help on getting the "
 "plugins installed."
 msgstr[0] ""
-msgstr[1] ""
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:181
 msgid "The following required plugin is currently inactive: %1$s."
 msgid_plural "The following required plugins are currently inactive: %1$s."
 msgstr[0] ""
-msgstr[1] ""
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:182
 msgid "The following recommended plugin is currently inactive: %1$s."
 msgid_plural "The following recommended plugins are currently inactive: %1$s."
 msgstr[0] ""
-msgstr[1] ""
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:183
 msgid ""
@@ -78,7 +73,6 @@ msgid_plural ""
 "plugins. Contact the administrator of this site for help on getting the "
 "plugins activated."
 msgstr[0] ""
-msgstr[1] ""
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:184
 msgid ""
@@ -88,7 +82,6 @@ msgid_plural ""
 "The following plugins need to be updated to their latest version to ensure "
 "maximum compatibility with this theme: %1$s."
 msgstr[0] ""
-msgstr[1] ""
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:185
 msgid ""
@@ -100,19 +93,16 @@ msgid_plural ""
 "Contact the administrator of this site for help on getting the plugins "
 "updated."
 msgstr[0] ""
-msgstr[1] ""
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:186
 msgid "Begin installing plugin"
 msgid_plural "Begin installing plugins"
 msgstr[0] ""
-msgstr[1] ""
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:187
 msgid "Begin activating plugin"
 msgid_plural "Begin activating plugins"
 msgstr[0] ""
-msgstr[1] ""
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:188
 msgid "Return to Required Plugins Installer"
@@ -132,7 +122,6 @@ msgstr ""
 msgid "The following plugin was activated successfully:"
 msgid_plural "The following plugins were activated successfully:"
 msgstr[0] ""
-msgstr[1] ""
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:192
 msgid "All plugins installed and activated successfully. %1$s"
@@ -288,4 +277,4 @@ msgstr ""
 #: view/page_tree.php:416
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1420
 msgid "Status"
-msgstr "Status"
+msgstr "状态"

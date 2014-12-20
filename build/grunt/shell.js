@@ -6,11 +6,9 @@ module.exports = function( grunt/*, options*/ ) {
                      ' -D platform=ec2' +
 //                         ' -D wp_version=3.7' +
                      ' -D wp_version=3.9.1' +
-                     //' -D plugin_path_1="swifty_page_manager"' +
-                     ' -D plugin_path_1="swifty_content_creator"' +
-                     //' -D plugin_path_2="swifty-page-manager"' +
-                     ' -D plugin_path_2="swifty-content-creator-pro"' +
-                     ' -D is_pro="pro"' +
+                     ' -D plugin_path_1="' + grunt.getSourcePathTest1() + '"' +
+                     ' -D plugin_path_2="' + grunt.getDestPathPluginPartNoSlash() + '"' +
+                     ' -D is_pro="' + grunt.getForTestIsPro() + '"' +
                      ' -D lang=en' +
                      ' -d sl_ie9_win7' +
                      ' test_dist.php',
@@ -262,21 +260,7 @@ module.exports = function( grunt/*, options*/ ) {
             }
         },
         import_pot_in_swiftylife: {
-            command: 'rm -f temp_<%= grunt.getPluginNameCompact() %>.pot' +
-                        '; msgcat ' +
-                            '<%= grunt.getSourcePath() %>languages/lang.pot ' +
-                            '<%= grunt.getSourcePath() %>pro/languages/lang.pot ' +
-                            '<%= grunt.getSourcePath() %>pro/languages/am/lang.pot ' +
-                            '<%= grunt.getSourcePath() %>lib/swifty_plugin/languages/lang.pot ' +
-                            '> temp_<%= grunt.getPluginNameCompact() %>.pot' +
-                        ' && perl -pi -e "s#../plugin/' + grunt.myCfg.plugin_code + '/##g" temp_<%= grunt.getPluginNameCompact() %>.pot' +
-                        ' && scp -P 2022 temp_<%= grunt.getPluginNameCompact() %>.pot translate@green.alphamegahosting.com:/var/www/vhosts/translate.swiftylife.com/httpdocs/scripts/temp_<%= grunt.getPluginNameCompact() %>.pot' +
-                        ' && ssh -t -p 2022 translate@green.alphamegahosting.com "' +
-                                'cd /var/www/vhosts/translate.swiftylife.com/httpdocs/scripts' +
-                                '; php import-originals.php -p ' + grunt.myCfg.plugin_code + ' -f temp_<%= grunt.getPluginNameCompact() %>.pot' +
-                                '; rm temp_<%= grunt.getPluginNameCompact() %>.pot' +
-                            '"' +
-                        '; rm -f temp_<%= grunt.getPluginNameCompact() %>.pot',
+            command: grunt.getCommandImportPotInSwiftylife(),
             options: {
                 execOptions: {
                 },
@@ -289,7 +273,7 @@ module.exports = function( grunt/*, options*/ ) {
             command: 'rm -Rf temp_' + grunt.myCfg.plugin_code +
                         '; ssh -t -p 2022 translate@green.alphamegahosting.com "' +
                                 'cd /var/www/vhosts/translate.swiftylife.com/httpdocs' +
-                                ' && ./export_po.sh ' + grunt.myCfg.plugin_code + ' "nl"' +
+                                ' && ./export_po.sh ' + grunt.myCfg.plugin_code + " '" + Object.keys( grunt.myCfg.po.languages ).join( ' ' ) + "'" +
                             '"' +
                         ' && scp -P 2022 translate@green.alphamegahosting.com:/var/www/vhosts/translate.swiftylife.com/httpdocs/temp_' + grunt.myCfg.plugin_code + '.zip ./' +
                         ' && ssh -t -p 2022 translate@green.alphamegahosting.com "' +
@@ -338,12 +322,16 @@ module.exports = function( grunt/*, options*/ ) {
                         }
                     } );
                     var po2 = last;
-                    if( po2 === 'nl' ) {
-                        po2 = 'nl_NL';
+                    for( var key in grunt.myCfg.po.languages ) {
+                        if( po2 === key ) {
+                            po2 = grunt.myCfg.po.languages[ key ];
+                        }
                     }
                     grunt.task.run( [ 'shell:split_po_next:' + last + ':' + po2 + ':lib_-_-_swifty_plugin_-_-_:lib/swifty_plugin/languages/' ] );
-                    grunt.task.run( [ 'shell:split_po_next:' + last + ':' + po2 + ':pro_-_-_am_-_-_:pro/languages/am/' ] );
-                    grunt.task.run( [ 'shell:split_po_next:' + last + ':' + po2 + ':pro_-_-_:pro/languages/' ] );
+                    if( grunt.file.isDir( grunt.getSourcePath() + 'pro' ) ) {
+                        grunt.task.run( [ 'shell:split_po_next:' + last + ':' + po2 + ':pro_-_-_am_-_-_:pro/languages/am/' ] );
+                        grunt.task.run( [ 'shell:split_po_next:' + last + ':' + po2 + ':pro_-_-_:pro/languages/' ] );
+                    }
                     grunt.task.run( [ 'shell:split_po_next:' + last + ':' + po2 + '::languages/' ] );
                     cb();
                 }
@@ -381,22 +369,7 @@ module.exports = function( grunt/*, options*/ ) {
         },
         join_po: {
             command: function( po ) {
-                return 'msgcat ' +
-                            ' <%= grunt.getDestPathPlugin() %>languages/' + po + '.po' +
-                            ' <%= grunt.getDestPathPlugin() %>pro/languages/' + po + '.po' +
-                            ' <%= grunt.getDestPathPlugin() %>pro/languages/am/' + po + '.po' +
-                            ' <%= grunt.getDestPathPlugin() %>lib/swifty_plugin/languages/' + po + '.po' +
-                            ' > <%= grunt.getDestPathPlugin() %>languages/' + po + '.pot' +
-                        ' && rm -f <%= grunt.getDestPathPlugin() %>languages/' + po + '.po' +
-                        '; rm -f <%= grunt.getDestPathPlugin() %>languages/' + po + '.mo' +
-                        '; rm -f <%= grunt.getDestPathPlugin() %>pro/languages/' + po + '.po' +
-                        '; rm -f <%= grunt.getDestPathPlugin() %>pro/languages/' + po + '.mo' +
-                        '; rm -f <%= grunt.getDestPathPlugin() %>pro/languages/am/' + po + '.po' +
-                        '; rm -f <%= grunt.getDestPathPlugin() %>pro/languages/am/' + po + '.mo' +
-                        '; rm -f <%= grunt.getDestPathPlugin() %>lib/swifty_plugin/languages/' + po + '.po' +
-                        '; rm -f <%= grunt.getDestPathPlugin() %>lib/swifty_plugin/languages/' + po + '.mo' +
-                        '; mv -f <%= grunt.getDestPathPlugin() %>languages/' + po + '.pot <%= grunt.getDestPathPlugin() %>languages/' + po + '.po' +
-                        ' && msgfmt <%= grunt.getDestPathPlugin() %>languages/' + po + '.po -o <%= grunt.getDestPathPlugin() %>languages/' + po + '.mo';
+                return grunt.getCommandJoinPO( po );
             },
             options: {
                 execOptions: {
