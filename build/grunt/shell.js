@@ -6,9 +6,9 @@ module.exports = function( grunt/*, options*/ ) {
                      ' -D platform=ec2' +
 //                         ' -D wp_version=3.7' +
                      ' -D wp_version=3.9.1' +
-                     ' -D plugin_path_1="' + grunt.getSourcePathTest1() + '"' +
-                     ' -D plugin_path_2="' + grunt.getDestPathPluginPartNoSlash() + '"' +
-                     ' -D is_pro="' + grunt.getForTestIsPro() + '"' +
+                     ' -D plugin_path_1="<%= grunt.getSourcePathTest1() %>"' +
+                     ' -D plugin_path_2="<%= grunt.getDestPathPluginPartNoSlash() %>"' +
+                     ' -D is_pro="<%= grunt.getForTestIsPro() %>"' +
                      ' -D lang=en' +
                      ' -d sl_ie9_win7' +
                      ' test_dist.php',

@@ -89,7 +89,7 @@ module.exports = {
             return process.env.LICENSE_URI;
         };
         grunt.getSourcePathTest1 = function() {
-            return grunt.myCfg.base_path.replace( /-/g, '_' );
+            return grunt.myCfg.plugin_code.replace( /-/g, '_' );
         };
 
         grunt.getFontReleaseTag = function() {
