@@ -5,6 +5,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 class LibSwiftyPluginView
 {
     protected static $instance;
+    protected static $_valid_modes = array( 'ss', 'wp' );
+    protected static $_default_mode = 'ss';
 
     public function __construct()
     {
@@ -79,6 +81,26 @@ class LibSwiftyPluginView
     public static function is_ss_mode()
     {
         return ( empty( $_COOKIE[ 'ss_mode' ] ) || $_COOKIE[ 'ss_mode' ] === 'ss' );
+    }
+
+    public static function set_ss_mode()
+    {
+        $mode = '';
+
+        if ( ! empty( $_COOKIE[ 'ss_mode' ] ) && in_array( $_COOKIE[ 'ss_mode' ], self::$_valid_modes ) ) {
+            $mode = $_COOKIE[ 'ss_mode' ];
+        }
+
+        if ( ! empty( $_GET[ 'ss_mode' ] ) && in_array( $_GET[ 'ss_mode' ], self::$_valid_modes ) ) {
+            $mode = $_GET[ 'ss_mode' ];
+        }
+
+        if ( ! $mode ) {
+            $mode = self::$_default_mode;
+        }
+
+        setcookie( 'ss_mode', $mode, 0, '/' );
+        $_COOKIE[ 'ss_mode' ] = $mode;
     }
 
     // find newer version of post, or return null if there is no newer autosave version
