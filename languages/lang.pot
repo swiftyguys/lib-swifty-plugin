@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-12 14:13+0100\n"
+"POT-Creation-Date: 2015-01-12 21:45+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,10 +18,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: ../plugin/swifty-content-creator/lib/swifty_plugin/lib_swifty_plugin_view.php:67
-#: ../plugin/swifty-content-creator/lib/swifty_plugin/lib_swifty_plugin_view.php:68
-#: ../plugin/swifty-content-creator/lib/swifty_plugin/lib_swifty_plugin_view.php:74
-msgid "Swifty"
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/lib_swifty_plugin.php:51
+msgid "Swifty plugins"
+msgstr ""
+
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/lib_swifty_plugin.php:53
+msgid "Active Swifty plugins"
 msgstr ""
 
 #: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:174

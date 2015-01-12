@@ -260,7 +260,20 @@ module.exports = function( grunt/*, options*/ ) {
             }
         },
         import_pot_in_swiftylife: {
-            command: grunt.getCommandImportPotInSwiftylife(),
+            command: grunt.getCommandImportPotInSwiftylife( '', '' ),
+            options: {
+                execOptions: {
+                },
+                'callback': function(err, stdout, stderr, cb) {
+                    cb();
+                }
+            }
+        },
+        // Use with great care!!!!!!!!!!!!!!!!!!
+        import_pot_one_language_in_swiftylife: {
+            command: function( p1, p2 ) {
+                return grunt.getCommandImportPotInSwiftylife( p1, p2 );
+            },
             options: {
                 execOptions: {
                 },

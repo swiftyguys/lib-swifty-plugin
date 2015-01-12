@@ -107,27 +107,51 @@ module.exports = {
             return s;
         };
 
-        grunt.getCommandImportPotInSwiftylife = function() {
-            var s = 'rm -f temp_<%= grunt.getPluginNameCompact() %>.pot' +
-                    '; msgcat ' +
-                        '<%= grunt.getSourcePath() %>languages/lang.pot ' +
-                        '<%= grunt.getSourcePath() %>languages/lang_js.pot ';
-                if( grunt.file.isDir( grunt.getSourcePath() + 'pro' ) ) {
+        grunt.getCommandImportPotInSwiftylife = function( poIn, locale ) {
+            var po = 'lang';
+            var ext = 'pot';
+            if( poIn !== '' ) {
+                po = 'swifty-' + poIn;
+                ext = 'po';
+            }
+
+            var s = '';
+                if( po !== 'lang' ) {
                     s +=
-                        '<%= grunt.getSourcePath() %>pro/languages/lang.pot ' +
-                        '<%= grunt.getSourcePath() %>pro/languages/am/lang.pot ';
+                        // Hardcoded copy lib lang files from SPM to this repo
+                        'cp <%= grunt.getSourcePath() %>../../../swifty_page_manager/plugin/swifty-page-manager/lib/swifty_plugin/languages/' + po + '.* <%= grunt.getSourcePath() %>lib/swifty_plugin/languages/; ';
                 }
                 s +=
-                        '<%= grunt.getSourcePath() %>lib/swifty_plugin/languages/lang.pot ' +
-                        '> temp_<%= grunt.getPluginNameCompact() %>.pot' +
-                    ' && perl -pi -e "s#../plugin/' + grunt.myCfg.plugin_code + '/##g" temp_<%= grunt.getPluginNameCompact() %>.pot' +
-                    ' && scp -P 2022 temp_<%= grunt.getPluginNameCompact() %>.pot translate@green.alphamegahosting.com:/var/www/vhosts/translate.swiftylife.com/httpdocs/scripts/temp_<%= grunt.getPluginNameCompact() %>.pot' +
+                    'rm -f temp_<%= grunt.getPluginNameCompact() %>.' + ext +
+                    '; msgcat ' +
+                        '<%= grunt.getSourcePath() %>languages/' + po + '.' + ext + ' ';
+                if( po === 'lang' ) {
+                    s +=
+                        '<%= grunt.getSourcePath() %>languages/lang_js.pot ';
+                }
+                if( grunt.file.isDir( grunt.getSourcePath() + 'pro' ) ) {
+                    s +=
+                        '<%= grunt.getSourcePath() %>pro/languages/' + po + '.' + ext + ' ' +
+                        '<%= grunt.getSourcePath() %>pro/languages/am/' + po + '.' + ext + ' ';
+                }
+                s +=
+                        '<%= grunt.getSourcePath() %>lib/swifty_plugin/languages/' + po + '.' + ext + ' ' +
+                        '> temp_<%= grunt.getPluginNameCompact() %>.' + ext +
+                    ' && perl -pi -e "s#../plugin/' + grunt.myCfg.plugin_code + '/##g" temp_<%= grunt.getPluginNameCompact() %>.' + ext +
+                    ' && scp -P 2022 temp_<%= grunt.getPluginNameCompact() %>.' + ext + ' translate@green.alphamegahosting.com:/var/www/vhosts/translate.swiftylife.com/httpdocs/scripts/temp_<%= grunt.getPluginNameCompact() %>.' + ext +
                     ' && ssh -t -p 2022 translate@green.alphamegahosting.com "' +
-                            'cd /var/www/vhosts/translate.swiftylife.com/httpdocs/scripts' +
-                            '; php import-originals.php -p ' + grunt.myCfg.plugin_code + ' -f temp_<%= grunt.getPluginNameCompact() %>.pot' +
-                            '; rm temp_<%= grunt.getPluginNameCompact() %>.pot' +
+                            'cd /var/www/vhosts/translate.swiftylife.com/httpdocs/scripts';
+                if( po === 'lang' ) {
+                    s +=
+                            '; php import-originals.php -p ' + grunt.myCfg.plugin_code + ' -f temp_<%= grunt.getPluginNameCompact() %>.' + ext;
+                } else {
+                    s +=
+                            '; php import.php -p ' + grunt.myCfg.plugin_code + ' -f temp_<%= grunt.getPluginNameCompact() %>.' + ext + ' -l ' + locale;
+                }
+                s +=
+                            '; rm temp_<%= grunt.getPluginNameCompact() %>.' + ext +
                         '"' +
-                    '; rm -f temp_<%= grunt.getPluginNameCompact() %>.pot';
+                    '; rm -f temp_<%= grunt.getPluginNameCompact() %>.' + ext;
             return s;
         };
 
@@ -217,6 +241,14 @@ module.exports = {
         grunt.registerTask( 'if_helper_obfuscate', function() {
             if( process.env.PRO_TAG === ' Pro' ) {
                 grunt.task.run( [ 'helper_obfuscate' ] );
+            }
+        } );
+
+        // Use with great care!!!!!!!!!!!!!!!!!!
+        grunt.registerTask( 'loop_import_po_languages', function() {
+            for( var key in grunt.myCfg.po.languages ) {
+                console.log( '===', key );
+                grunt.task.run( [ 'shell:import_pot_one_language_in_swiftylife:' + grunt.myCfg.po.languages[ key ] + ':' + key ] );
             }
         } );
 
