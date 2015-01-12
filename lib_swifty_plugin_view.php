@@ -64,14 +64,14 @@ class LibSwiftyPluginView
 
         if( ! $wp_admin_bar->get_node( 'swifty' ) ) {
 
-            $title = '<span class="ab-icon"></span><span class="ab-label">' . __( 'Swifty', 'swifty-plugin' ) . '</span>';
-            $title .= '<span class="screen-reader-text">' . __( 'Swifty', 'swifty-plugin' ) . '</span>';
+            $title = '<span class="ab-icon"></span><span class="ab-label">Swifty</span>'; // Do not translate!
+            $title .= '<span class="screen-reader-text">Swifty</span>'; // Do not translate!
 
             $wp_admin_bar->add_menu( array(
                 'id' => 'swifty',
                 'title' => $title,
                 'meta' => array(
-                    'title' => __( 'Swifty', 'swifty-plugin' ),
+                    'title' => 'Swifty', // Do not translate!
                 ),
             ) );
         }
