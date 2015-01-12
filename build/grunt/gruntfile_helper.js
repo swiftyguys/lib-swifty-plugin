@@ -110,7 +110,8 @@ module.exports = {
         grunt.getCommandImportPotInSwiftylife = function() {
             var s = 'rm -f temp_<%= grunt.getPluginNameCompact() %>.pot' +
                     '; msgcat ' +
-                        '<%= grunt.getSourcePath() %>languages/lang.pot ';
+                        '<%= grunt.getSourcePath() %>languages/lang.pot ' +
+                        '<%= grunt.getSourcePath() %>languages/lang_js.pot ';
                 if( grunt.file.isDir( grunt.getSourcePath() + 'pro' ) ) {
                     s +=
                         '<%= grunt.getSourcePath() %>pro/languages/lang.pot ' +

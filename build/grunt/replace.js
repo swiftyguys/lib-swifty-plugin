@@ -58,6 +58,13 @@ module.exports = function( grunt/*, options*/ ) {
             replacements: [
                 { 'from': '<?php', 'to': '<%= grunt.getObfuscateFirstComment() %>' }
             ]
+        },
+        lang_js: {
+            src: '<%= grunt.getSourcePath() %>languages/lang_js.pot',
+            overwrite: true,
+            replacements: [
+                { 'from': 'msgid "', 'to': '#: <%= grunt.getSourcePath() %>js.php:1\nmsgid "' }
+            ]
         }
     };
 };

@@ -163,6 +163,7 @@ from_dialog_do_createpot:
   - 'if_pot_pro'
   - 'if_pot_am'
   - 'pot:lib'
+  - 'helper_xgettext'
   - 'shell:import_pot_in_swiftylife'
 
 # Download po files from glotpress and split a update them is source dirs
@@ -250,6 +251,11 @@ helper_release_swiftylife:
 helper_fix_translations:
   - 'loop_join_po' # merge all po files per language
   - 'clean:languages' # remove unwanted language files and folders
+
+# Extract text string from mustache and javascript
+helper_xgettext:
+  - 'xgettext:dist'
+  - 'replace:lang_js'
 
 ############################################
 ############################################

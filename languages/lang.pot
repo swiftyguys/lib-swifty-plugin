@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-20 16:25+0100\n"
+"POT-Creation-Date: 2015-01-12 14:13+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,44 +18,44 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/lib_swifty_plugin_view.php:65
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/lib_swifty_plugin_view.php:66
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/lib_swifty_plugin_view.php:72
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/lib_swifty_plugin_view.php:67
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/lib_swifty_plugin_view.php:68
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/lib_swifty_plugin_view.php:74
 msgid "Swifty"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:174
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:174
 msgid "Install Required Plugins"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:175
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:175
 msgid "Install Plugins"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:176
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:176
 #, php-format
 msgid "Installing Plugin: %s"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:177
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:177
 msgid "Something went wrong."
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:178
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:178
 #, php-format
 msgid "This theme requires the following plugin: %1$s."
 msgid_plural "This theme requires the following plugins: %1$s."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:179
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:179
 #, php-format
 msgid "This theme recommends the following plugin: %1$s."
 msgid_plural "This theme recommends the following plugins: %1$s."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:180
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:180
 #, php-format
 msgid ""
 "Sorry, but you do not have the correct permissions to install the %s plugin. "
@@ -68,21 +68,21 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:181
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:181
 #, php-format
 msgid "The following required plugin is currently inactive: %1$s."
 msgid_plural "The following required plugins are currently inactive: %1$s."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:182
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:182
 #, php-format
 msgid "The following recommended plugin is currently inactive: %1$s."
 msgid_plural "The following recommended plugins are currently inactive: %1$s."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:183
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:183
 #, php-format
 msgid ""
 "Sorry, but you do not have the correct permissions to activate the %s "
@@ -95,7 +95,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:184
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:184
 #, php-format
 msgid ""
 "The following plugin needs to be updated to its latest version to ensure "
@@ -106,7 +106,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:185
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:185
 #, php-format
 msgid ""
 "Sorry, but you do not have the correct permissions to update the %s plugin. "
@@ -119,198 +119,198 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:186
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:186
 msgid "Begin installing plugin"
 msgid_plural "Begin installing plugins"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:187
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:187
 msgid "Begin activating plugin"
 msgid_plural "Begin activating plugins"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:188
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:188
 msgid "Return to Required Plugins Installer"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:189
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:189
 msgid "Return to the dashboard"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:190
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1986
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:190
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1986
 msgid "Plugin activated successfully."
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:191
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1676
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:191
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1676
 msgid "The following plugin was activated successfully:"
 msgid_plural "The following plugins were activated successfully:"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:192
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:192
 #, php-format
 msgid "All plugins installed and activated successfully. %1$s"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:193
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:193
 msgid "Dismiss this notice"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:560
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:2203
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:560
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:2203
 msgid "Return to the Dashboard"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1209
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1209
 msgid "Private Repository"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1212
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1212
 msgid "Pre-Packaged"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1217
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1217
 msgid "WordPress Repository"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1220
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1220
 msgid "Required"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1220
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1220
 msgid "Recommended"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1223
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1223
 msgid "Not Installed"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1225
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1225
 msgid "Installed But Not Activated"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1330
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1438
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1330
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1438
 msgid "Install"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1352
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1439
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1352
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1439
 msgid "Activate"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1401
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1401
 #, php-format
 msgid ""
 "No plugins to install or activate. <a href=\"%1$s\" title=\"Return to the "
 "Dashboard\">Return to the Dashboard</a>"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1417
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1417
 msgid "Plugin"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1418
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1418
 msgid "Source"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1419
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1419
 msgid "Type"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1420
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1420
 msgid "Status"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1969
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1969
 msgid "Install package not available."
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1970
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1970
 #, php-format
 msgid "Downloading install package from <span class=\"code\">%s</span>&#8230;"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1971
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1971
 msgid "Unpacking the package&#8230;"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1972
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1972
 msgid "Installing the plugin&#8230;"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1973
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1973
 msgid "Plugin install failed."
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1974
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1974
 msgid "Plugin installed successfully."
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1985
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1985
 msgid "Plugin activation failed."
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:2099
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:2099
 msgid ""
 "The installation and activation process is starting. This process may take a "
 "while on some hosts, so please be patient."
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:2100
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:2100
 #, php-format
 msgid "%1$s installed and activated successfully."
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:2100
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:2109
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:2100
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:2109
 msgid "Show Details"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:2100
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:2109
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:2100
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:2109
 msgid "Hide Details"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:2101
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:2101
 msgid "All installations and activations have been completed."
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:2102
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:2102
 #, php-format
 msgid "Installing and Activating Plugin %1$s (%2$d/%3$d)"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:2106
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:2106
 msgid ""
 "The installation process is starting. This process may take a while on some "
 "hosts, so please be patient."
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:2107
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:2107
 #, php-format
 msgid "An error occurred while installing %1$s: <strong>%2$s</strong>."
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:2108
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:2108
 #, php-format
 msgid "The installation of %1$s failed."
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:2109
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:2109
 #, php-format
 msgid "%1$s installed successfully."
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:2110
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:2110
 msgid "All installations have been completed."
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:2111
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:2111
 #, php-format
 msgid "Installing Plugin %1$s (%2$d/%3$d)"
 msgstr ""
