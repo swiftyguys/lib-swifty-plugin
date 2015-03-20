@@ -18,7 +18,7 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
 
     }
 
-    public function admin_add_swifty_menu( $name, $key, $func, $register_plugin ) {
+    public function admin_add_swifty_menu( $name, $swiftyname, $key, $func, $register_plugin ) {
         // Add the Swifty main admin menu (once for all plugins).
         if ( empty ( $GLOBALS[ 'admin_page_hooks' ][ 'swifty_admin' ] ) ) {
             add_menu_page(
@@ -41,7 +41,7 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
         );
 
         if ( $register_plugin ) {
-            $this->our_swifty_plugins[] = array('key' => $key, 'name' => $name);
+            $this->our_swifty_plugins[] = array('key' => $key, 'name' => $name, 'swiftyname' => $swiftyname );
         }
         return $page;
     }
@@ -58,20 +58,24 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
     }
 
     // Our plugin admin menu page
-    function admin_options_menu_page( $admin_page_title, $admin_page, $tab_general_title, $tab_general_method )
+    function admin_options_menu_page( $admin_page )
     {
-        // example:
-        //global $scc_oLocale;
-        //$admin_page_title = $scc_oLocale[ 'Swifty Content Creator' ];
-        //$admin_page = $this->swifty_admin_page;
-        //$tab_general_title = 'General';
-        //$tab_general_method = array( $this, 'scc_tab_options_content' );
-
-        $settings_tabs = array( 'scc_options' => array( 'title' => $tab_general_title, 'method' => $tab_general_method ) );
-        $settings_tabs = apply_filters( 'swifty_admin_page_tabs_' . $admin_page, $settings_tabs );
+        $settings_tabs = array();
+        foreach( $this->our_swifty_plugins as $plugin ) {
+            $settings_tabs[$plugin[ 'key' ]] = ( $this->is_ss_mode() ? $plugin[ 'swiftyname' ] : $plugin[ 'name' ] );
+        }
 
         // make sure the selected tab exists, last active might be not added this time for some reason
-        $tab = isset( $_GET[ 'tab' ] ) && array_key_exists( $_GET[ 'tab' ], $settings_tabs ) ? $_GET[ 'tab' ] : 'scc_options';
+        $tab = isset( $_GET[ 'page' ] ) && array_key_exists( $_GET[ 'page' ], $settings_tabs ) ? $_GET[ 'page' ] : $admin_page;
+
+        // ask plugin for setting pages of this tab
+        $settings_links = array();
+        $settings_links = apply_filters( 'swifty_admin_page_links_' . $tab, $settings_links );
+
+        reset($settings_links);
+        $first_link = key($settings_links);
+
+        $link = isset( $_GET[ 'link' ] ) && array_key_exists( $_GET[ 'link' ], $settings_links ) ? $_GET[ 'link' ] : $first_link;
 
         ?>
 
@@ -118,7 +122,7 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
                     <div class="swifty_panel_title_pos">
                         <div class="swifty_title">
                             <?php endif ?>
-                            <h2><?php echo $admin_page_title; ?></h2>
+                            <h2><?php echo __( 'Swifty Settings', 'swifty' ); ?></h2>
                             <?php if( $this->is_ss_mode() ) : ?>
                         </div>
                     </div>
@@ -140,15 +144,27 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
                     <?php
                     foreach( $settings_tabs as $tab_page => $tab_info ) {
                         $active_tab = $tab == $tab_page ? 'nav-tab-active' : '';
-                        echo '<a class="nav-tab ' . $active_tab . '" href="?page=' . $admin_page . '&tab=' . $tab_page . '">' . $tab_info[ 'title' ] . '</a>';
+                        echo '<a class="nav-tab ' . $active_tab . '" href="?page=' . $tab_page . '">' . $tab_info . '</a>';
                     }
                     ?>
                 </h2>
 
                 <form action='options.php' method='post'>
                     <div class="main">
+                        <br><br>
                         <?php
-                        call_user_func( $settings_tabs[ $tab ][ 'method' ] );
+                            $active_link_method = null;
+
+                            foreach ( $settings_links as $link_name => $link_info ) {
+                                $active_link= $link == $link_name ? 'nav-link-active' : '';;
+                                if($link == $link_name) {
+                                    $active_link_method = $link_info[ 'method' ];
+                                }
+                                echo '<a class="nav-link ' . $active_link . '" href="?page=' . $tab . '&link='. $link_name . '">' . $link_info['title'] . '</a>';
+                            }
+                            if($active_link_method) {
+                                call_user_func( $active_link_method );
+                            }
                         ?>
                     </div>
                 </form>
