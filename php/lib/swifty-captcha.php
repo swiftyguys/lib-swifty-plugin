@@ -89,6 +89,11 @@ class SwiftyCaptcha
         return $word;
     }
 
+    protected function is_win()
+    {
+        return ( 'WIN' === strtoupper( substr( PHP_OS, 0, 3 ) ) );
+    }
+
     /**
      * Generate CAPTCHA image and corresponding answer file.
      *
@@ -142,7 +147,9 @@ class SwiftyCaptcha
             }
 
             imagedestroy( $im );
-            @chmod( $file, $this->file_mode );
+            if( ! $this->is_win() ) {
+                @chmod( $file, $this->file_mode );
+            }
         }
 
         $this->generate_answer_file( $prefix, $word );
@@ -173,7 +180,9 @@ class SwiftyCaptcha
             fclose( $fh );
         }
 
-        @chmod( $answer_file, $this->answer_file_mode );
+        if( ! $this->is_win() ) {
+            @chmod( $answer_file, $this->answer_file_mode );
+        }
     }
 
     /**
@@ -243,9 +252,7 @@ class SwiftyCaptcha
         if( ! @is_dir( $dir ) || ! @is_readable( $dir ) )
             return false;
 
-        $is_win = ( 'WIN' === strtoupper( substr( PHP_OS, 0, 3 ) ) );
-
-        if( ! ( $is_win ? win_is_writable( $dir ) : @is_writable( $dir ) ) )
+        if( ! ( $this->is_win() ? win_is_writable( $dir ) : @is_writable( $dir ) ) )
             return false;
 
         $count = 0;
