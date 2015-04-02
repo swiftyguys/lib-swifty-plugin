@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 if ( ! class_exists( 'LibSwiftyPluginView' ) ) {
     require_once plugin_dir_path( __FILE__ ) . 'lib_swifty_plugin_view.php';
 }
-require_once plugin_dir_path( __FILE__ ) . 'php/lib/swifty_class-tgm-plugin-activation.php';
+require_once plugin_dir_path( __FILE__ ) . 'lib/swifty_class-tgm-plugin-activation.php';
 
 class LibSwiftyPlugin extends LibSwiftyPluginView
 {
@@ -189,8 +189,8 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
     public function action_permalink_structure_changed( $old_permalink_structure, $permalink_structure )
     {
         // make sure that the functions needed for writing htaccess are available
-        require_once(ABSPATH . 'wp-admin/includes/file.php');
-        require_once(ABSPATH . 'wp-admin/includes/misc.php');
+        require_once( ABSPATH . 'wp-admin/includes/file.php' );
+        require_once( ABSPATH . 'wp-admin/includes/misc.php' );
 
         // is only triggered when something actually has changed
         global $wp_rewrite;
@@ -228,7 +228,7 @@ if( !isset( $swifty_css_admin_version ) || ( $swifty_css_admin_version < $css_ad
     $swifty_css_admin_version = $css_admin_version;
 
     // we need to work around the plugin dir link we use in our development systems
-    $plugin_dir      = dirname( dirname( dirname( __FILE__ ) ) );
+    $plugin_dir      = dirname( dirname( dirname( dirname( __FILE__ ) ) ) );
     // get plugin name
     $plugin_basename = basename( $plugin_dir );
     $plugin_dir_url  = trailingslashit( plugins_url( rawurlencode( $plugin_basename ) ) );
