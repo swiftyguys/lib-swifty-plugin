@@ -2,6 +2,8 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+require_once plugin_dir_path( __FILE__ ) . 'lib/swifty-captcha.php';
+
 class LibSwiftyPluginView
 {
     protected static $instance;
@@ -153,7 +155,7 @@ if( !isset( $swifty_font_version ) || ( $swifty_font_version < $font_version ) )
     $swifty_font_version = $font_version;
 
     // we need to work around the plugin dir link we use in our development systems
-    $plugin_dir      = dirname( dirname( dirname( __FILE__ ) ) );
+    $plugin_dir      = dirname( dirname( dirname( dirname( __FILE__ ) ) ) );
     // get plugin name
     $plugin_basename = basename( $plugin_dir );
     $plugin_dir_url  = trailingslashit( plugins_url( rawurlencode( $plugin_basename ) ) );
