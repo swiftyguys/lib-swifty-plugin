@@ -29,6 +29,8 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 if ( ! class_exists( 'Swifty_TGM_Plugin_Activation' ) ) {
     /**
      * Automatic plugin installation and activation library.
