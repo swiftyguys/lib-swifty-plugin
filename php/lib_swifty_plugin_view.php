@@ -62,7 +62,6 @@ class LibSwiftyPluginView
         // in a hook of wp_head
 
         global $wp_admin_bar;
-        global $scc_oLocale;
 
         if( ! $wp_admin_bar->get_node( 'swifty' ) ) {
 
