@@ -16,6 +16,7 @@ class LibSwiftyPluginView
 
         // allow every plugin to get to the initialization part, all plugins should be loaded then
         add_action( 'plugins_loaded', array( $this, 'action_plugins_loaded' ) );
+        add_filter( 'swifty_SS2_hosting_name', array( $this, 'filter_swifty_SS2_hosting_name' ) );
     }
 
     public static function get_instance()
@@ -28,19 +29,19 @@ class LibSwiftyPluginView
     public static function is_required_plugin_active( $plugin_name )
     {
         // do we already know the answer?
-        if( array_key_exists ( $plugin_name, self::$required_active_plugins ) ) {
+        if( array_key_exists( $plugin_name, self::$required_active_plugins ) ) {
             return self::$required_active_plugins[ $plugin_name ];
         }
         // no then we will find out: get all plugins and look for the plugin name in the directory name
 
-        if ( ! function_exists( 'get_plugins' ) ) {
+        if( ! function_exists( 'get_plugins' ) ) {
             require_once ABSPATH . 'wp-admin/includes/plugin.php';
         }
         $keys = array_keys( get_plugins() );
 
         $slug = $plugin_name;
-        foreach ( $keys as $key ) {
-            if ( preg_match( '|^' . $slug .'/|', $key ) ) {
+        foreach( $keys as $key ) {
+            if( preg_match( '|^' . $slug . '/|', $key ) ) {
                 $slug = $key;
                 break;
             }
@@ -55,7 +56,20 @@ class LibSwiftyPluginView
         self::$required_plugin_active_swifty_site = defined( 'SWIFTY_SITE_PLUGIN_URL' );
     }
 
-    public static function add_swifty_to_admin_bar() {
+    protected static $filter_swifty_SS2_hosting_name = null;
+
+    // return the name of the SS2 hoster, when set indicates a full SS2 setup with this name as hosting partner,
+    // otherwise returns $default
+    public function filter_swifty_SS2_hosting_name( $default )
+    {
+        if ( ! isset( self::$filter_swifty_SS2_hosting_name ) ) {
+            self::$filter_swifty_SS2_hosting_name = get_option( 'ss2_hosting_name' );
+        }
+        return $default || self::$filter_swifty_SS2_hosting_name;
+    }
+
+    public static function add_swifty_to_admin_bar()
+    {
 
         // make sure that the font is loaded for the swifty icon:
         // wp_enqueue_style( 'font_swiftysiteui.css', $this->this_plugin_url . 'css/font_swiftysiteui.css', false, $scc_version );
@@ -88,15 +102,15 @@ class LibSwiftyPluginView
     {
         $mode = '';
 
-        if ( ! empty( $_COOKIE[ 'ss_mode' ] ) && in_array( $_COOKIE[ 'ss_mode' ], self::$_valid_modes ) ) {
+        if( ! empty( $_COOKIE[ 'ss_mode' ] ) && in_array( $_COOKIE[ 'ss_mode' ], self::$_valid_modes ) ) {
             $mode = $_COOKIE[ 'ss_mode' ];
         }
 
-        if ( ! empty( $_GET[ 'ss_mode' ] ) && in_array( $_GET[ 'ss_mode' ], self::$_valid_modes ) ) {
+        if( ! empty( $_GET[ 'ss_mode' ] ) && in_array( $_GET[ 'ss_mode' ], self::$_valid_modes ) ) {
             $mode = $_GET[ 'ss_mode' ];
         }
 
-        if ( ! $mode ) {
+        if( ! $mode ) {
             $mode = self::$_default_mode;
         }
 
@@ -105,7 +119,7 @@ class LibSwiftyPluginView
     }
 
     // find newer version of post, or return null if there is no newer autosave version
-    public function get_autosave_version_if_newer( $pid)
+    public function get_autosave_version_if_newer( $pid )
     {
         // Detect if there exists an autosave newer than the post and if that autosave is different than the post
         $autosave = wp_get_post_autosave( $pid );
