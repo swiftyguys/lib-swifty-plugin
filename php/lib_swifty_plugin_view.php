@@ -85,9 +85,6 @@ class LibSwiftyPluginView
             $wp_admin_bar->add_menu( array(
                 'id' => 'swifty',
                 'title' => $title,
-                'meta' => array(
-                    'title' => 'Swifty', // Do not translate!
-                ),
             ) );
         }
     }

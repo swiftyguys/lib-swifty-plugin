@@ -46,6 +46,16 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
         return $page;
     }
 
+    // first add the menu item then replace the link in it with the url we want
+    public function admin_add_swifty_menu_link( $name, $swiftyname, $url, $register_plugin )
+    {
+        $this->admin_add_swifty_menu( $name, $swiftyname, 'replace_me', null, $register_plugin );
+
+        // we just added the meuitem, so it is always the last one...
+        global $submenu;
+        $submenu['swifty_admin'][count($submenu['swifty_admin']) -1][2] = $url;
+    }
+
     // The Swifty admin main menu page (For ALL Swifty plugins)
     function admin_swifty_menu_page() {
         echo '<h1>' . __( 'Swifty plugins', 'swifty' ) . '</h1>';
