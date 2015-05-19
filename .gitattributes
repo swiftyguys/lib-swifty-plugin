@@ -15,3 +15,5 @@
 *.zip binary
 
 *.db binary
+
+*.phar binary
