@@ -1,0 +1,10 @@
+test/codeception_tests/_output
+.idea
+*~
+storyplayer.json
+settings_private.json
+vendor
+node_modules
+build/grunt
+build/generated
+build/svn
