@@ -29,7 +29,17 @@ class SSStory {
 
     ////////////////////////////////////////
 
-    function TestSetup() {
+    function TestSetup()
+    {
+        $this->TestSetup0();
+        $this->TestSetup1();
+        $this->TestSetup2();
+        $this->TestSetup3();
+    }
+
+    ////////////////////////////////////////
+
+    function TestSetup0() {
         $st = $this->st;
 
         // Can be overwritten in command line, via -D platform=...
@@ -43,9 +53,9 @@ class SSStory {
         $this->params = $st->getParams();
 
         // load the test settings; any settings in private will overrule the same settings in public
-        $settingsPublic = json_decode( file_get_contents( dirname(__FILE__) . '/../../../../../../test/settings_public.json' ), true );
-        $settingsPublic[ $this->params[ 'platform' ] ] = ( isset( $settingsPublic[ $this->params[ 'platform' ] ] ) && is_array( $settingsPublic[ $this->params[ 'platform' ] ] )) ? $settingsPublic[ $this->params[ 'platform' ] ] : array(); // initialize if necessary
-        $settingsPrivate = json_decode( file_get_contents( dirname(__FILE__) . '/../../../../../../test/settings_private.json' ), true );
+        $settingsPublic = json_decode( file_get_contents( dirname( __FILE__ ) . '/../../../../../../test/settings_public.json' ), true );
+        $settingsPublic[ $this->params[ 'platform' ] ] = ( isset( $settingsPublic[ $this->params[ 'platform' ] ] ) && is_array( $settingsPublic[ $this->params[ 'platform' ] ] ) ) ? $settingsPublic[ $this->params[ 'platform' ] ] : array(); // initialize if necessary
+        $settingsPrivate = json_decode( file_get_contents( dirname( __FILE__ ) . '/../../../../../../test/settings_private.json' ), true );
         $this->data = new stdClass(); // Empty object
         $this->data->testSettings = (object) array_replace_recursive(
             $settingsPublic[ 'default' ],
@@ -53,14 +63,23 @@ class SSStory {
             $settingsPrivate[ 'default' ],
             $settingsPrivate[ $this->params[ 'platform' ] ]
         );
+    }
+
+    ////////////////////////////////////////
+
+    function TestSetup1() {
         // Sort the settings by order field
-        uasort( $this->data->testSettings->setup, function( $a, $b ) {
+        uasort( $this->data->testSettings->setup, function ( $a, $b ) {
             if( $a[ 'order' ] < $b[ 'order' ] ) {
                 return -1;
             }
             return 1;
         } );
+    }
 
+    ////////////////////////////////////////
+
+    function TestSetup2() {
         $this->wordpress = new Wordpress(
             $this,
             $st,
@@ -82,7 +101,11 @@ class SSStory {
                 break;
             default:
         }
+    }
 
+    ////////////////////////////////////////
+
+    function TestSetup3() {
         $this->data->do_phase_after_install = array();
         $this->data->do_phase_after_login = array();
         // Install items defined in settings
@@ -300,11 +323,35 @@ class SSStory {
 
     ////////////////////////////////////////
 
+    function ExecuteJs( $functionName, $input, $doName = 'DoStart', $wait = null ) {
+        $js = 'return swiftyProbe.' . $doName . '(arguments);';
+        if( $wait ) {
+            $ret = $this->st->getRunningDevice()->execute( array( 'script' => $js, 'args' => array( $wait, $functionName, $input ) ) );
+        } else {
+            $ret = $this->st->getRunningDevice()->execute( array( 'script' => $js, 'args' => array( $functionName, $input ) ) );
+        }
+
+        return $ret;
+    }
+
+    ////////////////////////////////////////
+
     function Probe( $functionName, $input ) {
-        $js = 'return swiftyProbe.DoStart(arguments);';
-        $ret = $this->st->getRunningDevice()->execute( array( 'script' => $js, 'args' => array( $functionName, $input ) ) );
+        $ret = $this->ExecuteJs( $functionName, $input );
 
         $this->ProbeProcessRet( $functionName, $input, $ret );
+    }
+
+    ////////////////////////////////////////
+
+    function Fail( $t, $t2 ) {
+        throw new E5xx_ActionFailed( $t, $t2 );
+    }
+
+    ////////////////////////////////////////
+
+    function GotoUrl( $url ) {
+        // dorh Create StoryPlayer code fo GotoUrl
     }
 
     ////////////////////////////////////////
@@ -314,17 +361,19 @@ class SSStory {
 
         if( ! isset( $ret[ 'ret' ] ) ) {
             $this->EchoMsgJs( "NO DATA RETURNED:\n" );
-            throw new E5xx_ActionFailed( "JS NO DATA RETURNED", "No data returned" );
+//            throw new E5xx_ActionFailed( "JS NO DATA RETURNED", "No data returned" );
+            $this->Fail( "JS NO DATA RETURNED", "No data returned" );
         } else {
             if( isset( $ret[ 'ret' ][ 'fail' ] ) ) {
                 $this->EchoMsgJs( "FAIL:". $ret[ 'ret' ][ 'fail' ] . "\n" );
-                throw new E5xx_ActionFailed( "JS FAIL", $ret[ 'ret' ][ 'fail' ] );
+//                throw new E5xx_ActionFailed( "JS FAIL", $ret[ 'ret' ][ 'fail' ] );
+                $this->Fail( "JS FAIL", $ret[ 'ret' ][ 'fail' ] );
             } else {
                 $this->EchoMsgJs( $ret[ 'ret' ][ 'tmp_log' ] );
 //                $this->EchoMsg( "DEBUG:\n". print_r( $ret, true ) );
 
                 if( isset( $ret[ 'ret' ][ 'queue' ] ) ) {
-                    $js = 'return swiftyProbe.DoStart(arguments);';
+//                    $js = 'return swiftyProbe.DoStart(arguments);';
 
 //                    echo "\n\n\neeeeeeeeeeeeeeeeeeeee:\n".$ret[ 'ret' ][ 'queue' ][ 'new_fn_name' ]."\n\n\n";
 
@@ -333,25 +382,29 @@ class SSStory {
                     $functionName = $ret[ 'ret' ][ 'queue' ][ 'new_fn_name' ];
                     $input = $ret[ 'ret' ][ 'queue' ][ 'new_input' ];
                     $nextFnName = $ret[ 'ret' ][ 'queue' ][ 'next_fn_name' ];
-                    $ret = $this->st->getRunningDevice()->execute( array( 'script' => $js, 'args' => array( $functionName, $input ) ) );
-//                    $this->st->usingTimer()->wait( 5, "------------" );
-                    $ret = $this->ProbeProcessRet( $functionName, $input, $ret );
+                    $nextFnFunc = $ret[ 'ret' ][ 'queue' ][ 'next_fn_func' ];
+
+                    if( $functionName === 'GotoUrl' ) {
+                        $this->GotoUrl( $input );
+                    } else {
+                        $ret = $this->ExecuteJs( $functionName, $input );
+                        $ret = $this->ProbeProcessRet( $functionName, $input, $ret );
+                    }
                     $functionName = $prevFunctionName;
                     $input = $prevInput;
                     $input[ 'next_fn_name' ] = $nextFnName;
-                    $js = 'return swiftyProbe.DoNext(arguments);';
-                    $ret = $this->st->getRunningDevice()->execute( array( 'script' => $js, 'args' => array( $functionName, $input ) ) );
+                    $input[ 'next_fn_func' ] = $nextFnFunc;
+                    $ret = $this->ExecuteJs( $functionName, $input, 'DoNext' );
                     $ret = $this->ProbeProcessRet( $functionName, $input, $ret );
                 }
 
                 if( isset( $returned[ 'ret' ][ 'wait' ] ) ) {
                     $wait = $returned[ 'ret' ][ 'wait' ];
-                    $js = 'return swiftyProbe.DoWait(arguments);';
                     $waiting = true;
                     while( $waiting ) {
                         $prevInput = $input;
                         $input[ 'wait_data' ] = isset( $returned[ 'ret' ][ 'wait' ][ 'wait_data' ] ) ? $returned[ 'ret' ][ 'wait' ][ 'wait_data' ] : "undefined";
-                        $ret = $this->st->getRunningDevice()->execute( array( 'script' => $js, 'args' => array( $wait, $functionName, $input ) ) );
+                        $ret = $this->ExecuteJs( $functionName, $input, 'DoWait', $wait );
                         $input = $prevInput;
 //                        $this->EchoMsg( "DEBUG 2:\n". print_r( $ret, true ) );
                         if( ! isset( $ret[ 'ret' ][ 'wait_status' ] )
@@ -370,6 +423,10 @@ class SSStory {
     }
 
     ////////////////////////////////////////
+
+    function WPLogin() {
+        $this->wordpress->Login();
+    }
 }
 
 ////////////////////////////////////////

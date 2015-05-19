@@ -112,11 +112,19 @@ var swiftyProbe = ( function( $, probe ) {
             }
 
             if ( pth.length === 2 ) {
-                ret = this[ pth[0] ][ pth[1] ].apply( this[ pth[0] ], args );
+                if( pth[ 1 ] === 'Start' && typeof this[ pth[0] ] === 'function' ) {
+                    ret = this[ pth[ 0 ] ].apply( this, args );
+                } else {
+                    ret = this[ pth[ 0 ] ][ pth[ 1 ] ].apply( this[ pth[ 0 ] ], args );
+                }
             }
 
             if ( pth.length === 3 ) {
-                ret = this[ pth[0] ][ pth[1] ][ pth[2] ].apply( this[ pth[0] ][ pth[1] ], args );
+                if( pth[ 2 ] === 'Start' && typeof this[ pth[0] ][ pth[1] ] === 'function' ) {
+                    ret = this[ pth[ 0 ] ][ pth[ 1 ] ].apply( this[ pth[ 0 ] ], args );
+                } else {
+                    ret = this[ pth[ 0 ] ][ pth[ 1 ] ][ pth[ 2 ] ].apply( this[ pth[ 0 ] ][ pth[ 1 ] ], args );
+                }
             }
 
             if ( this.wait ) {
@@ -144,22 +152,46 @@ var swiftyProbe = ( function( $, probe ) {
         },
 
         WaitForElementVisible: function( sel, fnName, tm, waitData ) {
+            var self = this;
+
             this.wait = {
                 'tp': 'wait_for_element',
                 'sel': sel,
                 'tm': Date.now() + tm,
                 'fn_name': fnName,
-                'wait_data': waitData
+                'wait_data': waitData,
+                'fn_func': null
+            };
+
+            return {
+                next: function( func ) {
+                    self.wait.fn_func = func;
+                }
             };
         },
 
         WaitForFn: function( waitFnName, fnName, tm, waitData ) {
+            var self = this;
+
             this.wait = {
                 'tp': 'wait_for_fn',
                 'wait_fn_name': waitFnName,
                 'tm': Date.now() + tm,
                 'fn_name': fnName,
-                'wait_data': waitData
+                'wait_data': waitData,
+                'fn_func': null,
+                'wait_fn_func': null
+            };
+
+            return {
+                next: function( func ) {
+                    self.wait.fn_func = func;
+                    return this;
+                },
+                wait: function( func ) {
+                    self.wait.wait_fn_func = func;
+                    return this;
+                }
             };
         },
 
@@ -198,7 +230,12 @@ var swiftyProbe = ( function( $, probe ) {
             }
 
             if ( wait.tp === 'wait_for_fn' ) {
-                argsArray[ 0 ] = argsArZero + '.' + wait.wait_fn_name;
+                if( wait.wait_fn_func ) {
+                    eval( 'this.___WaitFunction = ' + wait.wait_fn_func );
+                    argsArray[ 0 ] = '___WaitFunction';
+                } else {
+                    argsArray[ 0 ] = argsArZero + '.' + wait.wait_fn_name;
+                }
                 ret = this.Execute( argsArray );
 
                 if ( ret.ret.wait_result ) {
@@ -207,7 +244,12 @@ var swiftyProbe = ( function( $, probe ) {
             }
 
             if ( waitCheckResult ) {
-                argsArray[ 0 ] = argsArZero + '.' + wait.fn_name;
+                if( wait.fn_func ) {
+                    eval( 'this.___NextFunction = ' + wait.fn_func );
+                    argsArray[ 0 ] = '___NextFunction';
+                } else {
+                    argsArray[ 0 ] = argsArZero + '.' + wait.fn_name;
+                }
                 ret = this.Execute( argsArray );
             } else if ( Date.now() > wait.tm ) {
                 ret = { 'ret': { 'wait_status': 'timeout' } };
@@ -226,17 +268,35 @@ var swiftyProbe = ( function( $, probe ) {
 
             var argsArray = this.ArgsToArray( args );
 
-            argsArray[ 0 ] += '.' + args[ 1 ].next_fn_name;
+            if( args[ 1 ].next_fn_func ) {
+                eval( 'this.___NextFunction = ' + args[ 1 ].next_fn_func );
+                argsArray[ 0 ] = '___NextFunction';
+            } else {
+                argsArray[ 0 ] += '.' + args[ 1 ].next_fn_name;
+            }
 
             return this.Execute( argsArray );
         },
 
         QueueStory: function( fnName, newInput, nextFnName ) {
+            var self = this;
+
             this.queue = {
                 'new_fn_name': fnName,
                 'new_input': newInput,
-                'next_fn_name': nextFnName
+                'next_fn_name': nextFnName,
+                'next_fn_func': null
             };
+
+            return {
+                next: function( func ) {
+                    self.queue.next_fn_func = func;
+                }
+            };
+        },
+
+        GotoUrl: function( url, waitForSelector ) {
+            return this.QueueStory( 'GotoUrl', { 'url': url, 'waitForSelector': waitForSelector } );
         }
     };
 
@@ -262,7 +322,7 @@ var swiftyProbe = ( function( $, probe ) {
             if ( ( exact && this.length !== count ) || ( !exact && this.length < count ) ) {
                 this.prb_valid = false;
 
-                probe.SetFail( 'Element does not exist (or not enough times): ' + this.selector );
+                probe.SetFail( 'Element does not exist (or not enough times: ' + count + ' needed; ' + this.length + ' found): ' + this.selector );
             } else {
                 this.prb_valid = true;
             }
@@ -331,9 +391,7 @@ var swiftyProbe = ( function( $, probe ) {
                 tm = 5000;
             }
 
-            probe.WaitForFn( waitFnName, fnName, tm, waitData );
-
-            return this;
+            return probe.WaitForFn( waitFnName, fnName, tm, waitData );
         },
 
         WaitForVisible: function( fnName, tm, waitData ) {
@@ -341,9 +399,7 @@ var swiftyProbe = ( function( $, probe ) {
                 tm = 5000;
             }
 
-            probe.WaitForElementVisible( this.selector, fnName, tm, waitData );
-
-            return this;
+            return probe.WaitForElementVisible( this.selector, fnName, tm, waitData );
         },
 
         // Functions for internal use only
