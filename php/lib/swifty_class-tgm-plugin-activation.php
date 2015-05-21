@@ -32,6 +32,13 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 if ( ! class_exists( 'Swifty_TGM_Plugin_Activation' ) ) {
+
+    // <n>o <l>anguage <f>ile
+    function nlf__( $translate, $context )
+    {
+        return __( $translate, $context );
+    }
+
     /**
      * Automatic plugin installation and activation library.
      *
@@ -167,10 +174,10 @@ if ( ! class_exists( 'Swifty_TGM_Plugin_Activation' ) ) {
             $this->menu_url = network_admin_url( 'themes.php' );
 
             $this->strings = array(
-                'page_title'                     => __( 'Install Required Plugins', 'swifty' ),
-                'menu_title'                     => __( 'Install Plugins', 'swifty' ),
-                'installing'                     => __( 'Installing Plugin: %s', 'swifty' ),
-                'oops'                           => __( 'Something went wrong.', 'swifty' ),
+                'page_title'                     => nlf__( 'Install Required Plugins', 'swifty' ),
+                'menu_title'                     => nlf__( 'Install Plugins', 'swifty' ),
+                'installing'                     => nlf__( 'Installing Plugin: %s', 'swifty' ),
+                'oops'                           => nlf__( 'Something went wrong.', 'swifty' ),
                 'notice_can_install_required'    => _n_noop( 'This theme requires the following plugin: %1$s.', 'This theme requires the following plugins: %1$s.', 'swifty' ),
                 'notice_can_install_recommended' => _n_noop( 'This theme recommends the following plugin: %1$s.', 'This theme recommends the following plugins: %1$s.', 'swifty' ),
                 'notice_cannot_install'          => _n_noop( 'Sorry, but you do not have the correct permissions to install the %s plugin. Contact the administrator of this site for help on getting the plugin installed.', 'Sorry, but you do not have the correct permissions to install the %s plugins. Contact the administrator of this site for help on getting the plugins installed.', 'swifty' ),
@@ -181,11 +188,11 @@ if ( ! class_exists( 'Swifty_TGM_Plugin_Activation' ) ) {
                 'notice_cannot_update'           => _n_noop( 'Sorry, but you do not have the correct permissions to update the %s plugin. Contact the administrator of this site for help on getting the plugin updated.', 'Sorry, but you do not have the correct permissions to update the %s plugins. Contact the administrator of this site for help on getting the plugins updated.', 'swifty' ),
                 'install_link'                   => _n_noop( 'Begin installing plugin', 'Begin installing plugins', 'swifty' ),
                 'activate_link'                  => _n_noop( 'Begin activating plugin', 'Begin activating plugins', 'swifty' ),
-                'return'                         => __( 'Return to Required Plugins Installer', 'swifty' ),
-                'dashboard'                      => __( 'Return to the dashboard', 'swifty' ),
+                'return'                         => nlf__( 'Return to Required Plugins Installer', 'swifty' ),
+                'dashboard'                      => nlf__( 'Return to the dashboard', 'swifty' ),
                 'plugin_activated'               => __( 'Plugin activated successfully.', 'swifty' ),
                 'activated_successfully'         => __( 'The following plugin was activated successfully:', 'swifty' ),
-                'complete'                       => __( 'All plugins installed and activated successfully. %1$s', 'swifty' ),
+                'complete'                       => nlf__( 'All plugins installed and activated successfully. %1$s', 'swifty' ),
                 'dismiss'                        => __( 'Dismiss this notice', 'swifty' ),
             );
 
@@ -525,7 +532,7 @@ if ( ! class_exists( 'Swifty_TGM_Plugin_Activation' ) ) {
 
                 // All plugins are active, so we display the complete string and hide the plugin menu.
                 if ( empty( $complete ) ) {
-                    echo '<p>' .  sprintf( $this->strings['complete'], '<a href="' . network_admin_url() . '" title="' . __( 'Return to the Dashboard', 'swifty' ) . '">' . __( 'Return to the Dashboard', 'swifty' ) . '</a>' ) . '</p>';
+                    echo '<p>' .  sprintf( $this->strings['complete'], '<a href="' . network_admin_url() . '" title="' . nlf__( 'Return to the Dashboard', 'swifty' ) . '">' . nlf__( 'Return to the Dashboard', 'swifty' ) . '</a>' ) . '</p>';
                     echo '<style type="text/css">#adminmenu .wp-submenu li.current { display: none !important; }</style>';
                 }
 
@@ -1174,23 +1181,23 @@ if ( ! class_exists( 'STGMPA_List_Table' ) ) {
                 if ( ! empty( $plugin['source'] ) ) {
                     // The plugin must be from a private repository.
                     if ( preg_match( '|^http(s)?://|', $plugin['source'] ) ) {
-                        $table_data[$i]['source'] = __( 'Private Repository', 'swifty' );
+                        $table_data[$i]['source'] = nlf__( 'Private Repository', 'swifty' );
                     // The plugin is pre-packaged with the theme.
                     } else {
-                        $table_data[$i]['source'] = __( 'Pre-Packaged', 'swifty' );
+                        $table_data[$i]['source'] = nlf__( 'Pre-Packaged', 'swifty' );
                     }
                 }
                 // The plugin is from the WordPress repository.
                 else {
-                    $table_data[$i]['source'] = __( 'WordPress Repository', 'swifty' );
+                    $table_data[$i]['source'] = nlf__( 'WordPress Repository', 'swifty' );
                 }
 
-                $table_data[$i]['type'] = isset( $plugin['required'] ) && $plugin['required'] ? __( 'Required', 'swifty' ) : __( 'Recommended', 'swifty' );
+                $table_data[$i]['type'] = isset( $plugin['required'] ) && $plugin['required'] ? nlf__( 'Required', 'swifty' ) : nlf__( 'Recommended', 'swifty' );
 
                 if ( ! isset( $installed_plugins[$plugin['file_path']] ) ) {
-                    $table_data[$i]['status'] = sprintf( '%1$s', __( 'Not Installed', 'swifty' ) );
+                    $table_data[$i]['status'] = sprintf( '%1$s', nlf__( 'Not Installed', 'swifty' ) );
                 } elseif ( is_plugin_inactive( $plugin['file_path'] ) ) {
-                    $table_data[$i]['status'] = sprintf( '%1$s', __( 'Installed But Not Activated', 'swifty' ) );
+                    $table_data[$i]['status'] = sprintf( '%1$s', nlf__( 'Installed But Not Activated', 'swifty' ) );
                 }
 
                 $table_data[$i]['file_path'] = $plugin['file_path'];
@@ -1295,7 +1302,7 @@ if ( ! class_exists( 'STGMPA_List_Table' ) ) {
             if ( ! isset( $installed_plugins[$item['file_path']] ) ) {
                 $actions = array(
                     'install' => sprintf(
-                        '<a href="%1$s" title="' . __( 'Install', 'swifty' ) . ' %2$s">' . __( 'Install', 'swifty' ) . '</a>',
+                        '<a href="%1$s" title="' . nlf__( 'Install', 'swifty' ) . ' %2$s">' . nlf__( 'Install', 'swifty' ) . '</a>',
                         wp_nonce_url(
                             add_query_arg(
                                 array(
@@ -1317,7 +1324,7 @@ if ( ! class_exists( 'STGMPA_List_Table' ) ) {
             elseif ( is_plugin_inactive( $item['file_path'] ) ) {
                 $actions = array(
                     'activate' => sprintf(
-                        '<a href="%1$s" title="' . __( 'Activate', 'swifty' ) . ' %2$s">' . __( 'Activate', 'swifty' ) . '</a>',
+                        '<a href="%1$s" title="' . nlf__( 'Activate', 'swifty' ) . ' %2$s">' . nlf__( 'Activate', 'swifty' ) . '</a>',
                         add_query_arg(
                             array(
                                 'page'                 => Swifty_TGM_Plugin_Activation::$instance->menu,
@@ -1366,7 +1373,7 @@ if ( ! class_exists( 'STGMPA_List_Table' ) ) {
          */
         public function no_items() {
 
-            printf( __( 'No plugins to install or activate. <a href="%1$s" title="Return to the Dashboard">Return to the Dashboard</a>', 'swifty' ), network_admin_url() );
+            printf( nlf__( 'No plugins to install or activate. <a href="%1$s" title="Return to the Dashboard">Return to the Dashboard</a>', 'swifty' ), network_admin_url() );
             echo '<style type="text/css">#adminmenu .wp-submenu li.current { display: none !important; }</style>';
 
         }
@@ -1382,10 +1389,10 @@ if ( ! class_exists( 'STGMPA_List_Table' ) ) {
 
             $columns = array(
                 'cb'     => '<input type="checkbox" />',
-                'plugin' => __( 'Plugin', 'swifty' ),
-                'source' => __( 'Source', 'swifty' ),
-                'type'   => __( 'Type', 'swifty' ),
-                'status' => __( 'Status', 'swifty' )
+                'plugin' => nlf__( 'Plugin', 'swifty' ),
+                'source' => nlf__( 'Source', 'swifty' ),
+                'type'   => nlf__( 'Type', 'swifty' ),
+                'status' => nlf__( 'Status', 'swifty' )
             );
 
             return $columns;
@@ -1403,8 +1410,8 @@ if ( ! class_exists( 'STGMPA_List_Table' ) ) {
         public function get_bulk_actions() {
 
             $actions = array(
-                'stgmpa-bulk-install'  => __( 'Install', 'swifty' ),
-                'stgmpa-bulk-activate' => __( 'Activate', 'swifty' ),
+                'stgmpa-bulk-install'  => nlf__( 'Install', 'swifty' ),
+                'stgmpa-bulk-activate' => nlf__( 'Activate', 'swifty' ),
             );
 
             return $actions;
@@ -1941,12 +1948,12 @@ if ( ! function_exists( 'stgmpa_load_bulk_installer' ) ) {
                      */
                     public function install_strings() {
 
-                        $this->strings['no_package']          = __( 'Install package not available.', 'swifty' );
-                        $this->strings['downloading_package'] = __( 'Downloading install package from <span class="code">%s</span>&#8230;', 'swifty' );
-                        $this->strings['unpack_package']      = __( 'Unpacking the package&#8230;', 'swifty' );
-                        $this->strings['installing_package']  = __( 'Installing the plugin&#8230;', 'swifty' );
-                        $this->strings['process_failed']      = __( 'Plugin install failed.', 'swifty' );
-                        $this->strings['process_success']     = __( 'Plugin installed successfully.', 'swifty' );
+                        $this->strings['no_package']          = nlf__( 'Install package not available.', 'swifty' );
+                        $this->strings['downloading_package'] = nlf__( 'Downloading install package from <span class="code">%s</span>&#8230;', 'swifty' );
+                        $this->strings['unpack_package']      = nlf__( 'Unpacking the package&#8230;', 'swifty' );
+                        $this->strings['installing_package']  = nlf__( 'Installing the plugin&#8230;', 'swifty' );
+                        $this->strings['process_failed']      = nlf__( 'Plugin install failed.', 'swifty' );
+                        $this->strings['process_success']     = nlf__( 'Plugin installed successfully.', 'swifty' );
 
                     }
 
@@ -1957,8 +1964,8 @@ if ( ! function_exists( 'stgmpa_load_bulk_installer' ) ) {
                      */
                     public function activate_strings() {
 
-                        $this->strings['activation_failed']  = __( 'Plugin activation failed.', 'swifty' );
-                        $this->strings['activation_success'] = __( 'Plugin activated successfully.', 'swifty' );
+                        $this->strings['activation_failed']  = nlf__( 'Plugin activation failed.', 'swifty' );
+                        $this->strings['activation_success'] = nlf__( 'Plugin activated successfully.', 'swifty' );
 
                     }
 
@@ -2071,19 +2078,19 @@ if ( ! function_exists( 'stgmpa_load_bulk_installer' ) ) {
 
                         // Automatic activation strings.
                         if ( Swifty_TGM_Plugin_Activation::$instance->is_automatic ) {
-                            $this->upgrader->strings['skin_upgrade_start']        = __( 'The installation and activation process is starting. This process may take a while on some hosts, so please be patient.', 'swifty' );
-                            $this->upgrader->strings['skin_update_successful']    = __( '%1$s installed and activated successfully.', 'swifty' ) . ' <a onclick="%2$s" href="#" class="hide-if-no-js"><span>' . __( 'Show Details', 'swifty' ) . '</span><span class="hidden">' . __( 'Hide Details', 'swifty' ) . '</span>.</a>';
-                            $this->upgrader->strings['skin_upgrade_end']          = __( 'All installations and activations have been completed.', 'swifty' );
-                            $this->upgrader->strings['skin_before_update_header'] = __( 'Installing and Activating Plugin %1$s (%2$d/%3$d)', 'swifty' );
+                            $this->upgrader->strings['skin_upgrade_start']        = nlf__( 'The installation and activation process is starting. This process may take a while on some hosts, so please be patient.', 'swifty' );
+                            $this->upgrader->strings['skin_update_successful']    = nlf__( '%1$s installed and activated successfully.', 'swifty' ) . ' <a onclick="%2$s" href="#" class="hide-if-no-js"><span>' . nlf__( 'Show Details', 'swifty' ) . '</span><span class="hidden">' . nlf__( 'Hide Details', 'swifty' ) . '</span>.</a>';
+                            $this->upgrader->strings['skin_upgrade_end']          = nlf__( 'All installations and activations have been completed.', 'swifty' );
+                            $this->upgrader->strings['skin_before_update_header'] = nlf__( 'Installing and Activating Plugin %1$s (%2$d/%3$d)', 'swifty' );
                         }
                         // Default installation strings.
                         else {
-                            $this->upgrader->strings['skin_upgrade_start']        = __( 'The installation process is starting. This process may take a while on some hosts, so please be patient.', 'swifty' );
-                            $this->upgrader->strings['skin_update_failed_error']  = __( 'An error occurred while installing %1$s: <strong>%2$s</strong>.', 'swifty' );
-                            $this->upgrader->strings['skin_update_failed']        = __( 'The installation of %1$s failed.', 'swifty' );
-                            $this->upgrader->strings['skin_update_successful']    = __( '%1$s installed successfully.', 'swifty' ) . ' <a onclick="%2$s" href="#" class="hide-if-no-js"><span>' . __( 'Show Details', 'swifty' ) . '</span><span class="hidden">' . __( 'Hide Details', 'swifty' ) . '</span>.</a>';
-                            $this->upgrader->strings['skin_upgrade_end']          = __( 'All installations have been completed.', 'swifty' );
-                            $this->upgrader->strings['skin_before_update_header'] = __( 'Installing Plugin %1$s (%2$d/%3$d)', 'swifty' );
+                            $this->upgrader->strings['skin_upgrade_start']        = nlf__( 'The installation process is starting. This process may take a while on some hosts, so please be patient.', 'swifty' );
+                            $this->upgrader->strings['skin_update_failed_error']  = nlf__( 'An error occurred while installing %1$s: <strong>%2$s</strong>.', 'swifty' );
+                            $this->upgrader->strings['skin_update_failed']        = nlf__( 'The installation of %1$s failed.', 'swifty' );
+                            $this->upgrader->strings['skin_update_successful']    = nlf__( '%1$s installed successfully.', 'swifty' ) . ' <a onclick="%2$s" href="#" class="hide-if-no-js"><span>' . nlf__( 'Show Details', 'swifty' ) . '</span><span class="hidden">' . nlf__( 'Hide Details', 'swifty' ) . '</span>.</a>';
+                            $this->upgrader->strings['skin_upgrade_end']          = nlf__( 'All installations have been completed.', 'swifty' );
+                            $this->upgrader->strings['skin_before_update_header'] = nlf__( 'Installing Plugin %1$s (%2$d/%3$d)', 'swifty' );
                         }
 
                     }
@@ -2175,7 +2182,7 @@ if ( ! function_exists( 'stgmpa_load_bulk_installer' ) ) {
 
                         // All plugins are active, so we display the complete string and hide the menu to protect users.
                         if ( empty( $complete ) ) {
-                            echo '<p>' .  sprintf( Swifty_TGM_Plugin_Activation::$instance->strings['complete'], '<a href="' . network_admin_url() . '" title="' . __( 'Return to the Dashboard', 'swifty' ) . '">' . __( 'Return to the Dashboard', 'swifty' ) . '</a>' ) . '</p>';
+                            echo '<p>' .  sprintf( Swifty_TGM_Plugin_Activation::$instance->strings['complete'], '<a href="' . network_admin_url() . '" title="' . nlf__( 'Return to the Dashboard', 'swifty' ) . '">' . nlf__( 'Return to the Dashboard', 'swifty' ) . '</a>' ) . '</p>';
                             echo '<style type="text/css">#adminmenu .wp-submenu li.current { display: none !important; }</style>';
                         }
 
