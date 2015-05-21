@@ -309,7 +309,7 @@ class SSStory {
     ////////////////////////////////////////
 
     function EchoMsg( $s ) {
-        echo "\n######################################################################\n" . $s . "\n######################################################################\n\n";
+        echo "\n######################################################################\n" . $s . "\n######################################################################\n";
     }
 
     ////////////////////////////////////////
@@ -442,6 +442,13 @@ class SSStory {
 
     function SetCookie( $name, $val ) {
         $js = 'document.cookie = "' . $name . '=' . $val . ';"';
+        $this->st->getRunningDevice()->execute( array( 'script' => $js, 'args' => array() ) );
+    }
+
+    ////////////////////////////////////////
+
+    function DeleteCookie( $name ) {
+        $js = 'document.cookie = "' . $name . '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;"';
         $this->st->getRunningDevice()->execute( array( 'script' => $js, 'args' => array() ) );
     }
 }

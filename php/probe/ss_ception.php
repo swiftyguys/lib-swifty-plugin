@@ -107,5 +107,14 @@ class SSCeption extends SSStory {
 
         $I->setCookie( $name, $val );
     }
+
+    ////////////////////////////////////////
+
+    function DeleteCookie( $name ) {
+        global $ssI;
+        $I = $ssI;
+
+        $I->resetCookie( $name );
+    }
 }
 
