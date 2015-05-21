@@ -138,8 +138,8 @@ module.exports = {
                         '<%= grunt.getSourcePath() %>lib/swifty_plugin/languages/' + po + '.' + ext + ' ' +
                         '> temp_<%= grunt.getPluginNameCompact() %>.' + ext +
                     ' && perl -pi -e "s#../plugin/' + grunt.myCfg.plugin_code + '/##g" temp_<%= grunt.getPluginNameCompact() %>.' + ext +
-                    ' && scp -P 2022 temp_<%= grunt.getPluginNameCompact() %>.' + ext + ' translate@green.alphamegahosting.com:/var/www/vhosts/translate.swiftylife.com/httpdocs/scripts/temp_<%= grunt.getPluginNameCompact() %>.' + ext +
-                    ' && ssh -t -p 2022 translate@green.alphamegahosting.com "' +
+                    ' && scp -P 2022 temp_<%= grunt.getPluginNameCompact() %>.' + ext + ' translate@pink.alphamegahosting.com:/var/www/vhosts/translate.swiftylife.com/httpdocs/scripts/temp_<%= grunt.getPluginNameCompact() %>.' + ext +
+                    ' && ssh -t -p 2022 translate@pink.alphamegahosting.com "' +
                             'cd /var/www/vhosts/translate.swiftylife.com/httpdocs/scripts';
                 if( po === 'lang' ) {
                     s +=
