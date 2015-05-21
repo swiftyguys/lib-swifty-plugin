@@ -10,6 +10,7 @@ require_once plugin_dir_path( __FILE__ ) . 'lib/swifty_class-tgm-plugin-activati
 class LibSwiftyPlugin extends LibSwiftyPluginView
 {
     protected $our_swifty_plugins = array();
+    protected $added_swifty_slugs = array();
 
     public function __construct()
     {
@@ -19,6 +20,12 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
     }
 
     public function admin_add_swifty_menu( $name, $swiftyname, $key, $func, $register_plugin ) {
+
+        // test if it was added earlier
+        if( array_key_exists( $key, $this->added_swifty_slugs ) ) {
+            return $this->added_swifty_slugs[ $key ];
+        }
+
         // Add the Swifty main admin menu (once for all plugins).
         if ( empty ( $GLOBALS[ 'admin_page_hooks' ][ 'swifty_admin' ] ) ) {
             add_menu_page(
@@ -39,6 +46,8 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
             $key,
             $func
         );
+
+        $this->added_swifty_slugs[ $key ] = $page;
 
         if ( $register_plugin ) {
             $this->our_swifty_plugins[] = array('key' => $key, 'name' => $name, 'swiftyname' => $swiftyname );
