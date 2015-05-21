@@ -45,7 +45,8 @@ class SSStory {
         // Can be overwritten in command line, via -D platform=...
         $this->ori_story->setParams( array(
             'platform' => 'local',
-            'wp_version' => '3.9.1',
+//            'wp_version' => '3.9.1',
+            'wp_version' => '4.2.2',
             'lang' => 'en'
         ) );
         // get the final list of params
@@ -80,6 +81,8 @@ class SSStory {
     ////////////////////////////////////////
 
     function TestSetup2() {
+        $st = $this->st;
+
         $this->wordpress = new Wordpress(
             $this,
             $st,
@@ -306,13 +309,16 @@ class SSStory {
     ////////////////////////////////////////
 
     function EchoMsg( $s ) {
-        echo "\n######################################################################\n" . $s . "\n######################################################################\n\n";
+        echo "\n######################################################################\n" . $s . "\n######################################################################\n";
     }
 
     ////////////////////////////////////////
 
     function EchoMsgJs( $s ) {
-        echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nJS = " . $s;
+        if( strpos( $s, '.Start = ' ) !== false ) {
+            echo "\n";
+        }
+        echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n" . $s;
     }
 
     ////////////////////////////////////////
@@ -336,7 +342,9 @@ class SSStory {
 
     ////////////////////////////////////////
 
-    function Probe( $functionName, $input ) {
+    function Probe( $functionName, $desc, $input ) {
+        $this->EchoMsg( "Test: " . $functionName . ' ( ' . $desc . ' ) ' );
+
         $ret = $this->ExecuteJs( $functionName, $input );
 
         $this->ProbeProcessRet( $functionName, $input, $ret );
@@ -350,8 +358,10 @@ class SSStory {
 
     ////////////////////////////////////////
 
-    function GotoUrl( $url ) {
-        // dorh Create StoryPlayer code fo GotoUrl
+    function GotoUrl( $input ) {
+        $st = $this->st;
+
+        $st->usingBrowser()->gotoPage( "http://" . $this->data->testSettings->domain . $input[ 'url' ] );
     }
 
     ////////////////////////////////////////
@@ -426,6 +436,20 @@ class SSStory {
 
     function WPLogin() {
         $this->wordpress->Login();
+    }
+
+    ////////////////////////////////////////
+
+    function SetCookie( $name, $val ) {
+        $js = 'document.cookie = "' . $name . '=' . $val . ';"';
+        $this->st->getRunningDevice()->execute( array( 'script' => $js, 'args' => array() ) );
+    }
+
+    ////////////////////////////////////////
+
+    function DeleteCookie( $name ) {
+        $js = 'document.cookie = "' . $name . '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;"';
+        $this->st->getRunningDevice()->execute( array( 'script' => $js, 'args' => array() ) );
     }
 }
 

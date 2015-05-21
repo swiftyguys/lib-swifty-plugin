@@ -23,10 +23,13 @@
 
         ////////////////////////////////////////
 
-        AdminOpenSubmenu: function( /*input*/ ) {
-            // Go to WP admin page
-            probe.GotoUrl( '/wp-admin/', 'body.wp-admin' ).next( function( input ) {
+        AdminOpenSubmenu: {
+            Start: function( /*input*/ ) {
+                // Go to WP admin page
+                probe.GotoUrl( '/wp-admin/', 'body.wp-admin' ).next( 'Step2' );
+            },
 
+            Step2: function( input ) {
                 // Check if the WP menu is collapsed (to one icon) ( happens on small screens )
                 $( 'li#wp-admin-bar-menu-toggle' )
                     .IfVisible()
@@ -34,63 +37,77 @@
                     .Click();
 
                 // Wait until the submenu becomes visible
-                $( 'ul#adminmenu' ).WaitForVisible().next( function( input ) {
-                    // Click on the menu item in the left admin bar
-                    $( probe.WP.GetSelMainmenu( input.plugin_code ) )
-                        .MustExist()
-                        .Click();
+                $( 'ul#adminmenu' ).WaitForVisible().next( 'Step3' );
+            },
 
-                    // Wait until the submenu becomes visible
-                    $( probe.WP.GetSelSubmenu( input.submenu_text ) ).WaitForFn()
-                        .wait( function( input ) {
-                            // Trick WP into thinking the mouse hovers over the menu item (so the submenu popup opens)
-                            // In some cases (WP version, screen size) this hover is needed
-                            $( probe.WP.GetSelMainmenu( input.plugin_code ) ).AddClass( 'opensub' );
+            Step3: function( input ) {
+                // Click on the menu item in the left admin bar
+                $( probe.WP.GetSelMainmenu( input.plugin_code ) )
+                    .MustExist()
+                    .Click();
 
-                            // Is the submenu item visible?
-                            var check = $( probe.WP.GetSelSubmenu( input.submenu_text ) ).IsVisible();
+                // Wait until the submenu becomes visible
+                $( probe.WP.GetSelSubmenu( input.submenu_text ) ).WaitForFn()
+                    .wait( 'Wait4' )
+                    .next( 'Step4' );
+            },
 
-                            return { 'wait_result': check };
-                        } )
-                        .next( function( input ) {
-                            $( probe.WP.GetSelMainmenu( input.plugin_code ) )
-                                .find( probe.WP.GetSelSubmenu( input.submenu_text ) )
-                                .last()
-                                .MustExist()
-                                .Click();
-                        } );
-                } );
-            } );
+            Wait4: function( input ) {
+                // Trick WP into thinking the mouse hovers over the menu item (so the submenu popup opens)
+                // In some cases (WP version, screen size) this hover is needed
+                $( probe.WP.GetSelMainmenu( input.plugin_code ) ).AddClass( 'opensub' );
+
+                // Is the submenu item visible?
+                var check = $( probe.WP.GetSelSubmenu( input.submenu_text ) ).IsVisible();
+
+                return { 'wait_result': check };
+            },
+
+            Step4: function( input ) {
+                $( probe.WP.GetSelMainmenu( input.plugin_code ) )
+                    .find( probe.WP.GetSelSubmenu( input.submenu_text ) )
+                    .last()
+                    .MustExist()
+                    .Click();
+            }
         },
 
         ////////////////////////////////////////
 
-        DeleteAllPages: function( /*input*/ ) {
-            probe.WP.OpenAllPages().next( function( input ) {
-                $( 'h2:contains("Pages ")' ).WaitForVisible().next( function( input ) {   // dojh: translation issue -> Pages.
-                    // Click on the checkbox to select all pages
-                    $( 'span:contains("Title"):first' )   // dojh: translation issue -> Title.
-                        .closest( 'th' )
-                        .prev( 'th' )
-                        .find( 'input' )
-                        .MustExistOnce()
-                        .Click();
+        DeleteAllPages: {
+            Start: function( /*input*/ ) {
+                probe.WP.OpenAllPages().next( 'Step2' );
+            },
 
-                    $( 'select[name="action"]' )
-                        .MustExistOnce()
-                        .find( 'option:contains("Move to Trash")' )   // dojh: translation issue -> Move to Trash.
-                        .prop( 'selected', true );
+            Step2: function( input ) {
+                $( 'h2:contains("Pages ")' ).WaitForVisible().next( 'Step3' );
+            },
 
-                    // Wait until the checked checkboxes are visible
-                    //$( 'input[name="post[]"]:checked' ).WaitForVisible().next( function( input ) {
-                    $( 'input#cb-select-all-1' ).WaitForVisible().next( function( input ) {
-                        // Click on the Apply button. There are 3 Apply buttons on the page. We need the second (index 1)
-                        $( 'input[value="Apply"]:eq(1)' )   // dojh: translation issue -> Apply.
-                            .MustExistOnce()
-                            .Click();
-                    } );
-                } );
-            } );
+            Step3: function( input ) {   // dojh: translation issue -> Pages.
+                // Click on the checkbox to select all pages
+                $( 'span:contains("Title"):first' )   // dojh: translation issue -> Title.
+                    .closest( 'th' )
+                    .prev( 'th' )
+                    .find( 'input' )
+                    .MustExistOnce()
+                    .Click();
+
+                $( 'select[name="action"]' )
+                    .MustExistOnce()
+                    .find( 'option:contains("Move to Trash")' )   // dojh: translation issue -> Move to Trash.
+                    .prop( 'selected', true );
+
+                // Wait until the checked checkboxes are visible
+                //$( 'input[name="post[]"]:checked' ).WaitForVisible().next( function( input ) {
+                $( 'input#cb-select-all-1' ).WaitForVisible().next( 'Step4' );
+            },
+
+            Step4: function( input ) {
+                // Click on the Apply button. There are 3 Apply buttons on the page. We need the second (index 1)
+                $( 'input[value="Apply"]:eq(1)' )   // dojh: translation issue -> Apply.
+                    .MustExistOnce()
+                    .Click();
+            }
         },
 
         ////////////////////////////////////////
@@ -100,23 +117,27 @@
             deleteAllSel: '#delete_all',
 
             Start: function( /*input*/ ) {
-                probe.WP.OpenAllPages().next( function( input ) {
-                    var trashLink = $( 'a:contains("Trash")' );   // dojh: translation issue -> Trash.
+                probe.WP.OpenAllPages().next( 'Step2' );
+            },
 
-                    // Click on the 'Trash' link
-                    if ( trashLink.length ) {
-                        trashLink.MustExistOnce().Click();
+            Step2: function( input ) {
+                var trashLink = $( 'a:contains("Trash")' );   // dojh: translation issue -> Trash.
 
-                        // Wait until the 'Empty Trash' button becomes visible
-                        //$( 'a.current:contains("Trash")' ).WaitForVisible( 'Step3' );   // dojh: translation issue -> Trash.
-                        $( 'input[value="Empty Trash"]' ).WaitForVisible().next( function( input ) {;   // dojh: translation issue -> Trash.
-                            // Click on the 'Empty Trash' button
-                            $( 'input[value="Empty Trash"]:first' )   // dojh: translation issue -> Empty Trash.
-                                .MustExistOnce()
-                                .Click();
-                        } );
-                    }
-                } );
+                // Click on the 'Trash' link
+                if ( trashLink.length ) {
+                    trashLink.MustExistOnce().Click();
+
+                    // Wait until the 'Empty Trash' button becomes visible
+                    //$( 'a.current:contains("Trash")' ).WaitForVisible( 'Step3' );   // dojh: translation issue -> Trash.
+                    $( 'input[value="Empty Trash"]' ).WaitForVisible().next( 'Step3' );
+                }
+            },
+
+            Step3: function( input ) {;   // dojh: translation issue -> Trash.
+                // Click on the 'Empty Trash' button
+                $( 'input[value="Empty Trash"]:first' )   // dojh: translation issue -> Empty Trash.
+                    .MustExistOnce()
+                    .Click();
             }
         }
 

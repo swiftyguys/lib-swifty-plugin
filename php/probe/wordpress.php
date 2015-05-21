@@ -46,7 +46,7 @@ class Wordpress {
     function Install( $setupItem ) {
         $st = $this->st;
 
-        $this->story->EchoMsg( "Install Wordpress" );
+        $this->story->EchoMsg( "Install Wordpress " . $this->version );
 
         // Settings for Ansible Wordpress install
         // Make sure these settings are not in Ansible's group_vars/all file otherwise those seem to take precedence
@@ -80,6 +80,11 @@ class Wordpress {
         $this->story->EchoMsg( "Setup Wordpress" );
 
         $st->usingBrowser()->gotoPage( "http://" . $this->domain );
+
+        // Since WP 4.1 (?) First step of setup is language choice
+        $st->usingBrowser()->click()->intoFieldWithId( 'language-continue' );
+
+        // Fill out setup fields
         $st->usingBrowser()->type( "storyplayer_test" )->intoFieldWithId( "weblog_title" );
         $st->usingBrowser()->clear()->intoFieldWithId( "user_login" );
         $st->usingBrowser()->type( $this->user )->intoFieldWithId( "user_login" );
@@ -182,6 +187,7 @@ class Wordpress {
 
         if ( ! $this->IsPluginActivated( $pluginCode ) ) {
             $this->story->ClickElementByXpath( 'descendant::a[contains(@href, "plugin=' . $pluginCode . '") and normalize-space(text()) = "' . $this->strings[ 's_activate' ] . '"]', "graceful" );
+            $st->usingTimer()->wait( 1, "Wait for plugin activation finished." );
         }
     }
 

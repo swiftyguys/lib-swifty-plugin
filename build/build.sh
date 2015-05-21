@@ -34,6 +34,7 @@ options=(
          t "Commit and tag" off
          u "Create pot and upload to glotpress" off
          v "Download po from glotpress" off
+         w "Commits since tag" off
         )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 clear
@@ -124,6 +125,10 @@ do
             ;;
         v)
             sss="_gettranslations"
+            gruntcmd=$gruntcmd$sss
+            ;;
+        w)
+            sss="_commitssincetag"
             gruntcmd=$gruntcmd$sss
             ;;
     esac

@@ -165,7 +165,11 @@ var swiftyProbe = ( function( $, probe ) {
 
             return {
                 next: function( func ) {
-                    self.wait.fn_func = func;
+                    if( typeof func === 'string' ) {
+                        self.wait.fn_name = func;
+                    } else {
+                        self.wait.fn_func = func;
+                    }
                 }
             };
         },
@@ -185,11 +189,19 @@ var swiftyProbe = ( function( $, probe ) {
 
             return {
                 next: function( func ) {
-                    self.wait.fn_func = func;
+                    if( typeof func === 'string' ) {
+                        self.wait.fn_name = func;
+                    } else {
+                        self.wait.fn_func = func;
+                    }
                     return this;
                 },
                 wait: function( func ) {
-                    self.wait.wait_fn_func = func;
+                    if( typeof func === 'string' ) {
+                        self.wait.wait_fn_name = func;
+                    } else {
+                        self.wait.wait_fn_func = func;
+                    }
                     return this;
                 }
             };
@@ -290,7 +302,11 @@ var swiftyProbe = ( function( $, probe ) {
 
             return {
                 next: function( func ) {
-                    self.queue.next_fn_func = func;
+                    if( typeof func === 'string' ) {
+                        self.queue.next_fn_name = func;
+                    } else {
+                        self.queue.next_fn_func = func;
+                    }
                 }
             };
         },

@@ -5,12 +5,15 @@ module.exports = function( grunt/*, options*/ ) {
                      ' -D relpath="../build/<%= grunt.getDestPath() %>"' +
                      ' -D platform=ec2' +
 //                         ' -D wp_version=3.7' +
-                     ' -D wp_version=3.9.1' +
+//                     ' -D wp_version=3.9.1' +
+                     ' -D wp_version=4.2.2' +
                      ' -D plugin_path_1="<%= grunt.getSourcePathTest1() %>"' +
                      ' -D plugin_path_2="<%= grunt.getDestPathPluginPartNoSlash() %>"' +
                      ' -D is_pro="<%= grunt.getForTestIsPro() %>"' +
                      ' -D lang=en' +
-                     ' -d sl_ie9_win7' +
+                     //' -d sl_ie9_win7' +
+                     //' -d sl_chrome31_win7' +
+                     ' -d sl_firefox37_win8_1' +
                      ' test_dist.php',
             options: {
                 stderr: false,
@@ -284,12 +287,12 @@ module.exports = function( grunt/*, options*/ ) {
         },
         download_po_from_swiftylife: {
             command: 'rm -Rf temp_' + grunt.myCfg.plugin_code +
-                        '; ssh -t -p 2022 translate@green.alphamegahosting.com "' +
+                        '; ssh -t -p 2022 translate@pink.alphamegahosting.com "' +
                                 'cd /var/www/vhosts/translate.swiftylife.com/httpdocs' +
                                 ' && ./export_po.sh ' + grunt.myCfg.plugin_code + " '" + Object.keys( grunt.myCfg.po.languages ).join( ' ' ) + "'" +
                             '"' +
-                        ' && scp -P 2022 translate@green.alphamegahosting.com:/var/www/vhosts/translate.swiftylife.com/httpdocs/temp_' + grunt.myCfg.plugin_code + '.zip ./' +
-                        ' && ssh -t -p 2022 translate@green.alphamegahosting.com "' +
+                        ' && scp -P 2022 translate@pink.alphamegahosting.com:/var/www/vhosts/translate.swiftylife.com/httpdocs/temp_' + grunt.myCfg.plugin_code + '.zip ./' +
+                        ' && ssh -t -p 2022 translate@pink.alphamegahosting.com "' +
                                 'rm -f /var/www/vhosts/translate.swiftylife.com/httpdocs/temp_' + grunt.myCfg.plugin_code + '.zip' +
                             '"' +
                         ' && unzip temp_' + grunt.myCfg.plugin_code + '.zip' +
@@ -528,7 +531,7 @@ module.exports = function( grunt/*, options*/ ) {
                     'echo "========================================"',
                     'echo "========================================"',
                     'echo "========================================"',
-                    'echo "Commits since latest version in changelog:"',
+                    'echo "Commits since latest version in changelog: (' + grunt.myCfg.git_pull_all.tagcode + latestChangelogVersion + ')"',
                     'git log --pretty=oneline ' + grunt.myCfg.git_pull_all.tagcode + latestChangelogVersion + '..HEAD | less',
                     'echo ""',
                     'echo "========================================"',

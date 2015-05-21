@@ -7,10 +7,9 @@
 # Get latests masters and develops
 from_dialog_do_mainpull:
   - 'from_dialog_do_pullall_mergedev'
-
-# PRO version
-# Get latests masters and develops
 from_dialog_do_mainvpro_mainpull:
+  - 'from_dialog_do_mainpull' # It doesn't matter if pro is selected or not
+from_dialog_do_mainvfree_maintest_mainpull:
   - 'from_dialog_do_mainpull' # It doesn't matter if pro is selected or not
 
 # Commit + tag + push
@@ -25,6 +24,8 @@ from_dialog_do_mainvpro_maintag:
 # Update pot/po and up/download glotpress
 from_dialog_do_mainpot:
   - 'from_dialog_do_createpot_gettranslations'
+from_dialog_do_mainvfree_maintest_mainpot:
+  - 'from_dialog_do_createpot_gettranslations' # It doesn't matter if pro is selected or not
 
 # Update pot/po and up/download glotpress
 from_dialog_do_mainvpro_mainpot:
@@ -59,6 +60,14 @@ from_dialog_do_mainvpro_mainmail_mainbuild:
   - 'from_dialog_do_mainbuild'
   - 'from_dialog_do_mainmail'
 
+# FREE version
+# Build
+# Mail the zip
+from_dialog_do_mainvfree_mainmail_mainbuild:
+  - 'from_dialog_do_mainvfree'
+  - 'from_dialog_do_mainbuild'
+  - 'from_dialog_do_mainmail'
+
 # PRO version
 # Build
 # Test the zip
@@ -79,6 +88,12 @@ from_dialog_do_mainvpro_maintest:
 # Release to public
 from_dialog_do_mainvpro_mainrelease:
   - 'from_dialog_do_mainvpro'
+  - 'from_dialog_do_mainrelease'
+
+# FREE version
+# Release to public
+from_dialog_do_mainvfree_mainrelease:
+  - 'from_dialog_do_mainvfree'
   - 'from_dialog_do_mainrelease'
 
 ############################################
@@ -172,6 +187,10 @@ from_dialog_do_gettranslations:
   - 'loop_split_po'
   - 'shell:remove_temp_po'
 
+# List all commit messages since last tag
+from_dialog_do_commitssincetag:
+  - 'helper_git_commits_since_tag'
+
 ############################################
 ############################################
 # HELPERS
@@ -246,6 +265,13 @@ helper_release_swiftylife:
   - 'shell:copy_zip_swiftylife'
   - 'shell:mysql_update_version'
   - 'shell:mysql_update_date'
+
+# Release on wp.org
+helper_release_wporg:
+  - 'helper_git_commits_since_tag'
+  - 'shell:check_changelog_in_zip'
+  - 'helper_svnupdate'
+  - 'helper_svnsubmit'
 
 # Release on swiftylife.com
 helper_fix_translations:
