@@ -7,7 +7,8 @@ require_once plugin_dir_path( __FILE__ ) . 'lib/swifty-captcha.php';
 class LibSwiftyPluginView
 {
     protected static $instance;
-    protected static $_valid_modes = array( 'ss', 'wp' );
+    protected static $_ss_mode = null;
+    protected static $_valid_modes = array( 'ss', 'wp', 'ss_force' );
     protected static $_default_mode = 'ss';
 
     public function __construct()
@@ -89,14 +90,29 @@ class LibSwiftyPluginView
         }
     }
 
+    // test if $plugin_name is active
+    public static function is_swifty_plugin_active( $plugin_name )
+    {
+        return in_array( $plugin_name, apply_filters( 'swifty_active_plugins', array() ) );
+    }
+
     // is swifty menu active?
+    // make sure all plugins are constructed before using this function
     public static function is_ss_mode()
     {
-        return ( empty( $_COOKIE[ 'ss_mode' ] ) || $_COOKIE[ 'ss_mode' ] === 'ss' );
+        if(! isset( self::$_ss_mode ) ) {
+            self::$_ss_mode = ( ( ( empty( $_COOKIE[ 'ss_mode' ] ) || $_COOKIE[ 'ss_mode' ] === 'ss' )
+                                  && self::is_swifty_plugin_active( 'swifty-site' ) )
+                                || self::is_ss_force() );
+        }
+        return self::$_ss_mode;
     }
 
     public static function set_ss_mode()
     {
+        // reset the ss_mode, after setting cookies the value might change
+        self::$_ss_mode = null;
+
         $mode = '';
 
         if( ! empty( $_COOKIE[ 'ss_mode' ] ) && in_array( $_COOKIE[ 'ss_mode' ], self::$_valid_modes ) ) {
@@ -113,6 +129,11 @@ class LibSwiftyPluginView
 
         setcookie( 'ss_mode', $mode, 0, '/' );
         $_COOKIE[ 'ss_mode' ] = $mode;
+    }
+
+    public static function is_ss_force()
+    {
+        return ( !empty( $_COOKIE[ 'ss_mode' ] ) && $_COOKIE[ 'ss_mode' ] === 'ss_force' );
     }
 
     // find newer version of post, or return null if there is no newer autosave version
