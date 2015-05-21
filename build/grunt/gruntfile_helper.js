@@ -234,7 +234,7 @@ module.exports = {
             if( process.env.PRO_TAG === ' Pro' ) {
                 grunt.task.run( [ 'helper_release_swiftylife' ] );
             } else {
-                grunt.task.run( [ 'dorh' ] );
+                grunt.task.run( [ 'helper_release_wporg' ] );
             }
         } );
 

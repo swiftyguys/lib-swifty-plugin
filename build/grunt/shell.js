@@ -531,7 +531,7 @@ module.exports = function( grunt/*, options*/ ) {
                     'echo "========================================"',
                     'echo "========================================"',
                     'echo "========================================"',
-                    'echo "Commits since latest version in changelog:"',
+                    'echo "Commits since latest version in changelog: (' + grunt.myCfg.git_pull_all.tagcode + latestChangelogVersion + ')"',
                     'git log --pretty=oneline ' + grunt.myCfg.git_pull_all.tagcode + latestChangelogVersion + '..HEAD | less',
                     'echo ""',
                     'echo "========================================"',
