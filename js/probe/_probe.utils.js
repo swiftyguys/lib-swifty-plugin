@@ -6,19 +6,19 @@
             var self = this;
             var fields = this.getFieldProps( values );
             var dfd = $.Deferred();
-            var dfdArray = [];
+            var dfds = probe.NewDfds();
 
             if ( key ) {
                 if ( fields[ key ] ) {
-                    dfdArray.push( self.setSingleValue( key, fields[ key ] ) );
+                    dfds.add( self.setSingleValue( key, fields[ key ] ) );
                 }
             } else {
                 $.each( fields, function ( field, props ) {
-                    dfdArray.push( self.setSingleValue( field, props ) );
+                    dfds.add( self.setSingleValue( field, props ) );
                 } );
             }
 
-            $.when.apply( $, dfdArray ).done( function () {
+            dfds.done( function () {
                 dfd.resolve();
             } );
 
