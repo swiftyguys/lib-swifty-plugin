@@ -8,6 +8,10 @@ include 'wordpress.php';
 class SSStory {
 
     public $data;
+    protected $plugin_name = '';
+    protected $tryFunctions = array();
+    protected $tryFlags = array();
+    protected $msg_level = 0;
 
     ////////////////////////////////////////
 
@@ -35,6 +39,91 @@ class SSStory {
         $this->TestSetup1();
         $this->TestSetup2();
         $this->TestSetup3();
+        $this->SetupProbeDescription();
+        $this->RegisterTries();
+    }
+
+    ////////////////////////////////////////
+
+    function RegisterTries() {
+        $this->RegisterTry(
+            'I am logged in',
+            function() {
+                if( ! $this->GetTryFlag( 'wp_logged_in' ) ) {
+                    $this->WPLogin();
+                    $this->SetTryFlag( 'wp_logged_in', true );
+                }
+            }
+        );
+    }
+
+    ////////////////////////////////////////
+
+    function SetupProbeDescription() {
+        global $ssProbeDesciption;
+        $ssProbeDesciption = array();
+
+        $stack = array( &$ssProbeDesciption );
+        $current = &$stack[ 0 ];
+        $lastIndent = -1;
+        $handle = fopen( '../../../../../test/test.desc', "r" );
+        if( $handle ) {
+            while( ( $line = fgets( $handle ) ) !== false ) {
+                $line = preg_replace( "/\r|\n/", "", $line );
+
+                if( $line !== '' && substr( $line, 0, 1 ) !== '#' ) {
+                    $indent = 0;
+                    $i = 0;
+                    while( substr( $line, $i, 4 ) === '    ' || substr( $line, $i, 1 ) === "\t" ) {
+                        if( substr( $line, 0, 4 ) === '    ' ) {
+                            $indent++;
+                            $i += 4;
+                        }
+                        if( substr( $line, 0, 1 ) === "\t" ) {
+                            $indent++;
+                            $i++;
+                        }
+                    }
+                    $afterIndent = substr( $line, $i );
+
+                    if( $indent !== $lastIndent ) {
+                        $current = &$stack[ $indent ];
+                        if( $indent > 0 ) {
+                            if( ! array_key_exists( 'val', $current ) ) {
+                                $current[ 'val' ] = array();
+                            }
+                            $current = &$current[ 'val' ];
+                        }
+                    }
+
+                    if( $afterIndent !== '' ) {
+                        if( substr( $afterIndent, 0, 1 ) === '-' ) {
+                            if( ! array_key_exists( 'params', $stack[ $indent + 1 ] ) ) {
+                                $stack[ $indent + 1 ][ 'params' ] = array();
+                            }
+
+                            $words = explode( ':', $afterIndent );
+                            $startWord = substr( array_shift( $words ), 2 );
+                            $json = implode( ':', $words );
+
+                            $stack[ $indent + 1 ][ 'params' ][ $startWord ] = $json;
+                        } else {
+                            $current[ ] = array( 'key' => $afterIndent );
+
+                            $stack[ $indent + 1 ] = &$current[ count( $current ) - 1 ];
+                        }
+                    }
+
+                    $lastIndent = $indent;
+                }
+            }
+
+            fclose( $handle );
+        }
+
+//        $out = fopen('php://stdout', 'w');
+//        fputs($out, "\n######################################################################\n" . print_r( $ssProbeDesciption, true ) . "\n######################################################################\n" );
+//        fclose($out);
     }
 
     ////////////////////////////////////////
@@ -308,17 +397,43 @@ class SSStory {
 
     ////////////////////////////////////////
 
-    function EchoMsg( $s ) {
-        echo "\n######################################################################\n" . $s . "\n######################################################################\n";
+    function __EchoMsg( $s ) {
+        echo $s;
     }
 
     ////////////////////////////////////////
 
-    function EchoMsgJs( $s ) {
-        if( strpos( $s, '.Start = ' ) !== false ) {
-            echo "\n";
+    function _EchoMsg( $s ) {
+        $this->__EchoMsg( str_replace( '•', '.', $s ) );
+    }
+
+    ////////////////////////////////////////
+
+    function EchoMsg( $str ) {
+        $s = '';
+        $sp = str_pad( '', 4 * $this->msg_level );
+
+        $s .= "\n";
+        $s .= $sp . "----------------------------------------------------------------------\n";
+        $s .= $sp . ' ' . $str . "\n";
+        $s .= $sp . "----------------------------------------------------------------------\n";
+
+        $this->_EchoMsg( $s );
+    }
+
+    ////////////////////////////////////////
+
+    function EchoMsgJs( $str ) {
+        $s = '';
+        $sp = str_pad( '', 4 + 4 * $this->msg_level );
+
+        if( strpos( $str, '.Start = ' ) !== false ) {
+            $s .= "\n";
         }
-        echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n" . $s;
+//        $s .= $sp . "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n" . $sp . str_replace( "\n" . $sp . "_-EnD_-" , "\n", str_replace( "\n", "\n" . $sp, $str ) . "_-EnD_-" );
+        $s .= $sp . str_replace( "\n" . $sp . "_-EnD_-" , "\n", str_replace( "\n", "\n" . $sp, $str ) . "_-EnD_-" );
+
+        $this->_EchoMsg( $s );
     }
 
     ////////////////////////////////////////
@@ -342,12 +457,146 @@ class SSStory {
 
     ////////////////////////////////////////
 
-    function Probe( $functionName, $desc, $input ) {
-        $this->EchoMsg( "Test: " . $functionName . ' ( ' . $desc . ' ) ' );
+    function Probe( $functionName, $desc = '', $input = array() ) {
+//        $this->EchoMsgJs( "\nTest: " . $functionName . ' ( ' . $desc . ' ) ' . "\n" );
+        $this->EchoMsgJs( "\nTest: " . $functionName . "\n" );
+
+        $this->msg_level++;
+
+        $input[ 'plugin_name' ] = $this->plugin_name;
 
         $ret = $this->ExecuteJs( $functionName, $input );
 
         $this->ProbeProcessRet( $functionName, $input, $ret );
+
+        $this->msg_level--;
+    }
+
+    ////////////////////////////////////////
+
+    function DoTry( $name, $startWord ) {
+        global $ssProbeDesciption;
+
+        $this->EchoMsg( ucfirst( $startWord ) . ': ' . $name );
+
+        $this->msg_level++;
+
+        $inTryFunctions = false;
+        foreach( $this->tryFunctions as $tryFunction ) {
+            if( $tryFunction[ 'name' ] === $name ) {
+                $inTryFunctions = true;
+                $tryFunction[ 'func' ]();
+            }
+        }
+
+        if( ! $inTryFunctions ) {
+            $ret = $this->FindProbeDescription( $ssProbeDesciption, $name );
+
+            if( is_array( $ret ) ) {
+                foreach( $ret as $step ) {
+                    $words = explode( ' ', $step[ 'key' ] );
+                    $startWord = strtolower( array_shift( $words ) );
+                    $stepName = implode( ' ', $words );
+
+                    if( array_key_exists( 'params', $step ) ) {
+                        $params = '{';
+                        $i = 0;
+                        $len = count( $step[ 'params' ] );
+                        foreach( $step[ 'params' ] as $key => $json ) {
+                            $params .= ' "' . $key . '": ' . $json;
+                            if( $i !== $len - 1 ) { // not last
+                                $params .= ',';
+                            }
+                            $i++;
+                        }
+                        $params .= '}';
+                        $stepName .= ' WITH PARAMS ' . $params;
+                    }
+
+                    $this->DoTry( $stepName, $startWord );
+                }
+            } else {
+                $input[ 'plugin_name' ] = $this->plugin_name;
+
+                $ret = $this->ExecuteJs( $name, $input, 'DoTry' );
+
+                if( array_key_exists( 'try_name', $ret ) ) {
+                    $this->Probe( $ret[ 'try_name' ], '', $ret[ 'try_data' ] );
+                } else {
+                    $this->Fail( 'Try step not found', $name );
+                }
+            }
+        }
+
+        $this->msg_level--;
+    }
+
+    ////////////////////////////////////////
+
+    function RegisterTry( $name, $func ) {
+        $this->tryFunctions[] = array( 'name' => $name, 'func' => $func );
+    }
+
+    ////////////////////////////////////////
+
+    function GetTryFlag( $key ) {
+        if( array_key_exists( $key, $this->tryFlags ) ) {
+            return $this->tryFlags[ $key ];
+        } else {
+            return null;
+        }
+    }
+
+    ////////////////////////////////////////
+
+    function SetTryFlag( $key, $val ) {
+        $this->tryFlags[ $key ] = $val;
+    }
+
+    ////////////////////////////////////////
+
+    function RunProbeDescription() {
+        global $ssProbeDesciption;
+
+        foreach( $ssProbeDesciption as $main ) {
+            $words = explode( ' ', $main[ 'key' ] );
+            $startWord = strtolower( array_shift( $words ) );
+            $stepName = implode( ' ', $words );
+
+            if( $startWord === 'run' ) {
+                $this->DoTry( $stepName, $startWord );
+            }
+        }
+    }
+
+    ////////////////////////////////////////
+
+    function FindProbeDescription( $steps, $name ) {
+        $ret = null;
+
+        foreach( $steps as $step ) {
+            if( ! $ret ) {
+                $words = explode( ' ', $step[ 'key' ] );
+                array_shift( $words );
+                $stepName = implode( ' ', $words );
+
+                if( array_key_exists( 'val', $step ) ) {
+                    if( $name === $stepName ) {
+                        $ret = $step[ 'val' ];
+                    } else {
+                        $ret = $this->FindProbeDescription( $step[ 'val' ], $name );
+                    }
+                }
+            }
+        }
+
+        return $ret;
+    }
+
+    ////////////////////////////////////////
+
+    function SetPluginName( $pluginName ) {
+        $this->plugin_name = $pluginName;
     }
 
     ////////////////////////////////////////

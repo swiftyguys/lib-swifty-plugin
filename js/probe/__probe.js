@@ -2,6 +2,9 @@ var swiftyProbe = ( function( $, probe ) {
     probe = probe || {
         tmp_log: '',
         fail: '',
+        dfds_done: [],
+        try_list: [],
+        __: {},
 
         TypeText: function( $el, $txt ) {
             this.Click( $el );
@@ -107,24 +110,29 @@ var swiftyProbe = ( function( $, probe ) {
 
             this.TmpLog( nm + ' = ' + JSON.stringify( args ) );
 
-            if ( pth.length === 1 ) {
-                ret = this[ pth[0] ].apply( this, args );
-            }
+            if( typeof this[ pth[ 0 ] ] === 'function' || typeof this[ pth[ 0 ] ] === 'object' ) {
 
-            if ( pth.length === 2 ) {
-                if( pth[ 1 ] === 'Start' && typeof this[ pth[0] ] === 'function' ) {
+                if( pth.length === 1 ) {
                     ret = this[ pth[ 0 ] ].apply( this, args );
-                } else {
-                    ret = this[ pth[ 0 ] ][ pth[ 1 ] ].apply( this[ pth[ 0 ] ], args );
                 }
-            }
 
-            if ( pth.length === 3 ) {
-                if( pth[ 2 ] === 'Start' && typeof this[ pth[0] ][ pth[1] ] === 'function' ) {
-                    ret = this[ pth[ 0 ] ][ pth[ 1 ] ].apply( this[ pth[ 0 ] ], args );
-                } else {
-                    ret = this[ pth[ 0 ] ][ pth[ 1 ] ][ pth[ 2 ] ].apply( this[ pth[ 0 ] ][ pth[ 1 ] ], args );
+                if( pth.length === 2 ) {
+                    if( pth[ 1 ] === 'Start' && typeof this[ pth[ 0 ] ] === 'function' ) {
+                        ret = this[ pth[ 0 ] ].apply( this, args );
+                    } else {
+                        ret = this[ pth[ 0 ] ][ pth[ 1 ] ].apply( this[ pth[ 0 ] ], args );
+                    }
                 }
+
+                if( pth.length === 3 ) {
+                    if( pth[ 2 ] === 'Start' && typeof this[ pth[ 0 ] ][ pth[ 1 ] ] === 'function' ) {
+                        ret = this[ pth[ 0 ] ][ pth[ 1 ] ].apply( this[ pth[ 0 ] ], args );
+                    } else {
+                        ret = this[ pth[ 0 ] ][ pth[ 1 ] ][ pth[ 2 ] ].apply( this[ pth[ 0 ] ][ pth[ 1 ] ], args );
+                    }
+                }
+            } else {
+                this.SetFail( '##### pth[ 0 ] NOT EXIST IN THIS!!! ' + pth[ 0 ] + ' === ' + JSON.stringify( pth ) + ' === ' + JSON.stringify( args ) );
             }
 
             if ( this.wait ) {
@@ -207,10 +215,98 @@ var swiftyProbe = ( function( $, probe ) {
             };
         },
 
+        WaitForDfds: function( dfds, fnName, tm, waitData ) {
+            var self = this;
+            var doneIndex = self.dfds_done.length;
+            self.dfds_done.push( false );
+
+            $.when.apply( $, dfds ).done( function () {
+                setTimeout( function() {
+                    self.dfds_done[ doneIndex ] = true;
+                }, 1000 );
+            } );
+
+            if ( typeof waitData === 'undefined' ) {
+                waitData = {};
+            }
+
+            waitData.done_index = doneIndex;
+
+            //return this.WaitForFn( 'probe.__WaitForDfds:' + doneIndex, fnName, tm, waitData );
+            return this.WaitForFn( 'probe.__WaitForDfds', fnName, tm, waitData );
+        },
+
+        __WaitForDfds: function( input ) {
+            return { 'wait_result': this.dfds_done[ input.wait_data.done_index ] };
+        },
+
+        __Done: function() {
+            // intentionally empty
+        },
+
         ArgsToArray: function( args ) {
             return $.map( args, function( value /*, index*/ ) {
                 return [ value ];
             } );
+        },
+
+        RegisterTry: function( regex, func, data ) {
+            if ( typeof data === 'undefined' ) {
+                data = {};
+            }
+
+            if( typeof func === 'object' ) {
+                var regexName = regex;
+                if( regexName instanceof RegExp ) {
+                    regexName = '' + regexName;
+                    regexName = regexName.replace( /\./g, '•' );
+                }
+                this.__[ regexName ] = func;
+                func = '__.' + regexName;
+            }
+
+            this.try_list.push( {
+                'regex': regex,
+                'func': func,
+                'data': data
+            } );
+        },
+
+        DoTry: function( args ) {
+            var self = this;
+            var ret = {};
+
+            self.StartTmpLog();
+
+            var argsArray = self.ArgsToArray( args );
+
+            $.each( self.try_list, function( ii, tryItem ) {
+                if( tryItem.regex instanceof RegExp ) {
+                    var match = tryItem.regex.exec( argsArray[ 0 ] );
+                    if( match ) {
+                        ret.try_name = tryItem.func;
+                        ret.try_data = tryItem.data;
+                        $.each( ret.try_data, function( key, val ) {
+                            if( val === '{{match 0}}' ) {
+                                ret.try_data[ key ] = match[ 1 ];
+                            }
+                            if( val === '{{match 1}}' ) {
+                                ret.try_data[ key ] = match[ 2 ];
+                            }
+                            if( val === '{{match 2}}' ) {
+                                ret.try_data[ key ] = match[ 3 ];
+                            }
+                        } );
+                    }
+                } else {
+                    if( tryItem.regex === argsArray[ 0 ] ) {
+                        ret.try_name = tryItem.func;
+                        ret.try_data = tryItem.data;
+                    }
+                }
+            } );
+
+            return ret;
         },
 
         DoStart: function( args ) {
@@ -245,6 +341,10 @@ var swiftyProbe = ( function( $, probe ) {
                 if( wait.wait_fn_func ) {
                     eval( 'this.___WaitFunction = ' + wait.wait_fn_func );
                     argsArray[ 0 ] = '___WaitFunction';
+                } else if( wait.wait_fn_name.indexOf( 'probe.' ) === 0 ) {
+                    argsArray[ 0 ] = wait.wait_fn_name.substr( 'probe.'.length );
+                } else if( wait.wait_fn_name === '' ) {
+                    argsArray[ 0 ] = '__Done';
                 } else {
                     argsArray[ 0 ] = argsArZero + '.' + wait.wait_fn_name;
                 }
@@ -259,6 +359,8 @@ var swiftyProbe = ( function( $, probe ) {
                 if( wait.fn_func ) {
                     eval( 'this.___NextFunction = ' + wait.fn_func );
                     argsArray[ 0 ] = '___NextFunction';
+                } else if( wait.fn_name === '' ) {
+                    argsArray[ 0 ] = '__Done';
                 } else {
                     argsArray[ 0 ] = argsArZero + '.' + wait.fn_name;
                 }
@@ -283,6 +385,8 @@ var swiftyProbe = ( function( $, probe ) {
             if( args[ 1 ].next_fn_func ) {
                 eval( 'this.___NextFunction = ' + args[ 1 ].next_fn_func );
                 argsArray[ 0 ] = '___NextFunction';
+            } else if( args[ 1 ].next_fn_name === '' ) {
+                argsArray[ 0 ] = '__Done';
             } else {
                 argsArray[ 0 ] += '.' + args[ 1 ].next_fn_name;
             }
@@ -292,6 +396,10 @@ var swiftyProbe = ( function( $, probe ) {
 
         QueueStory: function( fnName, newInput, nextFnName ) {
             var self = this;
+
+            if ( typeof nextFnName === 'undefined' ) {
+                nextFnName = '';
+            }
 
             this.queue = {
                 'new_fn_name': fnName,
@@ -313,6 +421,36 @@ var swiftyProbe = ( function( $, probe ) {
 
         GotoUrl: function( url, waitForSelector ) {
             return this.QueueStory( 'GotoUrl', { 'url': url, 'waitForSelector': waitForSelector } );
+        },
+
+        // Create and return a new array for deferreds
+
+        NewDfds: function() {
+            // create an array constructor
+            var Array2 = function() {
+                // initialise the array
+                var x = [], a = arguments;
+                for( var i = 0; i < a.length; i++ ) {
+                    x.push( a[ i ] )
+                }
+                for( i in this ) {
+                    x[ i ] = this[ i ]
+                }
+                return x;
+            };
+
+            // inherit from Array
+            Array2.prototype = [];
+
+            Array2.prototype.add = function( dfd ) {
+                this.push( dfd );
+            };
+
+            Array2.prototype.done = function( doneFunction ) {
+                $.when.apply( $, this ).done( doneFunction );
+            };
+
+            return new Array2();
         }
     };
 
@@ -331,6 +469,8 @@ var swiftyProbe = ( function( $, probe ) {
         },
 
         MustExistTimes: function( count, exact ) {
+            count = + count; // Make sure it's an integer
+
             if ( typeof exact === 'undefined' ) {
                 exact = true;
             }
@@ -404,7 +544,7 @@ var swiftyProbe = ( function( $, probe ) {
 
         WaitForFn: function( waitFnName, fnName, tm, waitData ) {
             if ( typeof tm === 'undefined' ) {
-                tm = 5000;
+                tm = 15000;
             }
 
             return probe.WaitForFn( waitFnName, fnName, tm, waitData );
@@ -412,7 +552,7 @@ var swiftyProbe = ( function( $, probe ) {
 
         WaitForVisible: function( fnName, tm, waitData ) {
             if ( typeof tm === 'undefined' ) {
-                tm = 5000;
+                tm = 15000;
             }
 
             return probe.WaitForElementVisible( this.selector, fnName, tm, waitData );

@@ -70,11 +70,112 @@
                     .MustExist()
                     .Click();
             }
-        },
+        }
 
-        ////////////////////////////////////////
+    } );
 
-        DeleteAllPages: {
+    ////////////////////////////////////////
+
+    //probe.WP.ActivatePlugin = {
+    //    Start: function( input ) { // dorh Not tested
+    //        $( 'a:contains("' + input.s_activate + '")[href*="plugin=' + input.plugin_code + '"]' ).Click();
+    //    }
+    //};
+
+    //probe.WP.NoPagesExist = {
+    //    messageSel: '.no-items',
+    //
+    //    Start: function( input ) {
+    //        probe.QueueStory(
+    //            'WP.AdminOpenSubmenu',
+    //            {
+    //                'plugin_code': 'pages',
+    //                'submenu_text': 'All Pages'   // dojh: translation issue -> All Pages.
+    //            },
+    //            'Step2'
+    //        );
+    //    },
+    //
+    //    Step2: function( /*input*/ ) {
+    //        $( this.messageSel ).WaitForVisible( 'Step3' );
+    //    },
+    //
+    //    Step3: function( /*input*/ ) {
+    //        // dojh: translation issue -> No pages found.
+    //        $( this.messageSel + ' td:contains("No pages found")' ).MustExistOnce();
+    //    }
+    //};
+
+    ////////////////////////////////////////
+
+    //probe.WP.XPagesExist = {
+    //    Start: function( input ) {
+    //        probe.QueueStory(
+    //            'WP.AdminOpenSubmenu',
+    //            {
+    //                'plugin_code': 'pages',
+    //                'submenu_text': 'All Pages'   // dojh: translation issue -> All Pages.
+    //            },
+    //            'Step2'
+    //        );
+    //    },
+    //
+    //    Step2: function( /*input*/ ) {
+    //        $( this.getPageSelector() ).WaitForVisible( 'Step3' );
+    //    },
+    //
+    //    Step3: function( input ) {
+    //        $( this.getPageSelector() ).MustExistTimes( input.x_pages );
+    //    },
+    //
+    //    getPageSelector: function ( input ) {
+    //        var selector = '.type-page';
+    //
+    //        if ( input && typeof input === 'string' ) {
+    //            selector += ':contains("' + input + '")';
+    //        }
+    //
+    //        return selector;
+    //    }
+    //};
+
+    ////////////////////////////////////////
+
+    //probe.WP.AddPage = {
+    //    addNewSel: 'h2 a:contains("Add New")',   // dojh: translation issue -> Add New.
+    //
+    //    Start: function( input ) {
+    //        probe.WP.OpenAllPages().next( 'Step2' );
+    //    },
+    //
+    //    Step2: function( /*input*/ ) {
+    //        // Wait until the 'Add new' link becomes visible
+    //        $( this.addNewSel ).WaitForVisible( 'Step3' );
+    //    },
+    //
+    //    Step3: function( /*input*/ ) {
+    //        // Click on the 'Add new' link
+    //        $( this.addNewSel ).MustExist().Click();
+    //
+    //        // dojh: translation issue -> Enter title here.
+    //        $( 'h2:contains("Add New Page")' ).WaitForVisible( '' );
+    //    }
+    //};
+
+    ////////////////////////////////////////
+
+    probe.RegisterTry(
+        'I click on WP admin -> Pages -> Swifty Page Manager',
+        'WP.AdminOpenSubmenu', {
+            'plugin_code': 'pages',
+            'submenu_text': 'Swifty Page Manager'
+        }
+    );
+
+    ////////////////////////////////////////
+
+    probe.RegisterTry(
+        'I delete all pages via WP', {
             Start: function( /*input*/ ) {
                 probe.WP.OpenAllPages().next( 'Step2' );
             },
@@ -108,11 +209,13 @@
                     .MustExistOnce()
                     .Click();
             }
-        },
+        }
+    );
 
-        ////////////////////////////////////////
+    ////////////////////////////////////////
 
-        EmptyTrash: {
+    probe.RegisterTry(
+        'I empty the trash via WP', {
             trashSel: 'li.trash a',
             deleteAllSel: '#delete_all',
 
@@ -140,186 +243,89 @@
                     .Click();
             }
         }
-
-    } );
-
-    ////////////////////////////////////////
-
-    probe.WP.AdminOpenSubmenuGeneric = {
-        Start: function( /*input*/ ) {
-            // Check if the WP menu is collapsed (to one icon) ( happens on small screens )
-            $( 'li#wp-admin-bar-menu-toggle' )
-                .IfVisible()
-                .OtherIfNotVisible( 'ul#adminmenu' )
-                .Click();
-
-            // Wait until the submenu becomes visible
-            $( 'ul#adminmenu' ).WaitForVisible( 'Step2' );
-        },
-
-        Step2: function( input ) {
-            // Click on the menu item in the left admin bar
-            $( this.GetSelMainmenu( input.menu_id ) )
-                .MustExist()
-                .Click();
-
-            // Wait until the submenu becomes visible
-            $( this.GetSelSubmenu( input.submenu_text ) ).WaitForFn( 'Wait2', 'Step3' );
-        },
-
-        Wait2: function( input ) {
-            // Trick WP into thinking the mouse hovers over the menu item (so the submenu popup opens)
-            // In some cases (WP version, screen size) this hover is needed
-            $( this.GetSelMainmenu( input.menu_id ) ).AddClass( 'opensub' );
-
-            // Is the submenu item visible?
-            var check = $( this.GetSelSubmenu( input.submenu_text ) ).IsVisible();
-
-            return { 'wait_result': check };
-        },
-
-        Step3: function( input ) {
-            $( this.GetSelMainmenu( input.menu_id ) )
-                .find( this.GetSelSubmenu( input.submenu_text ) )
-                .last()
-                .MustExist()
-                .Click();
-        },
-
-        /**
-         * @return string
-         */
-        GetSelMainmenu: function( id ) {
-            return 'li#' + id;
-        },
-
-        /**
-         * @return string
-         */
-        GetSelSubmenu: function( submenuText ) {
-            return 'a:contains("' + submenuText + '")';
-        }
-    };
+    );
 
     ////////////////////////////////////////
 
-    probe.WP.ActivatePlugin = {
-        Start: function( input ) { // dorh Not tested
-            $( 'a:contains("' + input.s_activate + '")[href*="plugin=' + input.plugin_code + '"]' ).Click();
-        }
-    };
+    probe.RegisterTry(
+        /I create (\d+) test pages via WP/, {
+            addNewSel: 'h2 a:contains("Add New")',   // dojh: translation issue -> Add New.
 
-    probe.WP.NoPagesExist = {
-        messageSel: '.no-items',
+            Start: function( /*input*/ ) {
+                probe.QueueStory(
+                    'WP.AdminOpenSubmenu',
+                    {
+                        'plugin_code': 'pages',
+                        'submenu_text': 'All Pages'   // dojh: translation issue -> All Pages.
+                    },
+                    'Step2'
+                );
+            },
 
-        Start: function( input ) {
-            probe.QueueStory(
-                'WP.AdminOpenSubmenu',
-                {
-                    'plugin_code': 'pages',
-                    'submenu_text': 'All Pages'   // dojh: translation issue -> All Pages.
-                },
-                'Step2'
-            );
-        },
+            Step2: function( /*input*/ ) {
+                // Wait until the 'Add new' link becomes visible
+                $( this.addNewSel ).WaitForVisible( 'Step3', 5000, 1 );
+            },
 
-        Step2: function( /*input*/ ) {
-            $( this.messageSel ).WaitForVisible( 'Step3' );
-        },
+            Step3: function( input ) {
+                if ( input.wait_data <= input.x_pages ) {
+                    // Click on the 'Add new' link
+                    $( this.addNewSel ).MustExist().Click();
 
-        Step3: function( /*input*/ ) {
-            // dojh: translation issue -> No pages found.
-            $( this.messageSel + ' td:contains("No pages found")' ).MustExistOnce();
-        }
-    };
+                    // dojh: translation issue -> Enter title here.
+                    $( 'h2:contains("Add New Page")' ).WaitForVisible( 'Step4', 5000, input.wait_data );
+                }
+            },
 
-    ////////////////////////////////////////
+            Step4: function( input ) {
+                var currentNr = input.wait_data;
 
-    probe.WP.XPagesExist = {
-        Start: function( input ) {
-            probe.QueueStory(
-                'WP.AdminOpenSubmenu',
-                {
-                    'plugin_code': 'pages',
-                    'submenu_text': 'All Pages'   // dojh: translation issue -> All Pages.
-                },
-                'Step2'
-            );
-        },
+                // Enter a value into the post_type input field
+                $( 'label:contains("Enter title here")' )   // dojh: translation issue -> Enter title here.
+                    .next( 'input' )
+                    .val( 'WP Page ' + currentNr );
 
-        Step2: function( /*input*/ ) {
-            $( this.getPageSelector() ).WaitForVisible( 'Step3' );
-        },
+                // Click the 'Save Draft' button
+                $( 'input[value="Save Draft"]' )   // dojh: translation issue -> Save Draft.
+                    .MustExist()
+                    .Click();
 
-        Step3: function( input ) {
-            $( this.getPageSelector() ).MustExistTimes( input.x_pages );
-        },
+                if ( currentNr <= input.x_pages ) {
+                    currentNr++;
 
-        getPageSelector: function ( input ) {
-            var selector = '.type-page';
-
-            if ( input && typeof input === 'string' ) {
-                selector += ':contains("' + input + '")';
+                    // Wait until the 'Add new' link becomes visible and proceed to step 3 again.
+                    $( this.addNewSel ).WaitForVisible( 'Step3', 5000, currentNr );
+                }
             }
-
-            return selector;
+        }, {
+            'x_pages': '{{match 0}}'
         }
-    };
-
+    );
 
     ////////////////////////////////////////
 
-    probe.WP.CreateXDraftPages = {
-        addNewSel: 'h2 a:contains("Add New")',   // dojh: translation issue -> Add New.
+    probe.RegisterTry(
+        /I edit a page via WP WITH PARAMS (.*)/, {
+            Start: function( input ) {
+                $( 'h2:contains("Edit Page")' ).WaitForVisible( 'Step2' );   // dojh: translation issue -> Edit Page.
+            },
 
-        Start: function( /*input*/ ) {
-            probe.QueueStory(
-                'WP.AdminOpenSubmenu',
-                {
-                    'plugin_code': 'pages',
-                    'submenu_text': 'All Pages'   // dojh: translation issue -> All Pages.
-                },
-                'Step2'
-            );
-        },
+            Step2: function( input ) {
+                var dfds = probe.NewDfds();
 
-        Step2: function( /*input*/ ) {
-            // Wait until the 'Add new' link becomes visible
-            $( this.addNewSel ).WaitForVisible( 'Step3', 5000, 1 );
-        },
+                dfds.add( probe.Utils.setValues( input.values ) );
 
-        Step3: function( input ) {
-            if ( input.wait_data <= input.x_pages ) {
-                // Click on the 'Add new' link
-                $( this.addNewSel ).MustExist().Click();
+                probe.WaitForDfds( dfds, 'Step3', 60000 );
+            },
 
-                // dojh: translation issue -> Enter title here.
-                $( 'h2:contains("Add New Page")' ).WaitForVisible( 'Step4', 5000, input.wait_data );
+            Step3: function( input ) {
+                $( 'input[value="Save Draft"], input[value="Publish"]' )   // dojh: translation issue -> Save Draft.
+                    .IfVisible()
+                    .Click();
             }
-        },
-
-        Step4: function( input ) {
-            var currentNr = input.wait_data;
-
-            // Enter a value into the post_type input field
-            $( 'label:contains("Enter title here")' )   // dojh: translation issue -> Enter title here.
-                .next( 'input' )
-                .val( 'WP Page ' + currentNr );
-
-            // Click the 'Save Draft' button
-            $( 'input[value="Save Draft"]' )   // dojh: translation issue -> Save Draft.
-                .MustExist()
-                .Click();
-
-            if ( currentNr <= input.x_pages ) {
-                currentNr++;
-
-                // Wait until the 'Add new' link becomes visible and proceed to step 3 again.
-                $( this.addNewSel ).WaitForVisible( 'Step3', 5000, currentNr );
-            }
+        }, {
+            'values': '{{match 0}}'
         }
-    };
-
-    ////////////////////////////////////////
+    );
 
 } )( jQuery, swiftyProbe );

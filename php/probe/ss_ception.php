@@ -29,9 +29,9 @@ class SSCeption extends SSStory {
 
         $ssI->wantTo('Run Probe');
 
-        $js = 'return swiftyProbe.' . $doName . '(["' . $functionName . '", ' . json_encode($input) . ']);';
+        $js = 'return swiftyProbe.' . $doName . '(["' . addslashes( $functionName ) . '", ' . json_encode($input) . ']);';
         if( $wait ) {
-            $js = 'return swiftyProbe.' . $doName . '([' . json_encode( $wait ) . ', "' . $functionName . '", ' . json_encode( $input ) . ']);';
+            $js = 'return swiftyProbe.' . $doName . '([' . json_encode( $wait ) . ', "' . addslashes( $functionName ) . '", ' . json_encode( $input ) . ']);';
         }
         $ret = $ssI->executeJS( $js );
 
@@ -46,30 +46,11 @@ class SSCeption extends SSStory {
 
     ////////////////////////////////////////
 
-    function EchoMsg( $s ) {
-//        \Codeception\Util\Debug::debug( "\n######################################################################\n" . $s . "\n######################################################################\n\n" );
-
+    function __EchoMsg( $s ) {
         // Force output to console, even if --silent
-        $out = fopen('php://stdout', 'w');
-        fputs($out, "\n######################################################################\n" . $s . "\n######################################################################\n" );
-        fclose($out);
-    }
-
-    ////////////////////////////////////////
-
-    function EchoMsgJs( $s ) {
-//        if( strpos( $s, '.Start = ' ) !== false ) {
-//            \Codeception\Util\Debug::debug( "\n\n" );
-//        }
-//        \Codeception\Util\Debug::debug( "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n" . $s );
-
-        // Force output to console, even if --silent
-        $out = fopen('php://stdout', 'w');
-        if( strpos( $s, '.Start = ' ) !== false ) {
-            fputs($out, "\n" );
-        }
-        fputs($out, "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n" . $s );
-        fclose($out);
+        $out = fopen( 'php://stdout', 'w' );
+        fputs( $out, $s );
+        fclose( $out );
     }
 
     ////////////////////////////////////////
@@ -106,6 +87,7 @@ class SSCeption extends SSStory {
         $I = $ssI;
 
         $I->setCookie( $name, $val );
+        $I->wait( 1 );
     }
 
     ////////////////////////////////////////
@@ -115,6 +97,7 @@ class SSCeption extends SSStory {
         $I = $ssI;
 
         $I->resetCookie( $name );
+        $I->wait( 1 );
     }
 }
 
