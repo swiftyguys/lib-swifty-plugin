@@ -74,7 +74,7 @@ class SSStory {
         $stack = array( &$ssProbeDesciption );
         $current = &$stack[ 0 ];
         $lastIndent = -1;
-        $handle = fopen( '../../../../../test/test.desc', "r" );
+        $handle = fopen( dirname(__FILE__) . '/../../../../../../test/test.desc', "r" );
         if( $handle ) {
             while( ( $line = fgets( $handle ) ) !== false ) {
                 $line = preg_replace( "/\r|\n/", "", $line );
@@ -136,6 +136,39 @@ class SSStory {
 
     ////////////////////////////////////////
 
+    function SetupStory( $name ) {
+        $story = $GLOBALS['story'] = newStoryFor('Wordpress')
+            ->inGroup( $name )
+            ->called('Test ' . $name . '.');
+
+        $story->addTestSetup( function( StoryTeller $st ) {
+            $ssStory = $GLOBALS['ssStory'];
+            $ssStory->st = $st;
+            $ssStory->ori_story = $GLOBALS['story'];
+            $ssStory->TestSetup();
+        } );
+
+        $story->addTestTeardown( function( StoryTeller $st ) {
+            $ssStory = $GLOBALS['ssStory'];
+            $ssStory->st = $st;
+            $ssStory->TestTeardown();
+        } );
+
+        $story->addAction( function( StoryTeller $st ) {
+            $ssStory = $GLOBALS['ssStory'];
+            $ssStory->st = $st;
+            $ssStory->TakeAction();
+        } );
+
+        $story->addPostTestInspection( function( StoryTeller $st ) {
+        //    $st->assertsString($this->data->testText)->equals("Akismet");
+        } );
+
+        return $story;
+    }
+
+    ////////////////////////////////////////
+
     function TestSetup0() {
         $st = $this->st;
 
@@ -151,7 +184,7 @@ class SSStory {
         $this->params = $st->getParams();
 
         // load the test settings; any settings in private will overrule the same settings in public
-        $settingsPublic = json_decode( file_get_contents( dirname( __FILE__ ) . '/../../../../../../test/settings_public.json' ), true );
+        $settingsPublic = json_decode( file_get_contents( dirname( __FILE__ ) . '/settings_public.json' ), true );
         $settingsPublic[ $this->params[ 'platform' ] ] = ( isset( $settingsPublic[ $this->params[ 'platform' ] ] ) && is_array( $settingsPublic[ $this->params[ 'platform' ] ] ) ) ? $settingsPublic[ $this->params[ 'platform' ] ] : array(); // initialize if necessary
         $settingsPrivate = json_decode( file_get_contents( dirname( __FILE__ ) . '/../../../../../../test/settings_private.json' ), true );
         $this->data = new stdClass(); // Empty object

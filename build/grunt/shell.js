@@ -14,11 +14,11 @@ module.exports = function( grunt/*, options*/ ) {
                      //' -d sl_ie9_win7' +
                      //' -d sl_chrome31_win7' +
                      ' -d sl_firefox37_win8_1' +
-                     ' test_dist.php',
+                     ' ../../../../../../test/test_dist.php',
             options: {
                 stderr: false,
                 execOptions: {
-                    cwd: '../test/'
+                    cwd: '../plugin/' + grunt.myCfg.plugin_code + '/lib/swifty_plugin/php/probe'
                 },
                 'callback': function(err, stdout, stderr, cb) {
                     if( stderr.indexOf( "action: COMPLETED" ) >= 0 ) {
@@ -156,7 +156,7 @@ module.exports = function( grunt/*, options*/ ) {
             }
         },
         mysql_update_version: {
-            command: "mysql -D AMH_swif_wp838 -h green.alphamegahosting.com -e \"update wp_postmeta set meta_value='" + grunt.myPkg.version + "' where meta_key='_api_new_version' and post_id='2455';\";",
+            command: "mysql -D swiftylife -h swiftylife.cxbgadkmkhqf.eu-central-1.rds.amazonaws.com -e \"update wp_postmeta set meta_value='" + grunt.myPkg.version + "' where meta_key='_api_new_version' and post_id='2455';\";",
             options: {
                 execOptions: {
                 },
@@ -166,7 +166,7 @@ module.exports = function( grunt/*, options*/ ) {
             }
         },
         mysql_update_date: {
-            command: "mysql -D AMH_swif_wp838 -h green.alphamegahosting.com -e \"update wp_postmeta set meta_value='" + grunt.getYyyyMmDd() + "' where meta_key='_api_last_updated' and post_id='2455';\";",
+            command: "mysql -D swiftylife -h swiftylife.cxbgadkmkhqf.eu-central-1.rds.amazonaws.com -e \"update wp_postmeta set meta_value='" + grunt.getYyyyMmDd() + "' where meta_key='_api_last_updated' and post_id='2455';\";",
             options: {
                 execOptions: {
                 },
@@ -176,7 +176,7 @@ module.exports = function( grunt/*, options*/ ) {
             }
         },
         mysql_check_version: {
-            command: "mysql -D AMH_swif_wp838 -h green.alphamegahosting.com -e \"select meta_value from wp_postmeta where meta_key='_api_new_version' and post_id='2455';\";",
+            command: "mysql -D swiftylife -h swiftylife.cxbgadkmkhqf.eu-central-1.rds.amazonaws.com -e \"select meta_value from wp_postmeta where meta_key='_api_new_version' and post_id='2455';\";",
             options: {
                 execOptions: {
                 },
