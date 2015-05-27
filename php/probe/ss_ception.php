@@ -61,7 +61,7 @@ class SSCeption extends SSStory {
 
         $I->amOnPage( $input[ 'url' ] );
 
-        if( $input[ 'waitForSelector' ] ) {
+        if( array_key_exists( 'waitForSelector', $input ) ) {
             $I->waitForElementVisible( $input[ 'waitForSelector' ], 10 ); // secs
         }
     }
@@ -77,7 +77,8 @@ class SSCeption extends SSStory {
         $I->fillField('#user_login', 'test');
         $I->fillField('#user_pass', 'test!');
         $I->click('#wp-submit');
-        $I->see('Dashboard');
+//        $I->see('Dashboard');
+        $I->dontSeeInCurrentUrl('?loggedout=true');
     }
 
     ////////////////////////////////////////

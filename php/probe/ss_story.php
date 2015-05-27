@@ -63,6 +63,13 @@ class SSStory {
                 }
             }
         );
+
+        $this->RegisterTry(
+            'I am on the homepage',
+            function() {
+                $this->GotoUrl( array( 'url' => '/' ) );
+            }
+        );
     }
 
     ////////////////////////////////////////
