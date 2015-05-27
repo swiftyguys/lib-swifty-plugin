@@ -105,8 +105,8 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
                 $( '#wpadminbar' ).hide();
                 $( '#adminmenuback' ).hide();
                 $( '#adminmenuwrap' ).hide();
-                $( '#wpcontent' ).css( 'margin-left', '0px' );
-                //$('.wp-toolbar').css('padding-top', '0px');
+                $( '#wpcontent' ).css( 'margin-left', '0' );
+                //$('.wp-toolbar').css('padding-top', '0');
                 $( '.updated' ).hide();
                 $( '.error' ).hide();
                 <?php endif ?>
