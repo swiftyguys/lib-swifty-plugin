@@ -11,7 +11,7 @@ class SSCeption extends SSStory {
 
     function TestSetup0() {
         // load the test settings; any settings in private will overrule the same settings in public
-        $settingsPublic = json_decode( file_get_contents( dirname(__FILE__) . '/../../../../../../test/settings_public.json' ), true );
+        $settingsPublic = json_decode( file_get_contents( dirname( __FILE__ ) . '/settings_public.json' ), true );
         $this->data = new stdClass(); // Empty object
         $this->data->testSettings = (object) $settingsPublic[ 'default' ];
     }
