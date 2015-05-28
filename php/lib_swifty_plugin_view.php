@@ -159,7 +159,7 @@ class LibSwiftyPluginView
 }
 
 // load the swifty font, only load the latest version.
-if(! function_exists( 'swifty_lib_admin_enqueue_styles' ) ) {
+if(! function_exists( 'swifty_lib_view_enqueue_styles' ) ) {
 
     function swifty_lib_view_enqueue_styles()
     {
@@ -186,7 +186,7 @@ $font_version = (int)'/*@echo FONT_REL_TAG*/';
 
 global $swifty_font_version;
 global $swifty_font_url;
-global $scc_buildUse;
+global $swifty_buildUse;
 
 if( !isset( $swifty_font_version ) || ( $swifty_font_version < $font_version ) ) {
     $swifty_font_version = $font_version;
@@ -197,7 +197,7 @@ if( !isset( $swifty_font_version ) || ( $swifty_font_version < $font_version ) )
     $plugin_basename = basename( $plugin_dir );
     $plugin_dir_url  = trailingslashit( plugins_url( rawurlencode( $plugin_basename ) ) );
 
-    if( $scc_buildUse == 'build' ) {
+    if( $swifty_buildUse == 'build' ) {
         $swifty_font_url = $plugin_dir_url . 'css/swifty-font.css';
     } else {
         $swifty_font_url = $plugin_dir_url . 'lib/swifty_plugin/css/swifty-font.css';
