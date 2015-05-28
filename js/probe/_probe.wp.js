@@ -306,7 +306,7 @@
 
     probe.RegisterTry(
         /I edit a page via WP WITH PARAMS (.*)/, {
-            Start: function( input ) {
+            Start: function( /*input*/ ) {
                 $( 'h2:contains("Edit Page")' ).WaitForVisible( 'Step2' );   // dojh: translation issue -> Edit Page.
             },
 
@@ -325,6 +325,16 @@
             }
         }, {
             'values': '{{match 0}}'
+        }
+    );
+
+    ////////////////////////////////////////
+
+    probe.RegisterTry(
+        'I go to edit the theme via WP', {
+            Start: function( /*input*/ ) {
+                probe.GotoUrl( '/wp-admin/customize.php?theme=swifty-site-designer', 'body.wp-customizer' ).next( '' );
+            }
         }
     );
 

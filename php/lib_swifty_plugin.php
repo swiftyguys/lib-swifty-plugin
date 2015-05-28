@@ -216,6 +216,67 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
         $wp_rewrite->flush_rules();
     }
 
+    // @if PROBE='include'
+    /**
+     * Swifty Probe Module include (used for testing and gamification)
+     */
+    public function add_module_swifty_probe( $path, $code )
+    {
+        wp_enqueue_script(
+            'swifty-probe',
+            $path . '/lib/swifty_plugin/js/probe/__probe.js',
+            false
+        );
+
+        wp_enqueue_script(
+            'swifty-probe-wp',
+            $path . '/lib/swifty_plugin/js/probe/_probe.wp.js',
+            array( 'swifty-probe' )
+        );
+
+        wp_enqueue_script(
+            'swifty-probe-utils',
+            $path . '/lib/swifty_plugin/js/probe/_probe.utils.js',
+            array( 'swifty-probe' )
+        );
+
+        wp_enqueue_script(
+            'swifty-probe-ssm',
+            $path . '/js/probe/probe.' . $code . '.js',
+            array( 'swifty-probe-wp' )
+        );
+
+        wp_enqueue_script(
+            'bililite-range',
+            $path . '/lib/swifty_plugin/js/lib/probe/bililiteRange.js',
+            false
+        );
+
+        wp_enqueue_script(
+            'jquery-simulate',
+            $path . '/lib/swifty_plugin/js/lib/probe/jquery.simulate.js',
+            false
+        );
+
+        wp_enqueue_script(
+            'jquery-simulate-ext',
+            $path . '/lib/swifty_plugin/js/lib/probe/jquery.simulate.ext.js',
+            array( 'jquery-simulate' )
+        );
+
+        wp_enqueue_script(
+            'jquery-drag-n-drop',
+            $path . '/lib/swifty_plugin/js/lib/probe/jquery.simulate.drag-n-drop.js',
+            array( 'jquery-simulate-ext' )
+        );
+
+        wp_enqueue_script(
+            'jquery-key-sequence',
+            $path . '/lib/swifty_plugin/js/lib/probe/jquery.simulate.key-sequence.js',
+            array( 'jquery-simulate-ext' )
+        );
+    }
+    // @endif
 }
 
 if(! function_exists( 'swifty_lib_admin_enqueue_styles' ) ) {

@@ -83,6 +83,31 @@ class SSCeption extends SSStory {
 
     ////////////////////////////////////////
 
+    function WPActivateTheme() {
+        global $ssI;
+        $I = $ssI;
+
+        $I->wantTo('activate theme');
+        $I->amOnPage('wp-admin/themes.php');
+
+        // Check if theme is already activated; if so, no further action is needed
+        $txt = $I->grabTextFrom('//div[contains(@class,"theme") and contains(h3, "Swifty Site Designer")]');
+        if( strpos( $txt, 'Active: Swifty Site Designer' ) === false ) { // false is intentional
+            // Not yet activated
+            // Click on he theme
+            $I->click( '//div[@class="theme" and contains(h3, "Swifty Site Designer")]' );
+            // Wait for the theme dialog to appear
+            $I->waitForElement( '//div[@class="theme-overlay"]', 30 ); // secs
+            // Click Activate
+            $I->click( '(//a[contains(text(),"Activate")])[last()]' );
+            // Wait until the them is activated
+//        $I->waitForElement('//div[@class="theme" and contains(h3, "Swifty Site Designer") and contains(a, "Customize")]', 60); // secs
+            $I->wait( 5 );
+        }
+    }
+
+    ////////////////////////////////////////
+
     function SetCookie( $name, $val ) {
         global $ssI;
         $I = $ssI;

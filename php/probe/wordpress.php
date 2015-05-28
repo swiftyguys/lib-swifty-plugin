@@ -119,6 +119,25 @@ class Wordpress {
 
     ////////////////////////////////////////
 
+    function ActivateTheme() {
+        $st = $this->st;
+
+        $this->story->EchoMsg( "Activate theme" );
+
+        $st->usingBrowser()->gotoPage( "http://" . $this->story->data->testSettings->domain . "/wp-admin/themes.php" );
+
+        // Click on he theme
+        $this->story->ClickElementByXpath( '//div[@class="theme" and contains(h3, "Swifty Site Designer")]', "graceful" );
+        // Wait for the theme dialog to appear
+        $st->usingTimer()->wait( 2, "Wait until theme dialog is shown." );
+        // Click Activate
+        $this->story->ClickElementByXpath( '(//a[contains(text(),"Activate")])[last()]', "graceful" );
+        // Wait until the them is activated
+        $st->usingTimer()->wait( 5, "Wait until theme is installed." );
+    }
+
+    ////////////////////////////////////////
+
     function Activate_License() {
         $st = $this->st;
 

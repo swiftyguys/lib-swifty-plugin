@@ -70,6 +70,13 @@ class SSStory {
                 $this->GotoUrl( array( 'url' => '/' ) );
             }
         );
+
+        $this->RegisterTry(
+            'The "Swifty Site Designer" theme is activated',
+            function() {
+                $this->WPActivateTheme();
+            }
+        );
     }
 
     ////////////////////////////////////////
@@ -81,7 +88,11 @@ class SSStory {
         $stack = array( &$ssProbeDesciption );
         $current = &$stack[ 0 ];
         $lastIndent = -1;
-        $handle = fopen( dirname(__FILE__) . '/../../../../../../test/test.desc', "r" );
+        if( file_exists( dirname( __FILE__ ) . '/../../../../../../test/test.desc' ) ) {
+            $handle = fopen( dirname( __FILE__ ) . '/../../../../../../test/test.desc', "r" );
+        } else {
+            $handle = fopen( dirname( __FILE__ ) . '/../../../../../../../test/test.desc', "r" );
+        }
         if( $handle ) {
             while( ( $line = fgets( $handle ) ) !== false ) {
                 $line = preg_replace( "/\r|\n/", "", $line );
@@ -733,6 +744,12 @@ class SSStory {
 
     function WPLogin() {
         $this->wordpress->Login();
+    }
+
+    ////////////////////////////////////////
+
+    function WPActivateTheme() {
+        $this->wordpress->ActivateTheme();
     }
 
     ////////////////////////////////////////

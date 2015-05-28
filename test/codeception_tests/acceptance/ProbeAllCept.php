@@ -11,6 +11,10 @@
 global $ssI;
 $ssI = new AcceptanceTester($scenario);
 
-require '../../../../../test/test.php';
+if( file_exists( '../../../../../test/test.php' ) ) {
+    require '../../../../../test/test.php';
+} else {
+    require '../../../../../../test/test.php';
+}
 
 $ssI->wait(3);
