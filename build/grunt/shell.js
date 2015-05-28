@@ -126,7 +126,8 @@ module.exports = function( grunt/*, options*/ ) {
             }
         },
         git_tag: {
-            command: 'git tag v' + grunt.myPkg.version,
+            //command: 'git tag v' + grunt.myPkg.version,
+            command: 'git tag ' + grunt.myCfg.git_pull_all.tagcode + grunt.myPkg.version,
             options: {
                 execOptions: {
                 },
