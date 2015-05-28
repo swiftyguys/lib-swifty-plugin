@@ -245,7 +245,7 @@ $css_admin_version = (int)'/*@echo CSS_ADMIN_REL_TAG*/';
 
 global $swifty_css_admin_version;
 global $swifty_css_admin_url;
-global $scc_buildUse;
+global $swifty_buildUse;
 
 if( !isset( $swifty_css_admin_version ) || ( $swifty_css_admin_version < $css_admin_version ) ) {
     $swifty_css_admin_version = $css_admin_version;
@@ -256,7 +256,7 @@ if( !isset( $swifty_css_admin_version ) || ( $swifty_css_admin_version < $css_ad
     $plugin_basename = basename( $plugin_dir );
     $plugin_dir_url  = trailingslashit( plugins_url( rawurlencode( $plugin_basename ) ) );
 
-    if( $scc_buildUse == 'build' ) {
+    if( $swifty_buildUse == 'build' ) {
         $swifty_css_admin_url = $plugin_dir_url . 'css/swifty-admin.css';
     } else {
         $swifty_css_admin_url = $plugin_dir_url . 'lib/swifty_plugin/css/swifty-admin.css';
