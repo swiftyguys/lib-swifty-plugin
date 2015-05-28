@@ -159,7 +159,7 @@ class LibSwiftyPluginView
 }
 
 // load the swifty font, only load the latest version.
-if(! function_exists( 'swifty_lib_admin_enqueue_styles' ) ) {
+if(! function_exists( 'swifty_lib_view_enqueue_styles' ) ) {
 
     function swifty_lib_view_enqueue_styles()
     {
