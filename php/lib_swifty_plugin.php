@@ -218,23 +218,27 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
 
 }
 
-function admin_enqueue_styles()
-{
-    if ( is_user_logged_in() ) {
+if(! function_exists( 'swifty_lib_admin_enqueue_styles' ) ) {
 
-        global $swifty_css_admin_url;
-        global $swifty_css_admin_version;
+    function swifty_lib_admin_enqueue_styles()
+    {
+        if( is_user_logged_in() ) {
+            global $swifty_css_admin_url;
+            global $swifty_css_admin_version;
 
-        wp_enqueue_style(
-            'swifty-admin.css',
-            $swifty_css_admin_url,
-            array(),
-            $swifty_css_admin_version,
-            'all'
-        );
+            wp_enqueue_style(
+                'swifty-admin.css',
+                $swifty_css_admin_url,
+                array(),
+                $swifty_css_admin_version,
+                'all'
+            );
 
-        wp_enqueue_style( 'swifty-font-awesome', '//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css' );
+            wp_enqueue_style( 'swifty-font-awesome', '//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css' );
+        }
     }
+
+    add_action( 'admin_enqueue_scripts', 'swifty_lib_admin_enqueue_styles' );
 }
 
 $css_admin_version = (int)'/*@echo CSS_ADMIN_REL_TAG*/';
@@ -258,5 +262,3 @@ if( !isset( $swifty_css_admin_version ) || ( $swifty_css_admin_version < $css_ad
         $swifty_css_admin_url = $plugin_dir_url . 'lib/swifty_plugin/css/swifty-admin.css';
     }
 }
-
-add_action( 'admin_enqueue_scripts', 'admin_enqueue_styles' );
