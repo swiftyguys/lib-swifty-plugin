@@ -93,7 +93,8 @@ module.exports = {
         };
 
         grunt.getFontReleaseTag = function() {
-            var file = '../plugin/' + grunt.myCfg.plugin_code + '/lib/swifty_plugin/css/swifty-font.css';
+            //var file = '../plugin/' + grunt.myCfg.plugin_code + '/lib/swifty_plugin/css/swifty-font.css';
+            var file = grunt.myCfg.base_path_2 + 'lib/swifty_plugin/css/swifty-font.css';
             var filemod = ( require( 'fs' ).statSync( file ) ).mtime;
             //console.log( 'aaa', file, filemod, filemod.getTime() );
             return filemod.getTime();
