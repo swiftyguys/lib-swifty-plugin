@@ -9,6 +9,7 @@ require_once plugin_dir_path( __FILE__ ) . 'lib/swifty_class-tgm-plugin-activati
 
 class LibSwiftyPlugin extends LibSwiftyPluginView
 {
+    protected static $instance;
     protected $our_swifty_plugins = array();
     protected $added_swifty_slugs = array();
 
@@ -16,7 +17,12 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
     {
         parent::__construct();
 
+        self::$instance = $this;
+    }
 
+    public static function get_instance()
+    {
+        return self::$instance;
     }
 
     public function admin_add_swifty_menu( $name, $swiftyname, $key, $func, $register_plugin ) {
