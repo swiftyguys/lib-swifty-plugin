@@ -14,11 +14,13 @@ module.exports = function( grunt/*, options*/ ) {
                      //' -d sl_ie9_win7' +
                      //' -d sl_chrome31_win7' +
                      ' -d sl_firefox37_win8_1' +
-                     ' ../../../../../../test/test_dist.php',
+                     //' ../../../../../../test/test_dist.php',
+                    ' test_dist.php',
             options: {
                 stderr: false,
                 execOptions: {
-                    cwd: '../plugin/' + grunt.myCfg.plugin_code + '/lib/swifty_plugin/php/probe'
+                    //cwd: '../plugin/' + grunt.myCfg.plugin_code + '/' + grunt.myCfg.rel_swifty_plugin + 'php/probe'
+                    cwd: '../test/'
                 },
                 'callback': function(err, stdout, stderr, cb) {
                     if( stderr.indexOf( "action: COMPLETED" ) >= 0 ) {
@@ -200,7 +202,7 @@ module.exports = function( grunt/*, options*/ ) {
             }
         },
         find_globals: {
-            command: "find  ../plugin/swifty-content-creator/. -name '*.php' | while read FILE;do perl -l -ne '/global (.*);/ and print $1' \"$FILE\";done",
+            command: "find  " + grunt.myCfg.base_path + ". -name '*.php' | while read FILE;do perl -l -ne '/global (.*);/ and print $1' \"$FILE\";done",
             options: {
                 execOptions: {
                 },
@@ -344,7 +346,7 @@ module.exports = function( grunt/*, options*/ ) {
                             po2 = grunt.myCfg.po.languages[ key ];
                         }
                     }
-                    grunt.task.run( [ 'shell:split_po_next:' + last + ':' + po2 + ':lib_-_-_swifty_plugin_-_-_:lib/swifty_plugin/languages/' ] );
+                    grunt.task.run( [ 'shell:split_po_next:' + last + ':' + po2 + ':lib_-_-_swifty_plugin_-_-_:' + grunt.myCfg.rel_swifty_plugin + 'languages/' ] );
                     if( grunt.file.isDir( grunt.getSourcePath() + 'pro' ) ) {
                         grunt.task.run( [ 'shell:split_po_next:' + last + ':' + po2 + ':pro_-_-_am_-_-_:pro/languages/am/' ] );
                         grunt.task.run( [ 'shell:split_po_next:' + last + ':' + po2 + ':pro_-_-_:pro/languages/' ] );
@@ -472,10 +474,13 @@ module.exports = function( grunt/*, options*/ ) {
             cfgOut[ 'git_pull_' + i ] = {
                 //command: grunt.myCfg.git_pull_all.cmd,
                 command: [
+                    'echo',
+                    'echo "=== Trying: git pull for dir ' + grunt.myCfg.git_pull_all.paths[ i ] + '"',
+                    'echo',
                     'git fetch',
                     'git pull',
                     'git submodule update --init --recursive'
-                ].join( '&&' ),
+                ].join( ' && ' ),
                 options: {
                     execOptions: {
                         cwd: grunt.myCfg.git_pull_all.paths[ i ]
@@ -488,12 +493,15 @@ module.exports = function( grunt/*, options*/ ) {
             cfgOut[ 'git_merge_' + i ] = {
                 //command: grunt.myCfg.git_pull_all.cmd,
                 command: [
+                    'echo',
+                    'echo "=== Trying: git pull master and merge develop for dir ' + grunt.myCfg.git_pull_all.paths[ i ] + '"',
+                    'echo',
                     'git fetch',
                     'git pull origin master',
                     'git merge origin/develop',
                     //'git merge origin/inarticle',
                     'git submodule update --init --recursive'
-                ].join( '&&' ),
+                ].join( ' && ' ),
                 options: {
                     execOptions: {
                         cwd: grunt.myCfg.git_pull_all.paths[ i ]

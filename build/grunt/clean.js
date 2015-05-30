@@ -8,7 +8,7 @@ module.exports = function( grunt/*, options*/ ) {
         languages: [
             '<%= grunt.getDestPathPlugin() %>**/lang.pot',
             '<%= grunt.getDestPathPlugin() %>pro/languages',
-            '<%= grunt.getDestPathPlugin() %>lib/swifty_plugin/languages'
+            '<%= grunt.getDestPathPlugin() %>' + grunt.myCfg.rel_swifty_plugin + 'languages'
         ]
     };
 };

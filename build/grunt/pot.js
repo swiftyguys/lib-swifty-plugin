@@ -67,7 +67,7 @@ module.exports = function( grunt/*, options*/ ) {
             files: [ {
                 expand: true,
                 cwd: '<%= grunt.getSourcePath() %>',
-                src: [ '**/*.php', '!pro/**', '!lib/swifty_plugin/**' ]
+                src: [ '**/*.php', '!pro/**', '!' + grunt.myCfg.rel_swifty_plugin + '**' ]
             } ]
         },
         pro: {
@@ -213,7 +213,7 @@ module.exports = function( grunt/*, options*/ ) {
         lib: {
             options: {
                 text_domain: 'swifty', // Is not yet used by grunt-pot
-                dest: '<%= grunt.getSourcePath() %>lib/swifty_plugin/languages/lang.pot',
+                dest: '<%= grunt.getSourcePath() %>' + grunt.myCfg.rel_swifty_plugin + 'languages/lang.pot',
                 overwrite: true,
                 encoding: 'UTF-8',
                 language: false,
@@ -276,7 +276,7 @@ module.exports = function( grunt/*, options*/ ) {
             },
             files: [ {
                 expand: true,
-                cwd: '<%= grunt.getSourcePath() %>lib/swifty_plugin/',
+                cwd: '<%= grunt.getSourcePath() %>' + grunt.myCfg.rel_swifty_plugin + '',
                 src: [ '**/*.php' ]
             } ]
         }

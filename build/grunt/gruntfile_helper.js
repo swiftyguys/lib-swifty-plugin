@@ -93,8 +93,7 @@ module.exports = {
         };
 
         grunt.getFontReleaseTag = function() {
-            //var file = '../plugin/' + grunt.myCfg.plugin_code + '/lib/swifty_plugin/css/swifty-font.css';
-            var file = grunt.myCfg.base_path_2 + 'lib/swifty_plugin/css/swifty-font.css';
+            var file = grunt.myCfg.base_path + grunt.myCfg.rel_swifty_plugin + 'css/swifty-font.css';
             var filemod = ( require( 'fs' ).statSync( file ) ).mtime;
             //console.log( 'aaa', file, filemod, filemod.getTime() );
             return filemod.getTime();
@@ -120,7 +119,7 @@ module.exports = {
                 if( po !== 'lang' ) {
                     s +=
                         // Hardcoded copy lib lang files from SPM to this repo
-                        'cp <%= grunt.getSourcePath() %>../../../swifty_page_manager/plugin/swifty-page-manager/lib/swifty_plugin/languages/' + po + '.* <%= grunt.getSourcePath() %>lib/swifty_plugin/languages/; ';
+                        'cp <%= grunt.getSourcePath() %>../../../swifty_page_manager/plugin/swifty-page-manager/' + grunt.myCfg.rel_swifty_plugin + 'languages/' + po + '.* <%= grunt.getSourcePath() %>' + grunt.myCfg.rel_swifty_plugin + 'languages/; ';
                 }
                 s +=
                     'rm -f temp_<%= grunt.getPluginNameCompact() %>.' + ext +
@@ -136,9 +135,10 @@ module.exports = {
                         '<%= grunt.getSourcePath() %>pro/languages/am/' + po + '.' + ext + ' ';
                 }
                 s +=
-                        '<%= grunt.getSourcePath() %>lib/swifty_plugin/languages/' + po + '.' + ext + ' ' +
+                        '<%= grunt.getSourcePath() %>' + grunt.myCfg.rel_swifty_plugin + 'languages/' + po + '.' + ext + ' ' +
                         '> temp_<%= grunt.getPluginNameCompact() %>.' + ext +
-                    ' && perl -pi -e "s#../plugin/' + grunt.myCfg.plugin_code + '/##g" temp_<%= grunt.getPluginNameCompact() %>.' + ext +
+                    //' && perl -pi -e "s#../plugin/' + grunt.myCfg.plugin_code + '/##g" temp_<%= grunt.getPluginNameCompact() %>.' + ext +
+                    ' && perl -pi -e "s#' + grunt.myCfg.base_path + '##g" temp_<%= grunt.getPluginNameCompact() %>.' + ext +
                     ' && scp -P 2022 temp_<%= grunt.getPluginNameCompact() %>.' + ext + ' translate@pink.alphamegahosting.com:/var/www/vhosts/translate.swiftylife.com/httpdocs/scripts/temp_<%= grunt.getPluginNameCompact() %>.' + ext +
                     ' && ssh -t -p 2022 translate@pink.alphamegahosting.com "' +
                             'cd /var/www/vhosts/translate.swiftylife.com/httpdocs/scripts';
@@ -165,7 +165,7 @@ module.exports = {
                         ' <%= grunt.getDestPathPlugin() %>pro/languages/am/' + po + '.po';
                 }
                 s +=
-                        ' <%= grunt.getDestPathPlugin() %>lib/swifty_plugin/languages/' + po + '.po' +
+                        ' <%= grunt.getDestPathPlugin() %>' + grunt.myCfg.rel_swifty_plugin + 'languages/' + po + '.po' +
                         ' > <%= grunt.getDestPathPlugin() %>languages/' + po + '.pot' +
                     ' && rm -f <%= grunt.getDestPathPlugin() %>languages/' + po + '.po' +
                     '; rm -f <%= grunt.getDestPathPlugin() %>languages/' + po + '.mo';
@@ -177,8 +177,8 @@ module.exports = {
                     '; rm -f <%= grunt.getDestPathPlugin() %>pro/languages/am/' + po + '.mo';
                 }
                 s +=
-                    '; rm -f <%= grunt.getDestPathPlugin() %>lib/swifty_plugin/languages/' + po + '.po' +
-                    '; rm -f <%= grunt.getDestPathPlugin() %>lib/swifty_plugin/languages/' + po + '.mo' +
+                    '; rm -f <%= grunt.getDestPathPlugin() %>' + grunt.myCfg.rel_swifty_plugin + 'languages/' + po + '.po' +
+                    '; rm -f <%= grunt.getDestPathPlugin() %>' + grunt.myCfg.rel_swifty_plugin + 'languages/' + po + '.mo' +
                     '; mv -f <%= grunt.getDestPathPlugin() %>languages/' + po + '.pot <%= grunt.getDestPathPlugin() %>languages/' + po + '.po' +
                     ' && msgfmt <%= grunt.getDestPathPlugin() %>languages/' + po + '.po -o <%= grunt.getDestPathPlugin() %>languages/' + po + '.mo';
             return s;

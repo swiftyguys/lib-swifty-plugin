@@ -19,8 +19,8 @@ module.exports = function( grunt/*, options*/ ) {
             ]
         },
         lib_version: {
-            src: [ '<%= grunt.getSourcePath() %>swifty_version.txt' ],
-            dest: '<%= grunt.getDestPathPlugin() %>swifty_version.txt',
+            src: '<%= grunt.getDestPathPlugin() %>**/swifty_version.txt',
+            overwrite: true,
             replacements: [
                 {
                     from: 'SWIFTY_LIB_VERSION',

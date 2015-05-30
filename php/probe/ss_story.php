@@ -204,7 +204,11 @@ class SSStory {
         // load the test settings; any settings in private will overrule the same settings in public
         $settingsPublic = json_decode( file_get_contents( dirname( __FILE__ ) . '/settings_public.json' ), true );
         $settingsPublic[ $this->params[ 'platform' ] ] = ( isset( $settingsPublic[ $this->params[ 'platform' ] ] ) && is_array( $settingsPublic[ $this->params[ 'platform' ] ] ) ) ? $settingsPublic[ $this->params[ 'platform' ] ] : array(); // initialize if necessary
-        $settingsPrivate = json_decode( file_get_contents( dirname( __FILE__ ) . '/../../../../../../test/settings_private.json' ), true );
+        if( file_exists( dirname( __FILE__ ) . '/../../../../../../test/settings_private.json' ) ) {
+            $settingsPrivate = json_decode( file_get_contents( dirname( __FILE__ ) . '/../../../../../../test/settings_private.json' ), true );
+        } else {
+            $settingsPrivate = json_decode( file_get_contents( dirname( __FILE__ ) . '/../../../../../../../test/settings_private.json' ), true );
+        }
         $this->data = new stdClass(); // Empty object
         $this->data->testSettings = (object) array_replace_recursive(
             $settingsPublic[ 'default' ],

@@ -172,13 +172,22 @@ class Wordpress {
         if( $this->story->params[ 'platform' ] == "ec2" ) {
             // Copy plugin to remote server via Ansible
 
+            $plugin_or_theme = 'plugin';
+            $wp_plugin_path_full = $plugin_path_1 . '/' . $plugin_or_theme . '/' . $relpath . '/' . $plugin_path_2;
+            if( ! file_exists( '/home/sysadmin/repos/' . $wp_plugin_path_full ) ) {
+                $plugin_or_theme = 'theme';
+                $wp_plugin_path_full = $plugin_path_1 . '/' . $plugin_or_theme . '/' . $relpath . '/' . $plugin_path_2;
+            }
+
             // create the parameters for Ansible
             $vmParams = array (
                 "install_now" => "plugin",
                 "code" => "swifty-page-manager",
                 "wp_plugin_relpath" => $relpath,
                 "wp_plugin_path_1" => $plugin_path_1,
-                "wp_plugin_path_2" => $plugin_path_2
+                "wp_plugin_path_2" => $plugin_path_2,
+                "wp_plugin_path_full" => $wp_plugin_path_full,
+                "wp_plugin_path_plugin_or_theme" => $plugin_or_theme
             );
 
             // build up the provisioning definition
