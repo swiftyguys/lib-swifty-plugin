@@ -1,6 +1,19 @@
 <?php
 
 if( ! function_exists( 'swifty_autoload_lib_helper' ) ) {
+    function swifty_autoload_lib_helper_main( $file_path ) {
+        $best_version = -1;
+        $best_dir = '';
+        $directories = glob( WP_PLUGIN_DIR . '/swifty*', GLOB_ONLYDIR );
+        swifty_autoload_lib_helper( $directories, '/lib/swifty_plugin', $best_version, $best_dir );
+        $directories = glob( get_theme_root() . '/swifty*', GLOB_ONLYDIR );
+        swifty_autoload_lib_helper( $directories, '/ssd/lib/swifty_plugin', $best_version, $best_dir );
+//            echo 'BEST... #####' . $best_dir . '#####' . $best_version . '<br>';
+        if( $best_dir !== '' ) {
+            require_once $best_dir . $file_path;
+        }
+    }
+
     function swifty_autoload_lib_helper( $directories, $version_path, &$best_version, &$best_dir ) {
         foreach( $directories as $dir ) {
             $file = $dir . $version_path . '/version.txt';
@@ -19,19 +32,17 @@ if( ! function_exists( 'swifty_autoload_lib_helper' ) ) {
 
     spl_autoload_register( function ( $class_name ) {
         if( $class_name === 'LibSwiftyPlugin' ) {
-            $best_version = -1;
-            $best_dir = '';
-            $directories = glob( WP_PLUGIN_DIR . '/swifty*', GLOB_ONLYDIR );
-            swifty_autoload_lib_helper( $directories, '/lib/swifty_plugin', $best_version, $best_dir );
-            $directories = glob( get_theme_root() . '/swifty*', GLOB_ONLYDIR );
-            swifty_autoload_lib_helper( $directories, '/ssd/lib/swifty_plugin', $best_version, $best_dir );
-//            echo 'BEST... #####' . $best_dir . '#####' . $best_version . '<br>';
-            if( $best_dir !== '' ) {
-                require_once $best_dir . '/php/lib_swifty_plugin.php';
+            swifty_autoload_lib_helper_main( '/php/lib_swifty_plugin.php' );
 
-                if( is_null( LibSwiftyPlugin::get_instance() ) ) {
-                    new LibSwiftyPlugin();
-                }
+            if( is_null( LibSwiftyPlugin::get_instance() ) ) {
+                new LibSwiftyPlugin();
+            }
+        }
+        if( $class_name === 'LibSwiftyPluginView' ) {
+            swifty_autoload_lib_helper_main( '/php/lib_swifty_plugin_view.php' );
+
+            if( is_null( LibSwiftyPluginView::get_instance() ) ) {
+                new LibSwiftyPluginView();
             }
         }
     } );
