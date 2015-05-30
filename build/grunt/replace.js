@@ -18,6 +18,16 @@ module.exports = function( grunt/*, options*/ ) {
                 }
             ]
         },
+        lib_version: {
+            src: [ '<%= grunt.getSourcePath() %>swifty_version.txt' ],
+            dest: '<%= grunt.getDestPathPlugin() %>swifty_version.txt',
+            replacements: [
+                {
+                    from: 'SWIFTY_LIB_VERSION',
+                    to: new Date().getTime()
+                }
+            ]
+        },
         lib: {
             src: '<%= grunt.getDestPathPlugin() %>**/*.php',
             overwrite: true,

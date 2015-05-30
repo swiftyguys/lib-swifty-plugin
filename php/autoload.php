@@ -16,7 +16,7 @@ if( ! function_exists( 'swifty_autoload_lib_helper' ) ) {
 
     function swifty_autoload_lib_helper( $directories, $version_path, &$best_version, &$best_dir ) {
         foreach( $directories as $dir ) {
-            $file = $dir . $version_path . '/version.txt';
+            $file = $dir . $version_path . '/swifty_version.txt';
             $version = -1;
             if( file_exists( $file ) ) {
                 $version = intval( file_get_contents( $file ) );
