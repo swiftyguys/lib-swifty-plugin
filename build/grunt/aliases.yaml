@@ -11,6 +11,8 @@ from_dialog_do_mainvpro_mainpull:
   - 'from_dialog_do_mainpull' # It doesn't matter if pro is selected or not
 from_dialog_do_mainvfree_maintest_mainpull:
   - 'from_dialog_do_mainpull' # It doesn't matter if pro is selected or not
+from_dialog_do_mainvpro_mainmail_mainpull:
+  - 'from_dialog_do_mainpull' # It doesn't matter if pro is selected or not
 
 # Commit + tag + push
 from_dialog_do_maintag:
@@ -25,6 +27,8 @@ from_dialog_do_mainvpro_maintag:
 from_dialog_do_mainpot:
   - 'from_dialog_do_createpot_gettranslations'
 from_dialog_do_mainvfree_maintest_mainpot:
+  - 'from_dialog_do_createpot_gettranslations' # It doesn't matter if pro is selected or not
+from_dialog_do_mainvpro_mainmail_mainpot:
   - 'from_dialog_do_createpot_gettranslations' # It doesn't matter if pro is selected or not
 
 # Update pot/po and up/download glotpress

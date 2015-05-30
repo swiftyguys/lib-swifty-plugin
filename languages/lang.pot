@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-30 10:00+0200\n"
+"POT-Creation-Date: 2015-05-30 10:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,21 +18,21 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:181
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:181
 #, php-format
 msgid "This theme requires the following plugin: %1$s."
 msgid_plural "This theme requires the following plugins: %1$s."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:182
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:182
 #, php-format
 msgid "This theme recommends the following plugin: %1$s."
 msgid_plural "This theme recommends the following plugins: %1$s."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:183
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:183
 #, php-format
 msgid ""
 "Sorry, but you do not have the correct permissions to install the %s plugin. "
@@ -45,21 +45,21 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:184
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:184
 #, php-format
 msgid "The following required plugin is currently inactive: %1$s."
 msgid_plural "The following required plugins are currently inactive: %1$s."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:185
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:185
 #, php-format
 msgid "The following recommended plugin is currently inactive: %1$s."
 msgid_plural "The following recommended plugins are currently inactive: %1$s."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:186
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:186
 #, php-format
 msgid ""
 "Sorry, but you do not have the correct permissions to activate the %s "
@@ -72,7 +72,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:187
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:187
 #, php-format
 msgid ""
 "The following plugin needs to be updated to its latest version to ensure "
@@ -83,7 +83,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:188
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:188
 #, php-format
 msgid ""
 "Sorry, but you do not have the correct permissions to update the %s plugin. "
@@ -96,41 +96,41 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:189
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:189
 msgid "Begin installing plugin"
 msgid_plural "Begin installing plugins"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:190
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:190
 msgid "Begin activating plugin"
 msgid_plural "Begin activating plugins"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:193
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:193
 msgid "Plugin activated successfully."
 msgstr ""
 
-#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:194
-#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1651
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:194
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1651
 msgid "The following plugin was activated successfully:"
 msgid_plural "The following plugins were activated successfully:"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:196
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:196
 msgid "Dismiss this notice"
 msgstr ""
 
-#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib_swifty_plugin.php:76
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib_swifty_plugin.php:76
 msgid "Swifty plugins"
 msgstr ""
 
-#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib_swifty_plugin.php:78
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib_swifty_plugin.php:78
 msgid "Active Swifty plugins"
 msgstr ""
 
-#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib_swifty_plugin.php:150
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib_swifty_plugin.php:150
 msgid "Swifty Settings"
 msgstr ""
