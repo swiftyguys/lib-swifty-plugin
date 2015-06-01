@@ -19,6 +19,8 @@ from_dialog_do_maintag:
   - 'from_dialog_do_commitandtag'
 from_dialog_do_mainvfree_mainmail_maintag:
   - 'from_dialog_do_commitandtag' # Pro, mail and test don't matter
+from_dialog_do_mainvpro_mainmail_maintag:
+  - 'from_dialog_do_commitandtag' # Pro, mail and test don't matter
 
 # PRO version
 # Commit + tag + push
