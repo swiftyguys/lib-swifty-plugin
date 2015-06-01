@@ -42,11 +42,14 @@ module.exports = {
             return s;
         };
         grunt.getDestZip = function() {
-            var s = grunt.getDestBasePath() + grunt.myPkg.name;
+            //var s = grunt.getDestBasePath() + grunt.myPkg.name;
+            var s = grunt.getDestBasePath() + grunt.myCfg.plugin_code;
             if( process.env.PRO_TAG === ' Pro' ) {
-                s += '-Pro';
+                //s += '-Pro';
+                s += '-pro';
             }
-            return s + '_' + grunt.myPkg.version + '.zip';
+            //return s + '_' + grunt.myPkg.version + '.zip';
+            return s + '.' + grunt.myPkg.version + '.zip';
         };
         grunt.getObfuscateConfigFN = function() {
             return grunt.getSourcePath() + 'pro/build/obfuscate_cfg.yml';
