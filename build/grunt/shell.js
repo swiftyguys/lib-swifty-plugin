@@ -478,7 +478,7 @@ module.exports = function( grunt/*, options*/ ) {
                     'echo "=== Trying: git pull for dir ' + grunt.myCfg.git_pull_all.paths[ i ] + '"',
                     'echo',
                     'git fetch',
-                    'git pull',
+                    'git pull --rebase',
                     'git submodule update --init --recursive'
                 ].join( ' && ' ),
                 options: {
@@ -502,7 +502,8 @@ module.exports = function( grunt/*, options*/ ) {
                     'echo "=== Trying: git pull master and merge develop for dir ' + grunt.myCfg.git_pull_all.paths[ i ] + '"',
                     'echo',
                     'git fetch',
-                    'git pull origin master',
+                    //'git pull origin master',
+                    'git merge origin master',
                     'git merge origin/develop',
                     //'git merge origin/inarticle',
                     'git submodule update --init --recursive'
