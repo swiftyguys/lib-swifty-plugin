@@ -503,7 +503,7 @@ module.exports = function( grunt/*, options*/ ) {
                     'echo',
                     'git fetch',
                     //'git pull origin master',
-                    'git merge origin master',
+                    'git merge origin/master',
                     'git merge origin/develop',
                     //'git merge origin/inarticle',
                     'git submodule update --init --recursive'
