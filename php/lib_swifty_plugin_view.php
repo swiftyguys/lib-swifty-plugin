@@ -6,14 +6,14 @@ require_once plugin_dir_path( __FILE__ ) . 'lib/swifty-captcha.php';
 
 class LibSwiftyPluginView
 {
-    protected static $instance_view;
+    protected static $instance;
     protected static $_ss_mode = null;
     protected static $_valid_modes = array( 'ss', 'wp', 'ss_force' );
     protected static $_default_mode = 'ss';
 
     public function __construct()
     {
-        self::$instance_view = $this;
+        self::$instance = $this;
 
         // allow every plugin to get to the initialization part, all plugins should be loaded then
         add_action( 'plugins_loaded', array( $this, 'action_plugins_loaded' ) );
@@ -22,7 +22,7 @@ class LibSwiftyPluginView
 
     public static function get_instance()
     {
-        return self::$instance_view;
+        return self::$instance;
     }
 
     public static $required_active_plugins = array();
@@ -198,7 +198,13 @@ if( !isset( $swifty_font_version ) || ( $swifty_font_version < $font_version ) )
     $plugin_dir_url  = trailingslashit( plugins_url( rawurlencode( $plugin_basename ) ) );
 
     if( $swifty_buildUse == 'build' ) {
-        $swifty_font_url = $plugin_dir_url . 'css/swifty-font.css';
+        // dorh Quick fix for wrong font location when used in SSD
+        if( file_exists( $plugin_dir_url . 'css/swifty-font.css' ) ) {
+            $swifty_font_url = $plugin_dir_url . 'css/swifty-font.css';
+        } else {
+            $plugin_dir_url  = trailingslashit( plugins_url( rawurlencode( 'swifty-site' ) ) );
+            $swifty_font_url = $plugin_dir_url . 'css/swifty-font.css';
+        }
     } else {
         $swifty_font_url = $plugin_dir_url . 'lib/swifty_plugin/css/swifty-font.css';
     }
