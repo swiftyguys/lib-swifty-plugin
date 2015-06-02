@@ -6,14 +6,14 @@ require_once plugin_dir_path( __FILE__ ) . 'lib/swifty-captcha.php';
 
 class LibSwiftyPluginView
 {
-    protected static $instance;
+    protected static $instance_view;
     protected static $_ss_mode = null;
     protected static $_valid_modes = array( 'ss', 'wp', 'ss_force' );
     protected static $_default_mode = 'ss';
 
     public function __construct()
     {
-        self::$instance = $this;
+        self::$instance_view = $this;
 
         // allow every plugin to get to the initialization part, all plugins should be loaded then
         add_action( 'plugins_loaded', array( $this, 'action_plugins_loaded' ) );
@@ -22,7 +22,7 @@ class LibSwiftyPluginView
 
     public static function get_instance()
     {
-        return self::$instance;
+        return self::$instance_view;
     }
 
     public static $required_active_plugins = array();
