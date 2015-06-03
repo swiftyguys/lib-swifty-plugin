@@ -486,8 +486,8 @@ module.exports = function( grunt/*, options*/ ) {
                         cwd: grunt.myCfg.git_pull_all.paths[ i ]
                     },
                     'callback': function( err, stdout, stderr, cb ) {
-                        if( stdout.indexOf( 'CONFLICT' ) >= 0 || stdout.indexOf( 'Aborting' ) >= 0 || stdout.indexOf( 'error:' ) >= 0 ||
-                            stderr.indexOf( 'CONFLICT' ) >= 0 || stderr.indexOf( 'Aborting' ) >= 0 || stderr.indexOf( 'error:' ) >= 0
+                        if( stdout.indexOf( 'CONFLICT' ) >= 0 || stdout.indexOf( 'Aborting' ) >= 0 || stdout.indexOf( 'error:' ) >= 0 || stdout.indexOf( 'Cannot pull with rebase' ) >= 0 ||
+                            stderr.indexOf( 'CONFLICT' ) >= 0 || stderr.indexOf( 'Aborting' ) >= 0 || stderr.indexOf( 'error:' ) >= 0 || stdout.indexOf( 'Cannot pull with rebase' ) >= 0
                         ) {
                             grunt.fatal( "\n\n========================================\n\nTHERE IS A CONFLICT OR ABORTING PROBLEM IN THE MERGE!!!!!!!!!!!!!!\n\n========================================\n\n\n" );
                         }
@@ -513,8 +513,8 @@ module.exports = function( grunt/*, options*/ ) {
                         cwd: grunt.myCfg.git_pull_all.paths[ i ]
                     },
                     'callback': function( err, stdout, stderr, cb ) {
-                        if( stdout.indexOf( 'CONFLICT' ) >= 0 || stdout.indexOf( 'Aborting' ) >= 0 || stdout.indexOf( 'error:' ) >= 0 ||
-                            stderr.indexOf( 'CONFLICT' ) >= 0 || stderr.indexOf( 'Aborting' ) >= 0 || stderr.indexOf( 'error:' ) >= 0
+                        if( stdout.indexOf( 'CONFLICT' ) >= 0 || stdout.indexOf( 'Aborting' ) >= 0 || stdout.indexOf( 'error:' ) >= 0 || stdout.indexOf( 'Cannot pull with rebase' ) >= 0 ||
+                            stderr.indexOf( 'CONFLICT' ) >= 0 || stderr.indexOf( 'Aborting' ) >= 0 || stderr.indexOf( 'error:' ) >= 0 || stdout.indexOf( 'Cannot pull with rebase' ) >= 0
                         ) {
                             grunt.fatal( "\n\n========================================\n\nTHERE IS A CONFLICT OR ABORTING PROBLEM IN THE MERGE!!!!!!!!!!!!!!\n\n========================================\n\n\n" );
                         }
