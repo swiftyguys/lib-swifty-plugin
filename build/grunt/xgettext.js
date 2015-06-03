@@ -5,13 +5,7 @@ module.exports = function( grunt/*, options*/ ) {
                 functionName: '__',
                 potFile: '<%= grunt.getSourcePath() %>languages/lang_js.pot'
             },
-            files: {
-                handlebars: [ '<%= grunt.getSourcePath() %>**/*.*' ], // Can be in .stache AND .php files!
-                javascript: [
-                    '<%= grunt.getSourcePath() %>js/**/*.js',
-                    '!<%= grunt.getSourcePath() %>**/js/libs/**/*.js'
-                ]
-            }
+            files: grunt.myCfg.po.files
         }
     };
 };
