@@ -7,7 +7,10 @@ module.exports = function( grunt/*, options*/ ) {
             },
             files: {
                 handlebars: [ '<%= grunt.getSourcePath() %>**/*.*' ], // Can be in .stache AND .php files!
-                javascript: [ '<%= grunt.getSourcePath() %>**/*.js' ]
+                javascript: [
+                    '<%= grunt.getSourcePath() %>js/**/*.js',
+                    '!<%= grunt.getSourcePath() %>**/js/libs/**/*.js'
+                ]
             }
         }
     };
