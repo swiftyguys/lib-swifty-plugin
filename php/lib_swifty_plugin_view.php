@@ -143,7 +143,7 @@ class LibSwiftyPluginView
         $autosave = wp_get_post_autosave( $pid );
         $post = get_post( $pid );
         $newer_revision = null;
-        if( $autosave && mysql2date( 'U', $autosave->post_modified_gmt, false ) > mysql2date( 'U', $post->post_modified_gmt, false ) ) {
+        if( $autosave && $post && ( mysql2date( 'U', $autosave->post_modified_gmt, false ) >= mysql2date( 'U', $post->post_modified_gmt, false ) ) ) {
             foreach( _wp_post_revision_fields() as $autosave_field => $_autosave_field ) {
                 if( normalize_whitespace( $autosave->$autosave_field ) != normalize_whitespace( $post->$autosave_field ) ) {
                     if( $autosave_field === 'post_content' ) {

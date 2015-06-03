@@ -283,6 +283,38 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
         );
     }
     // @endif
+
+    // create a autosave revision with this content
+    public function update_autosave_version( $pid, $content )
+    {
+        $post = get_post( $pid );
+
+        // only when something has changed
+        if( $post && ( normalize_whitespace( $post->post_content ) != normalize_whitespace( $content ) ) ) {
+            $post->post_content = $content;
+            $post = $post->to_array();
+            $post[ 'post_ID' ] = $pid;
+            wp_create_post_autosave( $post );
+        }
+    }
+
+    // enhance wp_update_post with keeping autosave changes in swifty mode
+    function wp_update_post_keep_autosave( $post_id, $postarr = array(), $wp_error = false )
+    {
+        $autosave_content = null;
+
+        if( $this->is_ss_mode() ) {
+            $autosave_content = $this->get_autosave_version_if_newer( $post_id );
+        }
+
+        $id_saved = wp_update_post( $postarr, $wp_error );
+
+        if( $autosave_content && ! is_wp_error( $id_saved ) ) {
+            $this->update_autosave_version( $id_saved, $autosave_content );
+        }
+
+        return $id_saved;
+    }
 }
 
 if(! function_exists( 'swifty_lib_admin_enqueue_styles' ) ) {
