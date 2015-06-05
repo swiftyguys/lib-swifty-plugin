@@ -486,8 +486,8 @@ module.exports = function( grunt/*, options*/ ) {
                         cwd: grunt.myCfg.git_pull_all.paths[ i ]
                     },
                     'callback': function( err, stdout, stderr, cb ) {
-                        if( stdout.indexOf( 'CONFLICT' ) >= 0 || stdout.indexOf( 'Aborting' ) >= 0 || stdout.indexOf( 'error:' ) >= 0 || stdout.indexOf( 'Cannot pull with rebase' ) >= 0 ||
-                            stderr.indexOf( 'CONFLICT' ) >= 0 || stderr.indexOf( 'Aborting' ) >= 0 || stderr.indexOf( 'error:' ) >= 0 || stdout.indexOf( 'Cannot pull with rebase' ) >= 0
+                        if( stdout.indexOf( 'CONFLICT' ) >= 0 || stdout.indexOf( 'Aborting' ) >= 0 || stdout.indexOf( 'error:' ) >= 0 || stdout.indexOf( 'fatal:' ) >= 0 || stdout.indexOf( 'Cannot pull with rebase' ) >= 0 ||
+                            stderr.indexOf( 'CONFLICT' ) >= 0 || stderr.indexOf( 'Aborting' ) >= 0 || stderr.indexOf( 'error:' ) >= 0 || stdout.indexOf( 'fatal:' ) >= 0 || stdout.indexOf( 'Cannot pull with rebase' ) >= 0
                         ) {
                             grunt.fatal( "\n\n========================================\n\nTHERE IS A CONFLICT OR ABORTING PROBLEM IN THE MERGE!!!!!!!!!!!!!!\n\n========================================\n\n\n" );
                         }
@@ -513,8 +513,8 @@ module.exports = function( grunt/*, options*/ ) {
                         cwd: grunt.myCfg.git_pull_all.paths[ i ]
                     },
                     'callback': function( err, stdout, stderr, cb ) {
-                        if( stdout.indexOf( 'CONFLICT' ) >= 0 || stdout.indexOf( 'Aborting' ) >= 0 || stdout.indexOf( 'error:' ) >= 0 || stdout.indexOf( 'Cannot pull with rebase' ) >= 0 ||
-                            stderr.indexOf( 'CONFLICT' ) >= 0 || stderr.indexOf( 'Aborting' ) >= 0 || stderr.indexOf( 'error:' ) >= 0 || stdout.indexOf( 'Cannot pull with rebase' ) >= 0
+                        if( stdout.indexOf( 'CONFLICT' ) >= 0 || stdout.indexOf( 'Aborting' ) >= 0 || stdout.indexOf( 'error:' ) >= 0 || stdout.indexOf( 'fatal:' ) >= 0 || stdout.indexOf( 'Cannot pull with rebase' ) >= 0 ||
+                            stderr.indexOf( 'CONFLICT' ) >= 0 || stderr.indexOf( 'Aborting' ) >= 0 || stderr.indexOf( 'error:' ) >= 0 || stdout.indexOf( 'fatal:' ) >= 0 || stdout.indexOf( 'Cannot pull with rebase' ) >= 0
                         ) {
                             grunt.fatal( "\n\n========================================\n\nTHERE IS A CONFLICT OR ABORTING PROBLEM IN THE MERGE!!!!!!!!!!!!!!\n\n========================================\n\n\n" );
                         }
@@ -525,7 +525,7 @@ module.exports = function( grunt/*, options*/ ) {
             cfgOut[ 'git_tag_' + i ] = {
                 //command: grunt.myCfg.git_pull_all.cmd,
                 command: [
-                    'git commit -am "Building ' + grunt.myPkg.version + '"',
+                    'git commit -am "Building ' + grunt.myCfg.git_pull_all.tagcode + grunt.myPkg.version + '"',
                     'git tag -a ' + grunt.myCfg.git_pull_all.tagcode + grunt.myPkg.version + ' -m "' + grunt.myCfg.git_pull_all.tagcode + grunt.myPkg.version + '"',
                     'git push',
                     'git push --tags'
