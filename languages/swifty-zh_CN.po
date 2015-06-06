@@ -96,14 +96,14 @@ msgstr[0] ""
 msgid "Dismiss this notice"
 msgstr ""
 
-#: lib/swifty_plugin/php/lib_swifty_plugin.php:150
-msgid "Swifty Settings"
-msgstr ""
-
 #: lib/swifty_plugin/php/lib_swifty_plugin.php:76
-msgid "Swifty plugins"
+msgid "Swifty Plugins"
 msgstr ""
 
 #: lib/swifty_plugin/php/lib_swifty_plugin.php:78
-msgid "Active Swifty plugins"
+msgid "Active Swifty Plugins"
+msgstr ""
+
+#: lib/swifty_plugin/php/lib_swifty_plugin.php:150
+msgid "Swifty Settings"
 msgstr ""

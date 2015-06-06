@@ -129,14 +129,14 @@ msgstr[1] "The following plugins were activated successfully:"
 msgid "Dismiss this notice"
 msgstr "Dismiss this notice"
 
+#: lib/swifty_plugin/php/lib_swifty_plugin.php:76
+msgid "Swifty Plugins"
+msgstr ""
+
+#: lib/swifty_plugin/php/lib_swifty_plugin.php:78
+msgid "Active Swifty Plugins"
+msgstr ""
+
 #: lib/swifty_plugin/php/lib_swifty_plugin.php:150
 msgid "Swifty Settings"
 msgstr "Swifty Settings"
-
-#: lib/swifty_plugin/php/lib_swifty_plugin.php:76
-msgid "Swifty plugins"
-msgstr "Swifty plugins"
-
-#: lib/swifty_plugin/php/lib_swifty_plugin.php:78
-msgid "Active Swifty plugins"
-msgstr "Active Swifty plugins"
