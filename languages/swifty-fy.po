@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Swifty Page Manager package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2015-06-03 19:04:50+0000\n"
+"PO-Revision-Date: 2015-06-06 12:26:40+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -131,11 +131,11 @@ msgstr "Dismiss this notice"
 
 #: lib/swifty_plugin/php/lib_swifty_plugin.php:76
 msgid "Swifty Plugins"
-msgstr ""
+msgstr "Swifty Plugins"
 
 #: lib/swifty_plugin/php/lib_swifty_plugin.php:78
 msgid "Active Swifty Plugins"
-msgstr ""
+msgstr "Active Swifty Plugins"
 
 #: lib/swifty_plugin/php/lib_swifty_plugin.php:150
 msgid "Swifty Settings"
