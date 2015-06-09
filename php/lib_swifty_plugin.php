@@ -349,15 +349,9 @@ global $swifty_buildUse;
 if( !isset( $swifty_css_admin_version ) || ( $swifty_css_admin_version < $css_admin_version ) ) {
     $swifty_css_admin_version = $css_admin_version;
 
-    // we need to work around the plugin dir link we use in our development systems
-    $plugin_dir      = dirname( dirname( dirname( dirname( __FILE__ ) ) ) );
-    // get plugin name
-    $plugin_basename = basename( $plugin_dir );
-    $plugin_dir_url  = trailingslashit( plugins_url( rawurlencode( $plugin_basename ) ) );
-
     if( $swifty_buildUse == 'build' ) {
-        $swifty_css_admin_url = $plugin_dir_url . 'css/swifty-admin.css';
+        $swifty_css_admin_url = get_swifty_lib_dir_url( __FILE__ ) . 'css/swifty-admin.css';
     } else {
-        $swifty_css_admin_url = $plugin_dir_url . 'lib/swifty_plugin/css/swifty-admin.css';
+        $swifty_css_admin_url = get_swifty_lib_dir_url( __FILE__ ) . 'lib/swifty_plugin/css/swifty-admin.css';
     }
 }
