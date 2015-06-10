@@ -15,8 +15,8 @@ class LibSwiftyPluginView
     {
         self::$instance_view = $this;
 
-        // allow every plugin to get to the initialization part, all plugins should be loaded then
-        add_action( 'plugins_loaded', array( $this, 'action_plugins_loaded' ) );
+        // allow every plugin to get to the initialization part, all plugins and theme should be loaded then
+        add_action( 'after_setup_theme', array( $this, 'action_after_setup_theme' ) );
         add_filter( 'swifty_SS2_hosting_name', array( $this, 'filter_swifty_SS2_hosting_name' ) );
     }
 
@@ -51,10 +51,12 @@ class LibSwiftyPluginView
     }
 
     public static $required_plugin_active_swifty_site = false;
+    public static $required_theme_active_swifty_site_designer = false;
 
-    public function action_plugins_loaded()
+    public function action_after_setup_theme()
     {
-        self::$required_plugin_active_swifty_site = defined( 'SWIFTY_SITE_PLUGIN_URL' );
+        self::$required_plugin_active_swifty_site = defined( 'SWIFTY_MENU_PLUGIN_FILE' );
+        self::$required_theme_active_swifty_site_designer = defined( 'SWIFTY_SITE_DESIGNER_THEME_FILE' );
     }
 
     protected static $filter_swifty_SS2_hosting_name = null;
