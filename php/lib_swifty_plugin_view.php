@@ -158,6 +158,15 @@ class LibSwiftyPluginView
 
         return $newer_revision;
     }
+
+    public static function lazy_load_css( $handle, $src = false, $deps = array(), $ver = false, $media = 'all' )
+    {
+        if( self::$required_theme_active_swifty_site_designer ) {
+            do_action( 'swifty_lazy_load_css', $handle, $src, $deps, $ver, $media );
+        } else {
+            wp_enqueue_style( $handle, $src, $deps, $ver, $media );
+        }
+    }
 }
 
 // load the swifty font, only load the latest version.
