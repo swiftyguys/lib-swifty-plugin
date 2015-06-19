@@ -312,6 +312,8 @@ if ( ! class_exists( 'Swifty_TGM_Plugin_Activation' ) ) {
                     wp_cache_flush();
                 }
             }
+
+	        $this->force_activation();
         }
 
         /**
