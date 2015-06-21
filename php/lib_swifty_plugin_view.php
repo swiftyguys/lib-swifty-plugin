@@ -168,6 +168,17 @@ class LibSwiftyPluginView
         }
     }
 
+    public static function lazy_load_js_min( $handle, $src = false, $deps = array(), $ver = false, $in_footer = false )
+    {
+        global $swifty_buildUse;
+        $bust_add = '?swcv=ssd_' . '/*@echo RELEASE_TAG*/';
+        $file = $src . $bust_add;
+        if( $swifty_buildUse == 'build' ) {
+            $file = preg_replace( '|\.js$|', '.min.js', $file );
+        }
+        self::lazy_load_js( $handle, $file, $deps, $ver, $in_footer );
+    }
+
     public static function lazy_load_css( $handle, $src = false, $deps = array(), $ver = false, $media = 'all' )
     {
         if( self::$required_theme_active_swifty_site_designer ) {
