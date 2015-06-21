@@ -171,11 +171,12 @@ class LibSwiftyPluginView
     public static function lazy_load_js_min( $handle, $src = false, $deps = array(), $ver = false, $in_footer = false )
     {
         global $swifty_buildUse;
-        $bust_add = '?swcv=ssd_' . '/*@echo RELEASE_TAG*/';
-        $file = $src . $bust_add;
+        $bust_add = '?swcv=ss2_' . '/*@echo RELEASE_TAG*/';
+        $file = $src;
         if( $swifty_buildUse == 'build' ) {
             $file = preg_replace( '|\.js$|', '.min.js', $file );
         }
+        $file .= $bust_add;
         self::lazy_load_js( $handle, $file, $deps, $ver, $in_footer );
     }
 
