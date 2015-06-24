@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-19 09:32+0200\n"
+"POT-Creation-Date: 2015-06-24 10:55+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -113,7 +113,7 @@ msgid "Plugin activated successfully."
 msgstr ""
 
 #: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:194
-#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1694
+#: ../plugin/swifty-content-creator/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1699
 msgid "The following plugin was activated successfully:"
 msgid_plural "The following plugins were activated successfully:"
 msgstr[0] ""
