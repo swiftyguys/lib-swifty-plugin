@@ -25,6 +25,96 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
         return self::$instance;
     }
 
+    // import given $url_image as attachment, return array with:
+    // - url: new wordpress attachment url
+    // - id: new attachment id
+    // - image_url: original $url_image
+    // when image already exist, return the earlier inserted attachment information
+    // will not detect when inserted in different months
+    // only accepts png, jpg and gif files
+    function import_attachment_from_url( $url_image )
+    {
+        $url_image = stripslashes( $url_image );
+        $urlimage = strtok( $url_image, '?' ); // keep everything before ?
+        $filename = basename( $urlimage );
+
+        $uploads = wp_upload_dir();
+
+        $ext = pathinfo( $filename, PATHINFO_EXTENSION );
+        if( ! in_array( strtolower( $ext ), array( 'png', 'jpg', 'gif' ) ) ) {
+            return array(
+                'url' => '',
+                'id' => false,
+                'image_url' => $url_image
+            );
+        }
+
+        $wp_filetype = wp_check_filetype( $filename, null );
+        $fullpathfilename = $uploads[ 'path' ] . "/" . $filename;
+
+        try {
+            $attach_id = false;
+
+            // is this file already available as attachment? if so then re-use it
+            if( file_exists( $fullpathfilename ) ) {
+
+                global $wpdb;
+
+                $attachment_url = $uploads[ 'url' ] . "/" . $filename;
+
+                // Remove the upload path base directory from the attachment URL
+                $upload_dir_paths = wp_upload_dir();
+                $attachment_url = str_replace( $upload_dir_paths[ 'baseurl' ] . '/', '', $attachment_url );
+
+                // Finally, run a custom database query to get the attachment ID from the modified attachment URL
+                $attach_id = $wpdb->get_var(
+                    $wpdb->prepare(
+                        "SELECT wposts.ID FROM $wpdb->posts wposts, $wpdb->postmeta wpostmeta WHERE wposts.ID = wpostmeta.post_id AND wpostmeta.meta_key = '_wp_attached_file' AND wpostmeta.meta_value = '%s' AND wposts.post_type = 'attachment'",
+                        $attachment_url
+                    )
+                );
+            } else {
+                // download file to server
+                $image_string = file_get_contents( $url_image, false );
+                if( $image_string ) {
+                    $fileSaved = file_put_contents( $fullpathfilename, $image_string );
+                    if( ! $fileSaved ) {
+                        throw new Exception( "The file cannot be saved to: " . $uploads[ 'path' ] . "/" . $filename );
+                    }
+                } else {
+                    throw new Exception( 'Unable to fetch image: ' . $url_image );
+                }
+            }
+
+            if( ! $attach_id ) {
+                $attachment = array(
+                    'post_mime_type' => $wp_filetype[ 'type' ],
+                    'post_title' => preg_replace( '/\.[^.]+$/', '', $filename ),
+                    'post_content' => '',
+                    'post_status' => 'inherit',
+                    'post_author' => '',
+                    'post_date' => '',
+                    'guid' => $uploads[ 'url' ] . "/" . $filename
+                );
+                $attach_id = wp_insert_attachment( $attachment, $fullpathfilename, 0 );
+                if( ! $attach_id ) {
+                    throw new Exception( "Failed to save record into database." );
+                }
+                require_once( ABSPATH . "wp-admin" . '/includes/image.php' );
+                $attach_data = wp_generate_attachment_metadata( $attach_id, $fullpathfilename );
+                wp_update_attachment_metadata( $attach_id, $attach_data );
+            }
+
+        } catch( Exception $e ) {
+            $attach_id = false;
+        }
+        return array(
+            'url' => ( $attach_id ? wp_get_attachment_url( $attach_id ) : '' ),
+            'id' => $attach_id,
+            'image_url' => $url_image
+        );
+    }
+
     public function admin_add_swifty_menu( $name, $swiftyname, $key, $func, $register_plugin ) {
 
         // test if it was added earlier
