@@ -1,8 +1,8 @@
 <?php
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if( ! defined( 'ABSPATH' ) ) exit;
 
-if ( ! class_exists( 'LibSwiftyPluginView' ) ) {
+if( ! class_exists( 'LibSwiftyPluginView' ) ) {
     require_once plugin_dir_path( __FILE__ ) . 'lib_swifty_plugin_view.php';
 }
 require_once plugin_dir_path( __FILE__ ) . 'lib/swifty_class-tgm-plugin-activation.php';
@@ -115,7 +115,8 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
         );
     }
 
-    public function admin_add_swifty_menu( $name, $swiftyname, $key, $func, $register_plugin ) {
+    public function admin_add_swifty_menu( $name, $swiftyname, $key, $func, $register_plugin )
+    {
 
         // test if it was added earlier
         if( array_key_exists( $key, $this->added_swifty_slugs ) ) {
@@ -123,7 +124,7 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
         }
 
         // Add the Swifty main admin menu (once for all plugins).
-        if ( empty ( $GLOBALS[ 'admin_page_hooks' ][ 'swifty_admin' ] ) ) {
+        if( empty ( $GLOBALS[ 'admin_page_hooks' ][ 'swifty_admin' ] ) ) {
             add_menu_page(
                 'Swifty',
                 'Swifty',
@@ -145,8 +146,8 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
 
         $this->added_swifty_slugs[ $key ] = $page;
 
-        if ( $register_plugin ) {
-            $this->our_swifty_plugins[] = array('key' => $key, 'name' => $name, 'swiftyname' => $swiftyname );
+        if( $register_plugin ) {
+            $this->our_swifty_plugins[] = array( 'key' => $key, 'name' => $name, 'swiftyname' => $swiftyname );
         }
         return $page;
     }
@@ -158,11 +159,12 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
 
         // we just added the meuitem, so it is always the last one...
         global $submenu;
-        $submenu['swifty_admin'][count($submenu['swifty_admin']) -1][2] = $url;
+        $submenu[ 'swifty_admin' ][ count( $submenu[ 'swifty_admin' ] ) - 1 ][ 2 ] = $url;
     }
 
     // The Swifty admin main menu page (For ALL Swifty plugins)
-    function admin_swifty_menu_page() {
+    function admin_swifty_menu_page()
+    {
         echo '<h1>' . __( 'Swifty Plugins', 'swifty' ) . '</h1>';
 
         echo '<h4><br>' . __( 'Active Swifty Plugins', 'swifty' ) . ':</h4>';
@@ -177,7 +179,7 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
     {
         $settings_tabs = array();
         foreach( $this->our_swifty_plugins as $plugin ) {
-            $settings_tabs[$plugin[ 'key' ]] = ( $this->is_ss_mode() ? $plugin[ 'swiftyname' ] : $plugin[ 'name' ] );
+            $settings_tabs[ $plugin[ 'key' ] ] = ( $this->is_ss_mode() ? $plugin[ 'swiftyname' ] : $plugin[ 'name' ] );
         }
 
         // make sure the selected tab exists, last active might be not added this time for some reason
@@ -187,8 +189,8 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
         $settings_links = array();
         $settings_links = apply_filters( 'swifty_admin_page_links_' . $tab, $settings_links );
 
-        reset($settings_links);
-        $first_link = key($settings_links);
+        reset( $settings_links );
+        $first_link = key( $settings_links );
 
         $link = isset( $_GET[ 'link' ] ) && array_key_exists( $_GET[ 'link' ], $settings_links ) ? $_GET[ 'link' ] : $first_link;
 
@@ -213,14 +215,14 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
                         window.location.hostname + ':' +
                         window.location.port + '/';
 
-                    if ( typeof Storage !== 'undefined' ) {
-                        if ( sessionStorage.back_location ) {
+                    if( typeof Storage !== 'undefined' ) {
+                        if( sessionStorage.back_location ) {
                             backLocation = sessionStorage.back_location;
                         }
                     }
 
                     window.location = backLocation;
-                });
+                } );
 
             } );
 
@@ -228,22 +230,21 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
         </script>
 
 
-
         <div class='wrap'>
 
             <?php if( $this->is_ss_mode() ) : ?>
-                <div class="swifty_panel_title_container">
-                    <div class="swifty_panel_title_strike"></div>
-                    <div class="swifty_panel_title_pos">
-                        <div class="swifty_title">
-                            <?php endif ?>
-                            <h2><?php echo __( 'Swifty Settings', 'swifty' ); ?></h2>
-                            <?php if( $this->is_ss_mode() ) : ?>
-                        </div>
+            <div class="swifty_panel_title_container">
+                <div class="swifty_panel_title_strike"></div>
+                <div class="swifty_panel_title_pos">
+                    <div class="swifty_title">
+                        <?php endif ?>
+                        <h2><?php echo __( 'Swifty Settings', 'swifty' ); ?></h2>
+                        <?php if( $this->is_ss_mode() ) : ?>
                     </div>
                 </div>
-                <br><br>
-            <?php endif ?>
+            </div>
+        <br><br>
+        <?php endif ?>
 
             <?php if( $this->is_ss_mode() ) : ?>
                 <div class="swifty_back_button swifty_button">
@@ -268,31 +269,31 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
                     <div class="main">
                         <br><br>
                         <?php
-                            $active_link_method = null;
+                        $active_link_method = null;
 
-                            foreach ( $settings_links as $link_name => $link_info ) {
-                                $active_link= $link == $link_name ? 'nav-link-active' : '';;
-                                if($link == $link_name) {
-                                    $active_link_method = $link_info[ 'method' ];
-                                }
-                                echo '<a class="nav-link ' . $active_link . '" href="?page=' . $tab . '&link='. $link_name . '">' . $link_info['title'] . '</a>';
+                        foreach( $settings_links as $link_name => $link_info ) {
+                            $active_link = $link == $link_name ? 'nav-link-active' : '';;
+                            if( $link == $link_name ) {
+                                $active_link_method = $link_info[ 'method' ];
                             }
-                            if($active_link_method) {
-                                call_user_func( $active_link_method );
-                            }
+                            echo '<a class="nav-link ' . $active_link . '" href="?page=' . $tab . '&link=' . $link_name . '">' . $link_info[ 'title' ] . '</a>';
+                        }
+                        if( $active_link_method ) {
+                            call_user_func( $active_link_method );
+                        }
                         ?>
                     </div>
                 </form>
             </div>
         </div>
-    <?php
+        <?php
     }
 
     // change the permalink to postname option. Call this on plugin activation:
     //register_activation_hook( __FILE__, array( LibSwiftyPlugin::get_instance(), 'change_permalinks' ) );
     public function change_permalinks()
     {
-        add_action( 'permalink_structure_changed', array( &$this, 'action_permalink_structure_changed'), 10, 2 );
+        add_action( 'permalink_structure_changed', array( &$this, 'action_permalink_structure_changed' ), 10, 2 );
 
         global $wp_rewrite;
         $wp_rewrite->set_permalink_structure( '/%postname%/' );
@@ -407,7 +408,7 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
     }
 }
 
-if(! function_exists( 'swifty_lib_admin_enqueue_styles' ) ) {
+if( ! function_exists( 'swifty_lib_admin_enqueue_styles' ) ) {
 
     function swifty_lib_admin_enqueue_styles()
     {
@@ -420,7 +421,7 @@ if(! function_exists( 'swifty_lib_admin_enqueue_styles' ) ) {
                 $swifty_css_admin_url = get_swifty_lib_dir_url( __FILE__ ) . 'lib/swifty_plugin/css/swifty-admin.css';
             }
 
-            $css_admin_version = (int)'/*@echo CSS_ADMIN_REL_TAG*/';
+            $css_admin_version = (int) '/*@echo CSS_ADMIN_REL_TAG*/';
 
             wp_enqueue_style(
                 'swifty-admin.css',
