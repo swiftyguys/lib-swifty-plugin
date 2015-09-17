@@ -170,10 +170,10 @@ class LibSwiftyPluginView
 
     public static function lazy_load_js_min( $handle, $src = false, $deps = array(), $ver = false, $in_footer = false )
     {
-        global $swifty_buildUse;
+        global $swifty_build_use;
         $bust_add = '?swcv=ss2_' . '/*@echo RELEASE_TAG*/';
         $file = $src;
-        if( $swifty_buildUse == 'build' ) {
+        if( $swifty_build_use == 'build' ) {
             $file = preg_replace( '|\.js$|', '.min.js', $file );
         }
         $file .= $bust_add;
@@ -196,9 +196,9 @@ if(! function_exists( 'swifty_lib_view_enqueue_styles' ) ) {
     function swifty_lib_view_enqueue_styles()
     {
         if( is_user_logged_in() ) {
-            global $swifty_buildUse;
+            global $swifty_build_use;
 
-            if( $swifty_buildUse == 'build' ) {
+            if( $swifty_build_use == 'build' ) {
                 $swifty_font_url = get_swifty_lib_dir_url( __FILE__ ) . 'css/swifty-font.css';
             } else {
                 $swifty_font_url = get_swifty_lib_dir_url( __FILE__ ) . 'lib/swifty_plugin/css/swifty-font.css';
@@ -239,14 +239,14 @@ if(! function_exists( 'get_swifty_lib_dir_url' ) ) {
             $dir_url = trailingslashit( plugins_url( rawurlencode( $plugin_basename ) ) );
         } else {
             // this is a theme
-            global $swifty_buildUse;
+            global $swifty_build_use;
 
             // get theme name
             $theme_basename = basename( dirname( $plugin_dir ) );
             $dir_url = trailingslashit( get_template_directory_uri( rawurlencode( $theme_basename ) ) );
 
             // on non builds we also need this 'ssd' sub folder
-            if( $swifty_buildUse != 'build' ) {
+            if( $swifty_build_use != 'build' ) {
                 $dir_url = trailingslashit( $dir_url . 'ssd' );
             }
         }

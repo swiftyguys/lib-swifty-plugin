@@ -412,9 +412,9 @@ if(! function_exists( 'swifty_lib_admin_enqueue_styles' ) ) {
     function swifty_lib_admin_enqueue_styles()
     {
         if( is_user_logged_in() ) {
-            global $swifty_buildUse;
+            global $swifty_build_use;
 
-            if( $swifty_buildUse == 'build' ) {
+            if( $swifty_build_use == 'build' ) {
                 $swifty_css_admin_url = get_swifty_lib_dir_url( __FILE__ ) . 'css/swifty-admin.css';
             } else {
                 $swifty_css_admin_url = get_swifty_lib_dir_url( __FILE__ ) . 'lib/swifty_plugin/css/swifty-admin.css';
