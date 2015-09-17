@@ -15,7 +15,7 @@ if( ! function_exists( 'swifty_autoload_lib_helper' ) ) {
             while( ( $file = readdir( $dir ) ) !== false ) {
                 // Match file mask
                 if( fnmatch( $mask, $file ) && is_dir( "$path/$file" ) ) {
-                    $glob[ ] = "$path/$file/";
+                    $glob[] = "$path/$file/";
                 }
             }
             closedir( $dir );
@@ -58,7 +58,8 @@ if( ! function_exists( 'swifty_autoload_lib_helper' ) ) {
         }
     }
 
-    function swifty_autoload_function( $class_name ) {
+    function swifty_autoload_function( $class_name )
+    {
         if( $class_name === 'LibSwiftyPlugin' ) {
             swifty_autoload_lib_helper_main( '/php/lib_swifty_plugin.php' );
 

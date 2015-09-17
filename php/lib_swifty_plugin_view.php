@@ -1,6 +1,6 @@
 <?php
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if( ! defined( 'ABSPATH' ) ) exit;
 
 require_once plugin_dir_path( __FILE__ ) . 'lib/swifty-captcha.php';
 
@@ -65,7 +65,7 @@ class LibSwiftyPluginView
     // otherwise returns $default
     public function filter_swifty_SS2_hosting_name( $default )
     {
-        if ( ! isset( self::$filter_swifty_SS2_hosting_name ) ) {
+        if( ! isset( self::$filter_swifty_SS2_hosting_name ) ) {
             self::$filter_swifty_SS2_hosting_name = get_option( 'ss2_hosting_name' );
         }
         return $default || self::$filter_swifty_SS2_hosting_name;
@@ -102,7 +102,7 @@ class LibSwiftyPluginView
     // make sure all plugins are constructed before using this function
     public static function is_ss_mode()
     {
-        if(! isset( self::$_ss_mode ) ) {
+        if( ! isset( self::$_ss_mode ) ) {
             self::$_ss_mode = ( ( ( empty( $_COOKIE[ 'ss_mode' ] ) || $_COOKIE[ 'ss_mode' ] === 'ss' )
                                   && self::is_swifty_plugin_active( 'swifty-site' ) )
                                 || self::is_ss_force() );
@@ -135,7 +135,7 @@ class LibSwiftyPluginView
 
     public static function is_ss_force()
     {
-        return ( !empty( $_COOKIE[ 'ss_mode' ] ) && $_COOKIE[ 'ss_mode' ] === 'ss_force' );
+        return ( ! empty( $_COOKIE[ 'ss_mode' ] ) && $_COOKIE[ 'ss_mode' ] === 'ss_force' );
     }
 
     // find newer version of post, or return null if there is no newer autosave version
@@ -191,7 +191,7 @@ class LibSwiftyPluginView
 }
 
 // load the swifty font, only load the latest version.
-if(! function_exists( 'swifty_lib_view_enqueue_styles' ) ) {
+if( ! function_exists( 'swifty_lib_view_enqueue_styles' ) ) {
 
     function swifty_lib_view_enqueue_styles()
     {
@@ -204,7 +204,7 @@ if(! function_exists( 'swifty_lib_view_enqueue_styles' ) ) {
                 $swifty_font_url = get_swifty_lib_dir_url( __FILE__ ) . 'lib/swifty_plugin/css/swifty-font.css';
             }
 
-            $font_version = (int)'/*@echo FONT_REL_TAG*/';
+            $font_version = (int) '/*@echo FONT_REL_TAG*/';
 
             wp_enqueue_style(
                 'swifty-font.css',
@@ -221,7 +221,7 @@ if(! function_exists( 'swifty_lib_view_enqueue_styles' ) ) {
     add_action( 'admin_enqueue_scripts', 'swifty_lib_view_enqueue_styles' );
 }
 
-if(! function_exists( 'get_swifty_lib_dir_url' ) ) {
+if( ! function_exists( 'get_swifty_lib_dir_url' ) ) {
 
     // returns the plugin or theme url depending on the $file that is used
     // when the lib is used in a theme then the lib is located in the sub folder 'ssd', use this
