@@ -437,3 +437,68 @@ if( ! function_exists( 'swifty_lib_admin_enqueue_styles' ) ) {
 
     add_action( 'admin_enqueue_scripts', 'swifty_lib_admin_enqueue_styles' );
 }
+
+if( ! function_exists( 'swifty_print_media_templates' ) ) {
+    /**
+     * Insert our own attachment view, this is a copy of the "tmpl-attachment" template in wp-includes/media-template.php
+     */
+    function swifty_print_media_templates()
+    {
+        ?>
+        <script type="text/html" id="tmpl-attachment-swifty">
+            <div class="attachment-preview js--select-attachment type-{{ data.type }} subtype-{{ data.subtype }} {{ data.orientation }}">
+                <div class="thumbnail">
+                    <# //console.log(data); #>
+                    <# if ( data.uploading ) { #>
+                        <div class="media-progress-bar"><div style="width: {{ data.percent }}%"></div></div>
+                    <# } else if ( 'image' === data.type && data.sizes ) { #>
+                        <# if ( data.swifty_cmd && ( data.swifty_cmd == 'pattern_list' ) ) { #>
+                            <div class="thumbnail" style="background-image: url('{{ data.size.url }}{{ data.swifty_params }}'); bakcground-repeat: repeat;">
+                        <# } else { #>
+                            <div class="centered">
+                                <img src="{{ data.size.url }}" style="max-height: 100%; max-width: 100%;" draggable="false" alt="" />
+                            </div>
+                        <# } #>
+                    <# } else { #>
+                        <div class="centered">
+                            <# if ( data.image && data.image.src && data.image.src !== data.icon ) { #>
+                                <img src="{{ data.image.src }}" class="thumbnail" draggable="false" />
+                            <# } else { #>
+                                <img src="{{ data.icon }}" class="icon" draggable="false" />
+                            <# } #>
+                        </div>
+                        <div class="filename">
+                            <div>{{ data.filename }}</div>
+                        </div>
+                    <# } #>
+                </div>
+                <# if ( data.buttons.close ) { #>
+                    <button type="button" class="button-link attachment-close media-modal-icon"><span class="screen-reader-text"><?php _e( 'Remove' ); ?></span></button>
+                <# } #>
+            </div>
+            <# if ( data.buttons.check ) { #>
+                <button type="button" class="button-link check" tabindex="-1"><span class="media-modal-icon"></span><span class="screen-reader-text"><?php _e( 'Deselect' ); ?></span></button>
+            <# } #>
+            <#
+            var maybeReadOnly = data.can.save || data.allowLocalEdits ? '' : 'readonly';
+            if ( data.describe ) {
+                if ( 'image' === data.type ) { #>
+                    <input type="text" value="{{ data.caption }}" class="describe" data-setting="caption"
+                           placeholder="<?php esc_attr_e('Caption this image&hellip;'); ?>" {{ maybeReadOnly }} />
+                    <# } else { #>
+                        <input type="text" value="{{ data.title }}" class="describe" data-setting="title"
+                        <# if ( 'video' === data.type ) { #>
+                            placeholder="<?php esc_attr_e('Describe this video&hellip;'); ?>"
+                        <# } else if ( 'audio' === data.type ) { #>
+                            placeholder="<?php esc_attr_e('Describe this audio file&hellip;'); ?>"
+                        <# } else { #>
+                            placeholder="<?php esc_attr_e('Describe this media file&hellip;'); ?>"
+                        <# } #> {{ maybeReadOnly }} />
+                    <# }
+            } #>
+        </script>
+        <?php
+    }
+
+    add_action( 'customize_controls_print_footer_scripts', 'swifty_print_media_templates' );
+}
