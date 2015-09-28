@@ -13,10 +13,11 @@ options=(
          g "Mail the zip" on
          . "----------------------------------------" off
          1 "Get latests masters and develops" off
-         2 "Update pot/po and up/download glotpress" off
-         3 "Build" off
-         4 "Release to public" off
+         2 "Show commit log since latest changelog" off
+         3 "Update pot/po and up/download glotpress" off
+         4 "Build" off
          5 "Commit + tag + push" off
+         6 "Release to public" off
          . "" off
          . "========================================" off
          . "Individual actions (some can be combined):" off
@@ -34,12 +35,12 @@ options=(
          t "Commit and tag" off
          u "Create pot and upload to glotpress" off
          v "Download po from glotpress" off
-         w "Commits since tag" off
         )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 clear
 startgruntcmd="from_dialog_do"
 gruntcmd=$startgruntcmd
+singlecmd=""
 for choice in $choices
 do
     case $choice in
@@ -62,21 +63,29 @@ do
         1)
             sss="_mainpull"
             gruntcmd=$gruntcmd$sss
+            singlecmd=$sss
             ;;
         2)
-            sss="_mainpot"
+            sss="_commitssincetag"
             gruntcmd=$gruntcmd$sss
+            singlecmd=$sss
             ;;
         3)
-            sss="_mainbuild"
+            sss="_mainpot"
             gruntcmd=$gruntcmd$sss
+            singlecmd=$sss
             ;;
         4)
-            sss="_mainrelease"
+            sss="_mainbuild"
             gruntcmd=$gruntcmd$sss
             ;;
         5)
             sss="_maintag"
+            gruntcmd=$gruntcmd$sss
+            singlecmd=$sss
+            ;;
+        6)
+            sss="_mainrelease"
             gruntcmd=$gruntcmd$sss
             ;;
         k)
@@ -127,12 +136,12 @@ do
             sss="_gettranslations"
             gruntcmd=$gruntcmd$sss
             ;;
-        w)
-            sss="_commitssincetag"
-            gruntcmd=$gruntcmd$sss
-            ;;
     esac
 done
+if [ "$singlecmd" != "" ]
+then
+    gruntcmd=$startgruntcmd$singlecmd
+fi
 if [ "$gruntcmd" != "$startgruntcmd" ]
 then
     echo "#"

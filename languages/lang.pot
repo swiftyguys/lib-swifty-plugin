@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-16 11:54+0200\n"
+"POT-Creation-Date: 2015-08-04 11:03+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -113,7 +113,7 @@ msgid "Plugin activated successfully."
 msgstr ""
 
 #: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:194
-#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1694
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1699
 msgid "The following plugin was activated successfully:"
 msgid_plural "The following plugins were activated successfully:"
 msgstr[0] ""
@@ -123,14 +123,14 @@ msgstr[1] ""
 msgid "Dismiss this notice"
 msgstr ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/lib_swifty_plugin.php:76
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib_swifty_plugin.php:166
 msgid "Swifty Plugins"
 msgstr ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/lib_swifty_plugin.php:78
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib_swifty_plugin.php:168
 msgid "Active Swifty Plugins"
 msgstr ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/lib_swifty_plugin.php:150
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib_swifty_plugin.php:240
 msgid "Swifty Settings"
 msgstr ""

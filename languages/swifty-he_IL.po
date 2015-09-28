@@ -97,7 +97,7 @@ msgid "Plugin activated successfully."
 msgstr ""
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:194
-#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1694
+#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1699
 msgid "The following plugin was activated successfully:"
 msgid_plural "The following plugins were activated successfully:"
 msgstr[0] ""
