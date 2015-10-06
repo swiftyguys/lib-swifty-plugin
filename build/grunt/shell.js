@@ -185,14 +185,14 @@ module.exports = function( grunt/*, options*/ ) {
                 },
                 'callback': function(err, stdout, stderr, cb) {
                     if( stdout.indexOf( grunt.myPkg.version ) >= 0 ) {
-                        grunt.fatal( "\n\n========================================\n\nCURRENT RELEASETAG ALREADY EXISTS ON swiftylife.com " + grunt.myPkg.version + "!!!!!!!!!!!!!!\n\n========================================\n\n\n" );
+                        grunt.fatal( "\n\n========================================\n\nCURRENT RELEASETAG ALREADY EXISTS ON swifty.online " + grunt.myPkg.version + "!!!!!!!!!!!!!!\n\n========================================\n\n\n" );
                     }
                     cb();
                 }
             }
         },
         copy_zip_swiftylife: {
-            command: 'scp -P 2022 <%= grunt.getDestZip() %> swiftylife@green.alphamegahosting.com:/var/www/vhosts/swiftylife.com/httpdocs/download/swifty-content-creator-alpha-latest.zip',
+            command: 'scp -P 2022 <%= grunt.getDestZip() %> swiftylife@green.alphamegahosting.com:/var/www/vhosts/swifty.online/httpdocs/download/swifty-content-creator-alpha-latest.zip',
             options: {
                 execOptions: {
                 },

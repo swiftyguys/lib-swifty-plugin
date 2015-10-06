@@ -16,7 +16,7 @@ module.exports = function( grunt/*, options*/ ) {
             BUILDUSE: 'build',
             PROT: 'api',
             LICENSE_NAME: 'Commercial',
-            LICENSE_URI: 'http://www.swiftylife.com',
+            LICENSE_URI: 'http://www.swifty.online',
             FONT_REL_TAG: grunt.getFontReleaseTag()
         },
         test : {

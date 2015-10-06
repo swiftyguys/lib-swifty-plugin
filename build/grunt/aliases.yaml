@@ -176,7 +176,7 @@ from_dialog_do_maintest_step1:
 from_dialog_do_maintest_step2:
   - 'shell:test1'
 
-# Release to public; either on wordpress.org or on swiftylife.com
+# Release to public; either on wordpress.org or on swifty.online
 from_dialog_do_mainrelease:
   - 'if_release'
 
@@ -267,7 +267,7 @@ helper_obfuscate:
   - 'replace:obfuscate' # Rename (obfuscate) a lot of specific string that obfuscate was not able to rename
   - 'replace:obfuscate_insert_comment' # Place the main comment back (as it was incorrectly removed by obfuscate)
 
-# Release on swiftylife.com
+# Release on swifty.online
 helper_release_swiftylife:
   - 'helper_git_commits_since_tag'
   - 'shell:check_changelog_in_zip'
@@ -282,7 +282,7 @@ helper_release_wporg:
   - 'helper_svnupdate'
   - 'helper_svnsubmit'
 
-# Release on swiftylife.com
+# Release on swifty.online
 helper_fix_translations:
   - 'loop_join_po' # merge all po files per language
   - 'clean:languages' # remove unwanted language files and folders

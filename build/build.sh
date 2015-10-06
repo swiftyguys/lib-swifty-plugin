@@ -31,7 +31,7 @@ options=(
          p "Send email" off
          q "SVN update" off
          r "SVN submit" off
-         s "Release on swiftylife.com" off
+         s "Release on swifty.online" off
          t "Commit and tag" off
          u "Create pot and upload to glotpress" off
          v "Download po from glotpress" off
