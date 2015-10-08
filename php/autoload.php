@@ -31,8 +31,14 @@ if( ! function_exists( 'swifty_autoload_lib_helper' ) ) {
         $best_dir = '';
         $directories = swifty_glob( WP_PLUGIN_DIR . '/swifty*' );
         swifty_autoload_lib_helper( $directories, '/lib/swifty_plugin', $best_version, $best_dir );
-        $directories = swifty_glob( get_theme_root() . '/swifty*' );
-        swifty_autoload_lib_helper( $directories, '/ssd/lib/swifty_plugin', $best_version, $best_dir );
+        if( strpos(get_stylesheet(), 'swifty-' ) === 0 ) {
+
+            error_log('===================load ssd swiftylib' );
+            $directories = swifty_glob( get_theme_root() . '/swifty*' );
+            swifty_autoload_lib_helper( $directories, '/ssd/lib/swifty_plugin', $best_version, $best_dir );
+        } else {
+            error_log('===================ignore ssd swiftylib' );
+        }
 //            echo 'BEST... #####' . $best_dir . '#####' . $best_version . '<br>';
         if( $best_dir !== '' ) {
             require_once $best_dir . $file_path;
