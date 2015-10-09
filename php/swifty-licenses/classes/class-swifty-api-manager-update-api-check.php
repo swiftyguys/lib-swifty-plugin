@@ -1,6 +1,7 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+// Exit if accessed directly
+defined( 'ABSPATH' ) or exit;
 
 /**
  * Todd Lahman LLC Updater - Single Updater Class
@@ -12,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
  *
  */
 
-if ( ! class_exists( 'SwiftyApiManagerUpdateApiCheck' ) ) {
+if( ! class_exists( 'SwiftyApiManagerUpdateApiCheck' ) ) {
     class SwiftyApiManagerUpdateApiCheck
     {
 
@@ -28,11 +29,11 @@ if ( ! class_exists( 'SwiftyApiManagerUpdateApiCheck' ) ) {
          * @static
          * @return class instance
          */
-        public static function instance( $upgrade_url, $plugin_name, $product_id, $api_key, $activation_email, $renew_license_url, $instance, $domain, $software_version, $plugin_or_theme, $text_domain, $extra = '' )
+        public static function instance( $upgrade_url, $plugin_name, $product_id, $api_key, $activation_email, $renew_license_url, $instance, $domain, $software_version, $plugin_or_theme, $extra = '' )
         {
 
             if( is_null( self::$_instance ) ) {
-                self::$_instance = new self( $upgrade_url, $plugin_name, $product_id, $api_key, $activation_email, $renew_license_url, $instance, $domain, $software_version, $plugin_or_theme, $text_domain, $extra );
+                self::$_instance = new self( $upgrade_url, $plugin_name, $product_id, $api_key, $activation_email, $renew_license_url, $instance, $domain, $software_version, $plugin_or_theme, $extra );
             }
 
             return self::$_instance;
@@ -48,7 +49,6 @@ if ( ! class_exists( 'SwiftyApiManagerUpdateApiCheck' ) ) {
         private $domain; // blog domain name
         private $software_version;
         private $plugin_or_theme; // 'theme' or 'plugin'
-        private $text_domain; // localization for translation
         private $extra; // Used to send any extra information.
 
         /**
@@ -58,7 +58,7 @@ if ( ! class_exists( 'SwiftyApiManagerUpdateApiCheck' ) ) {
          * @since  1.0.0
          * @return void
          */
-        public function __construct( $upgrade_url, $plugin_name, $product_id, $api_key, $activation_email, $renew_license_url, $instance, $domain, $software_version, $plugin_or_theme, $text_domain, $extra )
+        public function __construct( $upgrade_url, $plugin_name, $product_id, $api_key, $activation_email, $renew_license_url, $instance, $domain, $software_version, $plugin_or_theme, $extra )
         {
             // API data
             $this->upgrade_url = $upgrade_url;
@@ -70,11 +70,10 @@ if ( ! class_exists( 'SwiftyApiManagerUpdateApiCheck' ) ) {
             $this->instance = $instance;
             $this->domain = $domain;
             $this->software_version = $software_version;
-            $this->text_domain = $text_domain;
             $this->extra = $extra;
 
             // Slug should be the same as the plugin/theme directory name
-            if (  strpos( $this->plugin_name, '.php' ) !== 0 ) {
+            if( strpos( $this->plugin_name, '.php' ) !== 0 ) {
                 $this->slug = dirname( $this->plugin_name );
             } else {
                 $this->slug = $this->plugin_name;
@@ -130,7 +129,12 @@ if ( ! class_exists( 'SwiftyApiManagerUpdateApiCheck' ) ) {
 
         }
 
-        // Upgrade API URL
+        /**
+         * Upgrade API URL
+         *
+         * @param $args
+         * @return string
+         */
         private function create_upgrade_api_url( $args )
         {
             $upgrade_url = add_query_arg( 'wc-api', 'upgrade-api', $this->upgrade_url );
@@ -269,7 +273,7 @@ if ( ! class_exists( 'SwiftyApiManagerUpdateApiCheck' ) ) {
 
             // Check if this plugins API is about this plugin
             if( isset( $args->slug ) ) {
-                if ( $args->slug != $this->slug ) {
+                if( $args->slug != $this->slug ) {
                     return $false;
                 }
             } else {
@@ -375,7 +379,7 @@ if ( ! class_exists( 'SwiftyApiManagerUpdateApiCheck' ) ) {
          */
         public function expired_license_error_notice( $message )
         {
-            echo sprintf( '<div id="message" class="error"><p>' . __( 'The license key for %s has expired. You can reactivate or purchase a license key from your account <a href="%s" target="_blank">dashboard</a>.', $this->text_domain ) . '</p></div>', $this->product_id, $this->renew_license_url );
+            echo sprintf( '<div id="message" class="error"><p>' . __( 'The license key for %s has expired. You can reactivate or purchase a license key from your account <a href="%s" target="_blank">dashboard</a>.', 'swifty' ) . '</p></div>', $this->product_id, $this->renew_license_url );
         }
 
         /**
@@ -385,7 +389,7 @@ if ( ! class_exists( 'SwiftyApiManagerUpdateApiCheck' ) ) {
          */
         public function on_hold_subscription_error_notice( $message )
         {
-            echo sprintf( '<div id="message" class="error"><p>' . __( 'The subscription for %s is on-hold. You can reactivate the subscription from your account <a href="%s" target="_blank">dashboard</a>.', $this->text_domain ) . '</p></div>', $this->product_id, $this->renew_license_url );
+            echo sprintf( '<div id="message" class="error"><p>' . 'The subscription for %s is on-hold. You can reactivate the subscription from your account <a href="%s" target="_blank">dashboard</a>.' . '</p></div>', $this->product_id, $this->renew_license_url );
         }
 
         /**
@@ -395,7 +399,7 @@ if ( ! class_exists( 'SwiftyApiManagerUpdateApiCheck' ) ) {
          */
         public function cancelled_subscription_error_notice( $message )
         {
-            echo sprintf( '<div id="message" class="error"><p>' . __( 'The subscription for %s has been cancelled. You can renew the subscription from your account <a href="%s" target="_blank">dashboard</a>. A new license key will be emailed to you after your order has been completed.', $this->text_domain ) . '</p></div>', $this->product_id, $this->renew_license_url );
+            echo sprintf( '<div id="message" class="error"><p>' . 'The subscription for %s has been cancelled. You can renew the subscription from your account <a href="%s" target="_blank">dashboard</a>. A new license key will be emailed to you after your order has been completed.' . '</p></div>', $this->product_id, $this->renew_license_url );
         }
 
         /**
@@ -405,7 +409,7 @@ if ( ! class_exists( 'SwiftyApiManagerUpdateApiCheck' ) ) {
          */
         public function expired_subscription_error_notice( $message )
         {
-            echo sprintf( '<div id="message" class="error"><p>' . __( 'The subscription for %s has expired. You can reactivate the subscription from your account <a href="%s" target="_blank">dashboard</a>.', $this->text_domain ) . '</p></div>', $this->product_id, $this->renew_license_url );
+            echo sprintf( '<div id="message" class="error"><p>' . __( 'The subscription for %s has expired. You can reactivate the subscription from your account <a href="%s" target="_blank">dashboard</a>.', 'swifty' ) . '</p></div>', $this->product_id, $this->renew_license_url );
         }
 
         /**
@@ -415,7 +419,7 @@ if ( ! class_exists( 'SwiftyApiManagerUpdateApiCheck' ) ) {
          */
         public function suspended_subscription_error_notice( $message )
         {
-            echo sprintf( '<div id="message" class="error"><p>' . __( 'The subscription for %s has been suspended. You can reactivate the subscription from your account <a href="%s" target="_blank">dashboard</a>.', $this->text_domain ) . '</p></div>', $this->product_id, $this->renew_license_url );
+            echo sprintf( '<div id="message" class="error"><p>' . 'The subscription for %s has been suspended. You can reactivate the subscription from your account <a href="%s" target="_blank">dashboard</a>.' . '</p></div>', $this->product_id, $this->renew_license_url );
         }
 
         /**
@@ -425,7 +429,7 @@ if ( ! class_exists( 'SwiftyApiManagerUpdateApiCheck' ) ) {
          */
         public function pending_subscription_error_notice( $message )
         {
-            echo sprintf( '<div id="message" class="error"><p>' . __( 'The subscription for %s is still pending. You can check on the status of the subscription from your account <a href="%s" target="_blank">dashboard</a>.', $this->text_domain ) . '</p></div>', $this->product_id, $this->renew_license_url );
+            echo sprintf( '<div id="message" class="error"><p>' . 'The subscription for %s is still pending. You can check on the status of the subscription from your account <a href="%s" target="_blank">dashboard</a>.' . '</p></div>', $this->product_id, $this->renew_license_url );
         }
 
         /**
@@ -435,7 +439,7 @@ if ( ! class_exists( 'SwiftyApiManagerUpdateApiCheck' ) ) {
          */
         public function trash_subscription_error_notice( $message )
         {
-            echo sprintf( '<div id="message" class="error"><p>' . __( 'The subscription for %s has been placed in the trash and will be deleted soon. You can purchase a new subscription from your account <a href="%s" target="_blank">dashboard</a>.', $this->text_domain ) . '</p></div>', $this->product_id, $this->renew_license_url );
+            echo sprintf( '<div id="message" class="error"><p>' . 'The subscription for %s has been placed in the trash and will be deleted soon. You can purchase a new subscription from your account <a href="%s" target="_blank">dashboard</a>.' . '</p></div>', $this->product_id, $this->renew_license_url );
         }
 
         /**
@@ -445,7 +449,7 @@ if ( ! class_exists( 'SwiftyApiManagerUpdateApiCheck' ) ) {
          */
         public function no_subscription_error_notice( $message )
         {
-            echo sprintf( '<div id="message" class="error"><p>' . __( 'A subscription for %s could not be found. You can purchase a subscription from your account <a href="%s" target="_blank">dashboard</a>.', $this->text_domain ) . '</p></div>', $this->product_id, $this->renew_license_url );
+            echo sprintf( '<div id="message" class="error"><p>' . 'A subscription for %s could not be found. You can purchase a subscription from your account <a href="%s" target="_blank">dashboard</a>.' . '</p></div>', $this->product_id, $this->renew_license_url );
         }
 
         /**
@@ -455,7 +459,7 @@ if ( ! class_exists( 'SwiftyApiManagerUpdateApiCheck' ) ) {
          */
         public function no_key_error_notice( $message )
         {
-            echo sprintf( '<div id="message" class="error"><p>' . __( 'A license key for %s could not be found. Maybe you forgot to enter a license key when setting up %s, or the key was deactivated in your account. You can reactivate or purchase a license key from your account <a href="%s" target="_blank">dashboard</a>.', $this->text_domain ) . '</p></div>', $this->product_id, $this->product_id, $this->renew_license_url );
+            echo sprintf( '<div id="message" class="error"><p>' . __( 'A license key for %s could not be found. Maybe you forgot to enter a license key when setting up %s, or the key was deactivated in your account. You can reactivate or purchase a license key from your account <a href="%s" target="_blank">dashboard</a>.', 'swifty' ) . '</p></div>', $this->product_id, $this->product_id, $this->renew_license_url );
         }
 
         /**
@@ -465,7 +469,7 @@ if ( ! class_exists( 'SwiftyApiManagerUpdateApiCheck' ) ) {
          */
         public function download_revoked_error_notice( $message )
         {
-            echo sprintf( '<div id="message" class="error"><p>' . __( 'Download permission for %s has been revoked possibly due to a license key or subscription expiring. You can reactivate or purchase a license key from your account <a href="%s" target="_blank">dashboard</a>.', $this->text_domain ) . '</p></div>', $this->product_id, $this->renew_license_url );
+            echo sprintf( '<div id="message" class="error"><p>' . 'Download permission for %s has been revoked possibly due to a license key or subscription expiring. You can reactivate or purchase a license key from your account <a href="%s" target="_blank">dashboard</a>.' . '</p></div>', $this->product_id, $this->renew_license_url );
         }
 
         /**
@@ -475,7 +479,7 @@ if ( ! class_exists( 'SwiftyApiManagerUpdateApiCheck' ) ) {
          */
         public function no_activation_error_notice( $message )
         {
-            echo sprintf( '<div id="message" class="error"><p>' . __( '%s has not been activated. Go to the settings page and enter the license key and license email to activate %s.', $this->text_domain ) . '</p></div>', $this->product_id, $this->product_id );
+            echo sprintf( '<div id="message" class="error"><p>' . __( '%s has not been activated. Go to the settings page and enter the license key and license email to activate %s.', 'swifty' ) . '</p></div>', $this->product_id, $this->product_id );
         }
 
         /**
@@ -485,7 +489,7 @@ if ( ! class_exists( 'SwiftyApiManagerUpdateApiCheck' ) ) {
          */
         public function switched_subscription_error_notice( $message )
         {
-            echo sprintf( '<div id="message" class="error"><p>' . __( 'You changed the subscription for %s, so you will need to enter your new API License Key in the settings page. The License Key should have arrived in your email inbox, if not you can get it by logging into your account <a href="%s" target="_blank">dashboard</a>.', $this->text_domain ) . '</p></div>', $this->product_id, $this->renew_license_url );
+            echo sprintf( '<div id="message" class="error"><p>' . 'You changed the subscription for %s, so you will need to enter your new API License Key in the settings page. The License Key should have arrived in your email inbox, if not you can get it by logging into your account <a href="%s" target="_blank">dashboard</a>.' . '</p></div>', $this->product_id, $this->renew_license_url );
         }
 
 

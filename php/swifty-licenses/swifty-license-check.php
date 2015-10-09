@@ -1,7 +1,11 @@
 <?php
-// Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
 
+// Exit if accessed directly
+defined( 'ABSPATH' ) or exit;
+
+/**
+ * Class SwiftyLicenseCheck Add License settings tab and update check for this plugin
+ */
 class SwiftyLicenseCheck
 {
     // Base URL to the remote upgrade API Manager server. If not set then the Author URI is used.
@@ -21,10 +25,18 @@ class SwiftyLicenseCheck
     public $product_id;      // 'SCC_ALPHA';
     public $plugin_version;  // '/*@echo RELEASE_TAG*/';
 
-    public $our_text_domain = 'swifty';
-
     protected static $_instance = null;
 
+    /**
+     * Construct instance and set actions when admin
+     *
+     * @param $plugin_file
+     * @param $plugin_name
+     * @param $plugin_key_name
+     * @param $product_id
+     * @param $plugin_version
+     * @param $swifty_admin_page
+     */
     public function __construct( $plugin_file, $plugin_name, $plugin_key_name, $product_id, $plugin_version, $swifty_admin_page )
     {
         $this->plugin_file = $plugin_file;
@@ -35,9 +47,11 @@ class SwiftyLicenseCheck
         $this->swifty_admin_page = $swifty_admin_page;
 
         $this->init();
-
     }
 
+    /**
+     * Initialize actions when admin
+     */
     public function init()
     {
         // workaround to get a valid filename while using linked folders on our dev systems
@@ -89,13 +103,17 @@ class SwiftyLicenseCheck
                     $settings->ame_instance_id,
                     $settings->ame_domain,
                     $settings->ame_software_version,
-                    $settings->ame_plugin_or_theme,
-                    $settings->ame_text_domain
+                    $settings->ame_plugin_or_theme
                 );
             }
         }
     }
 
+    /**
+     * Construct settings object for plugin and add it to global settings array
+     *
+     * @return SwiftyAmePluginSettings
+     */
     function set_api_manager_plugin_settings()
     {
         require_once( plugin_dir_path( __FILE__ ) . 'classes/class-swifty-ame_plugin_settings.php' );
@@ -151,8 +169,6 @@ class SwiftyLicenseCheck
         $settings->ame_software_version = $this->plugin_version; // The software version
         $settings->ame_plugin_or_theme = 'plugin'; // 'theme' or 'plugin'
 
-        $settings->ame_text_domain = $this->our_text_domain;
-
         $settings->ame_upgrade_url = $this->our_upgrade_url;
         $settings->ame_version = $this->plugin_version;
         $settings->ame_plugin_url = $this->our_plugin_url;
@@ -164,7 +180,11 @@ class SwiftyLicenseCheck
         return $settings;
     }
 
-    // check for valid license in the options table.
+    /**
+     * check for valid license in the options table.
+     *
+     * @return bool
+     */
     function has_valid_license()
     {
         $licence_code = get_option( $this->plugin_key_name . '_activated' );
@@ -176,13 +196,19 @@ class SwiftyLicenseCheck
      *
      * @return SwiftyApiManagerUpdateApiCheck
      */
-    public function our_update_check( $upgrade_url, $plugin_name, $product_id, $api_key, $activation_email, $renew_license_url, $instance, $domain, $software_version, $plugin_or_theme, $text_domain, $extra = '' ) {
+    public function our_update_check( $upgrade_url, $plugin_name, $product_id, $api_key, $activation_email, $renew_license_url, $instance, $domain, $software_version, $plugin_or_theme, $extra = '' )
+    {
 
-        return SwiftyApiManagerUpdateApiCheck::instance( $upgrade_url, $plugin_name, $product_id, $api_key, $activation_email, $renew_license_url, $instance, $domain, $software_version, $plugin_or_theme, $text_domain, $extra );
+        return SwiftyApiManagerUpdateApiCheck::instance( $upgrade_url, $plugin_name, $product_id, $api_key, $activation_email, $renew_license_url, $instance, $domain, $software_version, $plugin_or_theme, $extra );
     }
 
-    // used for options tabs in SwiftyApiManagerMenu
-    function hook_swifty_has_license() {
+    /**
+     * used for options tabs in SwiftyApiManagerMenu
+     *
+     * @return string
+     */
+    function hook_swifty_has_license()
+    {
         // no license was found: return 'D' otherwise 'A'
         return $this->has_valid_license() ? 'A' : 'D';
     }
@@ -190,7 +216,8 @@ class SwiftyLicenseCheck
     /**
      * Generate the default data arrays
      */
-    public function init_license_options() {
+    public function init_license_options()
+    {
 
         $settings = swifty_get_ame_plugin_settings( $this->plugin_key_name );
         if( ! $settings ) {
@@ -198,9 +225,9 @@ class SwiftyLicenseCheck
         }
 
         $global_options = array(
-            $settings->ame_api_key 				=> '',
-            $settings->ame_activation_email 	=> '',
-                    );
+            $settings->ame_api_key => '',
+            $settings->ame_activation_email => '',
+        );
 
         update_option( $settings->ame_data_key, $global_options );
 
@@ -212,13 +239,13 @@ class SwiftyLicenseCheck
         $instance = $api_manager_password_management->generate_password( 12, false );
 
         $single_options = array(
-            $settings->ame_product_id_key 			=> $settings->ame_software_product_id,
-            $settings->ame_instance_key 			=> $instance,
-            $settings->ame_deactivate_checkbox_key 	=> 'on',
-            $settings->ame_activated_key 			=> 'Deactivated',
-            );
+            $settings->ame_product_id_key => $settings->ame_software_product_id,
+            $settings->ame_instance_key => $instance,
+            $settings->ame_deactivate_checkbox_key => 'on',
+            $settings->ame_activated_key => 'Deactivated',
+        );
 
-        foreach ( $single_options as $key => $value ) {
+        foreach( $single_options as $key => $value ) {
             update_option( $key, $value );
         }
     }
@@ -243,7 +270,8 @@ class SwiftyLicenseCheck
      * Check for external blocking contstant
      * @return string
      */
-    public function check_external_blocking() {
+    public function check_external_blocking()
+    {
         // show notice if external requests are blocked through the WP_HTTP_BLOCK_EXTERNAL constant
         if( defined( 'WP_HTTP_BLOCK_EXTERNAL' ) && WP_HTTP_BLOCK_EXTERNAL === true ) {
 
@@ -253,11 +281,10 @@ class SwiftyLicenseCheck
             if( ! defined( 'WP_ACCESSIBLE_HOSTS' ) || stristr( WP_ACCESSIBLE_HOSTS, $host ) === false ) {
                 ?>
                 <div class="error">
-                    <p><?php printf( __( '<b>Warning!</b> You\'re blocking external requests which means you won\'t be able to get %s updates. Please add %s to %s.', 'swifty' ), $this->ame_software_product_id, '<strong>' . $host . '</strong>', '<code>WP_ACCESSIBLE_HOSTS</code>'); ?></p>
+                    <p><?php printf( __( '<b>Warning!</b> You\'re blocking external requests which means you won\'t be able to get %s updates. Please add %s to %s.', 'swifty' ), $this->ame_software_product_id, '<strong>' . $host . '</strong>', '<code>WP_ACCESSIBLE_HOSTS</code>' ); ?></p>
                 </div>
                 <?php
             }
-
         }
     }
 }

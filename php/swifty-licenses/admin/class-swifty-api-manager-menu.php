@@ -10,12 +10,16 @@
  *
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+// Exit if accessed directly
+defined( 'ABSPATH' ) or exit;
 
 require_once plugin_dir_path( __FILE__ ) . '../classes/class-swifty-ame_plugin_settings.php';
 
-if ( ! class_exists( 'SwiftyApiManagerMenu' ) ) {
+if( ! class_exists( 'SwiftyApiManagerMenu' ) ) {
 
+    /**
+     * Class SwiftyApiManagerMenu adds menu items and settings page for Swifty licenses
+     */
     class SwiftyApiManagerMenu
     {
         private $plugin_name;
@@ -23,7 +27,14 @@ if ( ! class_exists( 'SwiftyApiManagerMenu' ) ) {
         private $product_id;
         private $swifty_admin_page;
 
-        // Load admin menu
+        /**
+         * Load admin menu
+         *
+         * @param $plugin_name
+         * @param $plugin_key_name
+         * @param $product_id
+         * @param $swifty_admin_page
+         */
         public function __construct( $plugin_name, $plugin_key_name, $product_id, $swifty_admin_page )
         {
             $this->plugin_name = $plugin_name;
@@ -31,92 +42,101 @@ if ( ! class_exists( 'SwiftyApiManagerMenu' ) ) {
             $this->product_id = $product_id;
             $this->swifty_admin_page = $swifty_admin_page;
 
-            //add_action( 'admin_menu', array( $this, 'add_menu' ) );
             add_action( 'admin_init', array( $this, 'load_settings' ) );
-
-            //add_action( 'swifty_license_list', array( $this, 'hook_swifty_license_list') );
 
             add_filter( 'swifty_admin_page_links_' . $this->swifty_admin_page, array( $this, 'hook_swifty_admin_page_links' ) );
         }
 
-//        public function hook_swifty_license_list()
-//        {
-//            global $swifty_license_tabs;
-//            $ame = swifty_get_ame_plugin_settings( $this->plugin_key_name );
-//
-//            if( apply_filters( 'swifty_has_license_' . $this->plugin_key_name, 'D' ) === 'D' ) {
-//                $swifty_license_tabs[ $this->product_id ] = array( 'title' => __( $ame->ame_menu_tab_activation_title, $ame->ame_text_domain ), 'method' => array( $this, 'activation_tab_content' ) );
-//            } else {
-//                $swifty_license_tabs[ $this->product_id ] = array( 'title' => __( $ame->ame_menu_tab_deactivation_title, $ame->ame_text_domain ), 'method' => array( $this, 'deactivation_tab_content' ) );
-//            }
-//        }
-
-        // add license or deactivation tab to the options page
+        /**
+         * add license or deactivation tab to the options page
+         *
+         * @param $settings_links
+         * @return mixed
+         */
         function hook_swifty_admin_page_links( $settings_links )
         {
             $ame = swifty_get_ame_plugin_settings( $this->plugin_key_name );
             if( apply_filters( 'swifty_has_license_' . $this->plugin_key_name, 'D' ) === 'D' ) {
-                $settings_links[ $ame->ame_activation_tab_key ] = array( 'title' => __( $ame->ame_menu_tab_activation_title, $ame->ame_text_domain ), 'method' => array( $this, 'activation_tab_content' ), 'alternative_link' => $ame->ame_deactivation_tab_key );
+                $settings_links[ $ame->ame_activation_tab_key ] = array( 'title' => $ame->ame_menu_tab_activation_title, 'method' => array( $this, 'activation_tab_content' ), 'alternative_link' => $ame->ame_deactivation_tab_key );
             } else {
-                $settings_links[ $ame->ame_deactivation_tab_key ] = array( 'title' => __( $ame->ame_menu_tab_deactivation_title, $ame->ame_text_domain ), 'method' => array( $this, 'deactivation_tab_content' ), 'alternative_link' => $ame->ame_activation_tab_key );
+                $settings_links[ $ame->ame_deactivation_tab_key ] = array( 'title' => $ame->ame_menu_tab_deactivation_title, 'method' => array( $this, 'deactivation_tab_content' ), 'alternative_link' => $ame->ame_activation_tab_key );
             }
             return $settings_links;
         }
 
+        /**
+         * License page for activating
+         */
         function activation_tab_content()
         {
             $ame = swifty_get_ame_plugin_settings( $this->plugin_key_name );
             settings_fields( $ame->ame_data_key );
             do_settings_sections( $ame->ame_activation_tab_key );
-            submit_button( __( 'Activate', $ame->ame_text_domain ) );
+            submit_button( __( 'Activate', 'swifty' ) );
         }
 
+        /**
+         * License page for deactivation
+         */
         function deactivation_tab_content()
         {
             $ame = swifty_get_ame_plugin_settings( $this->plugin_key_name );
             settings_fields( $ame->ame_deactivate_checkbox );
             do_settings_sections( $ame->ame_deactivation_tab_key );
-            submit_button( __( 'Save Changes', $ame->ame_text_domain ) );
+            submit_button( __( 'Save Changes', 'swifty' ) );
         }
 
-        // Register settings
+        /**
+         * Register settings
+         */
         public function load_settings()
         {
             $ame = swifty_get_ame_plugin_settings( $this->plugin_key_name );
-            register_setting( $ame->ame_data_key, $ame->ame_data_key, array( $this, 'validate_options' ) );
-
-            // API Key
-            add_settings_section( $ame->ame_api_key, sprintf( __( 'License activation of %s', $ame->ame_text_domain ), $this->plugin_name ), array( $this, 'wc_am_api_key_text' ), $ame->ame_activation_tab_key );
-            add_settings_field( $ame->ame_activation_email, __( 'Email', $ame->ame_text_domain ), array( $this, 'wc_am_api_email_field' ), $ame->ame_activation_tab_key, $ame->ame_api_key );
-            add_settings_field( $ame->ame_api_key, __( 'License key', $ame->ame_text_domain ), array( $this, 'wc_am_api_key_field' ), $ame->ame_activation_tab_key, $ame->ame_api_key );
 
             // Activation settings
+            register_setting( $ame->ame_data_key, $ame->ame_data_key, array( $this, 'validate_options' ) );
+            add_settings_section( $ame->ame_api_key, sprintf( __( 'License activation of %s', 'swifty' ), $this->plugin_name ), array( $this, 'wc_am_api_key_text' ), $ame->ame_activation_tab_key );
+            add_settings_field( $ame->ame_activation_email, __( 'Email', 'swifty' ), array( $this, 'wc_am_api_email_field' ), $ame->ame_activation_tab_key, $ame->ame_api_key );
+            add_settings_field( $ame->ame_api_key, __( 'License key', 'swifty' ), array( $this, 'wc_am_api_key_field' ), $ame->ame_activation_tab_key, $ame->ame_api_key );
+
+            // Deactivation settings
             register_setting( $ame->ame_deactivate_checkbox, $ame->ame_deactivate_checkbox, array( $this, 'wc_am_license_key_deactivation' ) );
-            add_settings_section( 'deactivate_button', sprintf( __( 'License deactivation of %s', $ame->ame_text_domain ), $this->plugin_name ), array( $this, 'wc_am_deactivate_text' ), $ame->ame_deactivation_tab_key );
-            add_settings_field( 'deactivate_button', __( 'Deactivate License Key', $ame->ame_text_domain ), array( $this, 'wc_am_deactivate_textarea' ), $ame->ame_deactivation_tab_key, 'deactivate_button' );
+            add_settings_section( 'deactivate_button', sprintf( __( 'License deactivation of %s', 'swifty' ), $this->plugin_name ), array( $this, 'wc_am_deactivate_text' ), $ame->ame_deactivation_tab_key );
+            add_settings_field( 'deactivate_button', __( 'Deactivate License Key', 'swifty' ), array( $this, 'wc_am_deactivate_textarea' ), $ame->ame_deactivation_tab_key, 'deactivate_button' );
         }
 
-        // Provides text for api key section
+        /**
+         * Provides text for activation section
+         */
         public function wc_am_api_key_text()
         {
-            echo "Please enter the activation details you received from us, and click the 'Activate' button.";
+            echo __( "Please enter the activation details you received from us, and click the 'Activate' button.", 'swifty' );
         }
 
-        // Outputs API License text field
+        /**
+         * Outputs License activation code text field
+         */
         public function wc_am_api_key_field()
         {
             $ame = swifty_get_ame_plugin_settings( $this->plugin_key_name );
             echo "<input id='api_key' name='" . $ame->ame_data_key . "[" . $ame->ame_api_key . "]' size='25' type='text' value='" . $ame->ame_options[ $ame->ame_api_key ] . "' />";
         }
 
-        // Outputs API License email text field
+        /**
+         * Outputs License activation email text field
+         */
         public function wc_am_api_email_field()
         {
             $ame = swifty_get_ame_plugin_settings( $this->plugin_key_name );
             echo "<input id='activation_email' name='" . $ame->ame_data_key . "[" . $ame->ame_activation_email . "]' size='25' type='text' value='" . $ame->ame_options[ $ame->ame_activation_email ] . "' />";
         }
 
-        // Sanitizes and validates all input and output for Dashboard
+        /**
+         * Sanitizes and validates all input and output for Activation
+         *
+         * @param $input
+         * @return mixed
+         */
         public function validate_options( $input )
         {
             $ame = swifty_get_ame_plugin_settings( $this->plugin_key_name );
@@ -157,13 +177,13 @@ if ( ! class_exists( 'SwiftyApiManagerMenu' ) ) {
 
                     $activate_results = json_decode( $ame->key()->activate( $args ), true );
                     if( $activate_results[ 'activated' ] === true ) {
-                        add_settings_error( 'api-manager', 'activate_msg', __( 'Plugin activated. ', $ame->ame_text_domain ) . "{$activate_results['message']}.", 'updated' );
+                        add_settings_error( 'api-manager', 'activate_msg', __( 'Plugin activated. ', 'swifty' ) . "{$activate_results['message']}.", 'updated' );
                         update_option( $ame->ame_activated_key, 'Activated' );
                         update_option( $ame->ame_deactivate_checkbox, 'off' );
                     }
 
                     if( $activate_results == false ) {
-                        add_settings_error( 'api-manager', 'api_key_check_error', __( 'Connection failed to the License Key API server. Try again later.', $ame->ame_text_domain ), 'error' );
+                        add_settings_error( 'api-manager', 'api_key_check_error', 'Connection failed to the License Key API server. Try again later.', 'error' );
                         $options[ $ame->ame_api_key ] = '';
                         $options[ $ame->ame_activation_email ] = '';
                         update_option( $ame->ame_activated_key, 'Deactivated' );
@@ -225,7 +245,12 @@ if ( ! class_exists( 'SwiftyApiManagerMenu' ) ) {
             return $options;
         }
 
-        // Deactivate the current license key before activating the new license key
+        /**
+         * Deactivate the current license key before activating the new license key
+         *
+         * @param $current_api_key
+         * @return bool|void
+         */
         public function replace_license_key( $current_api_key )
         {
             $ame = swifty_get_ame_plugin_settings( $this->plugin_key_name );
@@ -239,10 +264,15 @@ if ( ! class_exists( 'SwiftyApiManagerMenu' ) ) {
             if( $reset == true )
                 return true;
 
-            return add_settings_error( 'api-manager', 'not_deactivated_error', __( 'The license could not be deactivated. Use the License Deactivation tab to manually deactivate the license before activating a new license.', $ame->ame_text_domain ), 'updated' );
+            return add_settings_error( 'api-manager', 'not_deactivated_error', __( 'The license could not be deactivated. Use the License Deactivation tab to manually deactivate the license before activating a new license.', 'swifty' ), 'updated' );
         }
 
-        // Deactivates the license key to allow key to be used on another blog
+        /**
+         * Sanitizes and validates all input and output for Deactivation
+         *
+         * @param $input
+         * @return string
+         */
         public function wc_am_license_key_deactivation( $input )
         {
             $ame = swifty_get_ame_plugin_settings( $this->plugin_key_name );
@@ -259,7 +289,7 @@ if ( ! class_exists( 'SwiftyApiManagerMenu' ) ) {
 
             $options = ( $input == 'on' ? 'on' : 'off' );
 
-            if( $options == 'on' && ($activation_status === 'Activated') && $ame->ame_options[ $ame->ame_api_key ] != '' && $ame->ame_options[ $ame->ame_activation_email ] != '' ) {
+            if( $options == 'on' && ( $activation_status === 'Activated' ) && $ame->ame_options[ $ame->ame_api_key ] != '' && $ame->ame_options[ $ame->ame_activation_email ] != '' ) {
 
                 // deactivates license key activation
                 $activate_results = json_decode( $ame->key()->deactivate( $args ), true );
@@ -276,10 +306,9 @@ if ( ! class_exists( 'SwiftyApiManagerMenu' ) ) {
                     $merge_options = array_merge( $ame->ame_options, $update );
 
                     update_option( $ame->ame_data_key, $merge_options );
-
                     update_option( $ame->ame_activated_key, 'Deactivated' );
 
-                    add_settings_error( 'api-manager', 'deactivate_msg', __( 'Plugin license deactivated. ', $ame->ame_text_domain ) . "{$activate_results['activations_remaining']}.", 'updated' );
+                    add_settings_error( 'api-manager', 'deactivate_msg', __( 'Plugin license deactivated. ', 'swifty' ) . "{$activate_results['activations_remaining']}.", 'updated' );
 
                     return $options;
                 }
@@ -336,10 +365,16 @@ if ( ! class_exists( 'SwiftyApiManagerMenu' ) ) {
             }
         }
 
+        /**
+         * Provides text for deactivation section
+         */
         public function wc_am_deactivate_text()
         {
         }
 
+        /**
+         * Outputs License deactivation checkbox field
+         */
         public function wc_am_deactivate_textarea()
         {
             $ame = swifty_get_ame_plugin_settings( $this->plugin_key_name );
@@ -347,8 +382,8 @@ if ( ! class_exists( 'SwiftyApiManagerMenu' ) ) {
             echo checked( get_option( $ame->ame_deactivate_checkbox ), 'on' );
             echo '/>';
             ?><span
-            class="description"><?php _e( 'Deactivates an API License Key so it can be used on another blog.', $ame->ame_text_domain ); ?></span>
-        <?php
+            class="description"><?php _e( 'Deactivates an API License Key so it can be used on another blog.', 'swifty' ); ?></span>
+            <?php
         }
     }
 }

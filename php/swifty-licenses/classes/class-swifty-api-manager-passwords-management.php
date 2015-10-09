@@ -1,6 +1,7 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+// Exit if accessed directly
+defined( 'ABSPATH' ) or exit;
 
 /**
  * WooCommerce API Manager Passwords Class
@@ -12,10 +13,23 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
  *
  */
 
-if ( ! class_exists( 'SwiftyApiManagerPasswordManagement' ) ) {
+if( ! class_exists( 'SwiftyApiManagerPasswordManagement' ) ) {
+
+    /**
+     * Create unique ID for plugin installation
+     *
+     * Class SwiftyApiManagerPasswordManagement
+     */
     class SwiftyApiManagerPasswordManagement
     {
 
+        /**
+         * random number between $min $max
+         *
+         * @param int $min
+         * @param int $max
+         * @return number
+         */
         private function rand( $min = 0, $max = 0 )
         {
             global $rnd_value;
@@ -53,7 +67,14 @@ if ( ! class_exists( 'SwiftyApiManagerPasswordManagement' ) ) {
             return abs( intval( $value ) );
         }
 
-        // Creates a unique instance ID
+        /**
+         * Creates a unique instance ID
+         *
+         * @param int $length
+         * @param bool|true $special_chars
+         * @param bool|false $extra_special_chars
+         * @return string
+         */
         public function generate_password( $length = 12, $special_chars = true, $extra_special_chars = false )
         {
             $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -70,6 +91,5 @@ if ( ! class_exists( 'SwiftyApiManagerPasswordManagement' ) ) {
             // random_password filter was previously in random_password function which was deprecated
             return $password;
         }
-
     }
 }

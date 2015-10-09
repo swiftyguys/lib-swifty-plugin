@@ -10,11 +10,19 @@
  *
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+// Exit if accessed directly
+defined( 'ABSPATH' ) or exit;
 
 require_once plugin_dir_path( __FILE__ ) . 'class-swifty-ame_plugin_settings.php';
 
-if ( ! class_exists( 'SwiftyApiManagerKey' ) ) {
+if( ! class_exists( 'SwiftyApiManagerKey' ) ) {
+
+    /**
+     * Access to license api endpoint on server
+     * Class is instantiated as an object by other classes on-demand
+     *
+     * Class SwiftyApiManagerKey
+     */
     class SwiftyApiManagerKey
     {
 
@@ -25,7 +33,12 @@ if ( ! class_exists( 'SwiftyApiManagerKey' ) ) {
             $this->plugin_name = $plugin_name;
         }
 
-        // API Key URL
+        /**
+         * API Key URL
+         *
+         * @param $args
+         * @return string
+         */
         public function create_software_api_url( $args )
         {
             $ame = swifty_get_ame_plugin_settings( $this->plugin_name );
@@ -35,6 +48,12 @@ if ( ! class_exists( 'SwiftyApiManagerKey' ) ) {
             return $api_url . '&' . http_build_query( $args );
         }
 
+        /**
+         * activate license on server
+         *
+         * @param $args
+         * @return bool|string
+         */
         public function activate( $args )
         {
             $ame = swifty_get_ame_plugin_settings( $this->plugin_name );
@@ -63,6 +82,12 @@ if ( ! class_exists( 'SwiftyApiManagerKey' ) ) {
             return $response;
         }
 
+        /**
+         * deactivate license on server
+         *
+         * @param $args
+         * @return bool|string
+         */
         public function deactivate( $args )
         {
             $ame = swifty_get_ame_plugin_settings( $this->plugin_name );
@@ -119,8 +144,5 @@ if ( ! class_exists( 'SwiftyApiManagerKey' ) ) {
 
             return $response;
         }
-
     }
-
-// Class is instantiated as an object by other classes on-demand
 }
