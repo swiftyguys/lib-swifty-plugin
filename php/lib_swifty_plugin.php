@@ -6,6 +6,7 @@ if( ! class_exists( 'LibSwiftyPluginView' ) ) {
     require_once plugin_dir_path( __FILE__ ) . 'lib_swifty_plugin_view.php';
 }
 require_once plugin_dir_path( __FILE__ ) . 'lib/swifty_class-tgm-plugin-activation.php';
+require_once plugin_dir_path( __FILE__ ) . 'swifty-licenses/swifty-license-check.php';
 
 class LibSwiftyPlugin extends LibSwiftyPluginView
 {
@@ -13,16 +14,48 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
     protected $our_swifty_plugins = array();
     protected $added_swifty_slugs = array();
 
+    /**
+     * Init singleton instance and add actions
+     */
     public function __construct()
     {
         parent::__construct();
 
         self::$instance = $this;
+
+        add_action( 'admin_menu', array( $this, 'hook_admin_menu_swifty_admin_licenses_page'), 10500 );
     }
 
+    /**
+     * Staticmember with class instance
+     *
+     * @return LibSwiftyPlugin
+     */
     public static function get_instance()
     {
         return self::$instance;
+    }
+
+    /**
+     * Add a license pageto the swifty admin pages. Dothisonly when the page name was initialized by an plugin that
+     * needed this page
+     */
+    public function hook_admin_menu_swifty_admin_licenses_page()
+    {
+        global $swifty_admin_licenses_page;
+
+        if( ! empty( $swifty_admin_licenses_page ) ) {
+            LibSwiftyPlugin::get_instance()->admin_add_swifty_menu( 'Licenses', __( 'Licenses', 'swifty' ), $swifty_admin_licenses_page, array( $this, 'hook_swifty_admin_license_page' ), true );
+        }
+    }
+
+    /**
+     * Swifty page for licenses
+     */
+    function hook_swifty_admin_license_page()
+    {
+        global $swifty_admin_licenses_page;
+        $this->admin_options_menu_page( $swifty_admin_licenses_page );
     }
 
     // import given $url_image as attachment, return array with:
@@ -192,7 +225,17 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
         reset( $settings_links );
         $first_link = key( $settings_links );
 
-        $link = isset( $_GET[ 'link' ] ) && array_key_exists( $_GET[ 'link' ], $settings_links ) ? $_GET[ 'link' ] : $first_link;
+        $link = isset( $_GET[ 'link' ] ) && array_key_exists( $_GET[ 'link' ], $settings_links ) ? $_GET[ 'link' ] : null;
+
+        // look for alternative link or use the first link available
+        if( ! $link ) {
+            $link = $first_link;
+            foreach( $settings_links as $link_name => $link_info ) {
+                if( isset( $link_info[ 'alternative_link' ] ) && isset( $_GET[ 'link' ] ) && ( $link_info[ 'alternative_link' ] === $_GET[ 'link' ] ) ) {
+                    $link = $link_name;
+                }
+            }
+        }
 
         ?>
 
