@@ -8,6 +8,9 @@ if( ! class_exists( 'LibSwiftyPluginView' ) ) {
 require_once plugin_dir_path( __FILE__ ) . 'lib/swifty_class-tgm-plugin-activation.php';
 require_once plugin_dir_path( __FILE__ ) . 'swifty-licenses/swifty-license-check.php';
 
+/**
+ * Class LibSwiftyPlugin Swifty lib functions available in edit and view mode
+ */
 class LibSwiftyPlugin extends LibSwiftyPluginView
 {
     protected static $instance;
@@ -23,11 +26,11 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
 
         self::$instance = $this;
 
-        add_action( 'admin_menu', array( $this, 'hook_admin_menu_swifty_admin_licenses_page'), 10500 );
+        add_action( 'admin_menu', array( $this, 'hook_admin_menu_swifty_admin_licenses_page' ), 10500 );
     }
 
     /**
-     * Staticmember with class instance
+     * Static member with class instance
      *
      * @return LibSwiftyPlugin
      */
@@ -37,7 +40,7 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
     }
 
     /**
-     * Add a license pageto the swifty admin pages. Dothisonly when the page name was initialized by an plugin that
+     * Add a license page to the swifty admin pages. Do this only when the page name was initialized by an plugin that
      * needed this page
      */
     public function hook_admin_menu_swifty_admin_licenses_page()
@@ -58,13 +61,17 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
         $this->admin_options_menu_page( $swifty_admin_licenses_page );
     }
 
-    // import given $url_image as attachment, return array with:
-    // - url: new wordpress attachment url
-    // - id: new attachment id
-    // - image_url: original $url_image
-    // when image already exist, return the earlier inserted attachment information
-    // will not detect when inserted in different months
-    // only accepts png, jpg and gif files
+    /**
+     * import given $url_image as attachment, return array with:
+     * - url: new wordpress attachment url
+     * - id: new attachment id
+     * - image_url: original $url_image
+     * when image already exist, return the earlier inserted attachment information will not
+     * detect when inserted in different months only accepts png, jpg and gif files
+     *
+     * @param $url_image
+     * @return array
+     */
     function import_attachment_from_url( $url_image )
     {
         $url_image = stripslashes( $url_image );
@@ -148,6 +155,17 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
         );
     }
 
+    /**
+     * Add swifty menu page, when already registered return earlier registered page. Will add Swifty manin page when
+     * needed
+     *
+     * @param $name
+     * @param $swiftyname
+     * @param $key
+     * @param $func
+     * @param $register_plugin
+     * @return false|string
+     */
     public function admin_add_swifty_menu( $name, $swiftyname, $key, $func, $register_plugin )
     {
 
@@ -185,7 +203,14 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
         return $page;
     }
 
-    // first add the menu item then replace the link in it with the url we want
+    /**
+     * first add the menu item then replace the link in it with the url we want
+     *
+     * @param $name
+     * @param $swiftyname
+     * @param $url
+     * @param $register_plugin
+     */
     public function admin_add_swifty_menu_link( $name, $swiftyname, $url, $register_plugin )
     {
         $this->admin_add_swifty_menu( $name, $swiftyname, 'replace_me', null, $register_plugin );
@@ -195,7 +220,9 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
         $submenu[ 'swifty_admin' ][ count( $submenu[ 'swifty_admin' ] ) - 1 ][ 2 ] = $url;
     }
 
-    // The Swifty admin main menu page (For ALL Swifty plugins)
+    /**
+     * The Swifty admin main menu page (For ALL Swifty plugins)
+     */
     function admin_swifty_menu_page()
     {
         echo '<h1>' . __( 'Swifty Plugins', 'swifty' ) . '</h1>';
@@ -207,7 +234,11 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
         }
     }
 
-    // Our plugin admin menu page
+    /**
+     * Our plugin admin menu page
+     *
+     * @param $admin_page
+     */
     function admin_options_menu_page( $admin_page )
     {
         $settings_tabs = array();
@@ -332,8 +363,10 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
         <?php
     }
 
-    // change the permalink to postname option. Call this on plugin activation:
-    //register_activation_hook( __FILE__, array( LibSwiftyPlugin::get_instance(), 'change_permalinks' ) );
+    /**
+     * change the permalink to postname option. Call this on plugin activation:
+     * register_activation_hook( __FILE__, array( LibSwiftyPlugin::get_instance(), 'change_permalinks' ) );
+     */
     public function change_permalinks()
     {
         add_action( 'permalink_structure_changed', array( &$this, 'action_permalink_structure_changed' ), 10, 2 );
@@ -344,7 +377,12 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
         remove_action( 'permalink_structure_changed', array( &$this, 'action_permalink_structure_changed' ) );
     }
 
-    // helper function
+    /**
+     * helper function: flush the rules when the permalink structure was changed
+     *
+     * @param $old_permalink_structure
+     * @param $permalink_structure
+     */
     public function action_permalink_structure_changed( $old_permalink_structure, $permalink_structure )
     {
         // make sure that the functions needed for writing htaccess are available
@@ -418,7 +456,12 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
     }
     // @endif
 
-    // create a autosave revision with this content
+    /**
+     * create a autosave revision with this content
+     *
+     * @param $pid
+     * @param $content
+     */
     public function update_autosave_version( $pid, $content )
     {
         $post = get_post( $pid );
@@ -432,7 +475,14 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
         }
     }
 
-    // enhance wp_update_post with keeping autosave changes in swifty mode
+    /**
+     * enhance wp_update_post with keeping autosave changes in swifty mode
+     *
+     * @param $post_id
+     * @param array $postarr
+     * @param bool|false $wp_error
+     * @return int|WP_Error
+     */
     function wp_update_post_keep_autosave( $post_id, $postarr = array(), $wp_error = false )
     {
         $autosave_content = null;
@@ -453,6 +503,9 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
 
 if( ! function_exists( 'swifty_lib_admin_enqueue_styles' ) ) {
 
+    /**
+     * Load swifty admin css and font awesome in edit mode
+     */
     function swifty_lib_admin_enqueue_styles()
     {
         if( is_user_logged_in() ) {

@@ -5,7 +5,8 @@ use DataSift\Storyplayer\Prose\E5xx_ActionFailed;
 
 include 'wordpress.php';
 
-class SSStory {
+class SSStory
+{
 
     public $data;
     protected $plugin_name = '';
@@ -15,19 +16,22 @@ class SSStory {
 
     ////////////////////////////////////////
 
-    function getText() { // Shortcut
+    function getText()
+    { // Shortcut
         return $this->st->fromBrowser()->getText();
     }
 
     ////////////////////////////////////////
 
-    function assertsString( $txt ) { // Shortcut
+    function assertsString( $txt )
+    { // Shortcut
         return $this->st->assertsString( $txt );
     }
 
     ////////////////////////////////////////
 
-    function TakeAction() { // Must be called first in a derived method
+    function TakeAction()
+    { // Must be called first in a derived method
         $this->PrepareForTest();
     }
 
@@ -45,10 +49,11 @@ class SSStory {
 
     ////////////////////////////////////////
 
-    function RegisterTries() {
+    function RegisterTries()
+    {
         $this->RegisterTry(
             'I have a fresh install',
-            function() {
+            function () {
                 // When plugin runs for the first time (without other SS plugins), SS mode must be off
                 $this->DeleteCookie( 'ss_mode' );
             }
@@ -56,7 +61,7 @@ class SSStory {
 
         $this->RegisterTry(
             'I am logged in',
-            function() {
+            function () {
                 if( ! $this->GetTryFlag( 'wp_logged_in' ) ) {
                     $this->WPLogin();
                     $this->SetTryFlag( 'wp_logged_in', true );
@@ -66,14 +71,14 @@ class SSStory {
 
         $this->RegisterTry(
             'I am on the homepage',
-            function() {
+            function () {
                 $this->GotoUrl( array( 'url' => '/' ) );
             }
         );
 
         $this->RegisterTry(
             'The "Swifty Site Designer" theme is activated',
-            function() {
+            function () {
                 $this->WPActivateTheme();
             }
         );
@@ -81,7 +86,8 @@ class SSStory {
 
     ////////////////////////////////////////
 
-    function SetupProbeDescription() {
+    function SetupProbeDescription()
+    {
         global $ssProbeDesciption;
         $ssProbeDesciption = array();
 
@@ -134,7 +140,7 @@ class SSStory {
 
                             $stack[ $indent + 1 ][ 'params' ][ $startWord ] = $json;
                         } else {
-                            $current[ ] = array( 'key' => $afterIndent );
+                            $current[] = array( 'key' => $afterIndent );
 
                             $stack[ $indent + 1 ] = &$current[ count( $current ) - 1 ];
                         }
@@ -154,32 +160,33 @@ class SSStory {
 
     ////////////////////////////////////////
 
-    function SetupStory( $name ) {
-        $story = $GLOBALS['story'] = newStoryFor('Wordpress')
+    function SetupStory( $name )
+    {
+        $story = $GLOBALS[ 'story' ] = newStoryFor( 'Wordpress' )
             ->inGroup( $name )
-            ->called('Test ' . $name . '.');
+            ->called( 'Test ' . $name . '.' );
 
-        $story->addTestSetup( function( StoryTeller $st ) {
-            $ssStory = $GLOBALS['ssStory'];
+        $story->addTestSetup( function ( StoryTeller $st ) {
+            $ssStory = $GLOBALS[ 'ssStory' ];
             $ssStory->st = $st;
-            $ssStory->ori_story = $GLOBALS['story'];
+            $ssStory->ori_story = $GLOBALS[ 'story' ];
             $ssStory->TestSetup();
         } );
 
-        $story->addTestTeardown( function( StoryTeller $st ) {
-            $ssStory = $GLOBALS['ssStory'];
+        $story->addTestTeardown( function ( StoryTeller $st ) {
+            $ssStory = $GLOBALS[ 'ssStory' ];
             $ssStory->st = $st;
             $ssStory->TestTeardown();
         } );
 
-        $story->addAction( function( StoryTeller $st ) {
-            $ssStory = $GLOBALS['ssStory'];
+        $story->addAction( function ( StoryTeller $st ) {
+            $ssStory = $GLOBALS[ 'ssStory' ];
             $ssStory->st = $st;
             $ssStory->TakeAction();
         } );
 
-        $story->addPostTestInspection( function( StoryTeller $st ) {
-        //    $st->assertsString($this->data->testText)->equals("Akismet");
+        $story->addPostTestInspection( function ( StoryTeller $st ) {
+            //    $st->assertsString($this->data->testText)->equals("Akismet");
         } );
 
         return $story;
@@ -187,7 +194,8 @@ class SSStory {
 
     ////////////////////////////////////////
 
-    function TestSetup0() {
+    function TestSetup0()
+    {
         $st = $this->st;
 
         // Can be overwritten in command line, via -D platform=...
@@ -220,7 +228,8 @@ class SSStory {
 
     ////////////////////////////////////////
 
-    function TestSetup1() {
+    function TestSetup1()
+    {
         // Sort the settings by order field
         uasort( $this->data->testSettings->setup, function ( $a, $b ) {
             if( $a[ 'order' ] < $b[ 'order' ] ) {
@@ -232,7 +241,8 @@ class SSStory {
 
     ////////////////////////////////////////
 
-    function TestSetup2() {
+    function TestSetup2()
+    {
         $st = $this->st;
 
         $this->wordpress = new Wordpress(
@@ -260,12 +270,13 @@ class SSStory {
 
     ////////////////////////////////////////
 
-    function TestSetup3() {
+    function TestSetup3()
+    {
         $this->data->do_phase_after_install = array();
         $this->data->do_phase_after_login = array();
         // Install items defined in settings
         foreach( $this->data->testSettings->setup as $setupItem ) {
-            $setupItem = (object) $setupItem ;
+            $setupItem = (object) $setupItem;
             if( $setupItem->action == 'install' ) {
                 if( $setupItem->type == 'webapp' ) {
                     $this->InstallWebApp( $setupItem );
@@ -287,7 +298,8 @@ class SSStory {
 
     ////////////////////////////////////////
 
-    function TestTeardown() {
+    function TestTeardown()
+    {
         $st = $this->st;
 
         switch( $this->params[ 'platform' ] ) {
@@ -300,7 +312,8 @@ class SSStory {
 
     ////////////////////////////////////////
 
-    function PrepareForTest() {
+    function PrepareForTest()
+    {
         // Call to this function must be as a first start of the first test
 
         // Do after install
@@ -315,7 +328,8 @@ class SSStory {
 
     ////////////////////////////////////////
 
-    function CreateEc2() {
+    function CreateEc2()
+    {
         $st = $this->st;
 
         $this->EchoMsg( "Create Amazon AWS EC2 server" );
@@ -324,51 +338,53 @@ class SSStory {
         $st->usingEc2()->createVm( $this->data->instanceName, "centos6", "ami-1f23522f", 't1.micro', "default" );
 
         // we need to make sure the root filesystem is destroyed on termination
-        $st->usingEc2Instance($this->data->instanceName)->markAllVolumesAsDeleteOnTermination();
+        $st->usingEc2Instance( $this->data->instanceName )->markAllVolumesAsDeleteOnTermination();
 
         // we need to wait for a bit to allow EC2 to catch up :(
-        $st->usingTimer()->waitFor(function($st) {
+        $st->usingTimer()->waitFor( function ( $st ) {
             // we need to run a command (any command) on the host, to get it added
             // to SSH's known_hosts file
-            $st->usingHost($this->data->instanceName)->runCommandAsUser("ls", "root");
-        }, 'PT5M');
+            $st->usingHost( $this->data->instanceName )->runCommandAsUser( "ls", "root" );
+        }, 'PT5M' );
 
         $this->data->testSettings->domain = $st->fromHost( $this->data->instanceName )->getIpAddress();
-    //    $this->data->testSettings->domain = $st->fromEc2Instance( $this->data->instanceName )->getPublicDnsName();
+        //    $this->data->testSettings->domain = $st->fromEc2Instance( $this->data->instanceName )->getPublicDnsName();
         $this->wordpress->SetDomain( $this->data->testSettings->domain );
     }
 
     ////////////////////////////////////////
 
-    function DestroyEc2() {
+    function DestroyEc2()
+    {
         $st = $this->st;
 
         $this->EchoMsg( "Destroy Amazon AWS EC2 server" );
 
         // destroy the instance we created
-        if (isset($this->data->instanceName)) {
+        if( isset( $this->data->instanceName ) ) {
             // do we have a test VM to destroy?
-            $hostDetails = $st->fromHostsTable()->getDetailsForHost($this->data->instanceName);
-            if ($hostDetails !== null) {
+            $hostDetails = $st->fromHostsTable()->getDetailsForHost( $this->data->instanceName );
+            if( $hostDetails !== null ) {
                 // destroy this host
-                $st->usingEc2()->destroyVm($this->data->instanceName);
+                $st->usingEc2()->destroyVm( $this->data->instanceName );
             }
         }
 
         // destroy the image that we booted to test
-        if (isset($this->data->imageName)) {
+        if( isset( $this->data->imageName ) ) {
             // do we have a test VM to destroy?
-            $hostDetails = $st->fromHostsTable()->getDetailsForHost($this->data->imageName);
-            if ($hostDetails !== null) {
+            $hostDetails = $st->fromHostsTable()->getDetailsForHost( $this->data->imageName );
+            if( $hostDetails !== null ) {
                 // destroy this host
-                $st->usingEc2()->destroyVm($this->data->imageName);
+                $st->usingEc2()->destroyVm( $this->data->imageName );
             }
         }
     }
 
     ////////////////////////////////////////
 
-    function InstallWebApp( $setupItem ) {
+    function InstallWebApp( $setupItem )
+    {
         $st = $this->st;
 
         $this->EchoMsg( "Install Web App" );
@@ -384,28 +400,31 @@ class SSStory {
 
     ////////////////////////////////////////
 
-    function SetupWebApp( $slug ) {
+    function SetupWebApp( $slug )
+    {
         global $ssStory;
 
         if( $slug == "wordpress" ) {
-    //        ActionSetupWordpress( $st );
+            //        ActionSetupWordpress( $st );
             $ssStory->wordpress->Setup();
         }
     }
 
     ////////////////////////////////////////
 
-    function FindElementsByXpath( $xpath ) {
+    function FindElementsByXpath( $xpath )
+    {
         $st = $this->st;
 
         return $st->fromBrowser()->getElementsByXpath( array( $xpath ) );
-    //    $topElement = $st->fromBrowser()->getTopElement();
-    //    $elements = $topElement->getElements('xpath', $xpath);
+        //    $topElement = $st->fromBrowser()->getTopElement();
+        //    $elements = $topElement->getElements('xpath', $xpath);
     }
 
     ////////////////////////////////////////
 
-    function FindElementsByXpathMustExist( $xpath ) {
+    function FindElementsByXpathMustExist( $xpath )
+    {
         $st = $this->st;
 
         $elements = $st->fromBrowser()->getElementsByXpath( array( $xpath ) );
@@ -419,7 +438,8 @@ class SSStory {
 
     ////////////////////////////////////////
 
-    function FindElementByXpath( $xpath ) {
+    function FindElementByXpath( $xpath )
+    {
         $st = $this->st;
 
         // Find an element without throwing an error is no element found.
@@ -432,7 +452,8 @@ class SSStory {
 
     ////////////////////////////////////////
 
-    function FindElementByXpathMustExist( $xpath ) {
+    function FindElementByXpathMustExist( $xpath )
+    {
         $st = $this->st;
 
         // Will throw an error if the element is not found
@@ -441,7 +462,8 @@ class SSStory {
 
     ////////////////////////////////////////
 
-    function HoverElementByXpath( $xpath ) {
+    function HoverElementByXpath( $xpath )
+    {
         $st = $this->st;
 
         $element = $this->FindElementByXpathMustExist( $xpath );
@@ -451,7 +473,8 @@ class SSStory {
 
     ////////////////////////////////////////
 
-    function ClickElementByXpath( $xpath, $mode ) {
+    function ClickElementByXpath( $xpath, $mode )
+    {
         $element = $this->FindElementByXpath( $xpath );
         if( $element || $mode != "graceful" ) {
             $element->click();
@@ -460,19 +483,22 @@ class SSStory {
 
     ////////////////////////////////////////
 
-    function __EchoMsg( $s ) {
+    function __EchoMsg( $s )
+    {
         echo $s;
     }
 
     ////////////////////////////////////////
 
-    function _EchoMsg( $s ) {
+    function _EchoMsg( $s )
+    {
         $this->__EchoMsg( str_replace( '•', '.', $s ) );
     }
 
     ////////////////////////////////////////
 
-    function EchoMsg( $str ) {
+    function EchoMsg( $str )
+    {
         $s = '';
         $sp = str_pad( '', 4 * $this->msg_level );
 
@@ -486,7 +512,8 @@ class SSStory {
 
     ////////////////////////////////////////
 
-    function EchoMsgJs( $str ) {
+    function EchoMsgJs( $str )
+    {
         $s = '';
         $sp = str_pad( '', 4 + 4 * $this->msg_level );
 
@@ -494,20 +521,22 @@ class SSStory {
             $s .= "\n";
         }
 //        $s .= $sp . "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n" . $sp . str_replace( "\n" . $sp . "_-EnD_-" , "\n", str_replace( "\n", "\n" . $sp, $str ) . "_-EnD_-" );
-        $s .= $sp . str_replace( "\n" . $sp . "_-EnD_-" , "\n", str_replace( "\n", "\n" . $sp, $str ) . "_-EnD_-" );
+        $s .= $sp . str_replace( "\n" . $sp . "_-EnD_-", "\n", str_replace( "\n", "\n" . $sp, $str ) . "_-EnD_-" );
 
         $this->_EchoMsg( $s );
     }
 
     ////////////////////////////////////////
 
-    function ContainingClass( $className ) {
+    function ContainingClass( $className )
+    {
         return "contains(concat(' ',normalize-space(@class),' '),' " . $className . " ')";
     }
 
     ////////////////////////////////////////
 
-    function ExecuteJs( $functionName, $input, $doName = 'DoStart', $wait = null ) {
+    function ExecuteJs( $functionName, $input, $doName = 'DoStart', $wait = null )
+    {
         $js = 'return swiftyProbe.' . $doName . '(arguments);';
         if( $wait ) {
             $ret = $this->st->getRunningDevice()->execute( array( 'script' => $js, 'args' => array( $wait, $functionName, $input ) ) );
@@ -520,7 +549,8 @@ class SSStory {
 
     ////////////////////////////////////////
 
-    function Probe( $functionName, $desc = '', $input = array() ) {
+    function Probe( $functionName, $desc = '', $input = array() )
+    {
 //        $this->EchoMsgJs( "\nTest: " . $functionName . ' ( ' . $desc . ' ) ' . "\n" );
         $this->EchoMsgJs( "\nTest: " . $functionName . "\n" );
 
@@ -537,7 +567,8 @@ class SSStory {
 
     ////////////////////////////////////////
 
-    function DoTry( $name, $startWord ) {
+    function DoTry( $name, $startWord )
+    {
         global $ssProbeDesciption;
 
         $this->EchoMsg( ucfirst( $startWord ) . ': ' . $name );
@@ -596,13 +627,15 @@ class SSStory {
 
     ////////////////////////////////////////
 
-    function RegisterTry( $name, $func ) {
+    function RegisterTry( $name, $func )
+    {
         $this->tryFunctions[] = array( 'name' => $name, 'func' => $func );
     }
 
     ////////////////////////////////////////
 
-    function GetTryFlag( $key ) {
+    function GetTryFlag( $key )
+    {
         if( array_key_exists( $key, $this->tryFlags ) ) {
             return $this->tryFlags[ $key ];
         } else {
@@ -612,13 +645,15 @@ class SSStory {
 
     ////////////////////////////////////////
 
-    function SetTryFlag( $key, $val ) {
+    function SetTryFlag( $key, $val )
+    {
         $this->tryFlags[ $key ] = $val;
     }
 
     ////////////////////////////////////////
 
-    function RunProbeDescription() {
+    function RunProbeDescription()
+    {
         global $ssProbeDesciption;
 
         foreach( $ssProbeDesciption as $main ) {
@@ -634,7 +669,8 @@ class SSStory {
 
     ////////////////////////////////////////
 
-    function FindProbeDescription( $steps, $name ) {
+    function FindProbeDescription( $steps, $name )
+    {
         $ret = null;
 
         foreach( $steps as $step ) {
@@ -658,19 +694,22 @@ class SSStory {
 
     ////////////////////////////////////////
 
-    function SetPluginName( $pluginName ) {
+    function SetPluginName( $pluginName )
+    {
         $this->plugin_name = $pluginName;
     }
 
     ////////////////////////////////////////
 
-    function Fail( $t, $t2 ) {
+    function Fail( $t, $t2 )
+    {
         throw new E5xx_ActionFailed( $t, $t2 );
     }
 
     ////////////////////////////////////////
 
-    function GotoUrl( $input ) {
+    function GotoUrl( $input )
+    {
         $st = $this->st;
 
         $st->usingBrowser()->gotoPage( "http://" . $this->data->testSettings->domain . $input[ 'url' ] );
@@ -678,7 +717,8 @@ class SSStory {
 
     ////////////////////////////////////////
 
-    function ProbeProcessRet( $functionName, $input, $returned ) {
+    function ProbeProcessRet( $functionName, $input, $returned )
+    {
         $ret = $returned;
 
         if( ! isset( $ret[ 'ret' ] ) ) {
@@ -687,7 +727,7 @@ class SSStory {
             $this->Fail( "JS NO DATA RETURNED", "No data returned" );
         } else {
             if( isset( $ret[ 'ret' ][ 'fail' ] ) ) {
-                $this->EchoMsgJs( "FAIL:". $ret[ 'ret' ][ 'fail' ] . "\n" );
+                $this->EchoMsgJs( "FAIL:" . $ret[ 'ret' ][ 'fail' ] . "\n" );
 //                throw new E5xx_ActionFailed( "JS FAIL", $ret[ 'ret' ][ 'fail' ] );
                 $this->Fail( "JS FAIL", $ret[ 'ret' ][ 'fail' ] );
             } else {
@@ -746,26 +786,30 @@ class SSStory {
 
     ////////////////////////////////////////
 
-    function WPLogin() {
+    function WPLogin()
+    {
         $this->wordpress->Login();
     }
 
     ////////////////////////////////////////
 
-    function WPActivateTheme() {
+    function WPActivateTheme()
+    {
         $this->wordpress->ActivateTheme();
     }
 
     ////////////////////////////////////////
 
-    function SetCookie( $name, $val ) {
+    function SetCookie( $name, $val )
+    {
         $js = 'document.cookie = "' . $name . '=' . $val . ';"';
         $this->st->getRunningDevice()->execute( array( 'script' => $js, 'args' => array() ) );
     }
 
     ////////////////////////////////////////
 
-    function DeleteCookie( $name ) {
+    function DeleteCookie( $name )
+    {
         $js = 'document.cookie = "' . $name . '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;"';
         $this->st->getRunningDevice()->execute( array( 'script' => $js, 'args' => array() ) );
     }

@@ -1,8 +1,10 @@
 <?php
 
-class Wordpress {
+class Wordpress
+{
 
-    function Wordpress( $story, $st, $version, $lang, $user, $pass ) {
+    function Wordpress( $story, $st, $version, $lang, $user, $pass )
+    {
         $this->story = $story; // The main/global application object
         $this->st = $st; // StoryTeller
         $this->version = $version;
@@ -37,20 +39,22 @@ class Wordpress {
 
     ////////////////////////////////////////
 
-    function SetDomain( $domain ) {
+    function SetDomain( $domain )
+    {
         $this->domain = $domain;
     }
 
     ////////////////////////////////////////
 
-    function Install( $setupItem ) {
+    function Install( $setupItem )
+    {
         $st = $this->st;
 
         $this->story->EchoMsg( "Install Wordpress " . $this->version );
 
         // Settings for Ansible Wordpress install
         // Make sure these settings are not in Ansible's group_vars/all file otherwise those seem to take precedence
-        $vmParams = array (
+        $vmParams = array(
             "install_now" => "wordpress",
             "wp_version" => $this->version,
             "wp_sha256sum" => $this->tmpl[ 'wp_sha256sum' ],
@@ -65,16 +69,17 @@ class Wordpress {
 
         // build up the provisioning definition
         $def = $st->usingProvisioning()->createDefinition();
-        $st->usingProvisioningDefinition($def)->addRole('wordpress-server')->toHost($this->story->data->instanceName);
-        $st->usingProvisioningDefinition($def)->addParams($vmParams)->toHost($this->story->data->instanceName);
+        $st->usingProvisioningDefinition( $def )->addRole( 'wordpress-server' )->toHost( $this->story->data->instanceName );
+        $st->usingProvisioningDefinition( $def )->addParams( $vmParams )->toHost( $this->story->data->instanceName );
 
         // provision our VM
-        $st->usingProvisioningEngine('ansible')->provisionHosts($def);
+        $st->usingProvisioningEngine( 'ansible' )->provisionHosts( $def );
     }
 
     ////////////////////////////////////////
 
-    function Setup() {
+    function Setup()
+    {
         $st = $this->st;
 
         $this->story->EchoMsg( "Setup Wordpress" );
@@ -97,7 +102,8 @@ class Wordpress {
 
     ////////////////////////////////////////
 
-    function Login() {
+    function Login()
+    {
         $st = $this->st;
 
         $this->story->EchoMsg( "Login Wordpress" );
@@ -110,7 +116,7 @@ class Wordpress {
 
         // Do setup actions that need to be done after login
         foreach( $this->story->data->testSettings->setup as $setupItem ) {
-            $setupItem = (object) $setupItem ;
+            $setupItem = (object) $setupItem;
             if( $setupItem->type == 'wp_plugin' && $setupItem->after_login == 'activate' ) {
                 $this->ActivatePlugin( $setupItem->slug );
             }
@@ -119,7 +125,8 @@ class Wordpress {
 
     ////////////////////////////////////////
 
-    function ActivateTheme() {
+    function ActivateTheme()
+    {
         $st = $this->st;
 
         $this->story->EchoMsg( "Activate theme" );
@@ -138,7 +145,8 @@ class Wordpress {
 
     ////////////////////////////////////////
 
-    function Activate_License() {
+    function Activate_License()
+    {
         $st = $this->st;
 
         $this->story->EchoMsg( "Active License" );
@@ -155,7 +163,7 @@ class Wordpress {
 
         // Do setup actions that need to be done after activation
         foreach( $this->story->data->testSettings->setup as $setupItem ) {
-            $setupItem = (object) $setupItem ;
+            $setupItem = (object) $setupItem;
             if( $setupItem->type == 'api-manager' && $setupItem->action == 'activate' ) {
                 $this->ActivateSwiftyLicense( $setupItem->slug, $setupItem->plugin_prefix, $setupItem->email, $setupItem->key );
             }
@@ -164,7 +172,8 @@ class Wordpress {
 
     ////////////////////////////////////////
 
-    function InstallPlugin( $relpath, $toAbspath, $plugin_path_1, $plugin_path_2 ) {
+    function InstallPlugin( $relpath, $toAbspath, $plugin_path_1, $plugin_path_2 )
+    {
         $st = $this->st;
 
         $this->story->EchoMsg( "Install plugin: " . $relpath );
@@ -180,7 +189,7 @@ class Wordpress {
             }
 
             // create the parameters for Ansible
-            $vmParams = array (
+            $vmParams = array(
                 "install_now" => "plugin",
                 "code" => "swifty-page-manager",
                 "wp_plugin_relpath" => $relpath,
@@ -192,20 +201,21 @@ class Wordpress {
 
             // build up the provisioning definition
             $def = $st->usingProvisioning()->createDefinition();
-            $st->usingProvisioningDefinition($def)->addRole('wordpress-server')->toHost($this->story->data->instanceName);
-            $st->usingProvisioningDefinition($def)->addParams($vmParams)->toHost($this->story->data->instanceName);
+            $st->usingProvisioningDefinition( $def )->addRole( 'wordpress-server' )->toHost( $this->story->data->instanceName );
+            $st->usingProvisioningDefinition( $def )->addParams( $vmParams )->toHost( $this->story->data->instanceName );
 
             // provision our VM
-            $st->usingProvisioningEngine('ansible')->provisionHosts($def);
+            $st->usingProvisioningEngine( 'ansible' )->provisionHosts( $def );
         } else {
             // Copy plugin locally
-            shell_exec( 'cp -a ' . dirname(__FILE__) . '/' . $relpath . ' ' . $toAbspath );
+            shell_exec( 'cp -a ' . dirname( __FILE__ ) . '/' . $relpath . ' ' . $toAbspath );
         }
     }
 
     ////////////////////////////////////////
 
-    function ActivatePlugin( $pluginCode ) {
+    function ActivatePlugin( $pluginCode )
+    {
         $st = $this->st;
 
         $this->story->EchoMsg( "Activate plugin: " . $pluginCode );
@@ -213,7 +223,7 @@ class Wordpress {
         $this->OpenAdminSubMenu( 'plugins', $this->strings[ 's_submenu_installed_plugins' ] );
         $st->usingTimer()->wait( 1, "Wait for Installed Plugin page." );
 
-        if ( ! $this->IsPluginActivated( $pluginCode ) ) {
+        if( ! $this->IsPluginActivated( $pluginCode ) ) {
             $this->story->ClickElementByXpath( 'descendant::a[contains(@href, "plugin=' . $pluginCode . '") and normalize-space(text()) = "' . $this->strings[ 's_activate' ] . '"]', "graceful" );
             $st->usingTimer()->wait( 1, "Wait for plugin activation finished." );
         }
@@ -252,7 +262,8 @@ class Wordpress {
 
     ////////////////////////////////////////
 
-    function OpenAdminSubMenu( $pluginCode, $submenuText ) {
+    function OpenAdminSubMenu( $pluginCode, $submenuText )
+    {
         $st = $this->st;
 
         $this->story->EchoMsg( "Open admin sub-menu: " . $pluginCode . " -> " . $submenuText );
@@ -271,7 +282,8 @@ class Wordpress {
         $this->OpenAdminSubMenuGeneric( 'toplevel_page_swifty_admin', $submenuText );
     }
 
-    function OpenAdminSubMenuGeneric( $menuId, $submenuText ) {
+    function OpenAdminSubMenuGeneric( $menuId, $submenuText )
+    {
         $st = $this->st;
 
         // Xpath for main menu button
@@ -281,14 +293,14 @@ class Wordpress {
 
         // Check if the WP menu is collapsed (to one icon) ( happens on small screens )
         $elements = $this->story->FindElementsByXpath( 'descendant::li[@id = "wp-admin-bar-menu-toggle"]' );
-        if( count( $elements ) > 0 && $elements[0]->displayed() ) {
+        if( count( $elements ) > 0 && $elements[ 0 ]->displayed() ) {
             // Click on the collapse menu button, so the menu will appear
-            $elements[0]->click();
+            $elements[ 0 ]->click();
         }
 
         // Click on the main menu button, as on other screens (sizes or touch ) a click is needed
         $elements = $this->story->FindElementsByXpathMustExist( $xpathMainmenuItem );
-        $elements[0]->click();
+        $elements[ 0 ]->click();
         // Hover the main menu button, as on some screens (sizes or touch) a hover is needed
         $this->story->HoverElementByXpath( $xpathMainmenuItem );
 
