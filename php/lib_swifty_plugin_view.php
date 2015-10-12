@@ -5,6 +5,9 @@ if( ! defined( 'ABSPATH' ) ) exit;
 require_once plugin_dir_path( __FILE__ ) . 'lib/swifty-captcha.php';
 require_once plugin_dir_path( __FILE__ ) . 'lib/swifty-color-functions.php';
 
+/**
+ * Class LibSwiftyPluginView shared functions for view mode
+ */
 class LibSwiftyPluginView
 {
     protected static $instance_view;
@@ -12,6 +15,9 @@ class LibSwiftyPluginView
     protected static $_valid_modes = array( 'ss', 'wp', 'ss_force' );
     protected static $_default_mode = 'ss';
 
+    /**
+     * Constructor adds action and filter
+     */
     public function __construct()
     {
         self::$instance_view = $this;
@@ -21,13 +27,27 @@ class LibSwiftyPluginView
         add_filter( 'swifty_SS2_hosting_name', array( $this, 'filter_swifty_SS2_hosting_name' ) );
     }
 
+    /**
+     * Singleton
+     *
+     * @return LibSwiftyPluginView
+     */
     public static function get_instance()
     {
         return self::$instance_view;
     }
 
+    /**
+     * array with active plugins
+     */
     public static $required_active_plugins = array();
 
+    /**
+     * is this plugin active? Keep track of earlier checks to improve speed
+     *
+     * @param $plugin_name
+     * @return bool
+     */
     public static function is_required_plugin_active( $plugin_name )
     {
         // do we already know the answer?
@@ -54,6 +74,9 @@ class LibSwiftyPluginView
     public static $required_plugin_active_swifty_site = false;
     public static $required_theme_active_swifty_site_designer = false;
 
+    /**
+     * When all plugins and themes are loaded set some static members, simplyfies testing if ssm and ssd are active
+     */
     public function action_after_setup_theme()
     {
         self::$required_plugin_active_swifty_site = defined( 'SWIFTY_MENU_PLUGIN_FILE' );
@@ -62,8 +85,13 @@ class LibSwiftyPluginView
 
     protected static $filter_swifty_SS2_hosting_name = null;
 
-    // return the name of the SS2 hoster, when set indicates a full SS2 setup with this name as hosting partner,
-    // otherwise returns $default
+    /**
+     * return the name of the SS2 hoster, when set indicates a full SS2 setup with this name as hosting partner,
+     * otherwise returns $default
+     *
+     * @param $default
+     * @return bool
+     */
     public function filter_swifty_SS2_hosting_name( $default )
     {
         if( ! isset( self::$filter_swifty_SS2_hosting_name ) ) {
@@ -72,6 +100,9 @@ class LibSwiftyPluginView
         return $default || self::$filter_swifty_SS2_hosting_name;
     }
 
+    /**
+     * Add swifty menu option to the wp-admin bar
+     */
     public static function add_swifty_to_admin_bar()
     {
 
@@ -93,24 +124,39 @@ class LibSwiftyPluginView
         }
     }
 
-    // test if $plugin_name is active
+    /**
+     * test if $plugin_name is active
+     * All swifty plugins will respond to the 'swifty_active_plugins' filter and it's name
+     * to the array.
+     *
+     * @param $plugin_name
+     * @return bool
+     */
     public static function is_swifty_plugin_active( $plugin_name )
     {
         return in_array( $plugin_name, apply_filters( 'swifty_active_plugins', array() ) );
     }
 
-    // is swifty menu active?
-    // make sure all plugins are constructed before using this function
+    /**
+     * is swifty menu active?
+     * make sure all plugins are constructed before using this function
+     *
+     * @return bool|null
+     */
     public static function is_ss_mode()
     {
         if( ! isset( self::$_ss_mode ) ) {
             self::$_ss_mode = ( ( ( empty( $_COOKIE[ 'ss_mode' ] ) || $_COOKIE[ 'ss_mode' ] === 'ss' )
-                                  && self::is_swifty_plugin_active( 'swifty-site' ) )
-                                || self::is_ss_force() );
+                    && self::is_swifty_plugin_active( 'swifty-site' ) )
+                || self::is_ss_force() );
         }
         return self::$_ss_mode;
     }
 
+    /**
+     * set the ss_mode cookie, use ss_mode Get attribute
+     * defaults to ss
+     */
     public static function set_ss_mode()
     {
         // reset the ss_mode, after setting cookies the value might change
@@ -134,12 +180,22 @@ class LibSwiftyPluginView
         $_COOKIE[ 'ss_mode' ] = $mode;
     }
 
+    /**
+     * is the ss_mode cookie forced?
+     *
+     * @return bool
+     */
     public static function is_ss_force()
     {
         return ( ! empty( $_COOKIE[ 'ss_mode' ] ) && $_COOKIE[ 'ss_mode' ] === 'ss_force' );
     }
 
-    // find newer version of post, or return null if there is no newer autosave version
+    /**
+     * find newer version of post, or return null if there is no newer autosave version
+     *
+     * @param $pid
+     * @return mixed|null
+     */
     public function get_autosave_version_if_newer( $pid )
     {
         // Detect if there exists an autosave newer than the post and if that autosave is different than the post
@@ -160,6 +216,15 @@ class LibSwiftyPluginView
         return $newer_revision;
     }
 
+    /**
+     * use ssd enqueue_script method when ssd is the active theme, otherwise use wp_enqueue_script
+     *
+     * @param $handle
+     * @param bool|false $src
+     * @param array $deps
+     * @param bool|false $ver
+     * @param bool|false $in_footer
+     */
     public static function lazy_load_js( $handle, $src = false, $deps = array(), $ver = false, $in_footer = false )
     {
         if( self::$required_theme_active_swifty_site_designer ) {
@@ -169,6 +234,16 @@ class LibSwiftyPluginView
         }
     }
 
+    /**
+     * load minified version of script if possible and use ssd enqueue_script method when ssd is the active theme,
+     * otherwise use wp_enqueue_script
+     *
+     * @param $handle
+     * @param bool|false $src
+     * @param array $deps
+     * @param bool|false $ver
+     * @param bool|false $in_footer
+     */
     public static function lazy_load_js_min( $handle, $src = false, $deps = array(), $ver = false, $in_footer = false )
     {
         global $swifty_build_use;
@@ -181,6 +256,16 @@ class LibSwiftyPluginView
         self::lazy_load_js( $handle, $file, $deps, $ver, $in_footer );
     }
 
+    /**
+     * use ssd enqueue_style method when ssd is the active theme,
+     * otherwise use wp_enqueue_style
+     *
+     * @param $handle
+     * @param bool|false $src
+     * @param array $deps
+     * @param bool|false $ver
+     * @param string $media
+     */
     public static function lazy_load_css( $handle, $src = false, $deps = array(), $ver = false, $media = 'all' )
     {
         if( self::$required_theme_active_swifty_site_designer ) {
@@ -191,9 +276,14 @@ class LibSwiftyPluginView
     }
 }
 
-// load the swifty font, only load the latest version.
+/**
+ * load the swifty font, only load the latest version.
+ */
 if( ! function_exists( 'swifty_lib_view_enqueue_styles' ) ) {
 
+    /**
+     * load swifty font only when user is logged in. Use latest version of font
+     */
     function swifty_lib_view_enqueue_styles()
     {
         if( is_user_logged_in() ) {
@@ -224,9 +314,14 @@ if( ! function_exists( 'swifty_lib_view_enqueue_styles' ) ) {
 
 if( ! function_exists( 'get_swifty_lib_dir_url' ) ) {
 
-    // returns the plugin or theme url depending on the $file that is used
-    // when the lib is used in a theme then the lib is located in the sub folder 'ssd', use this
-    // to detect that the $file is used in a theme and not in a plugin
+    /**
+     * returns the plugin or theme url depending on the $file that is used
+     * when the lib is used in a theme then the lib is located in the sub folder 'ssd', use this
+     * to detect that the $file is used in a theme and not in a plugin
+     *
+     * @param $file
+     * @return string
+     */
     function get_swifty_lib_dir_url( $file )
     {
         // we need to work around the plugin dir link we use in our development systems
