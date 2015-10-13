@@ -4,7 +4,7 @@ module.exports = {
 
         //console.log( '==================' );
 
-        // dorh TODO in mycfg.json: uglify, csslint, cssmin, shell
+        // LJ3svnIP in mycfg.json: uglify, csslint, cssmin, shell
 
         grunt.myCfg = grunt.file.readJSON( 'mycfg.json' );
         grunt.myPkg = grunt.file.readJSON( 'package.json' );
