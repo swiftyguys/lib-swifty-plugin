@@ -2,9 +2,19 @@
 // Exit if accessed directly
 if( ! defined( 'ABSPATH' ) ) exit;
 
+<<<<<<< HEAD
 require_once plugin_dir_path( __FILE__ ) . 'lib/swifty-captcha.php';
 require_once plugin_dir_path( __FILE__ ) . 'lib/swifty-color-functions.php';
 
+=======
+// remove this after new version of SCC is online, otherwise old SCC installs will fail when newer version of swiftylib is
+// used in other plugins
+require_once plugin_dir_path( __FILE__ ) . 'lib/swifty-captcha.php';
+
+/**
+ * Class LibSwiftyPluginView shared functions for view mode
+ */
+>>>>>>> q9Wr8O93 load lib files as late as possible
 class LibSwiftyPluginView
 {
     protected static $instance_view;
