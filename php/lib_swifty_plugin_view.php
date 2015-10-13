@@ -2,9 +2,6 @@
 // Exit if accessed directly
 if( ! defined( 'ABSPATH' ) ) exit;
 
-require_once plugin_dir_path( __FILE__ ) . 'lib/swifty-captcha.php';
-require_once plugin_dir_path( __FILE__ ) . 'lib/swifty-color-functions.php';
-
 /**
  * Class LibSwiftyPluginView shared functions for view mode
  */
@@ -21,6 +18,12 @@ class LibSwiftyPluginView
     public function __construct()
     {
         self::$instance_view = $this;
+
+        // just in case this was not set by an old autoload.php
+        global $swifty_lib_dir;
+        if( ! isset( $swifty_lib_dir ) ) {
+            $swifty_lib_dir = dirname( plugin_dir_path( __FILE__ ) );
+        }
 
         // allow every plugin to get to the initialization part, all plugins and theme should be loaded then
         add_action( 'after_setup_theme', array( $this, 'action_after_setup_theme' ) );
