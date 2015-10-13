@@ -2,6 +2,10 @@
 // Exit if accessed directly
 if( ! defined( 'ABSPATH' ) ) exit;
 
+// remove this after new version of SCC is online, otherwise old SCC installs will fail when newer version of swiftylib is
+// used in other plugins
+require_once plugin_dir_path( __FILE__ ) . 'lib/swifty-captcha.php';
+
 /**
  * Class LibSwiftyPluginView shared functions for view mode
  */
