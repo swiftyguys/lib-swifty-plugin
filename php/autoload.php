@@ -15,7 +15,7 @@ if( ! function_exists( 'swifty_autoload_lib_helper' ) ) {
             while( ( $file = readdir( $dir ) ) !== false ) {
                 // Match file mask
                 if( fnmatch( $mask, $file ) && is_dir( "$path/$file" ) ) {
-                    $glob[] = "$path/$file/";
+                    $glob[] = "$path/$file";
                 }
             }
             closedir( $dir );
@@ -27,6 +27,7 @@ if( ! function_exists( 'swifty_autoload_lib_helper' ) ) {
 
     function swifty_autoload_lib_helper_main( $file_path )
     {
+<<<<<<< HEAD
         $best_version = -1;
         $best_dir = '';
         $directories = swifty_glob( WP_PLUGIN_DIR . '/swifty*' );
@@ -35,9 +36,23 @@ if( ! function_exists( 'swifty_autoload_lib_helper' ) ) {
             $directories = swifty_glob( get_theme_root() . '/swifty*' );
             swifty_autoload_lib_helper( $directories, '/ssd/lib/swifty_plugin', $best_version, $best_dir );
         }
+=======
+        global $swifty_lib_dir;
+        if( ! isset( $swifty_lib_dir ) ) {
+            $best_version = -1;
+            $best_dir = '';
+            $directories = swifty_glob( WP_PLUGIN_DIR . '/swifty*' );
+            swifty_autoload_lib_helper( $directories, '/lib/swifty_plugin', $best_version, $best_dir );
+            if( strpos( get_stylesheet(), 'swifty-' ) === 0 ) {
+                $directories = swifty_glob( get_theme_root() . '/swifty*' );
+                swifty_autoload_lib_helper( $directories, '/ssd/lib/swifty_plugin', $best_version, $best_dir );
+            }
+            $swifty_lib_dir = $best_dir;
+>>>>>>> q9Wr8O93 load lib files as late as possible
 //            echo 'BEST... #####' . $best_dir . '#####' . $best_version . '<br>';
-        if( $best_dir !== '' ) {
-            require_once $best_dir . $file_path;
+        }
+        if( $swifty_lib_dir !== '' ) {
+            require_once $swifty_lib_dir . $file_path;
         }
     }
 
