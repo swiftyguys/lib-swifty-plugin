@@ -2,9 +2,14 @@
 
 if( ! function_exists( 'swifty_autoload_lib_helper' ) ) {
 
-    // turns out that glob is not always working:
-    // http://php.net/manual/en/function.glob.php#102691
-    // so we use a replacement
+    /**
+     * turns out that glob is not always working:
+     * http://php.net/manual/en/function.glob.php#102691
+     * so we use a replacement
+     *
+     * @param $pattern
+     * @return array|bool
+     */
     function swifty_glob( $pattern )
     {
         $split = explode( '/', str_replace( '\\', '/', $pattern ) );
@@ -25,18 +30,13 @@ if( ! function_exists( 'swifty_autoload_lib_helper' ) ) {
         }
     }
 
+    /**
+     * Look for newest swiftylib in plugins and themes folders
+     *
+     * @param $file_path
+     */
     function swifty_autoload_lib_helper_main( $file_path )
     {
-<<<<<<< HEAD
-        $best_version = -1;
-        $best_dir = '';
-        $directories = swifty_glob( WP_PLUGIN_DIR . '/swifty*' );
-        swifty_autoload_lib_helper( $directories, '/lib/swifty_plugin', $best_version, $best_dir );
-        if( strpos(get_stylesheet(), 'swifty-' ) === 0 ) {
-            $directories = swifty_glob( get_theme_root() . '/swifty*' );
-            swifty_autoload_lib_helper( $directories, '/ssd/lib/swifty_plugin', $best_version, $best_dir );
-        }
-=======
         global $swifty_lib_dir;
         if( ! isset( $swifty_lib_dir ) ) {
             $best_version = -1;
@@ -48,7 +48,6 @@ if( ! function_exists( 'swifty_autoload_lib_helper' ) ) {
                 swifty_autoload_lib_helper( $directories, '/ssd/lib/swifty_plugin', $best_version, $best_dir );
             }
             $swifty_lib_dir = $best_dir;
->>>>>>> q9Wr8O93 load lib files as late as possible
 //            echo 'BEST... #####' . $best_dir . '#####' . $best_version . '<br>';
         }
         if( $swifty_lib_dir !== '' ) {
@@ -56,6 +55,14 @@ if( ! function_exists( 'swifty_autoload_lib_helper' ) ) {
         }
     }
 
+    /**
+     * compare swifty lib version in given directories and return newest
+     *
+     * @param $directories
+     * @param $version_path
+     * @param $best_version
+     * @param $best_dir
+     */
     function swifty_autoload_lib_helper( $directories, $version_path, &$best_version, &$best_dir )
     {
         if( is_array( $directories ) ) {
@@ -75,6 +82,11 @@ if( ! function_exists( 'swifty_autoload_lib_helper' ) ) {
         }
     }
 
+    /**
+     * Check if swiftylib classes are needed and find newest version of lib before instantiating
+     *
+     * @param $class_name
+     */
     function swifty_autoload_function( $class_name )
     {
         if( $class_name === 'LibSwiftyPlugin' ) {
