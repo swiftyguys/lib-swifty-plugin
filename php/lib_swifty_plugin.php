@@ -527,7 +527,7 @@ if( ! function_exists( 'swifty_lib_admin_enqueue_styles' ) ) {
                 'all'
             );
 
-            wp_enqueue_style( 'swifty-font-awesome', '//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css' );
+            wp_enqueue_style( 'swifty-font-awesome', '//netdna.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css' );
         }
     }
 
