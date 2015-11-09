@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Martijn
- * Date: 10/12/2015
- * Time: 12:26 PM
- */
-
 
 if( ! class_exists( 'SwiftyColorFunctions' ) ) {
 
