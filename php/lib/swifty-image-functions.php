@@ -11,13 +11,40 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
          */
         public static $image_size = 'swifty_content';
 
-        public static function get_img_tag( $url, $alt = '', $go_to_url = false, $href = '', $target = '', $viewer = 'nothing' )
+        public static function get_img_vars( $url, $attach_id = -123 )
         {
             $src_word = 'src';
-            $url_a = $url;
             $script = '';
             $responsive = '';
             $image_size = SwiftyImageFunctions::$image_size;
+
+            // use swifty responsive solution
+            if( get_option( 'ss2_hosting_name' ) === 'AMH' ) {
+                $src_word = 'swifty_src';
+                if( strpos( $url, 'swifty=1' ) === false ) {
+                    $url .= ( parse_url( $url, PHP_URL_QUERY ) ? '&' : '?' ) . 'swifty=1';
+                }
+                $script = "<script>if( typeof swifty_add_exec === 'function' ) { swifty_add_exec( { 'fn': 'swifty_checkImages' } ); }</script>";
+            } else {
+                $responsive = SwiftyImageFunctions::responsive_wp( $url );
+                if( $image_size !== 'full' ) {
+                    if( $attach_id === -123 ) {
+                        $attach_id = SwiftyImageFunctions::get_attachment_id_from_url( $url );
+                    }
+                    $image_attributes = SwiftyImageFunctions::get_attachment_image_src_wp( $attach_id, $image_size );
+                    $url = $image_attributes[ 0 ];
+                }
+            }
+
+            return array( $src_word, $url, $script, $responsive );
+        }
+
+        public static function get_img_tag( $url, $alt = '', $go_to_url = false, $href = '', $target = '', $viewer = 'nothing' )
+        {
+            $url_a = $url;
+            $image_size = SwiftyImageFunctions::$image_size;
+
+            list( $src_word, $url, $script, $responsive ) = SwiftyImageFunctions::get_img_vars( $url );
 
             // use swifty responsive solution
             if( get_option( 'ss2_hosting_name' ) === 'AMH' ) {
