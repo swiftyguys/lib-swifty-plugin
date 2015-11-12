@@ -184,7 +184,7 @@ from_dialog_do_mainrelease:
 from_dialog_do_createpot:
   - 'pot:dist'
   - 'if_pot_pro'
-  - 'if_pot_am'
+#  - 'if_pot_am'
   - 'pot:lib'
   - 'helper_xgettext'
   - 'shell:import_pot_in_swiftylife'
