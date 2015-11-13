@@ -96,10 +96,14 @@ module.exports = {
         };
 
         grunt.getFontReleaseTag = function() {
-            var file = grunt.myCfg.base_path + grunt.myCfg.rel_swifty_plugin + 'css/swifty-font.css';
-            var filemod = ( require( 'fs' ).statSync( file ) ).mtime;
-            //console.log( 'aaa', file, filemod, filemod.getTime() );
-            return filemod.getTime();
+            if( ! grunt.myCfg.rel_swifty_plugin ) {
+                return '';
+            } else {
+                var file = grunt.myCfg.base_path + grunt.myCfg.rel_swifty_plugin + 'css/swifty-font.css';
+                var filemod = ( require( 'fs' ).statSync( file ) ).mtime;
+                //console.log( 'aaa', file, filemod, filemod.getTime() );
+                return filemod.getTime();
+            }
         };
 
         grunt.getForTestIsPro = function() {
@@ -110,6 +114,7 @@ module.exports = {
             return s;
         };
 
+        // Get language files from diverse directories and upload them to swiftylife language site
         grunt.getCommandImportPotInSwiftylife = function( poIn, locale ) {
             var po = 'lang';
             var ext = 'pot';
@@ -136,6 +141,10 @@ module.exports = {
                     s +=
                         '<%= grunt.getSourcePath() %>pro/languages/' + po + '.' + ext + ' ' +
                         '<%= grunt.getSourcePath() %>pro/languages/am/' + po + '.' + ext + ' ';
+                }
+                if( grunt.file.isDir( grunt.getSourcePath() + grunt.myCfg.po.rel_pack_goodies ) ) {
+                    s +=
+                        '<%= grunt.getSourcePath() %>' + grunt.myCfg.po.rel_pack_goodies + 'languages/' + po + '.' + ext + ' ';
                 }
                 s +=
                         '<%= grunt.getSourcePath() %>' + grunt.myCfg.rel_swifty_plugin + 'languages/' + po + '.' + ext + ' ' +
@@ -265,12 +274,14 @@ module.exports = {
         } );
 
         grunt.registerTask( 'loop_join_po', function() {
-            grunt.file.recurse( grunt.getDestPathPlugin() + 'languages/', function( abspath, rootdir, subdir, filename ) {
-                var ar = filename.split( '.p' );
-                if( ar.length > 1 && ar[ 1 ] === 'o' ) {
-                    grunt.task.run( [ 'shell:join_po:' + ar[ 0 ] ] );
-                }
-            } );
+            if( grunt.file.isDir( grunt.getDestPathPlugin() + 'languages' ) ) {
+                grunt.file.recurse( grunt.getDestPathPlugin() + 'languages/', function( abspath, rootdir, subdir, filename ) {
+                    var ar = filename.split( '.p' );
+                    if( ar.length > 1 && ar[ 1 ] === 'o' ) {
+                        grunt.task.run( [ 'shell:join_po:' + ar[ 0 ] ] );
+                    }
+                } );
+            }
         } );
 
         grunt.registerTask( 'check_changelog', function() {
@@ -293,6 +304,29 @@ module.exports = {
                 grunt.task.run( [
                     'pot:am'
                 ] );
+            }
+        } );
+
+        grunt.registerTask( 'if_pot_lib', function() {
+            if( grunt.file.isDir( grunt.getSourcePath() + grunt.myCfg.rel_swifty_plugin ) ) {
+                grunt.task.run( [
+                    'pot:lib'
+                ] );
+            }
+        } );
+
+        grunt.registerTask( 'if_pot_pack_goodies', function() {
+            if( grunt.file.isDir( grunt.getSourcePath() + grunt.myCfg.po.rel_pack_goodies ) ) {
+                grunt.task.run( [
+                    'pot:pack_goodies'
+                ] );
+            }
+        } );
+
+        // Abort if language actions are not allowed
+        grunt.registerTask( 'if_pot_allowed', function() {
+            if( grunt.myCfg.po.allowed === false ) {
+                grunt.fatal( "\n\n========================================\n\nLANGUAGE ACTIONS NOT ALLOWED FOR THIS PROJECT!\n\n========================================\n\n\n" );
             }
         } );
 

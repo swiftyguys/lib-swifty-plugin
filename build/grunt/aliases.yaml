@@ -182,11 +182,18 @@ from_dialog_do_mainrelease:
 
 # Create all pot files from the PHP sources and upload to glotpress
 from_dialog_do_createpot:
+  # Abort if language actions are not allowed
+  - 'if_pot_allowed'
+  # Create the language files by finding strings in all source files
   - 'pot:dist'
   - 'if_pot_pro'
 #  - 'if_pot_am'
-  - 'pot:lib'
+#  - 'pot:lib'
+  - 'if_pot_lib'
+  - 'if_pot_pack_goodies'
+  # Extract text string from mustache and javascript
   - 'helper_xgettext'
+  # Get language files from diverse directories and upload them to swiftylife language site
   - 'shell:import_pot_in_swiftylife'
 
 # Download po files from glotpress and split a update them is source dirs

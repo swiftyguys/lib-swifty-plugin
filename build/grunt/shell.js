@@ -337,6 +337,7 @@ module.exports = function( grunt/*, options*/ ) {
                         if( o !== '' && o !== last ) {
                             var s = o;
                             s = s.replace( /\//g, '_-_-_' );
+                            s = s.replace( /\.\./g, '_=_=_' );
                             grunt.task.run( [ 'shell:split_po_sub:' + last + ':' + s + ':' + o ] );
                         }
                     } );
@@ -350,6 +351,9 @@ module.exports = function( grunt/*, options*/ ) {
                     if( grunt.file.isDir( grunt.getSourcePath() + 'pro' ) ) {
                         grunt.task.run( [ 'shell:split_po_next:' + last + ':' + po2 + ':pro_-_-_am_-_-_:pro/languages/am/' ] );
                         grunt.task.run( [ 'shell:split_po_next:' + last + ':' + po2 + ':pro_-_-_:pro/languages/' ] );
+                    }
+                    if( grunt.file.isDir( grunt.getSourcePath() + grunt.myCfg.po.rel_pack_goodies ) ) {
+                        grunt.task.run( [ 'shell:split_po_next:' + last + ':' + po2 + ':_=_=__-_-__=_=__-_-_swifty_content_goodies_pack_-_-_plugin_-_-_swifty-content-goodies-pack_-_-_:' + grunt.myCfg.po.rel_pack_goodies + 'languages/' ] );
                     }
                     grunt.task.run( [ 'shell:split_po_next:' + last + ':' + po2 + '::languages/' ] );
                     cb();

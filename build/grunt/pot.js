@@ -279,6 +279,76 @@ module.exports = function( grunt/*, options*/ ) {
                 cwd: '<%= grunt.getSourcePath() %>' + grunt.myCfg.rel_swifty_plugin + '',
                 src: [ '**/*.php' ]
             } ]
+        },
+        pack_goodies: {
+            options: {
+                text_domain: 'swifty', // Is not yet used by grunt-pot
+                dest: '<%= grunt.getSourcePath() %>' + grunt.myCfg.po.rel_pack_goodies + 'languages/lang.pot',
+                overwrite: true,
+                encoding: 'UTF-8',
+                language: false,
+                package_name: '',
+                package_version: '',
+                msgid_bugs_address: '',
+                omit_header: false,
+                comment_tag: '/',
+                msgmerge: false,
+                keywords: [
+                   '_',
+                   'gettext',
+                   'dgettext:2',
+                   'dcgettext:2',
+                   'ngettext:1,2',
+                   'dngettext:2,3',
+                   'dcngettext:2,3',
+                   '__',
+                   '___:1',
+                   '___:1,2c',
+                   '__ngettext:1,2',
+                   '__ngettext_noop:1,2',
+                   '_c',
+                   '_e',
+                   '_ex:1,2c',
+                   '_n',
+                   '_n:1,2',
+                   '_n_noop',
+                   '_n_noop:1,2',
+                   '_nc:1,2',
+                   '_nx',
+                   '_nx:1,2,4c',
+                   '_nx:4c,1,2',
+                   '_nx_noop',
+                   '_nx_noop:1,2,3c',
+                   '_nx_noop:4c,1,2',
+                   '_refresh',
+                   '_x',
+                   '_x:1,2c',
+                   'append',
+                   'esc_attr_',
+                   'esc_attr__',
+                   'esc_attr_e',
+                   'esc_attr_x',
+                   'esc_attr_x:1,2c',
+                   'esc_html__',
+                   'esc_html_e',
+                   'esc_html_x',
+                   'esc_html_x:1,2c',
+                   'n___:1,2',
+                   'n___:1,2,4c',
+                   'prepend',
+                   'setLabel',
+                   'setLegend',
+                   'setMessage',
+                   'setValue',
+                   'T_pgettext:1c,2',
+                   'translate'
+                ] //functions to look for
+            },
+            files: [ {
+                expand: true,
+                cwd: '<%= grunt.getSourcePath() %>' + grunt.myCfg.po.rel_pack_goodies + '',
+                src: [ '**/*.php' ]
+            } ]
         }
     };
 };
