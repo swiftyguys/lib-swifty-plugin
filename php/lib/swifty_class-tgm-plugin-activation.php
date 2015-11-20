@@ -288,6 +288,14 @@ if( ! class_exists( 'Swifty_TGM_Plugin_Activation' ) ) {
             require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php'; // Need for upgrade classes.
 
             foreach( $this->plugins as $plugin ) {
+                // is scc-pro or scc installed?
+                if( $plugin['slug'] === 'swifty-content-creator-pro') {
+                    $scc_file_path = $this->_get_plugin_basename_from_slug( 'swifty-content-creator' );
+                    if( isset( $installed_plugins[ $plugin[ 'file_path' ] ] ) || isset( $scc_file_path ) ) {
+                        continue;
+                    }
+                }
+
                 // Is plugin installed?
                 if( ! isset( $installed_plugins[ $plugin[ 'file_path' ] ] ) ) {
 
