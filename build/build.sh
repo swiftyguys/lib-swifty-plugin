@@ -6,8 +6,8 @@ options=(
          . "Main actions:" off
          . "========================================" off
          . "" off
-         a "FREE version" off
-         b "PRO version" on
+         a "FREE version" on
+         b "PRO version" off
          . "----------------------------------------" off
          f "Test the zip" off
          g "Mail the zip" on
