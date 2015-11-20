@@ -6,7 +6,10 @@ module.exports = function( grunt/*, options*/ ) {
             BUILDUSE: 'build',
             LICENSE_NAME: 'GPLv2 or later',
             LICENSE_URI: 'http://www.gnu.org/licenses/gpl-2.0.html',
-            FONT_REL_TAG: grunt.getFontReleaseTag()
+            FONT_REL_TAG: grunt.getFontReleaseTag(),
+            PROT: '',
+            PRO_TAG: '',
+            PRO_URLPART: ''
         },
         dist_pro : {
             PROBE: 'none', // 'none', 'include'
