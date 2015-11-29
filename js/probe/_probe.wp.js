@@ -285,8 +285,8 @@
                     .next( 'input' )
                     .val( 'WP Page ' + currentNr );
 
-                // Click the 'Save Draft' button
-                $( 'input[value="Save Draft"]' )   // dojh: translation issue -> Save Draft.
+                // Click the 'Publish' button
+                $( 'input#publish' )   // dojh: translation issue -> Save Draft.
                     .MustExist()
                     .Click();
 
@@ -334,6 +334,24 @@
         'I go to edit the theme via WP', {
             Start: function( /*input*/ ) {
                 probe.GotoUrl( '/wp-admin/customize.php?theme=swifty-site-designer', 'body.wp-customizer' ).next( '' );
+            }
+        }
+    );
+
+    ////////////////////////////////////////
+
+    probe.RegisterTry(
+        'I am in WP mode', {
+            Start: function( /*input*/ ) {
+                probe.GotoUrl( '/', '#sm-admin-bar-wp-logo' ).next( 'Step2' );
+            },
+
+            Step2: function( /*input*/ ) {
+                $( '#sm-admin-bar-wp-logo a' )
+                    .IfVisible()
+                    .Click();
+
+                $( '#wp-admin-bar-swifty' ).WaitForVisible( '' );
             }
         }
     );

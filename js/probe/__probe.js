@@ -50,6 +50,21 @@ var swiftyProbe = ( function( $, probe ) {
             };
         },
 
+        FrameGetElementCenter: function( sel ) {
+            var $el = $( 'iframe' ).contents().find( sel );
+
+            var offset = $el.offset();
+            if( offset ) {
+                return {
+                    'x': offset.left + $el.width() / 2,
+                    'y': offset.top + $el.height() / 2,
+                    '$el': $el
+                };
+            } else {
+                return { x: -1, y: -1, '$el': $el };
+            }
+        },
+
         /**
          * @return bool
          */
@@ -61,6 +76,17 @@ var swiftyProbe = ( function( $, probe ) {
                 if ( xy.x >= 0 && xy.y >= 0 && $el.is( ':visible' ) ) {
                     return true;
                 }
+            }
+
+            return false;
+        },
+
+        FrameIsVisible: function( sel ) {
+            var xy = this.FrameGetElementCenter( sel );
+
+            // dorh Improve; in viewport?; on top?; hidden?; width>0? height>0?
+            if ( xy.x >= 0 && xy.y >= 0 && xy.$el.is( ':visible' ) ) {
+                return true;
             }
 
             return false;
@@ -332,8 +358,14 @@ var swiftyProbe = ( function( $, probe ) {
             var argsArZero = argsArray[ 0 ];
 
             if ( wait.tp === 'wait_for_element' ) {
-                if ( this.IsVisible( $( wait.sel ) ) ) {
-                    waitCheckResult = true;
+                if( wait.sel.indexOf( '.FRAME' ) === 0 ) {
+                    if( this.FrameIsVisible( wait.sel.substr( 6 ) ) ) {
+                        waitCheckResult = true;
+                    }
+                } else {
+                    if( this.IsVisible( $( wait.sel ) ) ) {
+                        waitCheckResult = true;
+                    }
                 }
             }
 
@@ -556,6 +588,14 @@ var swiftyProbe = ( function( $, probe ) {
             }
 
             return probe.WaitForElementVisible( this.selector, fnName, tm, waitData );
+        },
+
+        FrameWaitForVisible: function( sel, fnName, tm, waitData ) {
+            if ( typeof tm === 'undefined' ) {
+                tm = 15000;
+            }
+
+            return probe.WaitForElementVisible( '.FRAME' + sel, fnName, tm, waitData );
         },
 
         // Functions for internal use only
