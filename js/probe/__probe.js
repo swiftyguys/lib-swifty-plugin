@@ -50,6 +50,21 @@ var swiftyProbe = ( function( $, probe ) {
             };
         },
 
+        FrameGetElementCenter: function( sel ) {
+            var $el = $( 'iframe' ).contents().find( sel );
+
+            var offset = $el.offset();
+            if( offset ) {
+                return {
+                    'x': offset.left + $el.width() / 2,
+                    'y': offset.top + $el.height() / 2,
+                    '$el': $el
+                };
+            } else {
+                return { x: -1, y: -1, '$el': $el };
+            }
+        },
+
         /**
          * @return bool
          */
@@ -57,10 +72,21 @@ var swiftyProbe = ( function( $, probe ) {
             if ( $el.length > 0 ) {
                 var xy = this.GetElementCenter( $el );
 
-                // dorh Improve; in viewport?; on top?; hidden?; width>0? height>0?
-                if ( xy.x >= 0 && xy.y >= 0 && $el.is( ':visible' ) ) {
+                // dorh Improve; on top?; hidden?; width>0? height>0?
+                if ( xy.x >= 0 && xy.y >= 0 && xy.x <= $(window).width() && xy.y <= $(window).height() && $el.is( ':visible' ) ) {
                     return true;
                 }
+            }
+
+            return false;
+        },
+
+        FrameIsVisible: function( sel ) {
+            var xy = this.FrameGetElementCenter( sel );
+
+            // dorh Improve; on top?; hidden?; width>0? height>0?
+            if ( xy.x >= 0 && xy.y >= 0 && xy.x <= $(window).width() && xy.y <= $(window).height() && xy.$el.is( ':visible' ) ) {
+                return true;
             }
 
             return false;
@@ -78,21 +104,25 @@ var swiftyProbe = ( function( $, probe ) {
             this.fail = s;
         },
 
-        Execute: function( args ){
-//            this.StartTmpLog();
-//            this.TmpLog( JSON.stringify( args ) );
-            var ret;
-            var pth = this.GetExecuteArgs( args );
+        Execute: function( args ) {
+            try{
+    //            this.StartTmpLog();
+    //            this.TmpLog( JSON.stringify( args ) );
+                var ret;
+                var pth = this.GetExecuteArgs( args );
 
-            delete this.wait;
+                delete this.wait;
 
-            ret = this.ExecuteSub( pth[ 0 ], pth[ 1 ], args[ 0 ] );
+                ret = this.ExecuteSub( pth[ 0 ], pth[ 1 ], args[ 0 ] );
 
-            return {
-                'args': args,
-                'fnArgs': pth[ 1 ],
-                'ret': ret
-            };
+                return {
+                    'args': args,
+                    'fnArgs': pth[ 1 ],
+                    'ret': ret
+                };
+            } catch( e ) {
+                this.TmpLog( '=== ERROR in Execute!!! === ' + e.message + ' ===' );
+            }
         },
 
         GetExecuteArgs: function( args ){
@@ -105,41 +135,45 @@ var swiftyProbe = ( function( $, probe ) {
             return [ pth, fnArgs ];
         },
 
-        ExecuteSub: function( pth, args, nm ){
-            var ret;
+        ExecuteSub: function( pth, args, nm ) {
+            try{
+                var ret;
 
-            this.TmpLog( nm + ' = ' + JSON.stringify( args ) );
+                this.TmpLog( nm + ' = ' + JSON.stringify( args ) );
 
-            if( typeof this[ pth[ 0 ] ] === 'function' || typeof this[ pth[ 0 ] ] === 'object' ) {
+                if( typeof this[ pth[ 0 ] ] === 'function' || typeof this[ pth[ 0 ] ] === 'object' ) {
 
-                if( pth.length === 1 ) {
-                    ret = this[ pth[ 0 ] ].apply( this, args );
-                }
-
-                if( pth.length === 2 ) {
-                    if( pth[ 1 ] === 'Start' && typeof this[ pth[ 0 ] ] === 'function' ) {
+                    if( pth.length === 1 ) {
                         ret = this[ pth[ 0 ] ].apply( this, args );
-                    } else {
-                        ret = this[ pth[ 0 ] ][ pth[ 1 ] ].apply( this[ pth[ 0 ] ], args );
                     }
+
+                    if( pth.length === 2 ) {
+                        if( pth[ 1 ] === 'Start' && typeof this[ pth[ 0 ] ] === 'function' ) {
+                            ret = this[ pth[ 0 ] ].apply( this, args );
+                        } else {
+                            ret = this[ pth[ 0 ] ][ pth[ 1 ] ].apply( this[ pth[ 0 ] ], args );
+                        }
+                    }
+
+                    if( pth.length === 3 ) {
+                        if( pth[ 2 ] === 'Start' && typeof this[ pth[ 0 ] ][ pth[ 1 ] ] === 'function' ) {
+                            ret = this[ pth[ 0 ] ][ pth[ 1 ] ].apply( this[ pth[ 0 ] ], args );
+                        } else {
+                            ret = this[ pth[ 0 ] ][ pth[ 1 ] ][ pth[ 2 ] ].apply( this[ pth[ 0 ] ][ pth[ 1 ] ], args );
+                        }
+                    }
+                } else {
+                    this.SetFail( '##### pth[ 0 ] NOT EXIST IN THIS!!! ' + pth[ 0 ] + ' === ' + JSON.stringify( pth ) + ' === ' + JSON.stringify( args ) );
                 }
 
-                if( pth.length === 3 ) {
-                    if( pth[ 2 ] === 'Start' && typeof this[ pth[ 0 ] ][ pth[ 1 ] ] === 'function' ) {
-                        ret = this[ pth[ 0 ] ][ pth[ 1 ] ].apply( this[ pth[ 0 ] ], args );
-                    } else {
-                        ret = this[ pth[ 0 ] ][ pth[ 1 ] ][ pth[ 2 ] ].apply( this[ pth[ 0 ] ][ pth[ 1 ] ], args );
-                    }
+                if ( this.wait ) {
+                    ret = $.extend( true, { 'wait': this.wait }, ret );
                 }
-            } else {
-                this.SetFail( '##### pth[ 0 ] NOT EXIST IN THIS!!! ' + pth[ 0 ] + ' === ' + JSON.stringify( pth ) + ' === ' + JSON.stringify( args ) );
-            }
 
-            if ( this.wait ) {
-                ret = $.extend( true, { 'wait': this.wait }, ret );
+                return $.extend( true, this.GetGenericRetOutput(), ret );
+            } catch( e ) {
+                this.TmpLog( '=== ERROR in ExecuteSub!!! === ' + e.message + ' ===' );
             }
-
-            return $.extend( true, this.GetGenericRetOutput(), ret );
         },
 
         GetGenericRetOutput: function() {
@@ -157,6 +191,30 @@ var swiftyProbe = ( function( $, probe ) {
             }
 
             return output;
+        },
+
+        Sleep: function( fnName, tm, waitData ) {
+            var self = this;
+
+            this.wait = {
+                'tp': 'wait_for_time',
+                'sel': null,
+                'tm': Date.now() + tm + 2000,
+                'tm_wait': Date.now() + tm,
+                'fn_name': fnName,
+                'wait_data': waitData,
+                'fn_func': null
+            };
+
+            return {
+                next: function( func ) {
+                    if( typeof func === 'string' ) {
+                        self.wait.fn_name = func;
+                    } else {
+                        self.wait.fn_func = func;
+                    }
+                }
+            };
         },
 
         WaitForElementVisible: function( sel, fnName, tm, waitData ) {
@@ -182,58 +240,74 @@ var swiftyProbe = ( function( $, probe ) {
             };
         },
 
+        FrameWaitForVisible: function( sel, fnName, tm, waitData ) {
+            if ( typeof tm === 'undefined' ) {
+                tm = 15000;
+            }
+
+            return this.WaitForElementVisible( '.FRAME' + sel, fnName, tm, waitData );
+        },
+
         WaitForFn: function( waitFnName, fnName, tm, waitData ) {
-            var self = this;
+            try{
+                var self = this;
 
-            this.wait = {
-                'tp': 'wait_for_fn',
-                'wait_fn_name': waitFnName,
-                'tm': Date.now() + tm,
-                'fn_name': fnName,
-                'wait_data': waitData,
-                'fn_func': null,
-                'wait_fn_func': null
-            };
+                this.wait = {
+                    'tp': 'wait_for_fn',
+                    'wait_fn_name': waitFnName,
+                    'tm': Date.now() + tm,
+                    'fn_name': fnName,
+                    'wait_data': waitData,
+                    'fn_func': null,
+                    'wait_fn_func': null
+                };
 
-            return {
-                next: function( func ) {
-                    if( typeof func === 'string' ) {
-                        self.wait.fn_name = func;
-                    } else {
-                        self.wait.fn_func = func;
+                return {
+                    next: function( func ) {
+                        if( typeof func === 'string' ) {
+                            self.wait.fn_name = func;
+                        } else {
+                            self.wait.fn_func = func;
+                        }
+                        return this;
+                    },
+                    wait: function( func ) {
+                        if( typeof func === 'string' ) {
+                            self.wait.wait_fn_name = func;
+                        } else {
+                            self.wait.wait_fn_func = func;
+                        }
+                        return this;
                     }
-                    return this;
-                },
-                wait: function( func ) {
-                    if( typeof func === 'string' ) {
-                        self.wait.wait_fn_name = func;
-                    } else {
-                        self.wait.wait_fn_func = func;
-                    }
-                    return this;
-                }
-            };
+                };
+            } catch( e ) {
+                this.TmpLog( '=== ERROR in WaitForFn!!! === ' + e.message + ' ===' );
+            }
         },
 
         WaitForDfds: function( dfds, fnName, tm, waitData ) {
-            var self = this;
-            var doneIndex = self.dfds_done.length;
-            self.dfds_done.push( false );
+            try{
+                var self = this;
+                var doneIndex = self.dfds_done.length;
+                self.dfds_done.push( false );
 
-            $.when.apply( $, dfds ).done( function () {
-                setTimeout( function() {
-                    self.dfds_done[ doneIndex ] = true;
-                }, 1000 );
-            } );
+                $.when.apply( $, dfds ).done( function () {
+                    setTimeout( function() {
+                        self.dfds_done[ doneIndex ] = true;
+                    }, 1000 );
+                } );
 
-            if ( typeof waitData === 'undefined' ) {
-                waitData = {};
+                if ( typeof waitData === 'undefined' ) {
+                    waitData = {};
+                }
+
+                waitData.done_index = doneIndex;
+
+                //return this.WaitForFn( 'probe.__WaitForDfds:' + doneIndex, fnName, tm, waitData );
+                return this.WaitForFn( 'probe.__WaitForDfds', fnName, tm, waitData );
+            } catch( e ) {
+                this.TmpLog( '=== ERROR in WaitForDfds!!! === ' + e.message + ' ===' );
             }
-
-            waitData.done_index = doneIndex;
-
-            //return this.WaitForFn( 'probe.__WaitForDfds:' + doneIndex, fnName, tm, waitData );
-            return this.WaitForFn( 'probe.__WaitForDfds', fnName, tm, waitData );
         },
 
         __WaitForDfds: function( input ) {
@@ -278,33 +352,37 @@ var swiftyProbe = ( function( $, probe ) {
 
             self.StartTmpLog();
 
-            var argsArray = self.ArgsToArray( args );
+            try{
+                var argsArray = self.ArgsToArray( args );
 
-            $.each( self.try_list, function( ii, tryItem ) {
-                if( tryItem.regex instanceof RegExp ) {
-                    var match = tryItem.regex.exec( argsArray[ 0 ] );
-                    if( match ) {
-                        ret.try_name = tryItem.func;
-                        ret.try_data = tryItem.data;
-                        $.each( ret.try_data, function( key, val ) {
-                            if( val === '{{match 0}}' ) {
-                                ret.try_data[ key ] = match[ 1 ];
-                            }
-                            if( val === '{{match 1}}' ) {
-                                ret.try_data[ key ] = match[ 2 ];
-                            }
-                            if( val === '{{match 2}}' ) {
-                                ret.try_data[ key ] = match[ 3 ];
-                            }
-                        } );
+                $.each( self.try_list, function( ii, tryItem ) {
+                    if( tryItem.regex instanceof RegExp ) {
+                        var match = tryItem.regex.exec( argsArray[ 0 ] );
+                        if( match ) {
+                            ret.try_name = tryItem.func;
+                            ret.try_data = tryItem.data;
+                            $.each( ret.try_data, function( key, val ) {
+                                if( val === '{{match 0}}' ) {
+                                    ret.try_data[ key ] = match[ 1 ];
+                                }
+                                if( val === '{{match 1}}' ) {
+                                    ret.try_data[ key ] = match[ 2 ];
+                                }
+                                if( val === '{{match 2}}' ) {
+                                    ret.try_data[ key ] = match[ 3 ];
+                                }
+                            } );
+                        }
+                    } else {
+                        if( tryItem.regex === argsArray[ 0 ] ) {
+                            ret.try_name = tryItem.func;
+                            ret.try_data = tryItem.data;
+                        }
                     }
-                } else {
-                    if( tryItem.regex === argsArray[ 0 ] ) {
-                        ret.try_name = tryItem.func;
-                        ret.try_data = tryItem.data;
-                    }
-                }
-            } );
+                } );
+            } catch( e ) {
+                this.TmpLog( '=== ERROR in DoTry!!! === ' + e.message + ' ===' );
+            }
 
             return ret;
         },
@@ -312,66 +390,112 @@ var swiftyProbe = ( function( $, probe ) {
         DoStart: function( args ) {
             this.StartTmpLog();
 
-            var argsArray = this.ArgsToArray( args );
+            try{
+                var argsArray = this.ArgsToArray( args );
 
-            argsArray[ 0 ] += '.Start';
+                argsArray[ 0 ] += '.Start';
 
-            return this.Execute( argsArray );
+                return this.Execute( argsArray );
+            } catch( e ) {
+                this.TmpLog( '=== ERROR in DoStart!!! === ' + e.message + ' ===' );
+            }
         },
 
         DoWait: function( args ) {
             this.StartTmpLog();
 
-            var ret;
-            var wait = args[ 0 ];
-            var waitCheckResult = false;
-            var argsArray = this.ArgsToArray( args );
+            try {
+                var ret;
+                var wait = args[ 0 ];
+                var waitCheckResult = false;
+                var argsArray;
+                var argsArZero;
 
-            argsArray = argsArray.slice( 1 );
-
-            var argsArZero = argsArray[ 0 ];
-
-            if ( wait.tp === 'wait_for_element' ) {
-                if ( this.IsVisible( $( wait.sel ) ) ) {
-                    waitCheckResult = true;
+                try {
+                    argsArray = this.ArgsToArray( args );
+                    argsArray = argsArray.slice( 1 );
+                    argsArZero = argsArray[ 0 ];
+                } catch( e ) {
+                    this.TmpLog( '=== ERROR in DoWait ArgsToArray!!! === ' + e.message + ' ===' );
                 }
-            }
 
-            if ( wait.tp === 'wait_for_fn' ) {
-                if( wait.wait_fn_func ) {
-                    eval( 'this.___WaitFunction = ' + wait.wait_fn_func );
-                    argsArray[ 0 ] = '___WaitFunction';
-                } else if( wait.wait_fn_name.indexOf( 'probe.' ) === 0 ) {
-                    argsArray[ 0 ] = wait.wait_fn_name.substr( 'probe.'.length );
-                } else if( wait.wait_fn_name === '' ) {
-                    argsArray[ 0 ] = '__Done';
+                if( wait.tp === 'wait_for_time' ) {
+                    if( Date.now() > wait.tm_wait ) {
+                        waitCheckResult = true;
+                    }
+                }
+
+                if( wait.tp === 'wait_for_element' ) {
+                    try {
+                        if( wait.sel.indexOf( '.FRAME' ) === 0 ) {
+                            if( this.FrameIsVisible( wait.sel.substr( 6 ) ) ) {
+                                waitCheckResult = true;
+                            }
+                        } else {
+                            if( this.IsVisible( $( wait.sel ) ) ) {
+                                waitCheckResult = true;
+                            }
+                        }
+                    } catch( e ) {
+                        this.TmpLog( '=== ERROR in DoWait wait_for_element!!! === ' + e.message + ' ===' );
+                    }
+                }
+
+                if( wait.tp === 'wait_for_fn' ) {
+                    try {
+                        if( wait.wait_fn_func ) {
+                            eval( 'this.___WaitFunction = ' + wait.wait_fn_func );
+                            argsArray[ 0 ] = '___WaitFunction';
+                        } else if( wait.wait_fn_name.indexOf( 'probe.' ) === 0 ) {
+                            argsArray[ 0 ] = wait.wait_fn_name.substr( 'probe.'.length );
+                        } else if( wait.wait_fn_name === '' ) {
+                            argsArray[ 0 ] = '__Done';
+                        } else {
+                            argsArray[ 0 ] = argsArZero + '.' + wait.wait_fn_name;
+                        }
+                        ret = this.Execute( argsArray );
+
+                        if( ret.ret.wait_result ) {
+                            waitCheckResult = true;
+                        }
+                    } catch( e ) {
+                        this.TmpLog( '=== ERROR in DoWait wait_for_fn!!! === ' + e.message + ' ===' );
+                    }
+                }
+
+                if( waitCheckResult ) {
+                    try {
+                        if( wait.fn_func ) {
+                            try {
+                                eval( 'this.___NextFunction = ' + wait.fn_func );
+                                argsArray[ 0 ] = '___NextFunction';
+                            } catch( e ) {
+                                this.TmpLog( '=== ERROR in DoWait ___NextFunction!!! === ' + e.message + ' ===' );
+                            }
+                        } else if( wait.fn_name === '' ) {
+                            argsArray[ 0 ] = '__Done';
+                        } else {
+                            argsArray[ 0 ] = argsArZero + '.' + wait.fn_name;
+                        }
+
+                        try {
+                            ret = this.Execute( argsArray );
+                        } catch( e ) {
+                            this.TmpLog( '=== ERROR in DoWait Execute!!! === ' + e.message + ' === ' + argsArray[ 0 ] + ' ===' );
+                        }
+                    } catch( e ) {
+                        this.TmpLog( '=== ERROR in DoWait waitCheckResult!!! === ' + e.message + ' ===' );
+                    }
+                } else if( Date.now() > wait.tm ) {
+                    ret = { 'ret': { 'wait_status': 'timeout' } };
+
+                    this.TmpLog( 'WAIT TIMEOUT!!! ' + JSON.stringify( args ) );
+                    this.SetFail( 'WAIT TIMEOUT!!! ' + JSON.stringify( args ) );
                 } else {
-                    argsArray[ 0 ] = argsArZero + '.' + wait.wait_fn_name;
+                    ret = { 'ret': { 'wait_status': 'waiting' } };
                 }
-                ret = this.Execute( argsArray );
-
-                if ( ret.ret.wait_result ) {
-                    waitCheckResult = true;
-                }
-            }
-
-            if ( waitCheckResult ) {
-                if( wait.fn_func ) {
-                    eval( 'this.___NextFunction = ' + wait.fn_func );
-                    argsArray[ 0 ] = '___NextFunction';
-                } else if( wait.fn_name === '' ) {
-                    argsArray[ 0 ] = '__Done';
-                } else {
-                    argsArray[ 0 ] = argsArZero + '.' + wait.fn_name;
-                }
-                ret = this.Execute( argsArray );
-            } else if ( Date.now() > wait.tm ) {
-                ret = { 'ret': { 'wait_status': 'timeout' } };
-
-                this.TmpLog( 'WAIT TIMEOUT!!!' );
-                this.SetFail( 'WAIT TIMEOUT!!!' );
-            } else {
-                ret = { 'ret': { 'wait_status': 'waiting' } };
+            } catch( e ) {
+                this.TmpLog( '=== ERROR in DoWait!!! === ' + e.message + ' ===' );
             }
 
             return $.extend( true, { 'DoWait args': args, 'ret': this.GetGenericRetOutput() }, ret );
@@ -380,43 +504,51 @@ var swiftyProbe = ( function( $, probe ) {
         DoNext: function( args ) {
             this.StartTmpLog();
 
-            var argsArray = this.ArgsToArray( args );
+            try{
+                var argsArray = this.ArgsToArray( args );
 
-            if( args[ 1 ].next_fn_func ) {
-                eval( 'this.___NextFunction = ' + args[ 1 ].next_fn_func );
-                argsArray[ 0 ] = '___NextFunction';
-            } else if( args[ 1 ].next_fn_name === '' ) {
-                argsArray[ 0 ] = '__Done';
-            } else {
-                argsArray[ 0 ] += '.' + args[ 1 ].next_fn_name;
+                if( args[ 1 ].next_fn_func ) {
+                    eval( 'this.___NextFunction = ' + args[ 1 ].next_fn_func );
+                    argsArray[ 0 ] = '___NextFunction';
+                } else if( args[ 1 ].next_fn_name === '' ) {
+                    argsArray[ 0 ] = '__Done';
+                } else {
+                    argsArray[ 0 ] += '.' + args[ 1 ].next_fn_name;
+                }
+
+                return this.Execute( argsArray );
+            } catch( e ) {
+                this.TmpLog( '=== ERROR in DoNext!!! === ' + e.message + ' ===' );
             }
-
-            return this.Execute( argsArray );
         },
 
         QueueStory: function( fnName, newInput, nextFnName ) {
             var self = this;
 
-            if ( typeof nextFnName === 'undefined' ) {
-                nextFnName = '';
-            }
-
-            this.queue = {
-                'new_fn_name': fnName,
-                'new_input': newInput,
-                'next_fn_name': nextFnName,
-                'next_fn_func': null
-            };
-
-            return {
-                next: function( func ) {
-                    if( typeof func === 'string' ) {
-                        self.queue.next_fn_name = func;
-                    } else {
-                        self.queue.next_fn_func = func;
-                    }
+            try{
+                if ( typeof nextFnName === 'undefined' ) {
+                    nextFnName = '';
                 }
-            };
+
+                this.queue = {
+                    'new_fn_name': fnName,
+                    'new_input': newInput,
+                    'next_fn_name': nextFnName,
+                    'next_fn_func': null
+                };
+
+                return {
+                    next: function( func ) {
+                        if( typeof func === 'string' ) {
+                            self.queue.next_fn_name = func;
+                        } else {
+                            self.queue.next_fn_func = func;
+                        }
+                    }
+                };
+            } catch( e ) {
+                this.TmpLog( '=== ERROR in QueueStory!!! === ' + e.message + ' ===' );
+            }
         },
 
         GotoUrl: function( url, waitForSelector ) {
