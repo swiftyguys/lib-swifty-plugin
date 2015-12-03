@@ -727,6 +727,19 @@ class SSStory
             $this->Fail( "JS NO DATA RETURNED", "No data returned" );
         } else {
             if( isset( $ret[ 'ret' ][ 'fail' ] ) ) {
+                if( isset( $ret[ 'ret' ][ 'fail_result_html' ] ) ) {
+                    // Save the resulting html and the compare html to files on the drive, so they can be compared by a file compare tool.
+                    $path = realpath( dirname( __FILE__ ) ) . '/../../../../js/probe/';
+                    if( is_dir( $path ) ) {
+                        $path .= 'tmp/';
+                        if( ! file_exists( $path ) ) {
+                            mkdir( $path, 0777, true );
+                        }
+                        file_put_contents( $path . 'latest_test_result.txt', $ret[ 'ret' ][ 'fail_result_html' ] );
+                        file_put_contents( $path . 'latest_test_compare.txt', $ret[ 'ret' ][ 'fail_compare_html' ] );
+                    }
+                }
+
                 $this->EchoMsgJs( "FAIL:" . $ret[ 'ret' ][ 'fail' ] . "\n" );
 //                throw new E5xx_ActionFailed( "JS FAIL", $ret[ 'ret' ][ 'fail' ] );
                 $this->Fail( "JS FAIL", $ret[ 'ret' ][ 'fail' ] );
