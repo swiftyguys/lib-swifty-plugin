@@ -104,6 +104,15 @@ var swiftyProbe = ( function( $, probe ) {
             this.fail = s;
         },
 
+        SaveContentMatchFail: function( resultHTML, compareHTML, path ) {
+            resultHTML = resultHTML.replace( /==-_=LINEND/g, '\n' );
+            compareHTML = compareHTML.replace( /==-_=LINEND/g, '\n' );
+
+            this.fail_result_html = resultHTML;
+            this.fail_compare_html = compareHTML;
+            this.fail_result_path = path;
+        },
+
         Execute: function( args ) {
             try{
     //            this.StartTmpLog();
@@ -183,6 +192,9 @@ var swiftyProbe = ( function( $, probe ) {
 
             if ( this.fail !== '' ) {
                 output.fail = this.fail;
+                output.fail_result_html = this.fail_result_html;
+                output.fail_compare_html = this.fail_compare_html;
+                output.fail_result_path = this.fail_result_path;
             }
 
             if ( this.queue ) {
