@@ -13,6 +13,7 @@ class SSStory
     protected $tryFunctions = array();
     protected $tryFlags = array();
     protected $msg_level = 0;
+    protected $tryVars = array();
 
     ////////////////////////////////////////
 
@@ -571,7 +572,37 @@ class SSStory
     {
         global $ssProbeDesciption;
 
-        $this->EchoMsg( ucfirst( $startWord ) . ': ' . $name );
+        $name_ori = $name;
+
+        if( strpos( $name, '{{' ) !== false ) {
+            $name_arr = explode( '{{', $name );
+            $name = '';
+
+            foreach( $name_arr as $name_part ) {
+                $name_part_arr = explode( '}}', $name_part );
+                if( count( $name_part_arr ) == 1 ) {
+                    $name .= $name_part;
+                } else {
+                    $vari_arr = explode( '=', $name_part_arr[ 0 ] );
+//                    $this->EchoMsg( 'Var found: ' . $name_part_arr[ 0 ] );
+                    if( count( $vari_arr ) > 1 ) {
+                        $this->tryVars[ $vari_arr[ 0 ] ] = $vari_arr[ 1 ];
+                    } else {
+                        $name .= $this->tryVars[ $vari_arr[ 0 ] ];
+                    }
+
+                    $name .= $name_part_arr[ 1 ];
+                }
+            }
+
+//            $this->EchoMsg( 'Parsed commnd: ' . $name );
+        }
+
+        $msg = ucfirst( $startWord ) . ': ' . $name_ori;
+        if( $name_ori !== $name ) {
+            $msg .= ' ==> ' . $name;
+        }
+        $this->EchoMsg( $msg );
 
         $this->msg_level++;
 
