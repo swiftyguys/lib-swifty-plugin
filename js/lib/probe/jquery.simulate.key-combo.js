@@ -13,6 +13,7 @@
  * For details about key events, key codes, char codes etc. see http://unixpapa.com/js/key.html
  */
 
+console.log( 'aaa' );
 ;(function($,undefined) {
 	"use strict";
 
@@ -142,6 +143,7 @@
 						options.eventProps.which = keyCode;
 						options.eventProps.charCode = 0;
 						$target.simulate("keydown", options.eventProps);
+
 					}
 					else {
 						// "Normal" key
