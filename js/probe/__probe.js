@@ -41,6 +41,19 @@ var swiftyProbe = ( function( $, probe ) {
             }
         },
 
+        FrameEvt: function( cmd, data, dfd ){
+            var win = document.querySelectorAll( 'iframe.swifty_event_frame' )[ 0 ].contentWindow;
+            var can2 = win.can;
+
+            if( can2 ) {
+                can2.trigger(
+                    win,
+                    'evt_swc_' + cmd,
+                    [ data, dfd ]
+                );
+            }
+        },
+
         GetElementCenter: function( $el ) {
             var offset = $el.offset();
 
