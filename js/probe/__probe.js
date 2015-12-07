@@ -41,6 +41,19 @@ var swiftyProbe = ( function( $, probe ) {
             }
         },
 
+        FrameEvt: function( cmd, data, dfd ){
+            var win = document.querySelectorAll( 'iframe.swifty_event_frame' )[ 0 ].contentWindow;
+            var can2 = win.can;
+
+            if( can2 ) {
+                can2.trigger(
+                    win,
+                    'evt_swc_' + cmd,
+                    [ data, dfd ]
+                );
+            }
+        },
+
         GetElementCenter: function( $el ) {
             var offset = $el.offset();
 
@@ -102,6 +115,15 @@ var swiftyProbe = ( function( $, probe ) {
 
         SetFail: function( s ){
             this.fail = s;
+        },
+
+        SaveContentMatchFail: function( resultHTML, compareHTML, path ) {
+            resultHTML = resultHTML.replace( /==-_=LINEND/g, '\n' );
+            compareHTML = compareHTML.replace( /==-_=LINEND/g, '\n' );
+
+            this.fail_result_html = resultHTML;
+            this.fail_compare_html = compareHTML;
+            this.fail_result_path = path;
         },
 
         Execute: function( args ) {
@@ -183,6 +205,9 @@ var swiftyProbe = ( function( $, probe ) {
 
             if ( this.fail !== '' ) {
                 output.fail = this.fail;
+                output.fail_result_html = this.fail_result_html;
+                output.fail_compare_html = this.fail_compare_html;
+                output.fail_result_path = this.fail_result_path;
             }
 
             if ( this.queue ) {
