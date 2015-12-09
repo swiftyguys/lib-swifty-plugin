@@ -180,27 +180,31 @@
                 probe.WP.OpenAllPages().next( 'Step2' );
             },
 
-            Step2: function( input ) {
-                $( 'h2:contains("Pages ")' ).WaitForVisible().next( 'Step3' );
+            Step2: function( /*input*/ ) {
+                $( 'h1:contains("Pages"), h2:contains("Pages ")' ).WaitForVisible().next( 'Step3' );
             },
 
             Step3: function( input ) {   // dojh: translation issue -> Pages.
-                // Click on the checkbox to select all pages
-                $( 'span:contains("Title"):first' )   // dojh: translation issue -> Title.
-                    .closest( 'th' )
-                    .prev( 'th' )
-                    .find( 'input' )
-                    .MustExistOnce()
-                    .Click();
+                if( $( 'td:contains("No pages found.")' ).length > 0 ) {
+                    // There are no pages. No need tot try to delete them.
+                } else {
+                    // Click on the checkbox to select all pages
+                    $( 'span:contains("Title"):first' )   // dojh: translation issue -> Title.
+                        .closest( 'th' )
+                        .prev( /*'th'*/ )
+                        .find( 'input' )
+                        .MustExistOnce()
+                        .Click();
 
-                $( 'select[name="action"]' )
-                    .MustExistOnce()
-                    .find( 'option:contains("Move to Trash")' )   // dojh: translation issue -> Move to Trash.
-                    .prop( 'selected', true );
+                    $( 'select[name="action"]' )
+                        .MustExistOnce()
+                        .find( 'option:contains("Move to Trash")' )   // dojh: translation issue -> Move to Trash.
+                        .prop( 'selected', true );
 
-                // Wait until the checked checkboxes are visible
-                //$( 'input[name="post[]"]:checked' ).WaitForVisible().next( function( input ) {
-                $( 'input#cb-select-all-1' ).WaitForVisible().next( 'Step4' );
+                    // Wait until the checked checkboxes are visible
+                    //$( 'input[name="post[]"]:checked' ).WaitForVisible().next( function( input ) {
+                    $( 'input#cb-select-all-1' ).WaitForVisible().next( 'Step4' );
+                }
             },
 
             Step4: function( input ) {
@@ -249,7 +253,7 @@
 
     probe.RegisterTry(
         /I create (\d+) test pages via WP/, {
-            addNewSel: 'h2 a:contains("Add New")',   // dojh: translation issue -> Add New.
+            addNewSel: 'h1 a:contains("Add New"), h2 a:contains("Add New")',   // dojh: translation issue -> Add New.
 
             Start: function( /*input*/ ) {
                 probe.QueueStory(
@@ -273,7 +277,7 @@
                     $( this.addNewSel ).MustExist().Click();
 
                     // dojh: translation issue -> Enter title here.
-                    $( 'h2:contains("Add New Page")' ).WaitForVisible( 'Step4', 5000, input.wait_data );
+                    $( 'h1:contains("Add New Page"), h2:contains("Add New Page")' ).WaitForVisible( 'Step4', 5000, input.wait_data );
                 }
             },
 
