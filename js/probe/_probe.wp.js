@@ -311,7 +311,7 @@
     probe.RegisterTry(
         /I edit a page via WP WITH PARAMS (.*)/, {
             Start: function( /*input*/ ) {
-                $( 'h2:contains("Edit Page")' ).WaitForVisible( 'Step2' );   // dojh: translation issue -> Edit Page.
+                $( 'h1:contains("Edit Page"), h2:contains("Edit Page")' ).WaitForVisible( 'Step2' );   // dojh: translation issue -> Edit Page.
             },
 
             Step2: function( input ) {

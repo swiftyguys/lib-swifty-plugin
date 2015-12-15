@@ -67,7 +67,7 @@ if( ! class_exists( 'SwiftyCaptcha' ) ) {
             $this->img_type = 'png';
 
             /* Mode of temporary image files */
-            $this->file_mode = 0444;
+            $this->file_mode = 0644;
 
             /* Mode of temporary answer text files */
             $this->answer_file_mode = 0440;

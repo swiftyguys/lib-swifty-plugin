@@ -148,8 +148,8 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
                         if( is_array( $image_meta ) ) {
                             $size_array = array( absint( $width ), absint( $height ) );
                             // wp_calculate_image_srcset will only return sizes smaller than 1600
-                            $srcset = wp_calculate_image_srcset( $src, $size_array, $image_meta, $attach_id );
-                            $sizes = wp_get_attachment_image_sizes( $size_array, $image_meta, $attach_id );
+                            $srcset = wp_calculate_image_srcset( $size_array, $src, $image_meta, $attach_id );
+                            $sizes = wp_calculate_image_sizes( $size_array, $src, $image_meta, $attach_id );
                         }
                     }
                 }

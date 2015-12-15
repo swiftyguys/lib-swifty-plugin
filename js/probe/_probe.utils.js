@@ -45,7 +45,7 @@
                                 }, 100 );
                             }
                         } );
-                    }, 100 );
+                    }, 500 );
 
                     break;
                 case 'radio':
@@ -57,7 +57,7 @@
                         setTimeout( function() {
                             dfd.resolve();
                         }, 100 );
-                    }, 100 );
+                    }, 500 );
 
                     break;
                 case 'select':
@@ -69,7 +69,7 @@
                         setTimeout( function() {
                             dfd.resolve();
                         }, 100 );
-                    }, 100 );
+                    }, 500 );
 
                     break;
             }
