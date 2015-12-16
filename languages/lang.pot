@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-15 16:51+0100\n"
+"POT-Creation-Date: 2015-12-16 16:06+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,21 +18,21 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:183
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:183
 #, php-format
 msgid "This theme requires the following plugin: %1$s."
 msgid_plural "This theme requires the following plugins: %1$s."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:184
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:184
 #, php-format
 msgid "This theme recommends the following plugin: %1$s."
 msgid_plural "This theme recommends the following plugins: %1$s."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:185
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:185
 #, php-format
 msgid ""
 "Sorry, but you do not have the correct permissions to install the %s plugin. "
@@ -45,21 +45,21 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:186
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:186
 #, php-format
 msgid "The following required plugin is currently inactive: %1$s."
 msgid_plural "The following required plugins are currently inactive: %1$s."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:187
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:187
 #, php-format
 msgid "The following recommended plugin is currently inactive: %1$s."
 msgid_plural "The following recommended plugins are currently inactive: %1$s."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:188
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:188
 #, php-format
 msgid ""
 "Sorry, but you do not have the correct permissions to activate the %s "
@@ -72,7 +72,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:189
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:189
 #, php-format
 msgid ""
 "The following plugin needs to be updated to its latest version to ensure "
@@ -83,7 +83,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:190
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:190
 #, php-format
 msgid ""
 "Sorry, but you do not have the correct permissions to update the %s plugin. "
@@ -96,118 +96,118 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:191
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:191
 msgid "Begin installing plugin"
 msgid_plural "Begin installing plugins"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:192
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:192
 msgid "Begin activating plugin"
 msgid_plural "Begin activating plugins"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:195
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:195
 msgid "Plugin activated successfully."
 msgstr ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:196
-#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1712
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:196
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1712
 msgid "The following plugin was activated successfully:"
 msgid_plural "The following plugins were activated successfully:"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:198
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:198
 msgid "Dismiss this notice"
 msgstr ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/lib_swifty_plugin.php:51
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib_swifty_plugin.php:51
 msgid "Licenses"
 msgstr ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/lib_swifty_plugin.php:228
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib_swifty_plugin.php:228
 msgid "Swifty Plugins"
 msgstr ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/lib_swifty_plugin.php:230
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib_swifty_plugin.php:230
 msgid "Active Swifty Plugins"
 msgstr ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/lib_swifty_plugin.php:315
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib_swifty_plugin.php:315
 msgid "Swifty Settings"
 msgstr ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:75
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:75
 msgid "Activate"
 msgstr ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:86
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:86
 msgid "Save Changes"
 msgstr ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:98
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:98
 #, php-format
 msgid "License activation of %s"
 msgstr ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:99
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:99
 msgid "Email"
 msgstr ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:100
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:100
 msgid "License key"
 msgstr ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:104
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:104
 #, php-format
 msgid "License deactivation of %s"
 msgstr ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:105
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:105
 msgid "Deactivate License Key"
 msgstr ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:113
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:113
 msgid ""
 "Please enter the activation details you received from us, and click the "
 "'Activate' button."
 msgstr ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:180
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:180
 msgid "Plugin activated. "
 msgstr ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:267
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:267
 msgid ""
 "The license could not be deactivated. Use the License Deactivation tab to "
 "manually deactivate the license before activating a new license."
 msgstr ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:311
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:311
 msgid "Plugin license deactivated. "
 msgstr ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:385
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:385
 msgid "Deactivates an API License Key so it can be used on another blog."
 msgstr ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/classes/class-swifty-api-manager-update-api-check.php:382
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/swifty-licenses/classes/class-swifty-api-manager-update-api-check.php:382
 #, php-format
 msgid ""
 "The license key for %s has expired. You can reactivate or purchase a license "
 "key from your account <a href=\"%s\" target=\"_blank\">dashboard</a>."
 msgstr ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/classes/class-swifty-api-manager-update-api-check.php:412
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/swifty-licenses/classes/class-swifty-api-manager-update-api-check.php:412
 #, php-format
 msgid ""
 "The subscription for %s has expired. You can reactivate the subscription "
 "from your account <a href=\"%s\" target=\"_blank\">dashboard</a>."
 msgstr ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/classes/class-swifty-api-manager-update-api-check.php:462
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/swifty-licenses/classes/class-swifty-api-manager-update-api-check.php:462
 #, php-format
 msgid ""
 "A license key for %s could not be found. Maybe you forgot to enter a license "
@@ -216,31 +216,31 @@ msgid ""
 "\"_blank\">dashboard</a>."
 msgstr ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/classes/class-swifty-api-manager-update-api-check.php:482
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/swifty-licenses/classes/class-swifty-api-manager-update-api-check.php:482
 #, php-format
 msgid ""
 "%s has not been activated. Go to the settings page and enter the license key "
 "and license email to activate %s."
 msgstr ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/swifty-license-check.php:146
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/swifty-licenses/swifty-license-check.php:146
 #, php-format
 msgid "Activate %s"
 msgstr ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/swifty-license-check.php:147
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/swifty-licenses/swifty-license-check.php:147
 #, php-format
 msgid "Deactivate %s"
 msgstr ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/swifty-license-check.php:264
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/swifty-licenses/swifty-license-check.php:264
 #, php-format
 msgid ""
 "The license key for <b>%s</b> has not been activated, so the plugin is "
 "inactive! %sClick here%s to activate the license key and the plugin."
 msgstr ""
 
-#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/swifty-license-check.php:284
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/swifty-licenses/swifty-license-check.php:284
 #, php-format
 msgid ""
 "<b>Warning!</b> You're blocking external requests which means you won't be "
