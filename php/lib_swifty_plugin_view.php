@@ -36,9 +36,9 @@ class LibSwiftyPluginView
         add_filter( 'swifty_SS2_hosting_name', array( $this, 'filter_swifty_SS2_hosting_name' ) );
 
         // include initialization script in header
-        add_action( 'wp_head', array( $this, 'hook_wp_head_include_head_script' ) );
+        add_action( 'wp_head', array( $this, 'hook_wp_head_include_head_script' ), 1 );
         // include view.js in footer
-        add_action( 'wp_footer', array( $this, 'hook_wp_footer_include_view_js' ) );
+        add_action( 'wp_footer', array( $this, 'hook_wp_footer_include_view_js' ), 1 );
     }
 
     /**
