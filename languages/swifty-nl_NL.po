@@ -1,17 +1,54 @@
-# Translation of SwiftySite in Dutch
-# This file is distributed under the same license as the SwiftySite package.
+# Translation of Swifty Content Creator in Dutch
+# This file is distributed under the same license as the Swifty Content Creator package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2015-12-15 15:55:57+0000\n"
+"PO-Revision-Date: 2015-12-17 13:32:47+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: GlotPress/0.1\n"
-"Project-Id-Version: SwiftySite\n"
+"Project-Id-Version: Swifty Content Creator\n"
 
-#: includes/register-required-plugins.php:100
+#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:172
+msgid "This theme requires the following plugin: %1$s."
+msgid_plural "This theme requires the following plugins: %1$s."
+msgstr[0] "Dit theme vereist de volgende plugin: %1$s."
+msgstr[1] "Dit theme vereist de volgende plugins: %1$s."
+
+#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:173
+msgid "This theme recommends the following plugin: %1$s."
+msgid_plural "This theme recommends the following plugins: %1$s."
+msgstr[0] "Dit theme adviseert de volgende plugin: %1$s."
+msgstr[1] "Dit theme adviseert de volgende plugins: %1$s."
+
+#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:178
+msgid ""
+"The following plugin needs to be updated to its latest version to ensure "
+"maximum compatibility with this theme: %1$s."
+msgid_plural ""
+"The following plugins need to be updated to their latest version to ensure "
+"maximum compatibility with this theme: %1$s."
+msgstr[0] ""
+"De voglende plugin moet naar de laatste nieuwe versie geüpdated worden om "
+"maximale compatibiliteit met dit theme te verzekeren: %1$s."
+msgstr[1] ""
+"De voglende plugins moet naar de laatste nieuwe versie geüpdated worden om "
+"maximale compatibiliteit met dit theme te verzekeren: %1$s."
+
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:185
+#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1701
+msgid "The following plugin was activated successfully:"
+msgid_plural "The following plugins were activated successfully:"
+msgstr[0] "De volgende plugin werd succesvol geactiveerd: "
+msgstr[1] "De volgende plugins werden succesvol geactiveerd: "
+
+#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:187
+msgid "Dismiss this notice"
+msgstr "Negeer deze melding"
+
+#: php/main.php:1439
+#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:174
 msgid ""
 "Sorry, but you do not have the correct permissions to install the %s plugin. "
 "Contact the administrator of this site for help on getting the plugin "
@@ -21,28 +58,32 @@ msgid_plural ""
 "plugins. Contact the administrator of this site for help on getting the "
 "plugins installed."
 msgstr[0] ""
-"Sorry, maar je hebt niet de juiste rechten om de %s plugin te installeren. "
-"Neem contact op met de admin van deze site voor hulp."
+"Sorry, maar je hebt niet de juiste toestemming om de %s plugin te "
+"installeren. Neem contact op met de beheerder van deze site om hulp te "
+"krijgen bij het installeren van de plugin."
 msgstr[1] ""
-"Sorry, maar je hebt niet de juiste rechten om %s plugins te installeren. "
-"Neem contact op met de admin van deze site voor hulp."
+"Sorry, maar je hebt niet de juiste toestemming om de %s plugins te "
+"installeren. Neem contact op met de beheerder van deze site om hulp te "
+"krijgen bij het installeren van de plugins."
 
-#: includes/register-required-plugins.php:101
-#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:186
+#: php/main.php:1440
+#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:175
 msgid "The following required plugin is currently inactive: %1$s."
 msgid_plural "The following required plugins are currently inactive: %1$s."
-msgstr[0] "Deze vereiste plugin is momenteel niet actief: %1$s."
-msgstr[1] "Deze vereiste plugins zijn momenteel niet actief: %1$s."
+msgstr[0] "De volgende plugin is op dit moment niet geactiveerd: %1$s."
+msgstr[1] "De volgende plugins zijnop dit moment niet geactiveerd: %1$s."
 
-#: includes/register-required-plugins.php:102
-#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:187
+#: php/main.php:1441
+#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:176
 msgid "The following recommended plugin is currently inactive: %1$s."
 msgid_plural "The following recommended plugins are currently inactive: %1$s."
-msgstr[0] "Deze aanbevolen plugin is momenteel niet actief: %1$s."
-msgstr[1] "Deze aanbevolen plugins zijn momenteel niet actief: %1$s."
+msgstr[0] ""
+"De volgende aanbevolen plugin is op dit moment niet geactiveerd: %1$s."
+msgstr[1] ""
+"De volgende aanbevolen plugins zijn op dit moment niet geactiveerd: %1$s."
 
-#: includes/register-required-plugins.php:103
-#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:188
+#: php/main.php:1442
+#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:177
 msgid ""
 "Sorry, but you do not have the correct permissions to activate the %s "
 "plugin. Contact the administrator of this site for help on getting the "
@@ -52,14 +93,16 @@ msgid_plural ""
 "plugins. Contact the administrator of this site for help on getting the "
 "plugins activated."
 msgstr[0] ""
-"Sorry, maar je hebt niet de juiste rechten om %s plugin te activeren. Neem "
-"contact op met de admin van deze site voor hulp."
+"Sorry, maar je hebt niet de juiste toestemming om de %s plugin te activeren. "
+"Neem contact op met de beheerder van deze site om hulp te krijgen bij het "
+"activeren van de plugin."
 msgstr[1] ""
-"Sorry, maar je hebt niet de juiste rechten om %s plugins te activeren. Neem "
-"contact op met de admin van deze site voor hulp."
+"Sorry, maar je hebt niet de juiste toestemming om de %s plugins te "
+"activeren. Neem contact op met de beheerder van deze site om hulp te krijgen "
+"bij het activeren van de plugins."
 
-#: includes/register-required-plugins.php:105
-#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:190
+#: php/main.php:1444
+#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:179
 msgid ""
 "Sorry, but you do not have the correct permissions to update the %s plugin. "
 "Contact the administrator of this site for help on getting the plugin "
@@ -69,71 +112,36 @@ msgid_plural ""
 "Contact the administrator of this site for help on getting the plugins "
 "updated."
 msgstr[0] ""
-"Sorry, maar je hebt niet de juiste rechten om %s plugin te updaten. Neem "
-"contact op met de admin van deze site voor hulp."
+"Sorry, maar je hebt niet de juiste toestemming om de %s plugin te updaten. "
+"Neem contact op met de beheerder van deze site om hulp te krijgen bij het "
+"updaten van de plugin."
 msgstr[1] ""
-"Sorry, maar je hebt niet de juiste rechten om %s plugins te updaten. Neem "
-"contact op met de admin van deze site voor hulp."
+"Sorry, maar je hebt niet de juiste toestemming om de %s plugins te updaten. "
+"Neem contact op met de beheerder van deze site om hulp te krijgen bij het "
+"updaten van de plugins."
 
-#: includes/register-required-plugins.php:106
-#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:191
+#: php/main.php:1445
+#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:180
 msgid "Begin installing plugin"
 msgid_plural "Begin installing plugins"
 msgstr[0] "Begin plugin te installeren"
 msgstr[1] "Begin plugins te installeren"
 
-#: includes/register-required-plugins.php:107
-#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:192
+#: php/main.php:1446
+#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:181
 msgid "Begin activating plugin"
 msgid_plural "Begin activating plugins"
 msgstr[0] "Begin plugin te activeren"
 msgstr[1] "Begin plugins te activeren"
 
-#: includes/register-required-plugins.php:109
-#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:195
-msgid "Plugin activated successfully."
-msgstr "Plugin succesvol geactiveerd"
-
-#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:183
-msgid "This theme requires the following plugin: %1$s."
-msgid_plural "This theme requires the following plugins: %1$s."
-msgstr[0] "Dit thema vereist deze plugin: %1$s."
-msgstr[1] "Dit thema vereist deze plugins: %1$s."
-
+#: php/main.php:1448
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:184
-msgid "This theme recommends the following plugin: %1$s."
-msgid_plural "This theme recommends the following plugins: %1$s."
-msgstr[0] "Dit thema adviseert deze plugin: %1$s."
-msgstr[1] "Dit thema adviseert deze plugins: %1$s."
-
-#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:189
-msgid ""
-"The following plugin needs to be updated to its latest version to ensure "
-"maximum compatibility with this theme: %1$s."
-msgid_plural ""
-"The following plugins need to be updated to their latest version to ensure "
-"maximum compatibility with this theme: %1$s."
-msgstr[0] ""
-"De volgende plugin moet geüdatet worden naar de laatste nieuwe versie voor "
-"maximale compatibiliteit met dit thema. %1$s."
-msgstr[1] ""
-"De volgende plugins moeten geüdatet worden naar de laatste nieuwe versie "
-"voor maximale compatibiliteit met dit thema. %1$s."
-
-#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:196
-#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1712
-msgid "The following plugin was activated successfully:"
-msgid_plural "The following plugins were activated successfully:"
-msgstr[0] "Deze plugin is succesvol geactiveerd: "
-msgstr[1] "Deze plugins zijn succesvol geactiveerd: "
-
-#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:198
-msgid "Dismiss this notice"
-msgstr "Negeer deze melding"
+msgid "Plugin activated successfully."
+msgstr "Plugin succesvol geactiveerd."
 
 #: lib/swifty_plugin/php/lib_swifty_plugin.php:51
 msgid "Licenses"
-msgstr ""
+msgstr "Licenties"
 
 #: lib/swifty_plugin/php/lib_swifty_plugin.php:228
 msgid "Swifty Plugins"
@@ -149,67 +157,89 @@ msgstr "Swifty Instellingen"
 
 #: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:98
 msgid "License activation of %s"
-msgstr ""
+msgstr "Licentie activering van %s."
 
 #: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:104
 msgid "License deactivation of %s"
-msgstr ""
+msgstr "Licentie deactivering van %s"
 
 #: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:113
 msgid ""
 "Please enter the activation details you received from us, and click the "
 "'Activate' button."
 msgstr ""
+"Voer de activering-details die je van ons hebt gekregen in, en klik dan op "
+"\"Activeer'."
 
+#: pro/am/admin/class-wc-api-manager-menu.php:57
 #: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:75
 msgid "Activate"
-msgstr ""
+msgstr "Activeer"
 
+#: pro/am/admin/class-wc-api-manager-menu.php:65
 #: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:86
 msgid "Save Changes"
-msgstr ""
+msgstr "Bewaar aanpassingen"
 
-#: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:99
-msgid "Email"
-msgstr ""
-
+#: pro/am/admin/class-wc-api-manager-menu.php:77
 #: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:100
 msgid "License key"
-msgstr ""
+msgstr "Licentiesleutel"
 
+#: pro/am/admin/class-wc-api-manager-menu.php:82
 #: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:105
 msgid "Deactivate License Key"
-msgstr ""
+msgstr "De-activeer Licentiesleutel"
 
+#: pro/am/admin/class-wc-api-manager-menu.php:147
 #: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:180
 msgid "Plugin activated. "
-msgstr ""
+msgstr "Plugin geactiveerd"
 
+#: pro/am/admin/class-wc-api-manager-menu.php:229
 #: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:267
 msgid ""
 "The license could not be deactivated. Use the License Deactivation tab to "
 "manually deactivate the license before activating a new license."
 msgstr ""
+"De licentie kon niet gede-activeerd worden. Gebruik de Licentie De-activatie "
+"tab om handmatig de licentie te de-activeren voordat je een nieuwe licentie "
+"activeert. "
 
+#: pro/am/admin/class-wc-api-manager-menu.php:269
 #: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:311
 msgid "Plugin license deactivated. "
-msgstr ""
+msgstr "Plugin licentie gede-activeerd"
 
+#: pro/am/admin/class-wc-api-manager-menu.php:337
 #: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:385
 msgid "Deactivates an API License Key so it can be used on another blog."
 msgstr ""
+"De-activeert een API Licentiesleutel zodat die door een ander blog gebruikt "
+"kan worden."
+
+#: assets/contact_form/al_contact_form.php:29
+#: pro/am/admin/class-wc-api-manager-menu.php:76
+#: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:99
+msgid "Email"
+msgstr "Email"
 
 #: lib/swifty_plugin/php/swifty-licenses/classes/class-swifty-api-manager-update-api-check.php:382
 msgid ""
 "The license key for %s has expired. You can reactivate or purchase a license "
 "key from your account <a href=\"%s\" target=\"_blank\">dashboard</a>."
 msgstr ""
+"De licentiesleutel voor %s is verlopen. Je kunt een licentiesleutel "
+"heractiveren of kopen vanuit je account  <a href=\"%s\" target=\"_blank"
+"\">dashboard</a>."
 
 #: lib/swifty_plugin/php/swifty-licenses/classes/class-swifty-api-manager-update-api-check.php:412
 msgid ""
 "The subscription for %s has expired. You can reactivate the subscription "
 "from your account <a href=\"%s\" target=\"_blank\">dashboard</a>."
 msgstr ""
+"Het abonnement voor %s is verlopen. Je kunt het abonnement heractiveren "
+"vanuit je account <a href=\"%s\" target=\"_blank\">dashboard</a>."
 
 #: lib/swifty_plugin/php/swifty-licenses/classes/class-swifty-api-manager-update-api-check.php:462
 msgid ""
@@ -218,29 +248,41 @@ msgid ""
 "reactivate or purchase a license key from your account <a href=\"%s\" target="
 "\"_blank\">dashboard</a>."
 msgstr ""
+"Een licentiesleutel voor %s kon niet gevonden worden. Misschien ben je "
+"vergeten een licentiesleutel in te geven toen je %s aan het opzetten was of "
+"de sleutel is gede-activeerd in je account.  Je kunt een licentiesleutel "
+"heractiveren of een nieuwe kopen vanuit je account <a href=\"%s\" target="
+"\"_blank\">dashboard</a>."
 
 #: lib/swifty_plugin/php/swifty-licenses/classes/class-swifty-api-manager-update-api-check.php:482
 msgid ""
 "%s has not been activated. Go to the settings page and enter the license key "
 "and license email to activate %s."
 msgstr ""
+"%s is niet geactiveerd. Ga naar de settingspagina en geef daar de "
+"licentiesleutel en het licentie-emailadres in om %s te activeren. "
 
 #: lib/swifty_plugin/php/swifty-licenses/swifty-license-check.php:146
 msgid "Activate %s"
-msgstr ""
+msgstr "Activeer %s"
 
 #: lib/swifty_plugin/php/swifty-licenses/swifty-license-check.php:147
 msgid "Deactivate %s"
-msgstr ""
+msgstr "Deactiveer %s"
 
 #: lib/swifty_plugin/php/swifty-licenses/swifty-license-check.php:264
 msgid ""
 "The license key for <b>%s</b> has not been activated, so the plugin is "
 "inactive! %sClick here%s to activate the license key and the plugin."
 msgstr ""
+"De licentie code voor <b>%s</b> is niet geactiveerd, dus de plugin is "
+"inactief! %sKlik hier%s om de licentie code en de plugin te activeren."
 
+#: pro/php/main_prot_api.php:76
 #: lib/swifty_plugin/php/swifty-licenses/swifty-license-check.php:284
 msgid ""
 "<b>Warning!</b> You're blocking external requests which means you won't be "
 "able to get %s updates. Please add %s to %s."
 msgstr ""
+"<b>Waarschuwing!</b>Je blokkeert externe requests hetgeen betekent dat je "
+"geen %s updates kunt ontvangen. Voeg alsjebloeft %s toe aan %s."
