@@ -15,6 +15,8 @@ class LibSwiftyPluginView
     protected static $_ss_mode = null;
     protected static $_valid_modes = array( 'ss', 'wp', 'ss_force' );
     protected static $_default_mode = 'ss';
+    protected static $included_view_js = false;
+    protected static $included_head_script = false;
 
     /**
      * Constructor adds action and filter
@@ -32,6 +34,11 @@ class LibSwiftyPluginView
         // allow every plugin to get to the initialization part, all plugins and theme should be loaded then
         add_action( 'after_setup_theme', array( $this, 'action_after_setup_theme' ) );
         add_filter( 'swifty_SS2_hosting_name', array( $this, 'filter_swifty_SS2_hosting_name' ) );
+
+        // include initialization script in header
+        add_action( 'wp_head', array( $this, 'hook_wp_head_include_head_script' ) );
+        // include view.js in footer
+        add_action( 'wp_footer', array( $this, 'hook_wp_footer_include_view_js' ) );
     }
 
     /**
@@ -279,6 +286,87 @@ class LibSwiftyPluginView
             do_action( 'swifty_lazy_load_css', $handle, $src, $deps, $ver, $media );
         } else {
             wp_enqueue_style( $handle, $src, $deps, $ver, $media );
+        }
+    }
+
+    /**
+     * wp_footer action, include the view.js loading
+     */
+    public function hook_wp_footer_include_view_js() {
+        self::echo_included_view_js();
+    }
+
+    /**
+     * echo the script that will load the view.js
+     */
+    public static function echo_included_view_js() {
+        if(! self::$included_view_js ) {
+            self::$included_view_js = true;
+
+            global $swifty_build_use;
+            $bust_add = '?swcv=ssd_' . '/*@echo RELEASE_TAG*/';
+            if( $swifty_build_use === 'build' ) {
+                $view_file = get_swifty_lib_dir_url( __FILE__ ) . 'js/view.min.js' . $bust_add;
+            } else {
+                $view_file = get_swifty_lib_dir_url( __FILE__ ) . 'lib/swifty_plugin/js/view.js' . $bust_add;
+            }
+?>
+<script>
+    var element = document.createElement("script");
+    element.src = '<?php echo$view_file; ?>';
+    document.body.appendChild(element);
+</script>
+<?php
+
+        }
+    }
+
+    /**
+     * wp_head action, include some js script needed in the head
+     */
+    public function hook_wp_head_include_head_script() {
+        self::echo_include_head_script();
+    }
+
+    /**
+     * echo some js script needed in the head
+     */
+    public static function echo_include_head_script() {
+        if( ! self::$included_head_script ) {
+            self::$included_head_script = true;
+?>
+<script>
+var ssd_status_onload = 0;
+var ssd_list_loadCss = [];
+var ssd_add_loadCss = function( s ) {
+    ssd_list_loadCss.push(s);
+    if( typeof swifty_do_loadCSS === 'function' ) {
+        swifty_do_loadCSS();
+    }
+};
+var ssd_list_loadJs = [];
+var ssd_add_loadJs = function( s ) {
+    ssd_list_loadJs.push(s);
+    if( typeof swifty_do_loadJs === 'function' ) {
+        swifty_do_loadJs();
+    }
+};
+var ssd_list_loadFont = [];
+var ssd_add_loadFont = function( s ) {
+    ssd_list_loadFont.push(s);
+    if( typeof swifty_do_loadFont === 'function' ) {
+        swifty_do_loadFont();
+    }
+};
+var swifty_list_exec = [ { 'status': 'hold', 'for': 'page_loaded' } ];
+var swifty_add_exec = function( s ) {
+    swifty_list_exec.push(s);
+    if( typeof swifty_do_exec === 'function' ) {
+        swifty_do_exec();
+    }
+};
+</script>
+<?php
         }
     }
 }
