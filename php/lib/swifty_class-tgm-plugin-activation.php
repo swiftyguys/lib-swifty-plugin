@@ -1,18 +1,7 @@
 <?php
-/**
- * Plugin installation and activation for WordPress themes.
- *
- * @package   TGM-Plugin-Activation
- * @version   2.4.0
- * @author    Thomas Griffin <thomasgriffinmedia.com>
- * @author    Gary Jones <gamajo.com>
- * @copyright Copyright (c) 2012, Thomas Griffin
- * @license   http://opensource.org/licenses/gpl-2.0.php GPL v2 or later
- * @link      https://github.com/thomasgriffin/TGM-Plugin-Activation
- */
-
 /*    Copyright 2014 Thomas Griffin (thomasgriffinmedia.com)
 
+    Based on: https://github.com/thomasgriffin/TGM-Plugin-Activation
     This file has been altered for Swifty to support plugins and different menu options. Original file version was 2.4
 
     This program is free software; you can redistribute it and/or modify
