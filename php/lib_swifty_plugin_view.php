@@ -34,11 +34,6 @@ class LibSwiftyPluginView
         // allow every plugin to get to the initialization part, all plugins and theme should be loaded then
         add_action( 'after_setup_theme', array( $this, 'action_after_setup_theme' ) );
         add_filter( 'swifty_SS2_hosting_name', array( $this, 'filter_swifty_SS2_hosting_name' ) );
-
-        // include initialization script in header
-        add_action( 'wp_head', array( $this, 'hook_wp_head_include_head_script' ), 1 );
-        // include view.js in footer
-        add_action( 'wp_footer', array( $this, 'hook_wp_footer_include_view_js' ), 1 );
     }
 
     /**
@@ -287,6 +282,16 @@ class LibSwiftyPluginView
         } else {
             wp_enqueue_style( $handle, $src, $deps, $ver, $media );
         }
+    }
+
+    /**
+     * initialise head and footer hooks for swifty scripts
+     */
+    public function init_script_hooks() {
+        // include initialization script in header
+        add_action( 'wp_head', array( $this, 'hook_wp_head_include_head_script' ), 1 );
+        // include view.js in footer
+        add_action( 'wp_footer', array( $this, 'hook_wp_footer_include_view_js' ), 1 );
     }
 
     /**
