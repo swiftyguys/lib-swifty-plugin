@@ -280,7 +280,7 @@ if( ! class_exists( 'Swifty_TGM_Plugin_Activation' ) ) {
                 // is scc-pro or scc installed?
                 if( $plugin['slug'] === 'swifty-content-creator-pro') {
                     $scc_file_path = $this->_get_plugin_basename_from_slug( 'swifty-content-creator' );
-                    if( isset( $installed_plugins[ $plugin[ 'file_path' ] ] ) || isset( $scc_file_path ) ) {
+                    if( isset( $installed_plugins[ $plugin[ 'file_path' ] ] ) || ( isset( $scc_file_path )  && isset( $installed_plugins[ $scc_file_path ] ) ) ) {
                         continue;
                     }
                 }
