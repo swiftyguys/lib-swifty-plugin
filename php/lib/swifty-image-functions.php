@@ -11,6 +11,8 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
          */
         public static $image_size = 'swifty_content';
 
+        // dorh Duplicate code
+
         public static function get_img_vars( $url, $attach_id = -123 )
         {
             $src_word = 'src';
