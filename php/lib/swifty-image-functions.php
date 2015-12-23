@@ -33,8 +33,10 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
                     if( $attach_id === -123 ) {
                         $attach_id = SwiftyImageFunctions::get_attachment_id_from_url( $url );
                     }
-                    $image_attributes = SwiftyImageFunctions::get_attachment_image_src_wp( $attach_id, $image_size );
-                    $url = $image_attributes[ 0 ];
+                    if( $attach_id ) {
+                        $image_attributes = SwiftyImageFunctions::get_attachment_image_src_wp( $attach_id, $image_size );
+                        $url = $image_attributes[ 0 ];
+                    }
                 }
             }
 
@@ -59,8 +61,10 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
                 $responsive = SwiftyImageFunctions::responsive_wp( $url );
                 if( $image_size !== 'full' ) {
                     $attach_id = SwiftyImageFunctions::get_attachment_id_from_url( $url );
-                    $image_attributes = SwiftyImageFunctions::get_attachment_image_src_wp( $attach_id, $image_size );
-                    $url = $image_attributes[ 0 ];
+                    if( $attach_id ) {
+                        $image_attributes = SwiftyImageFunctions::get_attachment_image_src_wp( $attach_id, $image_size );
+                        $url = $image_attributes[ 0 ];
+                    }
                 }
             }
 
