@@ -62,18 +62,19 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
     }
 
     /**
-     * import given $url_image as attachment, return array with:
+     * Import given $url_image as attachment, return array with:
      * - url: new wordpress attachment url
      * - id: new attachment id
      * - image_url: original $url_image
-     * when image already exist, return the earlier inserted attachment information will not
-     * detect when inserted in different months only accepts png, jpg and gif files
+     * - caption: caption of attachment - will be empty after import
+     * - alt: alt of attachment - will be empty after import
+     * When image already exist, return the earlier inserted attachment information. Will not
+     * detect when inserted in different months only accepts png, jpg and gif files.
      *
      * @param $url_image
      * @return array
      */
-    function import_attachment_from_url( $url_image )
-    {
+    function import_attachment_from_url( $url_image ) {
         $url_image = stripslashes( $url_image );
         $urlimage = strtok( $url_image, '?' ); // keep everything before ?
         $filename = basename( $urlimage );
@@ -85,7 +86,9 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
             return array(
                 'url' => '',
                 'id' => false,
-                'image_url' => $url_image
+                'image_url' => $url_image,
+                'caption' => '',
+                'alt' => ''
             );
         }
 
@@ -145,12 +148,20 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
                 wp_update_attachment_metadata( $attach_id, $attach_data );
             }
 
+            $img = wp_prepare_attachment_for_js( $attach_id );
+            $attach_caption = $img[ 'caption' ];
+            $attach_alt = $img[ 'alt' ];
+
         } catch( Exception $e ) {
             $attach_id = false;
+            $attach_caption = '';
+            $attach_alt = '';
         }
         return array(
             'url' => ( $attach_id ? wp_get_attachment_url( $attach_id ) : '' ),
             'id' => $attach_id,
+            'caption' => $attach_caption,
+            'alt' => $attach_alt,
             'image_url' => $url_image
         );
     }
