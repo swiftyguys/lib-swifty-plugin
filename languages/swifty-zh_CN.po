@@ -10,17 +10,17 @@ msgstr ""
 "X-Generator: GlotPress/0.1\n"
 "Project-Id-Version: Swifty Page Manager\n"
 
-#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:183
+#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:172
 msgid "This theme requires the following plugin: %1$s."
 msgid_plural "This theme requires the following plugins: %1$s."
 msgstr[0] ""
 
-#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:184
+#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:173
 msgid "This theme recommends the following plugin: %1$s."
 msgid_plural "This theme recommends the following plugins: %1$s."
 msgstr[0] ""
 
-#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:185
+#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:174
 msgid ""
 "Sorry, but you do not have the correct permissions to install the %s plugin. "
 "Contact the administrator of this site for help on getting the plugin "
@@ -31,17 +31,17 @@ msgid_plural ""
 "plugins installed."
 msgstr[0] ""
 
-#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:186
+#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:175
 msgid "The following required plugin is currently inactive: %1$s."
 msgid_plural "The following required plugins are currently inactive: %1$s."
 msgstr[0] ""
 
-#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:187
+#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:176
 msgid "The following recommended plugin is currently inactive: %1$s."
 msgid_plural "The following recommended plugins are currently inactive: %1$s."
 msgstr[0] ""
 
-#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:188
+#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:177
 msgid ""
 "Sorry, but you do not have the correct permissions to activate the %s "
 "plugin. Contact the administrator of this site for help on getting the "
@@ -52,7 +52,7 @@ msgid_plural ""
 "plugins activated."
 msgstr[0] ""
 
-#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:189
+#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:178
 msgid ""
 "The following plugin needs to be updated to its latest version to ensure "
 "maximum compatibility with this theme: %1$s."
@@ -61,7 +61,7 @@ msgid_plural ""
 "maximum compatibility with this theme: %1$s."
 msgstr[0] ""
 
-#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:190
+#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:179
 msgid ""
 "Sorry, but you do not have the correct permissions to update the %s plugin. "
 "Contact the administrator of this site for help on getting the plugin "
@@ -72,27 +72,27 @@ msgid_plural ""
 "updated."
 msgstr[0] ""
 
-#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:191
+#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:180
 msgid "Begin installing plugin"
 msgid_plural "Begin installing plugins"
 msgstr[0] ""
 
-#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:192
+#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:181
 msgid "Begin activating plugin"
 msgid_plural "Begin activating plugins"
 msgstr[0] ""
 
-#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:195
+#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:184
 msgid "Plugin activated successfully."
 msgstr ""
 
-#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:196
-#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1712
+#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:185
+#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1701
 msgid "The following plugin was activated successfully:"
 msgid_plural "The following plugins were activated successfully:"
 msgstr[0] ""
 
-#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:198
+#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:187
 msgid "Dismiss this notice"
 msgstr ""
 
@@ -100,15 +100,15 @@ msgstr ""
 msgid "Licenses"
 msgstr ""
 
-#: lib/swifty_plugin/php/lib_swifty_plugin.php:228
+#: lib/swifty_plugin/php/lib_swifty_plugin.php:239
 msgid "Swifty Plugins"
 msgstr ""
 
-#: lib/swifty_plugin/php/lib_swifty_plugin.php:230
+#: lib/swifty_plugin/php/lib_swifty_plugin.php:241
 msgid "Active Swifty Plugins"
 msgstr ""
 
-#: lib/swifty_plugin/php/lib_swifty_plugin.php:315
+#: lib/swifty_plugin/php/lib_swifty_plugin.php:326
 msgid "Swifty Settings"
 msgstr ""
 
