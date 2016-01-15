@@ -48,7 +48,7 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
         global $swifty_admin_licenses_page;
 
         if( ! empty( $swifty_admin_licenses_page ) ) {
-            LibSwiftyPlugin::get_instance()->admin_add_swifty_menu( 'Licenses', __( 'Licenses', 'swifty' ), $swifty_admin_licenses_page, array( $this, 'hook_swifty_admin_license_page' ), true );
+            LibSwiftyPlugin::get_instance()->admin_add_swifty_menu( 'Licenses', __( 'Licenses', 'swifty-content-creator' ), $swifty_admin_licenses_page, array( $this, 'hook_swifty_admin_license_page' ), true );
         }
     }
 
@@ -236,9 +236,9 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
      */
     function admin_swifty_menu_page()
     {
-        echo '<h1>' . __( 'Swifty Plugins', 'swifty' ) . '</h1>';
+        echo '<h1>' . __( 'Swifty Plugins', 'swifty-content-creator' ) . '</h1>';
 
-        echo '<h4><br>' . __( 'Active Swifty Plugins', 'swifty' ) . ':</h4>';
+        echo '<h4><br>' . __( 'Active Swifty Plugins', 'swifty-content-creator' ) . ':</h4>';
 
         foreach( $this->our_swifty_plugins as $plugin ) {
             echo '<a href="' . admin_url( 'admin.php?page=' . $plugin[ 'key' ] ) . '">' . $plugin[ 'name' ] . '</a><br>';
@@ -323,7 +323,7 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
                 <div class="swifty_panel_title_pos">
                     <div class="swifty_title">
                         <?php endif ?>
-                        <h2><?php echo __( 'Swifty Settings', 'swifty' ); ?></h2>
+                        <h2><?php echo __( 'Swifty Settings', 'swifty-content-creator' ); ?></h2>
                         <?php if( $this->is_ss_mode() ) : ?>
                     </div>
                 </div>
