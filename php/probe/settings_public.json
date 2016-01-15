@@ -44,7 +44,7 @@
                 "s_spm_pages_save": "Save",
                 "s_activate": "Activate",
                 "s_deactivate": "Deactivate",
-                "s_submenu_swifty_content_creator": ":Swifty Content Creator{pro}",
+                "s_submenu_swifty_content_creator": ":Swifty Content Creator",
                 "s_tab_license": "License"
             },
             "s_wp_3.7": {
@@ -61,7 +61,7 @@
                 "s_spm_pages_save": "Opslaan",
                 "s_activate": "Activeren",
                 "s_deactivate": "Deactiveren",
-                "s_submenu_swifty_content_creator": "Swifty Content Creator{pro}",
+                "s_submenu_swifty_content_creator": "Swifty Content Creator",
                 "s_tab_license": "License"
             }
         }
