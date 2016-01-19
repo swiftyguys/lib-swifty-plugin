@@ -73,6 +73,7 @@ if( ! function_exists( 'swifty_autoload_lib_helper' ) ) {
                     $version = intval( file_get_contents( $file ) );
                 }
 //                echo '#####' . $dir . '#####' . $version . '<br>';
+                // split 'swifty-content-' . 'creator' to prevent being found when looking for translations
                 if( $version > $best_version || ( $version === $best_version && basename( $dir ) === ( 'swifty-content-' . 'creator' ) ) ) {
                     $best_version = $version;
                     $best_dir = $dir . $version_path;
