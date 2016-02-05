@@ -11,6 +11,33 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
          */
         public static $image_size = 'swifty_content';
 
+        public static $image_sizes_viewport_width = array( 320, 375, 640, 800, 1024, 1366, 1920, 8888 );
+
+        /**
+         * Get the table name (including prefix) for the cache of automatically determined image sizes.
+         *
+         * @return string
+         */
+        public static function get_image_sizes_table_name() {
+            global $wpdb;
+
+            return $wpdb->prefix . 'swifty_image_sizes_cache';
+        }
+
+        public static function image_sizes_to_generate() {
+            return array(
+                array( 'mobile_half', 160, __( 'Mobile half', 'swifty-content-creator' ) ),
+                array( 'mobile_small', 320, __( 'Mobile small', 'swifty-content-creator' ) ),
+                array( 'mobile_regular', 375, __( 'Mobile regular', 'swifty-content-creator' ) ),
+                array( 'mobile_landscape', 480, __( 'Mobile landscape', 'swifty-content-creator' ) ),
+                array( 'desktop_smallest', 640, __( 'Desktop smallest', 'swifty-content-creator' ) ),
+                array( 'desktop_small', 800, __( 'Desktop small', 'swifty-content-creator' ) ),
+                array( 'desktop_medium', 1024, __( 'Desktop medium', 'swifty-content-creator' ) ),
+                array( 'desktop_large', 1366, __( 'Desktop large', 'swifty-content-creator' ) ),
+                array( 'full_hd', 1920, __( 'Full HD', 'swifty-content-creator' ) )
+            );
+        }
+
         // dorh Duplicate code
 
         public static function get_img_vars( $url, $attach_id = -123 )
@@ -28,7 +55,7 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
                 }
                 $script = "<script>if( typeof swifty_add_exec === 'function' ) { swifty_add_exec( { 'fn': 'swifty_checkImages' } ); }</script>";
             } else {
-                $responsive = SwiftyImageFunctions::responsive_wp( $url );
+                $responsive = SwiftyImageFunctions::responsive_wp( $url, array() );
                 if( $image_size !== 'full' ) {
                     if( $attach_id === -123 ) {
                         $attach_id = SwiftyImageFunctions::get_attachment_id_from_url( $url );
@@ -43,7 +70,7 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
             return array( $src_word, $url, $script, $responsive );
         }
 
-        public static function get_img_tag( $url, $alt = '', $go_to_url = false, $href = '', $target = '', $viewer = 'nothing' )
+        public static function get_img_tag( $url, $alt = '', $go_to_url = false, $href = '', $target = '', $viewer = 'nothing', $atts = array() )
         {
             $url_a = $url;
             $image_size = SwiftyImageFunctions::$image_size;
@@ -58,7 +85,7 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
                 }
                 $script = "<script>if( typeof swifty_add_exec === 'function' ) { swifty_add_exec( { 'fn': 'swifty_checkImages' } ); }</script>";
             } else {
-                $responsive = SwiftyImageFunctions::responsive_wp( $url );
+                $responsive = SwiftyImageFunctions::responsive_wp( $url, $atts );
                 if( $image_size !== 'full' ) {
                     $attach_id = SwiftyImageFunctions::get_attachment_id_from_url( $url );
                     if( $attach_id ) {
@@ -128,9 +155,10 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
          * a space
          *
          * @param $url
+         * @param $atts: the attributes of the related shortcode.
          * @return string
          */
-        public static function responsive_wp( $url )
+        public static function responsive_wp( $url, $atts = array() )
         {
             $responsive = '';
 
@@ -156,6 +184,11 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
                             // wp_calculate_image_srcset will only return sizes smaller than 1600
                             $srcset = wp_calculate_image_srcset( $size_array, $src, $image_meta, $attach_id );
                             $sizes = wp_calculate_image_sizes( $size_array, $src, $image_meta, $attach_id );
+
+                            if( array_key_exists( 'swc_cssid', $atts ) && $atts[ 'swc_cssid' ] . '' !== '' ) {
+                                $sizes = SwiftyImageFunctions::get_image_responsive_sizes( $atts, $sizes, $width );
+                            }
+
                         }
                     }
                 }
@@ -166,6 +199,74 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
             }
 
             return $responsive;
+        }
+
+        /**
+         * Get the determined image sizes from the database and return a sizes attribute to be added to the srcset in the image.
+         *
+         * @param $atts: the attributes of the related shortcode.
+         * @param $ori_sizes: The previous sizes attribute.
+         * @param $width: the default width to be placed in sizes.
+         * @return string: the sizes attribute.
+         *
+         */
+        public static function get_image_responsive_sizes( $atts, $ori_sizes, $width ) {
+            global $wpdb;
+
+            $sizes = $ori_sizes;
+
+            if( intval( get_option( 'scc_img_db_version' ) ) > 0 ) {
+
+                $sizes = '';
+                $found = false;
+
+                $id_post = get_the_ID();
+                $id_asset = 'c' . $atts[ 'swc_cssid' ];
+
+                $show_errors = $wpdb->show_errors;
+
+                if( $show_errors ) {
+                    $wpdb->hide_errors();
+                }
+
+                $determined_sizes = $wpdb->get_results( $wpdb->prepare(
+                    'SELECT w_asset, w_viewport FROM ' . SwiftyImageFunctions::get_image_sizes_table_name() . ' WHERE id_post = %d AND id_asset = %s AND w_asset > 0 ORDER BY w_viewport DESC ',
+                    $id_post,
+                    $id_asset
+                ) );
+
+                if( $wpdb->last_error ) {
+                    update_option( 'scc_img_db_version', 0 );
+                }
+
+                if( $show_errors ) {
+                    $wpdb->show_errors();
+                }
+
+                $last_w_asset = -1;
+
+                if( $determined_sizes ) {
+                    foreach( $determined_sizes as $determined_size ) {
+                        $found = true;
+                        if( $determined_size->w_viewport == 8888 ) {
+                            $width = $determined_size->w_asset;
+                        } else {
+                            if( $last_w_asset === -1 || $last_w_asset != $determined_size->w_asset ) {
+                                $sizes = sprintf( '(max-width: %1$dpx) %2$dpx, ', $determined_size->w_viewport, $determined_size->w_asset ) . $sizes;
+                            }
+                        }
+                        $last_w_asset = $determined_size->w_asset;
+                    }
+                }
+
+                if( $found ) {
+                    $sizes .= sprintf( '%1$dpx', $width );
+                } else {
+                    $sizes = $ori_sizes;
+                }
+            }
+
+            return $sizes;
         }
 
         /**
@@ -205,6 +306,235 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
                 );
             }
             return $attachment_id;
+        }
+
+        public static function create_image_sizes_table() {
+            $scc_img_db_version = 1; // Increase if database structure has changed.
+
+            if( get_option( 'ss2_hosting_name' ) !== 'AMH' ) {
+                if( intval( get_option( 'scc_img_db_version' ) ) < $scc_img_db_version ) {
+                    global $charset_collate;
+
+                    require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+
+                    $sql_create_table = "CREATE TABLE " . SwiftyImageFunctions::get_image_sizes_table_name() . " (
+                    id bigint(20) unsigned NOT NULL auto_increment,
+                    id_post bigint(20) unsigned NOT NULL default '0',
+                    id_asset varchar(50) NOT NULL,
+                    w_viewport int(11) NOT NULL default '0',
+                    w_asset int(11) NOT NULL default '-1',
+                    w_determine int(11) NOT NULL default '-1',
+                    PRIMARY KEY  (id),
+                    KEY asset (id_asset)
+                    ) $charset_collate; ";
+
+                    dbDelta( $sql_create_table );
+
+                    update_option( 'scc_img_db_version', $scc_img_db_version );
+                }
+            }
+        }
+
+        /**
+         * Trigger the determination of the image sizes on a page.
+         */
+        public static function determine_image_sizes( $id_post, $ids ) {
+            if( get_option( 'ss2_hosting_name' ) !== 'AMH' ) {
+                global $wpdb;
+
+                SwiftyImageFunctions::create_image_sizes_table();
+
+                // IMPACT_ON_SECURITY
+
+                // Add new sizes to be determined
+                foreach( $ids as $id_asset ) {
+                    foreach( SwiftyImageFunctions::$image_sizes_viewport_width as $viewport_width ) {
+                        $existing_id = $wpdb->get_var( $wpdb->prepare(
+                            'SELECT id FROM ' . SwiftyImageFunctions::get_image_sizes_table_name() . ' WHERE id_post = %d AND id_asset = %s AND w_viewport = %d ',
+                            $id_post,
+                            $id_asset,
+                            $viewport_width
+                        ) );
+
+                        if( $existing_id > 0 ) {
+                            // Update.
+                            $where = array(
+                                'id_post' => $id_post,
+                                'id_asset' => $id_asset,
+                                'w_viewport' => $viewport_width
+                            );
+
+                            $data = array(
+                                'w_determine' => -1
+                            );
+
+                            $column_formats = array(
+                                '%d'
+                            );
+
+                            $where_formats = array(
+                                '%d',
+                                '%s',
+                                '%d'
+                            );
+
+                            $wpdb->update( SwiftyImageFunctions::get_image_sizes_table_name(), $data, $where, $column_formats, $where_formats );
+                        } else {
+                            // Insert.
+
+                            $data = array(
+                                'id_post' => $id_post,
+                                'id_asset' => $id_asset,
+                                'w_viewport' => $viewport_width,
+                                'w_asset' => -1,
+                                'w_determine' => -1
+                            );
+
+                            $column_formats = array(
+                                '%d',
+                                '%s',
+                                '%d',
+                                '%d',
+                                '%d'
+                            );
+
+                            $wpdb->insert( SwiftyImageFunctions::get_image_sizes_table_name(), $data, $column_formats );
+                        }
+                    }
+                }
+            }
+        }
+
+        /**
+         * Update the determined size of an image on a page.
+         */
+        public static function determine_image_set_size( $id_post, $id_asset, $viewport_width, $w_asset ) {
+            if( get_option( 'ss2_hosting_name' ) !== 'AMH' ) {
+                global $wpdb;
+
+                SwiftyImageFunctions::create_image_sizes_table();
+
+                // IMPACT_ON_SECURITY
+
+                $where = array(
+                    'id_post' => $id_post,
+                    'id_asset' => $id_asset,
+                    'w_viewport' => $viewport_width
+                );
+
+                $data = array(
+                    'w_asset' => $w_asset,
+                    'w_determine' => $w_asset
+                );
+
+                $column_formats = array(
+                    '%d',
+                    '%d'
+                );
+
+                $where_formats = array(
+                    '%d',
+                    '%s',
+                    '%d'
+                );
+
+                $wpdb->update( SwiftyImageFunctions::get_image_sizes_table_name(), $data, $where, $column_formats, $where_formats );
+            }
+        }
+
+        /**
+         * Get the needed determination of the image sizes on a page.
+         */
+        public static function get_determine_image_sizes( $id_post ) {
+            if( get_option( 'ss2_hosting_name' ) !== 'AMH' ) {
+                global $wpdb;
+
+                if( intval( get_option( 'scc_img_db_version' ) ) > 0 ) {
+                    // IMPACT_ON_SECURITY
+
+                    $show_errors = $wpdb->show_errors;
+
+                    if( $show_errors ) {
+                        $wpdb->hide_errors();
+                    }
+
+//            $sql = $wpdb->prepare( 'SELECT * FROM ' . SwiftyImageFunctions::get_image_sizes_table_name() . ' WHERE id_post=%d AND w_determine=-1 ORDER BY id_post, w_viewport DESC', $id_post );
+                    $sql = 'SELECT * FROM ' . SwiftyImageFunctions::get_image_sizes_table_name() . ' WHERE w_determine=-1 ORDER BY id_post, w_viewport DESC';
+
+                    $sizes = $wpdb->get_results( $sql );
+
+                    if( $wpdb->last_error ) {
+                        update_option( 'scc_img_db_version', 0 );
+                    }
+
+                    if( $show_errors ) {
+                        $wpdb->show_errors();
+                    }
+
+                    if( $sizes ) {
+                        foreach( $sizes as $size ) {
+                            $size->url = get_page_link( $size->id_post );
+                        }
+                    }
+
+                    return $sizes;
+                }
+            }
+
+            return array();
+        }
+
+        /**
+         * the sizes that we want to create for new image attachments
+         *
+         * @param array $sizes
+         * @param string $option_attachmentsizes
+         * @return array
+         */
+        public static function intermediate_image_sizes_advanced( $sizes, $option_attachmentsizes ) {
+
+            // just return the wp sizes, no changes
+            if( $option_attachmentsizes === 'wp' ) {
+                return $sizes;
+            }
+
+            // remove wp sizes (default sizes are: thumbnail, medium, medium_large, large)
+            if( $option_attachmentsizes === 'swifty' ) {
+                $size_names = array_keys($sizes);
+                // do not remove these sizes
+                $size_names = array_diff($size_names, array( 'thumbnail', 'swifty_content' ) );
+
+                foreach($size_names as $key => $value ) {
+                    unset( $sizes[ $value ] );
+                }
+            }
+
+            // add swifty sizes ( width, height, crop )
+            foreach( SwiftyImageFunctions::image_sizes_to_generate() as $size ) {
+                $sizes[ $size[ 0 ] ] = array( 'width' => $size[ 1 ], 'height' => 9999, 'crop' => false );
+            }
+
+            return $sizes;
+        }
+
+        /**
+         * Add the description of our own sizes as optional sizes in the wp media selector
+         *
+         * @param $sizes
+         * @return array
+         */
+        public static function image_size_names_choose( $sizes ) {
+            $custom_sizes = array(
+//                'swifty_content' => __( 'Swifty Content', 'swifty-content-creator' )
+            );
+
+            foreach( SwiftyImageFunctions::image_sizes_to_generate() as $size ) {
+                $custom_sizes[ $size[ 0 ] ] = $size[ 2 ];
+            }
+
+            $new_sizes = array_merge( $sizes, $custom_sizes );
+
+            return $new_sizes;
         }
 
     }
