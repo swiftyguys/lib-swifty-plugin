@@ -9,17 +9,17 @@ from_dialog_do_mainpull:
   - 'from_dialog_do_pullall_mergedev'
 from_dialog_do_mainvpro_mainpull:
   - 'from_dialog_do_mainpull' # It doesn't matter if pro is selected or not
-from_dialog_do_mainvfree_maintest_mainpull:
+from_dialog_do_maintest_mainpull_mainvfree:
   - 'from_dialog_do_mainpull' # It doesn't matter if pro is selected or not
-from_dialog_do_mainvpro_mainmail_mainpull:
+from_dialog_do_mainvpro_mainpull_mainmail:
   - 'from_dialog_do_mainpull' # It doesn't matter if pro is selected or not
 
 # Commit + tag + push
 from_dialog_do_maintag:
   - 'from_dialog_do_commitandtag'
-from_dialog_do_mainvfree_mainmail_maintag:
+from_dialog_do_maintag_mainmail_mainvfree:
   - 'from_dialog_do_commitandtag' # Pro, mail and test don't matter
-from_dialog_do_mainvpro_mainmail_maintag:
+from_dialog_do_mainvpro_maintag_mainmail:
   - 'from_dialog_do_commitandtag' # Pro, mail and test don't matter
 
 # PRO version
@@ -30,9 +30,9 @@ from_dialog_do_mainvpro_maintag:
 # Update pot/po and up/download glotpress
 from_dialog_do_mainpot:
   - 'from_dialog_do_createpot_gettranslations'
-from_dialog_do_mainvfree_maintest_mainpot:
+from_dialog_do_maintest_mainpot_mainvfree:
   - 'from_dialog_do_createpot_gettranslations' # It doesn't matter if pro is selected or not
-from_dialog_do_mainvpro_mainmail_mainpot:
+from_dialog_do_mainvpro_mainpot_mainmail:
   - 'from_dialog_do_createpot_gettranslations' # It doesn't matter if pro is selected or not
 
 # Update pot/po and up/download glotpress
@@ -41,14 +41,14 @@ from_dialog_do_mainvpro_mainpot:
 
 # FREE version
 # Build
-from_dialog_do_mainvfree_mainbuild:
+from_dialog_do_mainbuild_mainvfree:
   - 'from_dialog_do_mainvfree'
   - 'from_dialog_do_mainbuild'
 
 # PRO version
 # Build
 # Test the zip
-from_dialog_do_mainvfree_maintest_mainbuild:
+from_dialog_do_maintest_mainbuild_mainvfree:
   - 'from_dialog_do_mainvfree'
   - 'from_dialog_do_maintest_step1'
   - 'from_dialog_do_mainbuild'
@@ -63,7 +63,7 @@ from_dialog_do_mainvpro_mainbuild:
 # PRO version
 # Build
 # Mail the zip
-from_dialog_do_mainvpro_mainmail_mainbuild:
+from_dialog_do_mainvpro_mainbuild_mainmail:
   - 'from_dialog_do_mainvpro'
   - 'from_dialog_do_mainbuild'
   - 'from_dialog_do_mainmail'
@@ -71,7 +71,7 @@ from_dialog_do_mainvpro_mainmail_mainbuild:
 # FREE version
 # Build
 # Mail the zip
-from_dialog_do_mainvfree_mainmail_mainbuild:
+from_dialog_do_mainbuild_mainmail_mainvfree:
   - 'from_dialog_do_mainvfree'
   - 'from_dialog_do_mainbuild'
   - 'from_dialog_do_mainmail'
@@ -100,7 +100,7 @@ from_dialog_do_mainvpro_mainrelease:
 
 # FREE version
 # Release to public
-from_dialog_do_mainvfree_mainrelease:
+from_dialog_do_mainrelease_mainvfree:
   - 'from_dialog_do_mainvfree'
   - 'from_dialog_do_mainrelease'
 
@@ -255,6 +255,7 @@ helper_build:
   - 'if_clean_unwanted' # Delete all files that are not needed in final zip
   - 'preprocess' # Replace strings and removed lines based on environment vars; like @if and @ifdef
   - 'replace:readme' # Set the current version etc in the readme
+  - 'replace:lang_slugs' # Replace all language slugs to the correct one (in functions like __() ).
   - 'replace:lib_version' # Set the current version etc in the readme
   - 'uglify' # Compress and obfuscate js files and save them with .min in the filename
   - 'rename:post_requirejs' # If needed move files to their final directories

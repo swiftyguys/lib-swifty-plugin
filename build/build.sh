@@ -6,12 +6,6 @@ options=(
          . "Main actions:" off
          . "========================================" off
          . "" off
-         a "FREE version" on
-         b "PRO version" off
-         . "----------------------------------------" off
-         f "Test the zip" off
-         g "Mail the zip" on
-         . "----------------------------------------" off
          1 "Get latests masters and develops" off
          2 "Show commit log since latest changelog" off
          3 "Update pot/po and up/download glotpress" off
@@ -19,14 +13,20 @@ options=(
          5 "Commit + tag + push" off
          6 "Release to public" off
          . "" off
+         . "----------------------------------------" off
+         . "" off
+         f "Test the zip" off
+         g "Mail the zip" on
+         . "" off
          . "========================================" off
          . "Individual actions (some can be combined):" off
          . "========================================" off
          . "" off
+         a "FREE version" on
+         b "PRO version" off
          k "Pull all masters" off
          l "Merge all develops" off
          m "Build DIST version" off
-         n "And make it PRO version" off
          o "Test" off
          p "Send email" off
          q "SVN update" off
