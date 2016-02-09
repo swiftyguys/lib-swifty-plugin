@@ -379,7 +379,7 @@ if( ! class_exists( 'SwiftyApiManagerUpdateApiCheck' ) ) {
          */
         public function expired_license_error_notice( $message )
         {
-            echo sprintf( '<div id="message" class="error"><p>' . __( 'The license key for %s has expired. You can reactivate or purchase a license key from your account <a href="%s" target="_blank">dashboard</a>.', 'swifty' ) . '</p></div>', $this->product_id, $this->renew_license_url );
+            echo sprintf( '<div id="message" class="error"><p>' . __( 'The license key for %s has expired. You can reactivate or purchase a license key from your account <a href="%s" target="_blank">dashboard</a>.', 'swifty-content-creator' ) . '</p></div>', $this->product_id, $this->renew_license_url );
         }
 
         /**
@@ -409,7 +409,7 @@ if( ! class_exists( 'SwiftyApiManagerUpdateApiCheck' ) ) {
          */
         public function expired_subscription_error_notice( $message )
         {
-            echo sprintf( '<div id="message" class="error"><p>' . __( 'The subscription for %s has expired. You can reactivate the subscription from your account <a href="%s" target="_blank">dashboard</a>.', 'swifty' ) . '</p></div>', $this->product_id, $this->renew_license_url );
+            echo sprintf( '<div id="message" class="error"><p>' . __( 'The subscription for %s has expired. You can reactivate the subscription from your account <a href="%s" target="_blank">dashboard</a>.', 'swifty-content-creator' ) . '</p></div>', $this->product_id, $this->renew_license_url );
         }
 
         /**
@@ -459,7 +459,7 @@ if( ! class_exists( 'SwiftyApiManagerUpdateApiCheck' ) ) {
          */
         public function no_key_error_notice( $message )
         {
-            echo sprintf( '<div id="message" class="error"><p>' . __( 'A license key for %s could not be found. Maybe you forgot to enter a license key when setting up %s, or the key was deactivated in your account. You can reactivate or purchase a license key from your account <a href="%s" target="_blank">dashboard</a>.', 'swifty' ) . '</p></div>', $this->product_id, $this->product_id, $this->renew_license_url );
+            echo sprintf( '<div id="message" class="error"><p>' . __( 'A license key for %s could not be found. Maybe you forgot to enter a license key when setting up %s, or the key was deactivated in your account. You can reactivate or purchase a license key from your account <a href="%s" target="_blank">dashboard</a>.', 'swifty-content-creator' ) . '</p></div>', $this->product_id, $this->product_id, $this->renew_license_url );
         }
 
         /**
@@ -479,7 +479,7 @@ if( ! class_exists( 'SwiftyApiManagerUpdateApiCheck' ) ) {
          */
         public function no_activation_error_notice( $message )
         {
-            echo sprintf( '<div id="message" class="error"><p>' . __( '%s has not been activated. Go to the settings page and enter the license key and license email to activate %s.', 'swifty' ) . '</p></div>', $this->product_id, $this->product_id );
+            echo sprintf( '<div id="message" class="error"><p>' . __( '%s has not been activated. Go to the settings page and enter the license key and license email to activate %s.', 'swifty-content-creator' ) . '</p></div>', $this->product_id, $this->product_id );
         }
 
         /**

@@ -143,8 +143,8 @@ class SwiftyLicenseCheck
         $settings->ame_deactivate_checkbox = $this->plugin_key_name . '_deactivate_checkbox';
         $settings->ame_activation_tab_key = $this->plugin_key_name . '_dashboard';
         $settings->ame_deactivation_tab_key = $this->plugin_key_name . '_deactivation';
-        $settings->ame_menu_tab_activation_title = sprintf( __( 'Activate %s', 'swifty' ), $this->plugin_name );
-        $settings->ame_menu_tab_deactivation_title = sprintf( __( 'Deactivate %s', 'swifty' ), $this->plugin_name );
+        $settings->ame_menu_tab_activation_title = sprintf( __( 'Activate %s', 'swifty-content-creator' ), $this->plugin_name );
+        $settings->ame_menu_tab_deactivation_title = sprintf( __( 'Deactivate %s', 'swifty-content-creator' ), $this->plugin_name );
 
         /**
          * Set all software update data here
@@ -261,7 +261,7 @@ class SwiftyLicenseCheck
         $settings = swifty_get_ame_plugin_settings( $this->plugin_key_name );
         ?>
         <div id="message" class="error">
-            <p><?php printf( __( 'The license key for <b>%s</b> has not been activated, so the plugin is inactive! %sClick here%s to activate the license key and the plugin.', 'swifty' ), $this->plugin_name, '<a href="' . esc_url( admin_url( 'admin.php?page=' . $settings->setting_menu_page . '&link=' . $this->plugin_key_name . '_dashboard' ) ) . '">', '</a>' ); ?></p>
+            <p><?php printf( __( 'The license key for <b>%s</b> has not been activated, so the plugin is inactive! %sClick here%s to activate the license key and the plugin.', 'swifty-content-creator' ), $this->plugin_name, '<a href="' . esc_url( admin_url( 'admin.php?page=' . $settings->setting_menu_page . '&link=' . $this->plugin_key_name . '_dashboard' ) ) . '">', '</a>' ); ?></p>
         </div>
         <?php
     }
@@ -281,7 +281,7 @@ class SwiftyLicenseCheck
             if( ! defined( 'WP_ACCESSIBLE_HOSTS' ) || stristr( WP_ACCESSIBLE_HOSTS, $host ) === false ) {
                 ?>
                 <div class="error">
-                    <p><?php printf( __( '<b>Warning!</b> You\'re blocking external requests which means you won\'t be able to get %s updates. Please add %s to %s.', 'swifty' ), $this->ame_software_product_id, '<strong>' . $host . '</strong>', '<code>WP_ACCESSIBLE_HOSTS</code>' ); ?></p>
+                    <p><?php printf( __( '<b>Warning!</b> You\'re blocking external requests which means you won\'t be able to get %s updates. Please add %s to %s.', 'swifty-content-creator' ), $this->ame_software_product_id, '<strong>' . $host . '</strong>', '<code>WP_ACCESSIBLE_HOSTS</code>' ); ?></p>
                 </div>
                 <?php
             }

@@ -165,26 +165,26 @@ if( ! class_exists( 'Swifty_TGM_Plugin_Activation' ) ) {
             $this->menu_url = network_admin_url( 'themes.php' );
 
             $this->strings = array(
-                'page_title' => nlf__( 'Install Required Plugins', 'swifty' ),
-                'menu_title' => nlf__( 'Install Plugins', 'swifty' ),
-                'installing' => nlf__( 'Installing Plugin: %s', 'swifty' ),
-                'oops' => nlf__( 'Something went wrong.', 'swifty' ),
-                'notice_can_install_required' => _n_noop( 'This theme requires the following plugin: %1$s.', 'This theme requires the following plugins: %1$s.', 'swifty' ),
-                'notice_can_install_recommended' => _n_noop( 'This theme recommends the following plugin: %1$s.', 'This theme recommends the following plugins: %1$s.', 'swifty' ),
-                'notice_cannot_install' => _n_noop( 'Sorry, but you do not have the correct permissions to install the %s plugin. Contact the administrator of this site for help on getting the plugin installed.', 'Sorry, but you do not have the correct permissions to install the %s plugins. Contact the administrator of this site for help on getting the plugins installed.', 'swifty' ),
-                'notice_can_activate_required' => _n_noop( 'The following required plugin is currently inactive: %1$s.', 'The following required plugins are currently inactive: %1$s.', 'swifty' ),
-                'notice_can_activate_recommended' => _n_noop( 'The following recommended plugin is currently inactive: %1$s.', 'The following recommended plugins are currently inactive: %1$s.', 'swifty' ),
-                'notice_cannot_activate' => _n_noop( 'Sorry, but you do not have the correct permissions to activate the %s plugin. Contact the administrator of this site for help on getting the plugin activated.', 'Sorry, but you do not have the correct permissions to activate the %s plugins. Contact the administrator of this site for help on getting the plugins activated.', 'swifty' ),
-                'notice_ask_to_update' => _n_noop( 'The following plugin needs to be updated to its latest version to ensure maximum compatibility with this theme: %1$s.', 'The following plugins need to be updated to their latest version to ensure maximum compatibility with this theme: %1$s.', 'swifty' ),
-                'notice_cannot_update' => _n_noop( 'Sorry, but you do not have the correct permissions to update the %s plugin. Contact the administrator of this site for help on getting the plugin updated.', 'Sorry, but you do not have the correct permissions to update the %s plugins. Contact the administrator of this site for help on getting the plugins updated.', 'swifty' ),
-                'install_link' => _n_noop( 'Begin installing plugin', 'Begin installing plugins', 'swifty' ),
-                'activate_link' => _n_noop( 'Begin activating plugin', 'Begin activating plugins', 'swifty' ),
-                'return' => nlf__( 'Return to Required Plugins Installer', 'swifty' ),
-                'dashboard' => nlf__( 'Return to the dashboard', 'swifty' ),
-                'plugin_activated' => __( 'Plugin activated successfully.', 'swifty' ),
-                'activated_successfully' => __( 'The following plugin was activated successfully:', 'swifty' ),
-                'complete' => nlf__( 'All plugins installed and activated successfully. %1$s', 'swifty' ),
-                'dismiss' => __( 'Dismiss this notice', 'swifty' ),
+                'page_title' => nlf__( 'Install Required Plugins', 'swifty-content-creator' ),
+                'menu_title' => nlf__( 'Install Plugins', 'swifty-content-creator' ),
+                'installing' => nlf__( 'Installing Plugin: %s', 'swifty-content-creator' ),
+                'oops' => nlf__( 'Something went wrong.', 'swifty-content-creator' ),
+                'notice_can_install_required' => _n_noop( 'This theme requires the following plugin: %1$s.', 'This theme requires the following plugins: %1$s.', 'swifty-content-creator' ),
+                'notice_can_install_recommended' => _n_noop( 'This theme recommends the following plugin: %1$s.', 'This theme recommends the following plugins: %1$s.', 'swifty-content-creator' ),
+                'notice_cannot_install' => _n_noop( 'Sorry, but you do not have the correct permissions to install the %s plugin. Contact the administrator of this site for help on getting the plugin installed.', 'Sorry, but you do not have the correct permissions to install the %s plugins. Contact the administrator of this site for help on getting the plugins installed.', 'swifty-content-creator' ),
+                'notice_can_activate_required' => _n_noop( 'The following required plugin is currently inactive: %1$s.', 'The following required plugins are currently inactive: %1$s.', 'swifty-content-creator' ),
+                'notice_can_activate_recommended' => _n_noop( 'The following recommended plugin is currently inactive: %1$s.', 'The following recommended plugins are currently inactive: %1$s.', 'swifty-content-creator' ),
+                'notice_cannot_activate' => _n_noop( 'Sorry, but you do not have the correct permissions to activate the %s plugin. Contact the administrator of this site for help on getting the plugin activated.', 'Sorry, but you do not have the correct permissions to activate the %s plugins. Contact the administrator of this site for help on getting the plugins activated.', 'swifty-content-creator' ),
+                'notice_ask_to_update' => _n_noop( 'The following plugin needs to be updated to its latest version to ensure maximum compatibility with this theme: %1$s.', 'The following plugins need to be updated to their latest version to ensure maximum compatibility with this theme: %1$s.', 'swifty-content-creator' ),
+                'notice_cannot_update' => _n_noop( 'Sorry, but you do not have the correct permissions to update the %s plugin. Contact the administrator of this site for help on getting the plugin updated.', 'Sorry, but you do not have the correct permissions to update the %s plugins. Contact the administrator of this site for help on getting the plugins updated.', 'swifty-content-creator' ),
+                'install_link' => _n_noop( 'Begin installing plugin', 'Begin installing plugins', 'swifty-content-creator' ),
+                'activate_link' => _n_noop( 'Begin activating plugin', 'Begin activating plugins', 'swifty-content-creator' ),
+                'return' => nlf__( 'Return to Required Plugins Installer', 'swifty-content-creator' ),
+                'dashboard' => nlf__( 'Return to the dashboard', 'swifty-content-creator' ),
+                'plugin_activated' => __( 'Plugin activated successfully.', 'swifty-content-creator' ),
+                'activated_successfully' => __( 'The following plugin was activated successfully:', 'swifty-content-creator' ),
+                'complete' => nlf__( 'All plugins installed and activated successfully. %1$s', 'swifty-content-creator' ),
+                'dismiss' => __( 'Dismiss this notice', 'swifty-content-creator' ),
             );
 
             // Set the current WordPress version.
@@ -278,8 +278,9 @@ if( ! class_exists( 'Swifty_TGM_Plugin_Activation' ) ) {
 
             foreach( $this->plugins as $plugin ) {
                 // is scc-pro or scc installed?
-                if( $plugin['slug'] === 'swifty-content-creator-pro') {
-                    $scc_file_path = $this->_get_plugin_basename_from_slug( 'swifty-content-creator' );
+                // split 'swifty-content-' . 'creator' to prevent being found when looking for translations
+                if( $plugin['slug'] === ( 'swifty-content-' . 'creator-pro' ) ) {
+                    $scc_file_path = $this->_get_plugin_basename_from_slug( 'swifty-content-' . 'creator' );
                     if( isset( $installed_plugins[ $plugin[ 'file_path' ] ] ) || ( isset( $scc_file_path )  && isset( $installed_plugins[ $scc_file_path ] ) ) ) {
                         continue;
                     }
@@ -581,7 +582,7 @@ if( ! class_exists( 'Swifty_TGM_Plugin_Activation' ) ) {
 
                 // All plugins are active, so we display the complete string and hide the plugin menu.
                 if( empty( $complete ) ) {
-                    echo '<p>' . sprintf( $this->strings[ 'complete' ], '<a href="' . network_admin_url() . '" title="' . nlf__( 'Return to the Dashboard', 'swifty' ) . '">' . nlf__( 'Return to the Dashboard', 'swifty' ) . '</a>' ) . '</p>';
+                    echo '<p>' . sprintf( $this->strings[ 'complete' ], '<a href="' . network_admin_url() . '" title="' . nlf__( 'Return to the Dashboard', 'swifty-content-creator' ) . '">' . nlf__( 'Return to the Dashboard', 'swifty-content-creator' ) . '</a>' ) . '</p>';
                     echo '<style type="text/css">#adminmenu .wp-submenu li.current { display: none !important; }</style>';
                 }
 
@@ -759,12 +760,12 @@ if( ! class_exists( 'Swifty_TGM_Plugin_Activation' ) ) {
                     $last_plugin = array_pop( $plugin_groups ); // Pop off last name to prep for readability.
                     $imploded = empty( $plugin_groups ) ? '<em>' . $last_plugin . '</em>' : '<em>' . ( implode( ', ', $plugin_groups ) . '</em> and <em>' . $last_plugin . '</em>' );
 
-                    $rendered .= '<p>' . sprintf( translate_nooped_plural( $this->strings[ $type ], $count, 'swifty' ), $imploded, $count ) . '</p>';
+                    $rendered .= '<p>' . sprintf( translate_nooped_plural( $this->strings[ $type ], $count, 'swifty-content-creator' ), $imploded, $count ) . '</p>';
                 }
 
                 // Setup variables to determine if action links are needed.
-                $show_install_link = $install_link ? '<a href="' . add_query_arg( 'page', $this->menu, $this->menu_url ) . '">' . translate_nooped_plural( $this->strings[ 'install_link' ], $install_link_count, 'swifty' ) . '</a>' : '';
-                $show_activate_link = $activate_link ? '<a href="' . add_query_arg( 'page', $this->menu, $this->menu_url ) . '">' . translate_nooped_plural( $this->strings[ 'activate_link' ], $activate_link_count, 'swifty' ) . '</a>' : '';
+                $show_install_link = $install_link ? '<a href="' . add_query_arg( 'page', $this->menu, $this->menu_url ) . '">' . translate_nooped_plural( $this->strings[ 'install_link' ], $install_link_count, 'swifty-content-creator' ) . '</a>' : '';
+                $show_activate_link = $activate_link ? '<a href="' . add_query_arg( 'page', $this->menu, $this->menu_url ) . '">' . translate_nooped_plural( $this->strings[ 'activate_link' ], $activate_link_count, 'swifty-content-creator' ) . '</a>' : '';
 
                 // Define all of the action links.
                 $action_links = apply_filters(
@@ -1232,22 +1233,22 @@ if( ! class_exists( 'STGMPA_List_Table' ) ) {
                 if( ! empty( $plugin[ 'source' ] ) ) {
                     // The plugin must be from a private repository.
                     if( preg_match( '|^http(s)?://|', $plugin[ 'source' ] ) || ( strpos( $plugin[ 'source' ], 'swiftyget:' ) === 0 ) ) {
-                        $table_data[ $i ][ 'source' ] = nlf__( 'Private Repository', 'swifty' );
+                        $table_data[ $i ][ 'source' ] = nlf__( 'Private Repository', 'swifty-content-creator' );
                         // The plugin is pre-packaged with the theme.
                     } else {
-                        $table_data[ $i ][ 'source' ] = nlf__( 'Pre-Packaged', 'swifty' );
+                        $table_data[ $i ][ 'source' ] = nlf__( 'Pre-Packaged', 'swifty-content-creator' );
                     }
                 } // The plugin is from the WordPress repository.
                 else {
-                    $table_data[ $i ][ 'source' ] = nlf__( 'WordPress Repository', 'swifty' );
+                    $table_data[ $i ][ 'source' ] = nlf__( 'WordPress Repository', 'swifty-content-creator' );
                 }
 
-                $table_data[ $i ][ 'type' ] = isset( $plugin[ 'required' ] ) && $plugin[ 'required' ] ? nlf__( 'Required', 'swifty' ) : nlf__( 'Recommended', 'swifty' );
+                $table_data[ $i ][ 'type' ] = isset( $plugin[ 'required' ] ) && $plugin[ 'required' ] ? nlf__( 'Required', 'swifty-content-creator' ) : nlf__( 'Recommended', 'swifty-content-creator' );
 
                 if( ! isset( $installed_plugins[ $plugin[ 'file_path' ] ] ) ) {
-                    $table_data[ $i ][ 'status' ] = sprintf( '%1$s', nlf__( 'Not Installed', 'swifty' ) );
+                    $table_data[ $i ][ 'status' ] = sprintf( '%1$s', nlf__( 'Not Installed', 'swifty-content-creator' ) );
                 } elseif( is_plugin_inactive( $plugin[ 'file_path' ] ) ) {
-                    $table_data[ $i ][ 'status' ] = sprintf( '%1$s', nlf__( 'Installed But Not Activated', 'swifty' ) );
+                    $table_data[ $i ][ 'status' ] = sprintf( '%1$s', nlf__( 'Installed But Not Activated', 'swifty-content-creator' ) );
                 }
 
                 $table_data[ $i ][ 'file_path' ] = $plugin[ 'file_path' ];
@@ -1355,7 +1356,7 @@ if( ! class_exists( 'STGMPA_List_Table' ) ) {
             if( ! isset( $installed_plugins[ $item[ 'file_path' ] ] ) ) {
                 $actions = array(
                     'install' => sprintf(
-                        '<a href="%1$s" title="' . nlf__( 'Install', 'swifty' ) . ' %2$s">' . nlf__( 'Install', 'swifty' ) . '</a>',
+                        '<a href="%1$s" title="' . nlf__( 'Install', 'swifty-content-creator' ) . ' %2$s">' . nlf__( 'Install', 'swifty-content-creator' ) . '</a>',
                         wp_nonce_url(
                             add_query_arg(
                                 array(
@@ -1376,7 +1377,7 @@ if( ! class_exists( 'STGMPA_List_Table' ) ) {
             elseif( is_plugin_inactive( $item[ 'file_path' ] ) ) {
                 $actions = array(
                     'activate' => sprintf(
-                        '<a href="%1$s" title="' . nlf__( 'Activate', 'swifty' ) . ' %2$s">' . nlf__( 'Activate', 'swifty' ) . '</a>',
+                        '<a href="%1$s" title="' . nlf__( 'Activate', 'swifty-content-creator' ) . ' %2$s">' . nlf__( 'Activate', 'swifty-content-creator' ) . '</a>',
                         add_query_arg(
                             array(
                                 'page' => Swifty_TGM_Plugin_Activation::$instance->menu,
@@ -1427,7 +1428,7 @@ if( ! class_exists( 'STGMPA_List_Table' ) ) {
         public function no_items()
         {
 
-            printf( nlf__( 'No plugins to install or activate. <a href="%1$s" title="Return to the Dashboard">Return to the Dashboard</a>', 'swifty' ), network_admin_url() );
+            printf( nlf__( 'No plugins to install or activate. <a href="%1$s" title="Return to the Dashboard">Return to the Dashboard</a>', 'swifty-content-creator' ), network_admin_url() );
             echo '<style type="text/css">#adminmenu .wp-submenu li.current { display: none !important; }</style>';
 
         }
@@ -1444,10 +1445,10 @@ if( ! class_exists( 'STGMPA_List_Table' ) ) {
 
             $columns = array(
                 'cb' => '<input type="checkbox" />',
-                'plugin' => nlf__( 'Plugin', 'swifty' ),
-                'source' => nlf__( 'Source', 'swifty' ),
-                'type' => nlf__( 'Type', 'swifty' ),
-                'status' => nlf__( 'Status', 'swifty' )
+                'plugin' => nlf__( 'Plugin', 'swifty-content-creator' ),
+                'source' => nlf__( 'Source', 'swifty-content-creator' ),
+                'type' => nlf__( 'Type', 'swifty-content-creator' ),
+                'status' => nlf__( 'Status', 'swifty-content-creator' )
             );
 
             return $columns;
@@ -1466,8 +1467,8 @@ if( ! class_exists( 'STGMPA_List_Table' ) ) {
         {
 
             $actions = array(
-                'stgmpa-bulk-install' => nlf__( 'Install', 'swifty' ),
-                'stgmpa-bulk-activate' => nlf__( 'Activate', 'swifty' ),
+                'stgmpa-bulk-install' => nlf__( 'Install', 'swifty-content-creator' ),
+                'stgmpa-bulk-activate' => nlf__( 'Activate', 'swifty-content-creator' ),
             );
 
             return $actions;
@@ -1698,7 +1699,7 @@ if( ! class_exists( 'STGMPA_List_Table' ) ) {
                 if( is_wp_error( $activate ) ) {
                     echo '<div id="message" class="error"><p>' . $activate->get_error_message() . '</p></div>';
                 } else {
-                    printf( '<div id="message" class="updated"><p>%1$s %2$s</p></div>', _n( 'The following plugin was activated successfully:', 'The following plugins were activated successfully:', $count, 'swifty' ), $imploded );
+                    printf( '<div id="message" class="updated"><p>%1$s %2$s</p></div>', _n( 'The following plugin was activated successfully:', 'The following plugins were activated successfully:', $count, 'swifty-content-creator' ), $imploded );
                 }
 
                 // Update recently activated plugins option.
@@ -2002,12 +2003,12 @@ if( ! function_exists( 'stgmpa_load_bulk_installer' ) ) {
                     public function install_strings()
                     {
 
-                        $this->strings[ 'no_package' ] = nlf__( 'Install package not available.', 'swifty' );
-                        $this->strings[ 'downloading_package' ] = nlf__( 'Downloading install package from <span class="code">%s</span>&#8230;', 'swifty' );
-                        $this->strings[ 'unpack_package' ] = nlf__( 'Unpacking the package&#8230;', 'swifty' );
-                        $this->strings[ 'installing_package' ] = nlf__( 'Installing the plugin&#8230;', 'swifty' );
-                        $this->strings[ 'process_failed' ] = nlf__( 'Plugin install failed.', 'swifty' );
-                        $this->strings[ 'process_success' ] = nlf__( 'Plugin installed successfully.', 'swifty' );
+                        $this->strings[ 'no_package' ] = nlf__( 'Install package not available.', 'swifty-content-creator' );
+                        $this->strings[ 'downloading_package' ] = nlf__( 'Downloading install package from <span class="code">%s</span>&#8230;', 'swifty-content-creator' );
+                        $this->strings[ 'unpack_package' ] = nlf__( 'Unpacking the package&#8230;', 'swifty-content-creator' );
+                        $this->strings[ 'installing_package' ] = nlf__( 'Installing the plugin&#8230;', 'swifty-content-creator' );
+                        $this->strings[ 'process_failed' ] = nlf__( 'Plugin install failed.', 'swifty-content-creator' );
+                        $this->strings[ 'process_success' ] = nlf__( 'Plugin installed successfully.', 'swifty-content-creator' );
 
                     }
 
@@ -2019,8 +2020,8 @@ if( ! function_exists( 'stgmpa_load_bulk_installer' ) ) {
                     public function activate_strings()
                     {
 
-                        $this->strings[ 'activation_failed' ] = nlf__( 'Plugin activation failed.', 'swifty' );
-                        $this->strings[ 'activation_success' ] = nlf__( 'Plugin activated successfully.', 'swifty' );
+                        $this->strings[ 'activation_failed' ] = nlf__( 'Plugin activation failed.', 'swifty-content-creator' );
+                        $this->strings[ 'activation_success' ] = nlf__( 'Plugin activated successfully.', 'swifty-content-creator' );
 
                     }
 
@@ -2137,18 +2138,18 @@ if( ! function_exists( 'stgmpa_load_bulk_installer' ) ) {
 
                         // Automatic activation strings.
                         if( Swifty_TGM_Plugin_Activation::$instance->is_automatic ) {
-                            $this->upgrader->strings[ 'skin_upgrade_start' ] = nlf__( 'The installation and activation process is starting. This process may take a while on some hosts, so please be patient.', 'swifty' );
-                            $this->upgrader->strings[ 'skin_update_successful' ] = nlf__( '%1$s installed and activated successfully.', 'swifty' ) . ' <a onclick="%2$s" href="#" class="hide-if-no-js"><span>' . nlf__( 'Show Details', 'swifty' ) . '</span><span class="hidden">' . nlf__( 'Hide Details', 'swifty' ) . '</span>.</a>';
-                            $this->upgrader->strings[ 'skin_upgrade_end' ] = nlf__( 'All installations and activations have been completed.', 'swifty' );
-                            $this->upgrader->strings[ 'skin_before_update_header' ] = nlf__( 'Installing and Activating Plugin %1$s (%2$d/%3$d)', 'swifty' );
+                            $this->upgrader->strings[ 'skin_upgrade_start' ] = nlf__( 'The installation and activation process is starting. This process may take a while on some hosts, so please be patient.', 'swifty-content-creator' );
+                            $this->upgrader->strings[ 'skin_update_successful' ] = nlf__( '%1$s installed and activated successfully.', 'swifty-content-creator' ) . ' <a onclick="%2$s" href="#" class="hide-if-no-js"><span>' . nlf__( 'Show Details', 'swifty-content-creator' ) . '</span><span class="hidden">' . nlf__( 'Hide Details', 'swifty-content-creator' ) . '</span>.</a>';
+                            $this->upgrader->strings[ 'skin_upgrade_end' ] = nlf__( 'All installations and activations have been completed.', 'swifty-content-creator' );
+                            $this->upgrader->strings[ 'skin_before_update_header' ] = nlf__( 'Installing and Activating Plugin %1$s (%2$d/%3$d)', 'swifty-content-creator' );
                         } // Default installation strings.
                         else {
-                            $this->upgrader->strings[ 'skin_upgrade_start' ] = nlf__( 'The installation process is starting. This process may take a while on some hosts, so please be patient.', 'swifty' );
-                            $this->upgrader->strings[ 'skin_update_failed_error' ] = nlf__( 'An error occurred while installing %1$s: <strong>%2$s</strong>.', 'swifty' );
-                            $this->upgrader->strings[ 'skin_update_failed' ] = nlf__( 'The installation of %1$s failed.', 'swifty' );
-                            $this->upgrader->strings[ 'skin_update_successful' ] = nlf__( '%1$s installed successfully.', 'swifty' ) . ' <a onclick="%2$s" href="#" class="hide-if-no-js"><span>' . nlf__( 'Show Details', 'swifty' ) . '</span><span class="hidden">' . nlf__( 'Hide Details', 'swifty' ) . '</span>.</a>';
-                            $this->upgrader->strings[ 'skin_upgrade_end' ] = nlf__( 'All installations have been completed.', 'swifty' );
-                            $this->upgrader->strings[ 'skin_before_update_header' ] = nlf__( 'Installing Plugin %1$s (%2$d/%3$d)', 'swifty' );
+                            $this->upgrader->strings[ 'skin_upgrade_start' ] = nlf__( 'The installation process is starting. This process may take a while on some hosts, so please be patient.', 'swifty-content-creator' );
+                            $this->upgrader->strings[ 'skin_update_failed_error' ] = nlf__( 'An error occurred while installing %1$s: <strong>%2$s</strong>.', 'swifty-content-creator' );
+                            $this->upgrader->strings[ 'skin_update_failed' ] = nlf__( 'The installation of %1$s failed.', 'swifty-content-creator' );
+                            $this->upgrader->strings[ 'skin_update_successful' ] = nlf__( '%1$s installed successfully.', 'swifty-content-creator' ) . ' <a onclick="%2$s" href="#" class="hide-if-no-js"><span>' . nlf__( 'Show Details', 'swifty-content-creator' ) . '</span><span class="hidden">' . nlf__( 'Hide Details', 'swifty-content-creator' ) . '</span>.</a>';
+                            $this->upgrader->strings[ 'skin_upgrade_end' ] = nlf__( 'All installations have been completed.', 'swifty-content-creator' );
+                            $this->upgrader->strings[ 'skin_before_update_header' ] = nlf__( 'Installing Plugin %1$s (%2$d/%3$d)', 'swifty-content-creator' );
                         }
 
                     }
@@ -2242,7 +2243,7 @@ if( ! function_exists( 'stgmpa_load_bulk_installer' ) ) {
 
                         // All plugins are active, so we display the complete string and hide the menu to protect users.
                         if( empty( $complete ) ) {
-                            echo '<p>' . sprintf( Swifty_TGM_Plugin_Activation::$instance->strings[ 'complete' ], '<a href="' . network_admin_url() . '" title="' . nlf__( 'Return to the Dashboard', 'swifty' ) . '">' . nlf__( 'Return to the Dashboard', 'swifty' ) . '</a>' ) . '</p>';
+                            echo '<p>' . sprintf( Swifty_TGM_Plugin_Activation::$instance->strings[ 'complete' ], '<a href="' . network_admin_url() . '" title="' . nlf__( 'Return to the Dashboard', 'swifty-content-creator' ) . '">' . nlf__( 'Return to the Dashboard', 'swifty-content-creator' ) . '</a>' ) . '</p>';
                             echo '<style type="text/css">#adminmenu .wp-submenu li.current { display: none !important; }</style>';
                         }
 
