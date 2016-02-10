@@ -132,18 +132,27 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
             global $content_width;
             if( ! $image || ( ! $image[ 3 ] && ( $content_width <= $image[ 1 ] ) ) ) {
 
-                // so we regenerate the images, this only happens once
-                $fullsizepath = get_attached_file( $attachment_id );
-                if( $fullsizepath && file_exists( $fullsizepath ) ) {
+                // create list of available sizes and verify requested size is in it
+                $sizes = array();
+                foreach ( get_intermediate_image_sizes() as $s ) {
+                    $sizes[$s] = 1;
+                }
+                $sizes = apply_filters( 'intermediate_image_sizes_advanced', $sizes, null );
 
-                    require_once( ABSPATH . 'wp-admin/includes/image.php' );
+                if(  array_key_exists($size, $sizes ) ) {
+                    // so we regenerate the images, this only happens once
+                    $fullsizepath = get_attached_file( $attachment_id );
+                    if( $fullsizepath && file_exists( $fullsizepath ) ) {
 
-                    $metadata = wp_generate_attachment_metadata( $attachment_id, $fullsizepath );
+                        require_once( ABSPATH . 'wp-admin/includes/image.php' );
 
-                    if( ! is_wp_error( $metadata ) ) {
-                        wp_update_attachment_metadata( $attachment_id, $metadata );
+                        $metadata = wp_generate_attachment_metadata( $attachment_id, $fullsizepath );
 
-                        $image = wp_get_attachment_image_src( $attachment_id, $size, $icon );
+                        if( ! is_wp_error( $metadata ) ) {
+                            wp_update_attachment_metadata( $attachment_id, $metadata );
+
+                            $image = wp_get_attachment_image_src( $attachment_id, $size, $icon );
+                        }
                     }
                 }
             }
