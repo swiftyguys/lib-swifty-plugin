@@ -655,6 +655,13 @@ if( ! class_exists( 'Swifty_TGM_Plugin_Activation' ) ) {
             $activate_link_count = 0;       // Used to determine plurality of activate action link text.
 
             foreach( $this->plugins as $plugin ) {
+                // test for SCC without pro, continue when active, remove when scc-pro is no longer around
+                if( $plugin['slug'] === ( 'swifty-content-' . 'creator-pro' ) ) {
+                    $scc_file_path = $this->_get_plugin_basename_from_slug( 'swifty-content-' . 'creator' );
+                    if( is_plugin_active( $scc_file_path ) ) {
+                        continue;
+                    }
+                }
                 // If the plugin is installed and active, check for minimum version argument before moving forward.
                 if( is_plugin_active( $plugin[ 'file_path' ] ) ) {
                     // A minimum version has been specified.
