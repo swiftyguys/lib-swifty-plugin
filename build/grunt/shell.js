@@ -387,6 +387,9 @@ module.exports = function( grunt/*, options*/ ) {
                 var source_base = '<%= grunt.getSourcePath() %>' + path;
                 //var source_fp = source_base + 'swifty-' + po2;
                 var source_fp = source_base + grunt.myCfg.po.file_slug + po2;
+                if( filter.indexOf( 'swifty_plugin' ) >= 0 ) {
+                    source_fp = source_base + 'swifty-' + po2;
+                }
                 var source_po = source_fp + '.po';
                 var source_mo = source_fp + '.mo';
                 var temp_base = 'temp_' + grunt.myCfg.plugin_code + '/' + po + '/';

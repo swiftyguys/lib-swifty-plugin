@@ -174,16 +174,18 @@ module.exports = {
         };
 
         grunt.getCommandJoinPO = function( po ) {
+            var poLib = po.replace( grunt.myCfg.po.file_slug, 'swifty-' );
+
             var s = 'msgcat ' +
-                        ' <%= grunt.getDestPathPlugin() %>languages/' + po + '.po';
+                ' <%= grunt.getDestPathPlugin() %>languages/' + po + '.po';
                 if( grunt.file.isDir( grunt.getSourcePath() + 'pro' ) ) {
                     s +=
                         ' <%= grunt.getDestPathPlugin() %>pro/languages/' + po + '.po' +
                         ' <%= grunt.getDestPathPlugin() %>pro/languages/am/' + po + '.po';
                 }
                 s +=
-                        ' <%= grunt.getDestPathPlugin() %>' + grunt.myCfg.rel_swifty_plugin + 'languages/' + po + '.po' +
-                        ' > <%= grunt.getDestPathPlugin() %>languages/' + po + '.pot' +
+                    ' <%= grunt.getDestPathPlugin() %>' + grunt.myCfg.rel_swifty_plugin + 'languages/' + poLib + '.po' +
+                    ' > <%= grunt.getDestPathPlugin() %>languages/' + po + '.pot' +
                     ' && rm -f <%= grunt.getDestPathPlugin() %>languages/' + po + '.po' +
                     '; rm -f <%= grunt.getDestPathPlugin() %>languages/' + po + '.mo';
                 if( grunt.file.isDir( grunt.getSourcePath() + 'pro' ) ) {
@@ -194,8 +196,8 @@ module.exports = {
                     '; rm -f <%= grunt.getDestPathPlugin() %>pro/languages/am/' + po + '.mo';
                 }
                 s +=
-                    '; rm -f <%= grunt.getDestPathPlugin() %>' + grunt.myCfg.rel_swifty_plugin + 'languages/' + po + '.po' +
-                    '; rm -f <%= grunt.getDestPathPlugin() %>' + grunt.myCfg.rel_swifty_plugin + 'languages/' + po + '.mo' +
+                    '; rm -f <%= grunt.getDestPathPlugin() %>' + grunt.myCfg.rel_swifty_plugin + 'languages/' + poLib + '.po' +
+                    '; rm -f <%= grunt.getDestPathPlugin() %>' + grunt.myCfg.rel_swifty_plugin + 'languages/' + poLib + '.mo' +
                     '; mv -f <%= grunt.getDestPathPlugin() %>languages/' + po + '.pot <%= grunt.getDestPathPlugin() %>languages/' + po + '.po' +
                     ' && msgfmt <%= grunt.getDestPathPlugin() %>languages/' + po + '.po -o <%= grunt.getDestPathPlugin() %>languages/' + po + '.mo';
             return s;
