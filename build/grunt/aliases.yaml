@@ -117,9 +117,18 @@ from_dialog_do_pullall_mergedev:
   - 'from_dialog_do_mergedev'
 
 # Create all pot files from the PHP sources and upload to glotpress
-# Download po files from glotpress and split a update them is source dirs
+# Download po files from glotpress and split and update them in source dirs
 from_dialog_do_createpot_gettranslations:
+  # Create all pot files from the PHP sources and upload to glotpress
   - 'from_dialog_do_createpot'
+  # Download po files from glotpress and split and update them in source dirs
+  - 'from_dialog_do_gettranslations'
+  # Upload all individual translated language files to Glotpress.
+  # Translations in Glotpress that exist there will be overwritten, unless the string in our local file is not yet translated ("").
+  # So all strings (especially in libs) that we have translated locally, but are not yet in Glotpress will be copied to Glotpress.
+  - 'loop_import_po_languages'
+  # Download po files from glotpress and split and update them is source dirs
+  # This is done e second time, because the previous action might have caused strings to change in Worpress.
   - 'from_dialog_do_gettranslations'
 
 # PRO version
@@ -196,7 +205,7 @@ from_dialog_do_createpot:
   # Get language files from diverse directories and upload them to swiftylife language site
   - 'shell:import_pot_in_swiftylife'
 
-# Download po files from glotpress and split a update them is source dirs
+# Download po files from glotpress and split and update them is source dirs
 from_dialog_do_gettranslations:
   - 'shell:download_po_from_swiftylife'
   - 'loop_split_po'

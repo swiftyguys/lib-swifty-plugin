@@ -276,6 +276,8 @@ module.exports = function( grunt/*, options*/ ) {
             }
         },
         // Use with great care!!!!!!!!!!!!!!!!!!
+        // Upload all individual translated language files to Glotpress.
+        // Translations in Glotpress that exist there will be overwritten, unless the string in our local file is not yet translated ("").
         import_pot_one_language_in_swiftylife: {
             command: function( p1, p2 ) {
                 return grunt.getCommandImportPotInSwiftylife( p1, p2 );
@@ -376,11 +378,52 @@ module.exports = function( grunt/*, options*/ ) {
         },
         split_po_next: {
             command: function( po, po2, filter, path ) {
-                return 'msgcat temp_' + grunt.myCfg.plugin_code + '/' + po + '/' + filter + '* > temp_' + grunt.myCfg.plugin_code + '/' + po + '/' + po + '.po' +
-                        ' && mkdir -p <%= grunt.getSourcePath() %>' + path +
-                        ' && mv -f temp_' + grunt.myCfg.plugin_code + '/' + po + '/' + po + '.po <%= grunt.getSourcePath() %>' + path + 'swifty-' + po2 + '.po' +
-                        ' && msgfmt <%= grunt.getSourcePath() %>' + path + 'swifty-' + po2 + '.po -o <%= grunt.getSourcePath() %>' + path + 'swifty-' + po2 + '.mo' +
-                        ' && rm -f temp_' + grunt.myCfg.plugin_code + '/' + po + '/' + filter + '*';
+                //return 'msgcat temp_' + grunt.myCfg.plugin_code + '/' + po + '/' + filter + '* > temp_' + grunt.myCfg.plugin_code + '/' + po + '/' + po + '.po' +
+                //        ' && mkdir -p <%= grunt.getSourcePath() %>' + path +
+                //        ' && mv -f temp_' + grunt.myCfg.plugin_code + '/' + po + '/' + po + '.po <%= grunt.getSourcePath() %>' + path + 'swifty-' + po2 + '.po' +
+                //        ' && msgfmt <%= grunt.getSourcePath() %>' + path + 'swifty-' + po2 + '.po -o <%= grunt.getSourcePath() %>' + path + 'swifty-' + po2 + '.mo' +
+                //        ' && rm -f temp_' + grunt.myCfg.plugin_code + '/' + po + '/' + filter + '*';
+
+                var source_base = '<%= grunt.getSourcePath() %>' + path;
+                var source_fp = source_base + 'swifty-' + po2;
+                var source_po = source_fp + '.po';
+                var source_mo = source_fp + '.mo';
+                var temp_base = 'temp_' + grunt.myCfg.plugin_code + '/' + po + '/';
+                var glotpress_po = temp_base + po + '.po';
+                //var glotpress_translated_po = temp_base + 'glotpress_only_translated_strings.po';
+                var merged_po = temp_base + 'glotpress_source_merged.po';
+
+                //return '' +
+                //    // ??? Merge all files into 1 po file. ???
+                //    'msgcat ' + temp_base + filter + '* > ' + glotpress_po +
+                //    // Remove untranslated strings from glotpress po.
+                //    ' && msgattrib --translated ' + glotpress_po + ' -o ' + glotpress_translated_po +
+                //    ' && cat ' + glotpress_translated_po +
+                //    // Add strings from the local source po file.
+                //    ' && msgmerge ' + source_po + ' ' + glotpress_translated_po + ' --no-fuzzy-matching > ' + merged_po +
+                //    //' && cat ' + merged_po +
+                //    // Make sure this dir exists.
+                //    ' && mkdir -p ' + source_base +
+                //    // Overwrite the old po file in out git sources with the new po file.
+                //    ' && mv -f ' + merged_po + ' ' + source_po +
+                //    // Create a new mo file based on the new po file.
+                //    ' && msgfmt ' + source_po + ' -o ' + source_mo +
+                //    // Remove the temp files.
+                //    ' && rm -f ' + temp_base + filter + '*';
+
+                return '' +
+                    // ??? Merge all files into 1 po file. ???
+                    'msgcat ' + temp_base + filter + '* > ' + glotpress_po +
+                    // Add strings from the local source po file.
+                    ' && msgmerge ' + glotpress_po + ' ' + glotpress_po + ' --compendium ' + source_po + ' --no-fuzzy-matching --sort-by-file > ' + merged_po +
+                    // Make sure this dir exists.
+                    ' && mkdir -p ' + source_base +
+                    // Overwrite the old po file in out git sources with the new po file.
+                    ' && mv -f ' + merged_po + ' ' + source_po +
+                    // Create a new mo file based on the new po file.
+                    ' && msgfmt ' + source_po + ' -o ' + source_mo +
+                    // Remove the temp files.
+                    ' && rm -f ' + temp_base + filter + '*';
             },
             options: {
                 execOptions: {

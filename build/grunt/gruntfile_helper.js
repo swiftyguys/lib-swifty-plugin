@@ -113,6 +113,11 @@ module.exports = {
         };
 
         // Get language files from diverse directories and upload them to swiftylife language site
+        //
+        // If poIn !== '':
+        //     Upload all individual translated language files to Glotpress.
+        //     Translations in Glotpress that exist there will be overwritten, unless the string in our local file is not yet translated ("").
+        //     Use with great care!!!!!!!!!!!!!!!!!!
         grunt.getCommandImportPotInSwiftylife = function( poIn, locale ) {
             var po = 'lang';
             var ext = 'pot';
@@ -122,11 +127,11 @@ module.exports = {
             }
 
             var s = '';
-                if( po !== 'lang' ) {
-                    s +=
-                        // Hardcoded copy lib lang files from SPM to this repo
-                        'cp <%= grunt.getSourcePath() %>../../../swifty_page_manager/plugin/swifty-page-manager/' + grunt.myCfg.rel_swifty_plugin + 'languages/' + po + '.* <%= grunt.getSourcePath() %>' + grunt.myCfg.rel_swifty_plugin + 'languages/; ';
-                }
+                //if( po !== 'lang' ) {
+                //    s +=
+                //        // Hardcoded copy lib lang files from SPM to this repo
+                //        'cp <%= grunt.getSourcePath() %>../../../swifty_page_manager/plugin/swifty-page-manager/' + grunt.myCfg.rel_swifty_plugin + 'languages/' + po + '.* <%= grunt.getSourcePath() %>' + grunt.myCfg.rel_swifty_plugin + 'languages/; ';
+                //}
                 s +=
                     'rm -f temp_<%= grunt.getPluginNameCompact() %>.' + ext +
                     '; msgcat ' +
@@ -162,7 +167,9 @@ module.exports = {
                 s +=
                             '; rm temp_<%= grunt.getPluginNameCompact() %>.' + ext +
                         '"' +
+                    //'; cat temp_<%= grunt.getPluginNameCompact() %>.' + ext +
                     '; rm -f temp_<%= grunt.getPluginNameCompact() %>.' + ext;
+
             return s;
         };
 
@@ -255,6 +262,8 @@ module.exports = {
             }
         } );
 
+        // Upload all individual translated language files to Glotpress.
+        // Translations in Glotpress that exist there will be overwritten, unless the string in our local file is not yet translated ("").
         // Use with great care!!!!!!!!!!!!!!!!!!
         grunt.registerTask( 'loop_import_po_languages', function() {
             for( var key in grunt.myCfg.po.languages ) {
