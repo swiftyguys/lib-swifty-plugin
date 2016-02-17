@@ -1,14 +1,19 @@
-# Translation of Swifty Page Manager in Dutch
-# This file is distributed under the same license as the Swifty Page Manager package.
+# Translation of Swifty Content Creator in Dutch
+# This file is distributed under the same license as the Swifty Content Creator package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Swifty Page Manager\n"
-"PO-Revision-Date: 2016-02-17 12:08:30+0000\n"
+"Project-Id-Version: Swifty Content Creator\n"
+"PO-Revision-Date: 2016-02-17 12:58:30+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: GlotPress/0.1\n"
+
+#: assets/contact_form/al_contact_form.php:29
+#: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:99
+msgid "Email"
+msgstr "Email"
 
 #: lib/swifty_plugin/php/lib/swifty-image-functions.php:29
 msgid "Mobile half"
@@ -59,6 +64,7 @@ msgstr[0] "Dit theme adviseert de volgende plugin: %1$s."
 msgstr[1] "Dit theme adviseert de volgende plugins: %1$s."
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:174
+#: php/main.php:1615
 msgid ""
 "Sorry, but you do not have the correct permissions to install the %s plugin. "
 "Contact the administrator of this site for help on getting the plugin "
@@ -77,12 +83,14 @@ msgstr[1] ""
 "krijgen bij het installeren van de plugins."
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:175
+#: php/main.php:1616
 msgid "The following required plugin is currently inactive: %1$s."
 msgid_plural "The following required plugins are currently inactive: %1$s."
 msgstr[0] "De volgende plugin is op dit moment niet geactiveerd: %1$s."
 msgstr[1] "De volgende plugins zijnop dit moment niet geactiveerd: %1$s."
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:176
+#: php/main.php:1617
 msgid "The following recommended plugin is currently inactive: %1$s."
 msgid_plural "The following recommended plugins are currently inactive: %1$s."
 msgstr[0] ""
@@ -91,6 +99,7 @@ msgstr[1] ""
 "De volgende aanbevolen plugins zijn op dit moment niet geactiveerd: %1$s."
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:177
+#: php/main.php:1618
 msgid ""
 "Sorry, but you do not have the correct permissions to activate the %s "
 "plugin. Contact the administrator of this site for help on getting the "
@@ -123,6 +132,7 @@ msgstr[1] ""
 "maximale compatibiliteit met dit theme te verzekeren: %1$s."
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:179
+#: php/main.php:1620
 msgid ""
 "Sorry, but you do not have the correct permissions to update the %s plugin. "
 "Contact the administrator of this site for help on getting the plugin "
@@ -141,18 +151,21 @@ msgstr[1] ""
 "updaten van de plugins."
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:180
+#: php/main.php:1621
 msgid "Begin installing plugin"
 msgid_plural "Begin installing plugins"
 msgstr[0] "Begin plugin te installeren"
 msgstr[1] "Begin plugins te installeren"
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:181
+#: php/main.php:1622
 msgid "Begin activating plugin"
 msgid_plural "Begin activating plugins"
 msgstr[0] "Begin plugin te activeren"
 msgstr[1] "Begin plugins te activeren"
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:184
+#: php/main.php:1624
 msgid "Plugin activated successfully."
 msgstr "Plugin succesvol geactiveerd."
 
@@ -169,7 +182,7 @@ msgstr "Negeer deze melding"
 
 #: lib/swifty_plugin/php/lib_swifty_plugin.php:51
 msgid "Licenses"
-msgstr "Bewaar veranderingen"
+msgstr "Licenties"
 
 #: lib/swifty_plugin/php/lib_swifty_plugin.php:239
 msgid "Swifty Plugins"
@@ -189,15 +202,11 @@ msgstr "Activeer"
 
 #: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:86
 msgid "Save Changes"
-msgstr "Sla wijzigingen op"
+msgstr "Bewaar aanpassingen"
 
 #: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:98
 msgid "License activation of %s"
 msgstr "Licentie activering van %s."
-
-#: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:99
-msgid "Email"
-msgstr "Email"
 
 #: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:100
 msgid "License key"
