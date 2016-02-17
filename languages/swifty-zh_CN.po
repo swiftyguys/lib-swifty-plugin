@@ -2,13 +2,49 @@
 # This file is distributed under the same license as the Swifty Page Manager package.
 msgid ""
 msgstr ""
+"Project-Id-Version: Swifty Page Manager\n"
 "PO-Revision-Date: 2014-12-17 08:44:19+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: GlotPress/0.1\n"
-"Project-Id-Version: Swifty Page Manager\n"
+
+#: lib/swifty_plugin/php/lib/swifty-image-functions.php:29
+msgid "Mobile half"
+msgstr ""
+
+#: lib/swifty_plugin/php/lib/swifty-image-functions.php:30
+msgid "Mobile small"
+msgstr ""
+
+#: lib/swifty_plugin/php/lib/swifty-image-functions.php:31
+msgid "Mobile regular"
+msgstr ""
+
+#: lib/swifty_plugin/php/lib/swifty-image-functions.php:32
+msgid "Mobile landscape"
+msgstr ""
+
+#: lib/swifty_plugin/php/lib/swifty-image-functions.php:33
+msgid "Desktop smallest"
+msgstr ""
+
+#: lib/swifty_plugin/php/lib/swifty-image-functions.php:34
+msgid "Desktop small"
+msgstr ""
+
+#: lib/swifty_plugin/php/lib/swifty-image-functions.php:35
+msgid "Desktop medium"
+msgstr ""
+
+#: lib/swifty_plugin/php/lib/swifty-image-functions.php:36
+msgid "Desktop large"
+msgstr ""
+
+#: lib/swifty_plugin/php/lib/swifty-image-functions.php:37
+msgid "Full HD"
+msgstr ""
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:172
 msgid "This theme requires the following plugin: %1$s."
@@ -87,7 +123,7 @@ msgid "Plugin activated successfully."
 msgstr ""
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:185
-#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1701
+#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1709
 msgid "The following plugin was activated successfully:"
 msgid_plural "The following plugins were activated successfully:"
 msgstr[0] ""
@@ -110,6 +146,10 @@ msgstr ""
 
 #: lib/swifty_plugin/php/lib_swifty_plugin.php:326
 msgid "Swifty Settings"
+msgstr ""
+
+#: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:75
+msgid "Activate"
 msgstr ""
 
 #: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:86
@@ -158,10 +198,6 @@ msgstr ""
 
 #: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:385
 msgid "Deactivates an API License Key so it can be used on another blog."
-msgstr ""
-
-#: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:75
-msgid "Activate"
 msgstr ""
 
 #: lib/swifty_plugin/php/swifty-licenses/classes/class-swifty-api-manager-update-api-check.php:382

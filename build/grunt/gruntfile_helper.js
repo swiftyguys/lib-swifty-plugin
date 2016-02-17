@@ -120,9 +120,12 @@ module.exports = {
         //     Use with great care!!!!!!!!!!!!!!!!!!
         grunt.getCommandImportPotInSwiftylife = function( poIn, locale ) {
             var po = 'lang';
+            var poLib = po;
             var ext = 'pot';
             if( poIn !== '' ) {
-                po = 'swifty-' + poIn;
+                //po = 'swifty-' + poIn;
+                poLib = 'swifty-' + poIn;
+                po = grunt.myCfg.po.file_slug + poIn;
                 ext = 'po';
             }
 
@@ -150,7 +153,7 @@ module.exports = {
                         '<%= grunt.getSourcePath() %>' + grunt.myCfg.po.rel_pack_goodies + 'languages/' + po + '.' + ext + ' ';
                 }
                 s +=
-                        '<%= grunt.getSourcePath() %>' + grunt.myCfg.rel_swifty_plugin + 'languages/' + po + '.' + ext + ' ' +
+                        '<%= grunt.getSourcePath() %>' + grunt.myCfg.rel_swifty_plugin + 'languages/' + poLib + '.' + ext + ' ' +
                         '> temp_<%= grunt.getPluginNameCompact() %>.' + ext +
                     //' && perl -pi -e "s#../plugin/' + grunt.myCfg.plugin_code + '/##g" temp_<%= grunt.getPluginNameCompact() %>.' + ext +
                     ' && perl -pi -e "s#' + grunt.myCfg.base_path + '##g" temp_<%= grunt.getPluginNameCompact() %>.' + ext +
