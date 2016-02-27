@@ -411,6 +411,9 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
                         }
                     }
                 }
+
+                // reset post meta state for successfully retrieval of needed asset ids
+                update_post_meta( $id_post, 'swifty_determine_image_sizes', '' );
             }
         }
 
