@@ -23,17 +23,19 @@ class LibSwiftyPluginView
      */
     public function __construct()
     {
-        self::$instance_view = $this;
-
         // just in case this was not set by an old autoload.php
         global $swifty_lib_dir;
         if( ! isset( $swifty_lib_dir ) ) {
             $swifty_lib_dir = dirname( plugin_dir_path( __FILE__ ) );
         }
 
-        // allow every plugin to get to the initialization part, all plugins and theme should be loaded then
-        add_action( 'after_setup_theme', array( $this, 'action_after_setup_theme' ) );
-        add_filter( 'swifty_SS2_hosting_name', array( $this, 'filter_swifty_SS2_hosting_name' ) );
+        // test this just in case it is first created as view and later for edit
+        if( ! isset( self::$instance_view ) ) {
+            // allow every plugin to get to the initialization part, all plugins and theme should be loaded then
+            add_action( 'after_setup_theme', array( $this, 'action_after_setup_theme' ) );
+            add_filter( 'swifty_SS2_hosting_name', array( $this, 'filter_swifty_SS2_hosting_name' ) );
+        }
+        self::$instance_view = $this;
     }
 
     /**
@@ -200,6 +202,34 @@ class LibSwiftyPluginView
     }
 
     /**
+     * improved wp_get_post_autosave, this one will use a where clause to get the autosave instead of retrieving all
+     * revisions for one post
+     *
+     * @param $post_id
+     * @param int $user_id
+     * @return bool
+     */
+    function swifty_get_post_autosave( $post_id, $user_id = 0 ) {
+
+        // first get the post name that will be used for the autosave
+        $fields = _wp_post_revision_fields( array( 'ID' => $post_id ), true );
+
+        $revisions = wp_get_post_revisions( $post_id,
+            array(
+                'check_enabled' => false,
+                'name' => $fields[ 'post_name' ]
+            ) );
+
+        foreach ( $revisions as $revision ) {
+            if ( $user_id && $user_id != $revision->post_author )
+                continue;
+
+            return $revision;
+        }
+        return false;
+    }
+
+    /**
      * find newer version of post, or return null if there is no newer autosave version
      *
      * @param $pid
@@ -208,18 +238,13 @@ class LibSwiftyPluginView
     public function get_autosave_version_if_newer( $pid )
     {
         // Detect if there exists an autosave newer than the post and if that autosave is different than the post
-        $autosave = wp_get_post_autosave( $pid );
+        $autosave = $this->swifty_get_post_autosave( $pid );
         $post = get_post( $pid );
         $newer_revision = null;
         if( $autosave && $post && ( mysql2date( 'U', $autosave->post_modified_gmt, false ) >= mysql2date( 'U', $post->post_modified_gmt, false ) ) ) {
-            foreach( _wp_post_revision_fields() as $autosave_field => $_autosave_field ) {
-                if( normalize_whitespace( $autosave->$autosave_field ) != normalize_whitespace( $post->$autosave_field ) ) {
-                    if( $autosave_field === 'post_content' ) {
-                        $newer_revision = $autosave->$autosave_field;
-                    }
-                }
+            if( normalize_whitespace( $autosave->post_content ) != normalize_whitespace( $post->post_content ) ) {
+                $newer_revision = $autosave->post_content;
             }
-            unset( $autosave_field, $_autosave_field );
         }
 
         return $newer_revision;
