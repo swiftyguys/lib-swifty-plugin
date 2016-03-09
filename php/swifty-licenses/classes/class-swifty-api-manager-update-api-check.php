@@ -16,29 +16,6 @@ defined( 'ABSPATH' ) or exit;
 if( ! class_exists( 'SwiftyApiManagerUpdateApiCheck' ) ) {
     class SwiftyApiManagerUpdateApiCheck
     {
-
-        /**
-         * @var The single instance of the class
-         */
-        protected static $_instance = null;
-
-        /**
-         *
-         * Ensures only one instance is loaded or can be loaded.
-         *
-         * @static
-         * @return class instance
-         */
-        public static function instance( $upgrade_url, $plugin_name, $product_id, $api_key, $activation_email, $renew_license_url, $instance, $domain, $software_version, $plugin_or_theme, $extra = '' )
-        {
-
-            if( is_null( self::$_instance ) ) {
-                self::$_instance = new self( $upgrade_url, $plugin_name, $product_id, $api_key, $activation_email, $renew_license_url, $instance, $domain, $software_version, $plugin_or_theme, $extra );
-            }
-
-            return self::$_instance;
-        }
-
         private $upgrade_url; // URL to access the Update API Manager.
         private $plugin_name;
         private $product_id; // Software Title

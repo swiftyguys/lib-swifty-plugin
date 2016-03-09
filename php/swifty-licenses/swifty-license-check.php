@@ -9,12 +9,11 @@ defined( 'ABSPATH' ) or exit;
 class SwiftyLicenseCheck
 {
     // Base URL to the remote upgrade API Manager server. If not set then the Author URI is used.
-    //public $our_upgrade_url = 'https://www.swifty.online/';
-    public $our_upgrade_url = 'https://devorder.swiftylife.com/';
+    public $our_upgrade_url = 'https://www.swifty.online/';
 
     // URL to renew a license. Trailing slash in the upgrade_url is required.
-    //public $our_renew_license_url = 'https://www.swifty.online/my-account/';
-    public $our_renew_license_url = 'https://devorder.swiftylife.com/my-account/';
+    public $our_renew_license_url = 'https://www.swifty.online/my-account/';
+
     public $our_plugin_url;
     public $swifty_admin_page = '';
 
@@ -198,8 +197,7 @@ class SwiftyLicenseCheck
      */
     public function our_update_check( $upgrade_url, $plugin_name, $product_id, $api_key, $activation_email, $renew_license_url, $instance, $domain, $software_version, $plugin_or_theme, $extra = '' )
     {
-
-        return SwiftyApiManagerUpdateApiCheck::instance( $upgrade_url, $plugin_name, $product_id, $api_key, $activation_email, $renew_license_url, $instance, $domain, $software_version, $plugin_or_theme, $extra );
+        return new SwiftyApiManagerUpdateApiCheck( $upgrade_url, $plugin_name, $product_id, $api_key, $activation_email, $renew_license_url, $instance, $domain, $software_version, $plugin_or_theme, $extra );
     }
 
     /**
