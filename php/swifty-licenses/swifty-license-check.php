@@ -76,8 +76,6 @@ class SwiftyLicenseCheck
             // Check for external connection blocking
             add_action( 'admin_notices', array( $this, 'check_external_blocking' ) );
 
-            add_filter( 'swifty_has_license_' . $this->plugin_key_name, array( &$this, 'hook_swifty_has_license' ) );
-
             // Checks for software updatess
             require_once( plugin_dir_path( __FILE__ ) . 'classes/class-swifty-api-manager-update-api-check.php' );
 
@@ -106,6 +104,9 @@ class SwiftyLicenseCheck
                 );
             }
         }
+
+        add_filter( 'swifty_has_license_' . $this->plugin_key_name, array( &$this, 'hook_swifty_has_license' ) );
+
     }
 
     /**
@@ -187,7 +188,7 @@ class SwiftyLicenseCheck
     function has_valid_license()
     {
         $licence_code = get_option( $this->plugin_key_name . '_activated' );
-        return ( $licence_code === 'Activated' );
+        return ( $licence_code === 'Activated' ) && get_transient( 'active_license_' . $this->plugin_key_name );
     }
 
     /**
