@@ -310,6 +310,41 @@ class LibSwiftyPluginView
     }
 
     /**
+     * Enqueue script for browser detection in logged-in view / admin / swifty scc
+     */
+    public function enqueue_script_bowser() {
+
+        add_action( 'wp_enqueue_scripts', array( $this, 'hook_enqueue_scripts_bowser' ) );
+        add_action( 'swifty_enqueue_scripts', array( $this, 'hook_enqueue_scripts_bowser' ) );
+        add_action( 'admin_enqueue_scripts', array( $this, 'hook_enqueue_scripts_bowser' ) );
+    }
+
+    /**
+     * enqueue script for browser detection when logged-in
+     */
+    public function hook_enqueue_scripts_bowser() {
+
+        if( is_user_logged_in() ) {
+            global $swifty_build_use;
+            $bust_add = '?swcv=ssd_' . '/*@echo RELEASE_TAG*/';
+            if( $swifty_build_use === 'build' ) {
+                $script_file_url = get_swifty_lib_dir_url( __FILE__ ) . 'js/bowser.min.js' . $bust_add;
+            } else {
+                $script_file_url = get_swifty_lib_dir_url( __FILE__ ) . 'lib/swifty_plugin/js/lib/bowser.js' . $bust_add;
+            }
+
+            $script_version = (int) '/*@echo FONT_REL_TAG*/';
+
+            wp_enqueue_script(
+                'bowser_js',
+                $script_file_url,
+                array(),
+                $script_version
+            );
+        }
+    }
+
+    /**
      * initialise head and footer hooks for swifty scripts
      */
     public function init_script_hooks() {
