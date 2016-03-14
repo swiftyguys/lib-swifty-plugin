@@ -328,7 +328,7 @@ class LibSwiftyPluginView
             global $swifty_build_use;
             $bust_add = '?swcv=ssd_' . '/*@echo RELEASE_TAG*/';
             if( $swifty_build_use === 'build' ) {
-                $script_file_url = get_swifty_lib_dir_url( __FILE__ ) . 'js/bowser.min.js' . $bust_add;
+                $script_file_url = get_swifty_lib_dir_url( __FILE__ ) . 'js/libs/bowser.min.js' . $bust_add;
             } else {
                 $script_file_url = get_swifty_lib_dir_url( __FILE__ ) . 'lib/swifty_plugin/js/lib/bowser.js' . $bust_add;
             }
