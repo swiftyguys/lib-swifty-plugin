@@ -410,11 +410,15 @@ function swifty_downloadJSAtOnload() {
     } catch( e ) {}
 }
 
+function swifty_check_inserts() {
+    swifty_check_breakouts();
+    swifty_checkImages();
+}
+
 function swifty_triggerOnload() {
     ssd_status_onload++;
     swifty_add_exec( { 'status': 'release', 'for': 'page_loaded' } );
-    swifty_check_breakouts();
-    swifty_checkImages();
+    swifty_check_inserts();
     swifty_checkTextItems();
     swifty_downloadJSAtOnload();
 }
@@ -549,7 +553,7 @@ try {
     swifty_do_loadFont();
     swifty_do_loadJs();
     swifty_do_exec();
-    swifty_checkImages();
+    swifty_check_inserts();
     swifty_checkTextItems();
     swifty_fixSideMenu();
 } catch( e ) {}
