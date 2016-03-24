@@ -211,13 +211,11 @@ class LibSwiftyPluginView
      */
     function swifty_get_post_autosave( $post_id, $user_id = 0 ) {
 
-        // first get the post name that will be used for the autosave
-        $fields = _wp_post_revision_fields( array( 'ID' => $post_id ), true );
-
+        // there is no proper way to get the "$post_id-autosave-v1" name since wp 4.5, so we hope that it never changes
         $revisions = wp_get_post_revisions( $post_id,
             array(
                 'check_enabled' => false,
-                'name' => $fields[ 'post_name' ]
+                'name' => "$post_id-autosave-v1"
             ) );
 
         foreach ( $revisions as $revision ) {
