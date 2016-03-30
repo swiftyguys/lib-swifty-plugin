@@ -6,6 +6,8 @@
 
 @ssbMenuIconBg: #1b7fba;
 
+@ssSwiftyColor: #55227E;
+
 .swifty-wrapper {
     z-index: 10;
 }
@@ -158,4 +160,23 @@
 
 .nav-link-active {
     font-weight: bolder;
+}
+
+
+.swc_edit_with_swifty {
+    margin-right: 10px !important;
+    color: @ssSwiftyColor !important;
+
+    .wp-media-buttons-icon:before {
+        content: '\e03d' !important;
+
+        font-family: 'swiftysiteui' !important;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        //line-height: 25px;
+        -webkit-font-smoothing: antialiased;
+        color: @ssSwiftyColor !important;
+    }
 }

@@ -136,3 +136,17 @@
 .nav-link-active {
   font-weight: bolder;
 }
+.swc_edit_with_swifty {
+  margin-right: 10px !important;
+  color: #55227e !important;
+}
+.swc_edit_with_swifty .wp-media-buttons-icon:before {
+  content: '\e03d' !important;
+  font-family: 'swiftysiteui' !important;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+  color: #55227e !important;
+}
