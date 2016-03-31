@@ -357,6 +357,9 @@ module.exports = function( grunt/*, options*/ ) {
                     if( grunt.file.isDir( grunt.getSourcePath() + grunt.myCfg.po.rel_pack_goodies ) ) {
                         grunt.task.run( [ 'shell:split_po_next:' + last + ':' + po2 + ':_=_=__-_-__=_=__-_-_swifty_content_goodies_pack_-_-_plugin_-_-_swifty-content-goodies-pack_-_-_:' + grunt.myCfg.po.rel_pack_goodies + 'languages/' ] );
                     }
+                    if( grunt.file.isDir( grunt.getSourcePath() + grunt.myCfg.po.rel_pack_visuals ) ) {
+                        grunt.task.run( [ 'shell:split_po_next:' + last + ':' + po2 + ':_=_=__-_-__=_=__-_-_swifty_content_visuals_pack_-_-_plugin_-_-_swifty-content-visuals-pack_-_-_:' + grunt.myCfg.po.rel_pack_visuals + 'languages/' ] );
+                    }
                     grunt.task.run( [ 'shell:split_po_next:' + last + ':' + po2 + '::languages/' ] );
                     cb();
                 }
@@ -390,6 +393,12 @@ module.exports = function( grunt/*, options*/ ) {
                 if( filter.indexOf( 'swifty_plugin' ) >= 0 ) {
                     source_fp = source_base + 'swifty-' + po2;
                 }
+                if( path === grunt.myCfg.po.rel_pack_goodies + 'languages/' ) {
+                    source_fp = source_base + grunt.myCfg.po.pack_goodies_file_slug + po2;
+                }
+                if( path === grunt.myCfg.po.rel_pack_visuals + 'languages/' ) {
+                    source_fp = source_base + grunt.myCfg.po.pack_visuals_file_slug + po2;
+                }
                 var source_po = source_fp + '.po';
                 var source_mo = source_fp + '.mo';
                 var temp_base = 'temp_' + grunt.myCfg.plugin_code + '/' + po + '/';
@@ -415,7 +424,11 @@ module.exports = function( grunt/*, options*/ ) {
                 //    // Remove the temp files.
                 //    ' && rm -f ' + temp_base + filter + '*';
 
+                // console.log( 'aaa=====', temp_base );
+                // console.log( 'bbb=====', filter );
+                // console.log( 'ccc=====', glotpress_po );
                 return '' +
+                    // 'ls -lah temp_swifty-content-creator/nl/ && ' +
                     // ??? Merge all files into 1 po file. ???
                     'msgcat ' + temp_base + filter + '* > ' + glotpress_po +
                     // Add strings from the local source po file.

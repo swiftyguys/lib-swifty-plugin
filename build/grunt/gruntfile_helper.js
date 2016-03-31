@@ -149,8 +149,18 @@ module.exports = {
                         '<%= grunt.getSourcePath() %>pro/languages/am/' + po + '.' + ext + ' ';
                 }
                 if( grunt.file.isDir( grunt.getSourcePath() + grunt.myCfg.po.rel_pack_goodies ) ) {
-                    s +=
-                        '<%= grunt.getSourcePath() %>' + grunt.myCfg.po.rel_pack_goodies + 'languages/' + po + '.' + ext + ' ';
+                    if( poIn !== '' ) {
+                        s += '<%= grunt.getSourcePath() %>' + grunt.myCfg.po.rel_pack_goodies + 'languages/' + grunt.myCfg.po.pack_goodies_file_slug + poIn + '.' + ext + ' ';
+                    } else {
+                        s += '<%= grunt.getSourcePath() %>' + grunt.myCfg.po.rel_pack_goodies + 'languages/' + po + '.' + ext + ' ';
+                    }
+                }
+                if( grunt.file.isDir( grunt.getSourcePath() + grunt.myCfg.po.rel_pack_visuals ) ) {
+                    if( poIn !== '' ) {
+                        s += '<%= grunt.getSourcePath() %>' + grunt.myCfg.po.rel_pack_visuals + 'languages/' + grunt.myCfg.po.pack_visuals_file_slug + poIn + '.' + ext + ' ';
+                    } else {
+                        s += '<%= grunt.getSourcePath() %>' + grunt.myCfg.po.rel_pack_visuals + 'languages/' + po + '.' + ext + ' ';
+                    }
                 }
                 s +=
                         '<%= grunt.getSourcePath() %>' + grunt.myCfg.rel_swifty_plugin + 'languages/' + poLib + '.' + ext + ' ' +
@@ -331,6 +341,14 @@ module.exports = {
             if( grunt.file.isDir( grunt.getSourcePath() + grunt.myCfg.po.rel_pack_goodies ) ) {
                 grunt.task.run( [
                     'pot:pack_goodies'
+                ] );
+            }
+        } );
+
+        grunt.registerTask( 'if_pot_pack_visuals', function() {
+            if( grunt.file.isDir( grunt.getSourcePath() + grunt.myCfg.po.rel_pack_visuals ) ) {
+                grunt.task.run( [
+                    'pot:pack_visuals'
                 ] );
             }
         } );

@@ -200,6 +200,7 @@ from_dialog_do_createpot:
 #  - 'pot:lib'
   - 'if_pot_lib'
   - 'if_pot_pack_goodies'
+  - 'if_pot_pack_visuals'
   # Extract text string from mustache and javascript
   - 'helper_xgettext'
   # Get language files from diverse directories and upload them to swiftylife language site
