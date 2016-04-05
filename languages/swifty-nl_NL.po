@@ -3,14 +3,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Swifty Content Creator\n"
-"PO-Revision-Date: 2016-03-31 10:52:30+0000\n"
+"PO-Revision-Date: 2016-04-05 07:00:41+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: GlotPress/0.1\n"
 
-#: assets/contact_form/al_contact_form.php:29
+#: assets/contact_form/contact_form.php:207
+#: assets/contact_form/contact_form.php:271
 #: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:99
 msgid "Email"
 msgstr "Email"
@@ -64,7 +65,7 @@ msgstr[0] "Dit theme adviseert de volgende plugin: %1$s."
 msgstr[1] "Dit theme adviseert de volgende plugins: %1$s."
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:174
-#: php/main.php:1735
+#: php/main.php:1770
 msgid ""
 "Sorry, but you do not have the correct permissions to install the %s plugin. "
 "Contact the administrator of this site for help on getting the plugin "
@@ -83,14 +84,14 @@ msgstr[1] ""
 "krijgen bij het installeren van de plugins."
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:175
-#: php/main.php:1736
+#: php/main.php:1771
 msgid "The following required plugin is currently inactive: %1$s."
 msgid_plural "The following required plugins are currently inactive: %1$s."
 msgstr[0] "De volgende plugin is op dit moment niet geactiveerd: %1$s."
 msgstr[1] "De volgende plugins zijnop dit moment niet geactiveerd: %1$s."
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:176
-#: php/main.php:1737
+#: php/main.php:1772
 msgid "The following recommended plugin is currently inactive: %1$s."
 msgid_plural "The following recommended plugins are currently inactive: %1$s."
 msgstr[0] ""
@@ -99,7 +100,7 @@ msgstr[1] ""
 "De volgende aanbevolen plugins zijn op dit moment niet geactiveerd: %1$s."
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:177
-#: php/main.php:1738
+#: php/main.php:1773
 msgid ""
 "Sorry, but you do not have the correct permissions to activate the %s "
 "plugin. Contact the administrator of this site for help on getting the "
@@ -132,7 +133,7 @@ msgstr[1] ""
 "maximale compatibiliteit met dit theme te verzekeren: %1$s."
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:179
-#: php/main.php:1740
+#: php/main.php:1775
 msgid ""
 "Sorry, but you do not have the correct permissions to update the %s plugin. "
 "Contact the administrator of this site for help on getting the plugin "
@@ -151,21 +152,21 @@ msgstr[1] ""
 "updaten van de plugins."
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:180
-#: php/main.php:1741
+#: php/main.php:1776
 msgid "Begin installing plugin"
 msgid_plural "Begin installing plugins"
 msgstr[0] "Begin plugin te installeren"
 msgstr[1] "Begin plugins te installeren"
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:181
-#: php/main.php:1742
+#: php/main.php:1777
 msgid "Begin activating plugin"
 msgid_plural "Begin activating plugins"
 msgstr[0] "Begin plugin te activeren"
 msgstr[1] "Begin plugins te activeren"
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:184
-#: php/main.php:1744
+#: php/main.php:1779
 msgid "Plugin activated successfully."
 msgstr "Plugin succesvol geactiveerd."
 

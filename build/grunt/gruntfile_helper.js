@@ -196,8 +196,11 @@ module.exports = {
                         ' <%= grunt.getDestPathPlugin() %>pro/languages/' + po + '.po' +
                         ' <%= grunt.getDestPathPlugin() %>pro/languages/am/' + po + '.po';
                 }
+                if( grunt.myCfg.rel_swifty_plugin ) {
+                    s +=
+                        ' <%= grunt.getDestPathPlugin() %>' + grunt.myCfg.rel_swifty_plugin + 'languages/' + poLib + '.po';
+                }
                 s +=
-                    ' <%= grunt.getDestPathPlugin() %>' + grunt.myCfg.rel_swifty_plugin + 'languages/' + poLib + '.po' +
                     ' > <%= grunt.getDestPathPlugin() %>languages/' + po + '.pot' +
                     ' && rm -f <%= grunt.getDestPathPlugin() %>languages/' + po + '.po' +
                     '; rm -f <%= grunt.getDestPathPlugin() %>languages/' + po + '.mo';
