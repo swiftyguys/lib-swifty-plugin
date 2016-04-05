@@ -3,18 +3,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Swifty Content Creator\n"
-"PO-Revision-Date: 2016-04-05 07:00:41+0000\n"
+"PO-Revision-Date: 2016-04-05 14:12:25+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: GlotPress/0.1\n"
-
-#: assets/contact_form/contact_form.php:207
-#: assets/contact_form/contact_form.php:271
-#: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:99
-msgid "Email"
-msgstr "Email"
 
 #: lib/swifty_plugin/php/lib/swifty-image-functions.php:29
 msgid "Mobile half"
@@ -208,6 +202,10 @@ msgstr "Bewaar aanpassingen"
 #: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:98
 msgid "License activation of %s"
 msgstr "Licentie activering van %s."
+
+#: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:99
+msgid "Email"
+msgstr "Email"
 
 #: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:100
 msgid "License key"
