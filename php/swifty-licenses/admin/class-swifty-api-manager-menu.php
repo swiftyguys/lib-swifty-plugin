@@ -180,13 +180,14 @@ if( ! class_exists( 'SwiftyApiManagerMenu' ) ) {
                         add_settings_error( 'api-manager', 'activate_msg', __( 'Plugin activated. ', 'swifty-content-creator' ) . "{$activate_results['message']}.", 'updated' );
                         update_option( $ame->ame_activated_key, 'Activated' );
                         update_option( $ame->ame_deactivate_checkbox, 'off' );
+                        set_transient( 'active_license_' . $this->plugin_name, 'Active', DAY_IN_SECONDS * 3 );
                     }
+
+                    $reset_activation = false;
 
                     if( $activate_results == false ) {
                         add_settings_error( 'api-manager', 'api_key_check_error', 'Connection failed to the License Key API server. Try again later.', 'error' );
-                        $options[ $ame->ame_api_key ] = '';
-                        $options[ $ame->ame_activation_email ] = '';
-                        update_option( $ame->ame_activated_key, 'Deactivated' );
+                        $reset_activation = true;
                     }
 
                     if( isset( $activate_results[ 'code' ] ) ) {
@@ -194,48 +195,41 @@ if( ! class_exists( 'SwiftyApiManagerMenu' ) ) {
                         switch( $activate_results[ 'code' ] ) {
                             case '100':
                                 add_settings_error( 'api-manager', 'api_email_error', "{$activate_results['error']}. {$activate_results['additional info']}", 'error' );
-                                $options[ $ame->ame_activation_email ] = '';
-                                $options[ $ame->ame_api_key ] = '';
-                                update_option( $ame->ame_activated_key, 'Deactivated' );
+                                $reset_activation = true;
                                 break;
                             case '101':
                                 add_settings_error( 'api-manager', 'api_key_error', "{$activate_results['error']}. {$activate_results['additional info']}", 'error' );
-                                $options[ $ame->ame_api_key ] = '';
-                                $options[ $ame->ame_activation_email ] = '';
-                                update_option( $ame->ame_activated_key, 'Deactivated' );
+                                $reset_activation = true;
                                 break;
                             case '102':
                                 add_settings_error( 'api-manager', 'api_key_purchase_incomplete_error', "{$activate_results['error']}. {$activate_results['additional info']}", 'error' );
-                                $options[ $ame->ame_api_key ] = '';
-                                $options[ $ame->ame_activation_email ] = '';
-                                update_option( $ame->ame_activated_key, 'Deactivated' );
+                                $reset_activation = true;
                                 break;
                             case '103':
                                 add_settings_error( 'api-manager', 'api_key_exceeded_error', "{$activate_results['error']}. {$activate_results['additional info']}", 'error' );
-                                $options[ $ame->ame_api_key ] = '';
-                                $options[ $ame->ame_activation_email ] = '';
-                                update_option( $ame->ame_activated_key, 'Deactivated' );
+                                $reset_activation = true;
                                 break;
                             case '104':
                                 add_settings_error( 'api-manager', 'api_key_not_activated_error', "{$activate_results['error']}. {$activate_results['additional info']}", 'error' );
-                                $options[ $ame->ame_api_key ] = '';
-                                $options[ $ame->ame_activation_email ] = '';
-                                update_option( $ame->ame_activated_key, 'Deactivated' );
+                                $reset_activation = true;
                                 break;
                             case '105':
                                 add_settings_error( 'api-manager', 'api_key_invalid_error', "{$activate_results['error']}. {$activate_results['additional info']}", 'error' );
-                                $options[ $ame->ame_api_key ] = '';
-                                $options[ $ame->ame_activation_email ] = '';
-                                update_option( $ame->ame_activated_key, 'Deactivated' );
+                                $reset_activation = true;
                                 break;
                             case '106':
                                 add_settings_error( 'api-manager', 'sub_not_active_error', "{$activate_results['error']}. {$activate_results['additional info']}", 'error' );
-                                $options[ $ame->ame_api_key ] = '';
-                                $options[ $ame->ame_activation_email ] = '';
-                                update_option( $ame->ame_activated_key, 'Deactivated' );
+                                $reset_activation = true;
                                 break;
                         }
 
+                    }
+
+                    if( $reset_activation ) {
+                        $options[ $ame->ame_api_key ] = '';
+                        $options[ $ame->ame_activation_email ] = '';
+                        update_option( $ame->ame_activated_key, 'Deactivated' );
+                        delete_transient( 'active_license_' . $this->plugin_name );
                     }
 
                 } // End Plugin Activation
@@ -297,6 +291,8 @@ if( ! class_exists( 'SwiftyApiManagerMenu' ) ) {
                 // Used to display results for development
                 //print_r($activate_results); exit();
 
+
+
                 if( $activate_results[ 'deactivated' ] == true ) {
                     $update = array(
                         $ame->ame_api_key => '',
@@ -307,6 +303,7 @@ if( ! class_exists( 'SwiftyApiManagerMenu' ) ) {
 
                     update_option( $ame->ame_data_key, $merge_options );
                     update_option( $ame->ame_activated_key, 'Deactivated' );
+                    delete_transient( 'active_license_' . $this->plugin_name );
 
                     add_settings_error( 'api-manager', 'deactivate_msg', __( 'Plugin license deactivated. ', 'swifty-content-creator' ) . "{$activate_results['activations_remaining']}.", 'updated' );
 
@@ -315,49 +312,43 @@ if( ! class_exists( 'SwiftyApiManagerMenu' ) ) {
 
                 if( isset( $activate_results[ 'code' ] ) ) {
 
+                    $reset_activation = false;
+
                     switch( $activate_results[ 'code' ] ) {
                         case '100':
                             add_settings_error( 'api-manager', 'api_email_error', "{$activate_results['error']}. {$activate_results['additional info']}", 'error' );
-                            $options[ $ame->ame_activation_email ] = '';
-                            $options[ $ame->ame_api_key ] = '';
-                            update_option( $ame->ame_activated_key, 'Deactivated' );
+                            $reset_activation = true;
                             break;
                         case '101':
                             add_settings_error( 'api-manager', 'api_key_error', "{$activate_results['error']}. {$activate_results['additional info']}", 'error' );
-                            $options[ $ame->ame_api_key ] = '';
-                            $options[ $ame->ame_activation_email ] = '';
-                            update_option( $ame->ame_activated_key, 'Deactivated' );
+                            $reset_activation = true;
                             break;
                         case '102':
                             add_settings_error( 'api-manager', 'api_key_purchase_incomplete_error', "{$activate_results['error']}. {$activate_results['additional info']}", 'error' );
-                            $options[ $ame->ame_api_key ] = '';
-                            $options[ $ame->ame_activation_email ] = '';
-                            update_option( $ame->ame_activated_key, 'Deactivated' );
+                            $reset_activation = true;
                             break;
                         case '103':
                             add_settings_error( 'api-manager', 'api_key_exceeded_error', "{$activate_results['error']}. {$activate_results['additional info']}", 'error' );
-                            $options[ $ame->ame_api_key ] = '';
-                            $options[ $ame->ame_activation_email ] = '';
-                            update_option( $ame->ame_activated_key, 'Deactivated' );
+                            $reset_activation = true;
                             break;
                         case '104':
                             add_settings_error( 'api-manager', 'api_key_not_activated_error', "{$activate_results['error']}. {$activate_results['additional info']}", 'error' );
-                            $options[ $ame->ame_api_key ] = '';
-                            $options[ $ame->ame_activation_email ] = '';
-                            update_option( $ame->ame_activated_key, 'Deactivated' );
+                            $reset_activation = true;
                             break;
                         case '105':
                             add_settings_error( 'api-manager', 'api_key_invalid_error', "{$activate_results['error']}. {$activate_results['additional info']}", 'error' );
-                            $options[ $ame->ame_api_key ] = '';
-                            $options[ $ame->ame_activation_email ] = '';
-                            update_option( $ame->ame_activated_key, 'Deactivated' );
+                            $reset_activation = true;
                             break;
                         case '106':
                             add_settings_error( 'api-manager', 'sub_not_active_error', "{$activate_results['error']}. {$activate_results['additional info']}", 'error' );
-                            $options[ $ame->ame_api_key ] = '';
-                            $options[ $ame->ame_activation_email ] = '';
-                            update_option( $ame->ame_activated_key, 'Deactivated' );
+                            $reset_activation = true;
                             break;
+                    }
+                    if( $reset_activation ) {
+                        $options[ $ame->ame_api_key ] = '';
+                        $options[ $ame->ame_activation_email ] = '';
+                        update_option( $ame->ame_activated_key, 'Deactivated' );
+                        delete_transient( 'active_license_' . $this->plugin_name );
                     }
                 }
             } else {
