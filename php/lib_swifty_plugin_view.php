@@ -49,6 +49,22 @@ class LibSwiftyPluginView
     }
 
     /**
+     * Checks if WordPress is at least at version $version
+     * @param $version
+     * @return bool
+     *
+     * Usage: if( LibSwiftyPluginView::wordpress_is_at_least_version( '4.0' ) ) {
+     *
+     */
+    public static function wordpress_is_at_least_version( $version ) {
+        global $wp_version;
+        if( version_compare( $version, $wp_version, '<' ) )
+            return true;
+        else
+            return false;
+    }
+
+    /**
      * array with active plugins
      */
     public static $required_active_plugins = array();
