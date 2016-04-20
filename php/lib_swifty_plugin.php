@@ -206,7 +206,9 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
             $func
         );
 
-        $this->added_swifty_slugs[ $key ] = $page;
+        if( $page ) {
+            $this->added_swifty_slugs[ $key ] = $page;
+        }
 
         if( $register_plugin ) {
             $this->our_swifty_plugins[] = array( 'key' => $key, 'name' => $name, 'swiftyname' => $swiftyname );
@@ -226,9 +228,11 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
     {
         $this->admin_add_swifty_menu( $name, $swiftyname, 'replace_me', null, $register_plugin );
 
-        // we just added the meuitem, so it is always the last one...
+        // we just added the menuitem, so it is always the last one...
         global $submenu;
-        $submenu[ 'swifty_admin' ][ count( $submenu[ 'swifty_admin' ] ) - 1 ][ 2 ] = $url;
+        if( isset( $submenu[ 'swifty_admin' ] ) ) {
+            $submenu[ 'swifty_admin' ][ count( $submenu[ 'swifty_admin' ] ) - 1 ][ 2 ] = $url;
+        }
     }
 
     /**
