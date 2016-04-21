@@ -27,6 +27,9 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
         self::$instance = $this;
 
         add_action( 'admin_menu', array( $this, 'hook_admin_menu_swifty_admin_licenses_page' ), 10500 );
+        if( is_admin() ) {
+            add_action( 'plugins_loaded', array( &$this, 'hook_plugins_loaded_update_check' ) );
+        }
     }
 
     /**
@@ -37,6 +40,26 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
     public static function get_instance()
     {
         return self::$instance;
+    }
+
+    /**
+     * Check for changed lib version
+     * - add custom capabilities for locking content to the administrator
+     */
+    function hook_plugins_loaded_update_check() {
+        global $swifty_lib_version;
+
+        if ( get_option( 'swifty_lib_version' ) !== $swifty_lib_version ) {
+
+            // it is no problem to run this multiple times.
+            $role_object = get_role( 'administrator' );
+            if( $role_object ) {
+                $role_object->add_cap( 'swifty_edit_locked' );
+                $role_object->add_cap( 'swifty_change_lock' );
+            }
+
+            update_option( 'swifty_lib_version', $swifty_lib_version );
+        }
     }
 
     /**
