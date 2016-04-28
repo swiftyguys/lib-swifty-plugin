@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-18 09:52+0200\n"
+"POT-Creation-Date: 2016-04-28 10:03+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -191,19 +191,19 @@ msgstr[1] ""
 msgid "Dismiss this notice"
 msgstr ""
 
-#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib_swifty_plugin.php:51
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib_swifty_plugin.php:74
 msgid "Licenses"
 msgstr ""
 
-#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib_swifty_plugin.php:239
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib_swifty_plugin.php:266
 msgid "Swifty Plugins"
 msgstr ""
 
-#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib_swifty_plugin.php:241
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib_swifty_plugin.php:268
 msgid "Active Swifty Plugins"
 msgstr ""
 
-#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib_swifty_plugin.php:326
+#: ../theme/swifty-site-designer/ssd/lib/swifty_plugin/php/lib_swifty_plugin.php:353
 msgid "Swifty Settings"
 msgstr ""
 
