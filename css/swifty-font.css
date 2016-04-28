@@ -1,8 +1,8 @@
 @charset "UTF-8";
 @font-face {
   font-family: 'swiftysiteui';
-  src: url('fonts/swiftysiteui.eot');
-  src: url('fonts/swiftysiteui.eot?#iefix') format('embedded-opentype'), url('fonts/swiftysiteui.woff') format('woff'), url('fonts/swiftysiteui.ttf') format('truetype'), url('fonts/swiftysiteui.svg#swiftysiteui') format('svg');
+  src: url('fonts/swiftysiteui.eot?swcv=scc_/*@echo RELEASE_TAG*/');
+  src: url('fonts/swiftysiteui.eot?#iefix&swcv=scc_/*@echo RELEASE_TAG*/') format('embedded-opentype'), url('fonts/swiftysiteui.woff?swcv=scc_/*@echo RELEASE_TAG*/') format('woff'), url('fonts/swiftysiteui.ttf?swcv=scc_/*@echo RELEASE_TAG*/') format('truetype'), url('fonts/swiftysiteui.svg#swiftysiteui?swcv=scc_/*@echo RELEASE_TAG*/') format('svg');
   font-weight: normal;
   font-style: normal;
 }

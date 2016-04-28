@@ -1,9 +1,11 @@
 @charset "UTF-8";
 
+@bust: 'swcv=scc_/*@echo RELEASE_TAG*/';
+
 @font-face {
     font-family: 'swiftysiteui';
-    src: url('fonts/swiftysiteui.eot');
-    src: url('fonts/swiftysiteui.eot?#iefix') format('embedded-opentype'), url('fonts/swiftysiteui.woff') format('woff'), url('fonts/swiftysiteui.ttf') format('truetype'), url('fonts/swiftysiteui.svg#swiftysiteui') format('svg');
+    src: url('fonts/swiftysiteui.eot?@{bust}');
+    src: url('fonts/swiftysiteui.eot?#iefix&@{bust}') format('embedded-opentype'), url('fonts/swiftysiteui.woff?@{bust}') format('woff'), url('fonts/swiftysiteui.ttf?@{bust}') format('truetype'), url('fonts/swiftysiteui.svg#swiftysiteui?@{bust}') format('svg');
     font-weight: normal;
     font-style: normal;
 }

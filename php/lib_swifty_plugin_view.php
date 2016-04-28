@@ -6,6 +6,9 @@ if( ! defined( 'ABSPATH' ) ) exit;
 // used in other plugins
 require_once plugin_dir_path( __FILE__ ) . 'lib/swifty-captcha.php';
 
+global $swifty_lib_version;
+$swifty_lib_version = '/*@echo SWIFTY_LIB_VERSION*/';
+
 /**
  * Class LibSwiftyPluginView shared functions for view mode
  */
@@ -124,7 +127,11 @@ class LibSwiftyPluginView
         if( ! isset( self::$filter_swifty_SS2_hosting_name ) ) {
             self::$filter_swifty_SS2_hosting_name = get_option( 'ss2_hosting_name' );
         }
-        return $default || self::$filter_swifty_SS2_hosting_name;
+        if( self::$filter_swifty_SS2_hosting_name ) {
+            return self::$filter_swifty_SS2_hosting_name;
+        } else {
+            return $default;
+        }
     }
 
     /**
