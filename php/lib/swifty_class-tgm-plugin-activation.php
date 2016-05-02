@@ -319,6 +319,78 @@ if( ! class_exists( 'Swifty_TGM_Plugin_Activation' ) ) {
         }
 
         /**
+         * install or activate one plugin
+         */
+        public function install_or_activate_plugin( $plugin_slug, $activate = false )
+        {
+            $installed_plugins = get_plugins(); // Retrieve a list of all the plugins
+            $this->populate_file_path();
+
+            require_once ABSPATH . 'wp-admin/includes/plugin-install.php'; // Need for plugins_api.
+            require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php'; // Need for upgrade classes.
+
+            $plugin = false;
+            foreach( $this->plugins as $current_plugin ) {
+                if( $plugin['slug'] === $plugin_slug ) {
+                    $plugin = $current_plugin;
+                    break;
+                }
+            }
+            if( $plugin ) {
+                // is scc-pro or scc installed?
+                // split 'swifty-content-' . 'creator' to prevent being found when looking for translations
+                if( $plugin[ 'slug' ] === ( 'swifty-content-' . 'creator-pro' ) ) {
+                    $scc_file_path = $this->_get_plugin_basename_from_slug( 'swifty-content-' . 'creator' );
+                    if( isset( $installed_plugins[ $plugin[ 'file_path' ] ] ) || ( isset( $scc_file_path ) && isset( $installed_plugins[ $scc_file_path ] ) ) ) {
+                        $plugin = false;
+                    }
+                }
+            }
+
+            if( $plugin ) {
+                if( $activate ) {
+                    if( isset( $installed_plugins[ $plugin[ 'file_path' ] ] ) ) {
+                        activate_plugin( $plugin[ 'file_path' ] );
+
+                        return true;
+                    }
+                } else {
+                    // Is plugin installed?
+                    if( ! isset( $installed_plugins[ $plugin[ 'file_path' ] ] ) ) {
+
+                        // Create a new instance of Plugin_Upgrader.
+                        $upgrader = new Plugin_Upgrader( $skin = new Automatic_Upgrader_Skin() );
+
+                        // Set plugin source to WordPress API link if available.
+                        if( ! isset( $plugin[ 'source' ] ) ) {
+                            $plugin[ 'source' ] = 'repo';
+                            $api = plugins_api( 'plugin_information', array( 'slug' => $plugin[ 'slug' ], 'fields' => array( 'sections' => false ) ) );
+
+                            if( is_wp_error( $api ) ) {
+                                wp_die( $this->strings[ 'oops' ] . var_dump( $api ) );
+                            }
+
+                            if( isset( $api->download_link ) ) {
+                                $plugin[ 'source' ] = $api->download_link;
+                            }
+                        }
+
+                        // Perform the action and install the plugin from the $source urldecode().
+                        $source = apply_filters( 'swifty_get_download_url', $plugin[ 'source' ] );
+
+                        $upgrader->install( $source );
+
+                        // Flush plugins cache so we can make sure that the installed plugins list is always up to date.
+                        wp_cache_flush();
+                    }
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+        /**
          * Handles calls to show plugin information via links in the notices.
          *
          * We get the links in the admin notices to point to the STGMPA page, rather
