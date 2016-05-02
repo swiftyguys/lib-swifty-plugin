@@ -70,7 +70,7 @@ if( ! function_exists( 'swifty_autoload_lib_helper' ) ) {
                 $file = $dir . $version_path . '/swifty_version.txt';
                 $version = -1;
                 if( file_exists( $file ) ) {
-                    $version = intval( file_get_contents( $file ) );
+                    $version = floatval( file_get_contents( $file ) );
                 }
 //                echo '#####' . $dir . '#####' . $version . '<br>';
                 // split 'swifty-content-' . 'creator' to prevent being found when looking for translations
