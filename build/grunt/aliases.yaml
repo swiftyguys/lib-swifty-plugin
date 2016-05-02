@@ -262,6 +262,7 @@ helper_build:
   - 'jshint' # Do a lint for all js files
   - 'csslint' # Do a lint for all css files
   - 'if_requirejs' # Do a requirejs build if needed for this plugin; will create concatenated js and css of all required files
+  - 'if_requirejs2' # Do a requirejs build if needed for this plugin; will create concatenated js and css of all required files
   - 'if_clean_unwanted' # Delete all files that are not needed in final zip
   - 'preprocess' # Replace strings and removed lines based on environment vars; like @if and @ifdef
   - 'replace:readme' # Set the current version etc in the readme

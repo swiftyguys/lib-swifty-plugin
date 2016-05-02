@@ -33,6 +33,32 @@ module.exports = function( grunt/*, options*/ ) {
                     excludeRequireCss: false // can not be true because we have dynamically required css()fontawesome)
                 }
             }
+        },
+        two: {
+            options: {
+                name: grunt.myCfg.requirejs2.src,
+                baseUrl: '<%= grunt.getDestPathPlugin() %>',
+                mainConfigFile: grunt.myCfg.requirejs2.mainCfg,
+                out: grunt.myCfg.requirejs2.dst,
+
+                namespace: 'swifty_two',
+
+                include: [ 'requireLib' ], // Include RequireJs itself
+                optimize: 'none',
+
+                // css:
+                exclude: grunt.myCfg.requirejs2.exclude,
+                stubModules : [ // So these will not be in the build
+                    'json',
+                    'text',
+//                    'css', // Needed
+                    'stache'
+                ],
+                separateCSS: grunt.myCfg.requirejs2.separateCSS,
+                pragmasOnSave: {
+                    excludeRequireCss: false // can not be true because we have dynamically required css()fontawesome)
+                }
+            }
         }
     };
 };

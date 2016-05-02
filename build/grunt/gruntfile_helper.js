@@ -231,7 +231,14 @@ module.exports = {
         grunt.registerTask( 'if_requirejs', function() {
             if( grunt.myCfg.requirejs.do ) {
                 grunt.task.run( [
-                    'requirejs'
+                    'requirejs:dist'
+                ] );
+            }
+        } );
+        grunt.registerTask( 'if_requirejs2', function() {
+            if( grunt.myCfg.requirejs2 && grunt.myCfg.requirejs2.do ) {
+                grunt.task.run( [
+                    'requirejs:two'
                 ] );
             }
         } );
