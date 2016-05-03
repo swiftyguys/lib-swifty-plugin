@@ -141,7 +141,7 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
                 );
             } else {
                 // download file to server
-                $image_string = file_get_contents( $url_image, false );
+                $image_string = swifty_read_text( $url_image );
                 if( $image_string ) {
                     $upload = wp_upload_bits( $filename, null, $image_string );
                     if( !$upload || $upload['error'] ) {

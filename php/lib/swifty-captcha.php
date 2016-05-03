@@ -207,7 +207,7 @@ if( ! class_exists( 'SwiftyCaptcha' ) ) {
             $filename = sanitize_file_name( $prefix . '.txt' );
             $file = wp_normalize_path( $dir . $filename );
 
-            if( @is_readable( $file ) && ( $code = file_get_contents( $file ) ) ) {
+            if( @is_readable( $file ) && ( $code = swifty_read_text( $file ) ) ) {
                 $code = explode( '|', $code, 2 );
 
                 $salt = $code[ 0 ];
