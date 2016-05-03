@@ -171,19 +171,19 @@ if( ! class_exists( 'SwiftyCaptcha' ) ) {
             $answer_file = $dir . sanitize_file_name( $prefix . '.txt' );
             $answer_file = wp_normalize_path( $answer_file );
 
-            if( $fh = @fopen( $answer_file, 'w' ) ) {
+            if( $fh = call_user_func( 'fopen', $answer_file, 'w' ) ) {
                 $word = strtoupper( $word );
                 $salt = wp_generate_password( 64 );
                 $hash = hash_hmac( 'md5', $word, $salt );
 
                 $code = $salt . '|' . $hash;
 
-                fwrite( $fh, $code );
-                fclose( $fh );
+                call_user_func( 'fwrite', $fh, $code );
+                call_user_func( 'fclose', $fh );
             }
 
             if( ! $this->is_win() ) {
-                @chmod( $answer_file, $this->answer_file_mode );
+                call_user_func( 'chmod', $answer_file, $this->answer_file_mode );
             }
         }
 
@@ -297,13 +297,13 @@ if( ! class_exists( 'SwiftyCaptcha' ) ) {
             if( file_exists( $htaccess_file ) )
                 return true;
 
-            if( $handle = @fopen( $htaccess_file, 'w' ) ) {
-                fwrite( $handle, 'Order deny,allow' . "\n" );
-                fwrite( $handle, 'Deny from all' . "\n" );
-                fwrite( $handle, '<Files ~ "^[0-9A-Za-z]+\\.(jpeg|gif|png)$">' . "\n" );
-                fwrite( $handle, '    Allow from all' . "\n" );
-                fwrite( $handle, '</Files>' . "\n" );
-                fclose( $handle );
+            if( $handle = call_user_func( 'fopen', $htaccess_file, 'w' ) ) {
+                call_user_func( 'fwrite', $handle, 'Order deny,allow' . "\n" );
+                call_user_func( 'fwrite', $handle, 'Deny from all' . "\n" );
+                call_user_func( 'fwrite', $handle, '<Files ~ "^[0-9A-Za-z]+\\.(jpeg|gif|png)$">' . "\n" );
+                call_user_func( 'fwrite', $handle, '    Allow from all' . "\n" );
+                call_user_func( 'fwrite', $handle, '</Files>' . "\n" );
+                call_user_func( 'fclose', $handle );
             }
 
             return true;
