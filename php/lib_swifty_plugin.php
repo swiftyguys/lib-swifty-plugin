@@ -196,7 +196,7 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
      */
     public function admin_add_swifty_admin() {
         if( empty ( $GLOBALS[ 'admin_page_hooks' ][ 'swifty_admin' ] ) ) {
-            add_menu_page(
+            apply_filters( 'admin_add_swifty_admin', null,
                 'Swifty',
                 'Swifty',
                 'manage_options',
@@ -230,14 +230,7 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
         $this->admin_add_swifty_admin();
 
         // Add the admin submenu for our plugin
-        $page = add_submenu_page(
-            'swifty_admin',
-            $name,
-            $name,
-            'manage_options',
-            $key,
-            $func
-        );
+        $page = apply_filters( 'admin_add_swifty_menu', null, $name, $key, $func );
 
         if( $page ) {
             $this->added_swifty_slugs[ $key ] = $page;
