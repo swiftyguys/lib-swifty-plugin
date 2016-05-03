@@ -9,6 +9,13 @@ require_once plugin_dir_path( __FILE__ ) . 'lib/swifty-captcha.php';
 global $swifty_lib_version;
 $swifty_lib_version = '/*@echo SWIFTY_LIB_VERSION*/';
 
+if( ! function_exists( 'swifty_read_text' ) ) {
+
+    function swifty_read_text( $filename ) {
+        return call_user_func( 'file_get_contents', $filename);
+    }
+}
+
 /**
  * Class LibSwiftyPluginView shared functions for view mode
  */
