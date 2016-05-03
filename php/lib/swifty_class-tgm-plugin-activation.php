@@ -25,7 +25,7 @@ if( ! class_exists( 'Swifty_TGM_Plugin_Activation' ) ) {
     // <n>o <l>anguage <f>ile
     function nlf__( $translate, $context )
     {
-        return __( $translate, $context );
+        return swifty__( $translate, $context );
     }
 
     /**
