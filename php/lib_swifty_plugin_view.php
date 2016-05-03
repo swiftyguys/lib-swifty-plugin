@@ -16,6 +16,13 @@ if( ! function_exists( 'swifty_read_text' ) ) {
     }
 }
 
+if( ! function_exists( 'swifty__' ) ) {
+
+    function swifty__( $variable, $context ) {
+        return call_user_func( '__', $variable, $context);
+    }
+}
+
 /**
  * Class LibSwiftyPluginView shared functions for view mode
  */
