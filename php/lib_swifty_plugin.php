@@ -141,12 +141,14 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
                 );
             } else {
                 // download file to server
-                $image_string = file_get_contents( $url_image, false );
+                $image_string = swifty_read_text( $url_image );
                 if( $image_string ) {
-                    $fileSaved = file_put_contents( $fullpathfilename, $image_string );
-                    if( ! $fileSaved ) {
+                    $upload = wp_upload_bits( $filename, null, $image_string );
+                    if( !$upload || $upload['error'] ) {
                         throw new Exception( "The file cannot be saved to: " . $uploads[ 'path' ] . "/" . $filename );
                     }
+                    $fullpathfilename = $upload['file'];
+                    $attachment_url = $upload['url'];
                 } else {
                     throw new Exception( 'Unable to fetch image: ' . $url_image );
                 }
@@ -160,7 +162,7 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
                     'post_status' => 'inherit',
                     'post_author' => '',
                     'post_date' => '',
-                    'guid' => $uploads[ 'url' ] . "/" . $filename
+                    'guid' => $attachment_url
                 );
                 $attach_id = wp_insert_attachment( $attachment, $fullpathfilename, 0 );
                 if( ! $attach_id ) {
@@ -194,7 +196,7 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
      */
     public function admin_add_swifty_admin() {
         if( empty ( $GLOBALS[ 'admin_page_hooks' ][ 'swifty_admin' ] ) ) {
-            add_menu_page(
+            apply_filters( 'admin_add_swifty_admin', null,
                 'Swifty',
                 'Swifty',
                 'manage_options',
@@ -228,14 +230,7 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
         $this->admin_add_swifty_admin();
 
         // Add the admin submenu for our plugin
-        $page = add_submenu_page(
-            'swifty_admin',
-            $name,
-            $name,
-            'manage_options',
-            $key,
-            $func
-        );
+        $page = apply_filters( 'admin_add_swifty_menu', null, $name, $key, $func );
 
         if( $page ) {
             $this->added_swifty_slugs[ $key ] = $page;

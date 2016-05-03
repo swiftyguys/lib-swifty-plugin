@@ -1,5 +1,12 @@
 <?php
 
+if( ! function_exists( 'swifty_read_text' ) ) {
+
+    function swifty_read_text( $filename ) {
+        return call_user_func( 'file_get_contents', $filename);
+    }
+}
+
 if( ! function_exists( 'swifty_autoload_lib_helper' ) ) {
 
     /**
@@ -70,7 +77,7 @@ if( ! function_exists( 'swifty_autoload_lib_helper' ) ) {
                 $file = $dir . $version_path . '/swifty_version.txt';
                 $version = -1;
                 if( file_exists( $file ) ) {
-                    $version = floatval( file_get_contents( $file ) );
+                    $version = floatval( swifty_read_text( $file ) );
                 }
 //                echo '#####' . $dir . '#####' . $version . '<br>';
                 // split 'swifty-content-' . 'creator' to prevent being found when looking for translations
