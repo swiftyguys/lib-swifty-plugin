@@ -497,9 +497,9 @@ if( ! class_exists( 'Swifty_TGM_Plugin_Activation' ) ) {
             ?>
             <div class="stgmpa wrap">
 
-                <?php if( version_compare( $this->wp_version, '3.8', '<' ) ) {
-                    screen_icon( apply_filters( 'stgmpa_default_screen_icon', 'themes' ) );
-                } ?>
+<!--                --><?php //if( version_compare( $this->wp_version, '3.8', '<' ) ) {
+//                    screen_icon( apply_filters( 'stgmpa_default_screen_icon', 'themes' ) );
+//                } ?>
                 <h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
                 <?php $plugin_table->prepare_items(); ?>
 
@@ -1725,9 +1725,9 @@ if( ! class_exists( 'STGMPA_List_Table' ) ) {
 
                 // Wrap the install process with the appropriate HTML.
                 echo '<div class="stgmpa wrap">';
-                if( version_compare( Swifty_TGM_Plugin_Activation::$instance->wp_version, '3.8', '<' ) ) {
-                    screen_icon( apply_filters( 'stgmpa_default_screen_icon', 'themes' ) );
-                }
+//                if( version_compare( Swifty_TGM_Plugin_Activation::$instance->wp_version, '3.8', '<' ) ) {
+//                    screen_icon( apply_filters( 'stgmpa_default_screen_icon', 'themes' ) );
+//                }
                 echo '<h2>' . esc_html( get_admin_page_title() ) . '</h2>';
                 // Process the bulk installation submissions.
                 $installer->bulk_install( $sources );
