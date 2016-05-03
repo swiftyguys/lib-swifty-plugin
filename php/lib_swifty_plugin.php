@@ -143,10 +143,12 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
                 // download file to server
                 $image_string = file_get_contents( $url_image, false );
                 if( $image_string ) {
-                    $fileSaved = file_put_contents( $fullpathfilename, $image_string );
-                    if( ! $fileSaved ) {
+                    $upload = wp_upload_bits( $filename, null, $image_string );
+                    if( !$upload || $upload['error'] ) {
                         throw new Exception( "The file cannot be saved to: " . $uploads[ 'path' ] . "/" . $filename );
                     }
+                    $fullpathfilename = $upload['file'];
+                    $attachment_url = $upload['url'];
                 } else {
                     throw new Exception( 'Unable to fetch image: ' . $url_image );
                 }
@@ -160,7 +162,7 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
                     'post_status' => 'inherit',
                     'post_author' => '',
                     'post_date' => '',
-                    'guid' => $uploads[ 'url' ] . "/" . $filename
+                    'guid' => $attachment_url
                 );
                 $attach_id = wp_insert_attachment( $attachment, $fullpathfilename, 0 );
                 if( ! $attach_id ) {
