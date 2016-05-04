@@ -433,6 +433,27 @@ function swifty_initOnLoadJs() {
     } catch( e ) {}
 }
 
+function swifty_addFonts( fonts ) {
+    try {
+        if( ! ssd_list_loadFont ) {
+            ssd_list_loadFont = [];
+        }
+        for( var i = 0; i < fonts.length; i++ ) {
+            var font = fonts[ i ];
+            var exists = false;
+            for( var j = 0; j < ssd_list_loadFont.length; j++ ) {
+                if( ssd_list_loadFont[ j ] === font ) {
+                    exists = true;
+                }
+            }
+            if( ! exists ) {
+                ssd_list_loadFont.push( font );
+            }
+        }
+        swifty_loadFonts();
+    } catch( e ) {}
+}
+
 function swifty_loadFonts() {
     try {
         var ssdWebfonts = {
@@ -447,6 +468,17 @@ function swifty_loadFonts() {
 function swifty_wait_loadFonts() {
     // dorh Quit trying after ... seconds
     if( typeof WebFont !== 'undefined' ) {
+        if( typeof swifty_ssd_page_styles !== "undefined" ) {
+            var st = swifty_ssd_page_styles;
+            for( var prop in st ) {
+                if( st.hasOwnProperty( prop ) ) {
+                    var are = st[ prop ];
+                    if( typeof are.used_fonts !== "undefined" ) {
+                        swifty_addFonts( are.used_fonts );
+                    }
+                }
+            }
+        }
         swifty_loadFonts();
     } else {
         setTimeout( swifty_wait_loadFonts, 50 );
