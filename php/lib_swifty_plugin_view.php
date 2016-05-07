@@ -172,6 +172,14 @@ class LibSwiftyPluginView
         }
     }
 
+    /*
+     * Is this view request in a hidden view?
+     */
+    public static function is_swifty_hiddenview()
+    {
+        return isset( $_GET[ 'swifty_hiddenview' ] );
+    }
+
     /**
      * test if $plugin_name is active
      * All swifty plugins will respond to the 'swifty_active_plugins' filter and it's name
