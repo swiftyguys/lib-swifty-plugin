@@ -85,6 +85,56 @@ function swifty_checkImages() {
     } catch( e ) {}
 }
 
+function swifty_startScrolleffect() {
+    try {
+        var scrollTimer;
+        window.onscroll = function() {
+            if( ! scrollTimer ) {
+                scrollTimer = setTimeout( function() {
+                    swifty_updateScrolleffect();
+                    scrollTimer = null;
+                }, 20 );
+            }
+        };
+        swifty_updateScrolleffect();
+    } catch( e ) {}
+}
+
+function swifty_updateScrolleffect() {
+    try {
+        if( typeof JSON !== 'undefined' && typeof JSON.parse !== 'undefined' ) {
+            var hV = window.innerHeight;
+            var sY = window.pageYOffset;
+
+            var els = document.querySelectorAll( '[data-swc_scrolleffect]' );
+            for( var i = 0; i < els.length; i++ ) {
+                try {
+                    var el = els[ i ];
+                    var viewportOffset = el.getBoundingClientRect();
+                    var yEl = viewportOffset.top;
+                    var hEl = el.clientHeight;
+
+                    var scrD = el.getAttribute( 'data-swc_scrolleffect' );
+                    if( typeof scrD === 'string' && scrD.substr( 0, 1 ) === '{' ) {
+                        scrD = JSON.parse( scrD );
+                        if( scrD.effect === 'parallax0' ) {
+                            el.style.backgroundAttachment = 'fixed';
+                        }
+                        if( scrD.effect === 'parallax1' ) {
+                            var f = parseFloat( scrD.factor );
+                            var o = parseFloat( scrD.offset );
+                            var p = 100.0 * ( f * ( 1 - ( yEl + hEl ) / ( hV + hEl ) ) + o );
+                            var bpx = el.style.backgroundPosition.split( ' ' );
+                            el.style.backgroundPosition = bpx[ 0 ] + ' ' + p + '%';
+                            // console.log( "p", p, el.style.backgroundPosition );
+                        }
+                    }
+                } catch( e ) {}
+            }
+        }
+    } catch( e ) {}
+}
+
 // Try to make text items fit on one line.
 
 function swifty_checkTextItems() {
@@ -588,4 +638,5 @@ try {
     swifty_check_inserts();
     swifty_checkTextItems();
     swifty_fixSideMenu();
+    swifty_startScrolleffect();
 } catch( e ) {}
