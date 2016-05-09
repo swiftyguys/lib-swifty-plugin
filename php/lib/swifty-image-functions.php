@@ -426,31 +426,46 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
 
                 SwiftyImageFunctions::create_image_sizes_table();
 
-                // IMPACT_ON_SECURITY
+                if( $w_asset === -3 ) {
+                    // IMPACT_ON_SECURITY
+                    $where = array(
+                        'id_post' => $id_post,
+                        'id_asset' => $id_asset
+                    );
 
-                $where = array(
-                    'id_post' => $id_post,
-                    'id_asset' => $id_asset,
-                    'w_viewport' => $viewport_width
-                );
+                    $where_formats = array(
+                        '%d',
+                        '%s'
+                    );
 
-                $data = array(
-                    'w_asset' => $w_asset,
-                    'w_determine' => $w_asset
-                );
+                    $wpdb->delete( SwiftyImageFunctions::get_image_sizes_table_name(), $where, $where_formats );
+                } else {
+                    // IMPACT_ON_SECURITY
 
-                $column_formats = array(
-                    '%d',
-                    '%d'
-                );
+                    $where = array(
+                        'id_post' => $id_post,
+                        'id_asset' => $id_asset,
+                        'w_viewport' => $viewport_width
+                    );
 
-                $where_formats = array(
-                    '%d',
-                    '%s',
-                    '%d'
-                );
+                    $data = array(
+                        'w_asset' => $w_asset,
+                        'w_determine' => $w_asset
+                    );
 
-                $wpdb->update( SwiftyImageFunctions::get_image_sizes_table_name(), $data, $where, $column_formats, $where_formats );
+                    $column_formats = array(
+                        '%d',
+                        '%d'
+                    );
+
+                    $where_formats = array(
+                        '%d',
+                        '%s',
+                        '%d'
+                    );
+
+                    $wpdb->update( SwiftyImageFunctions::get_image_sizes_table_name(), $data, $where, $column_formats, $where_formats );
+                }
             }
         }
 
