@@ -30,6 +30,8 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
         if( is_admin() ) {
             add_action( 'plugins_loaded', array( &$this, 'hook_plugins_loaded_update_check' ) );
         }
+        add_filter( 'swifty_get_area_template_style', array( $this, 'swifty_get_area_template_style' ), 10, 3 );
+        add_action( 'swifty_set_area_template_style', array( $this, 'swifty_set_area_template_style' ), 10, 3 );
     }
 
     /**
@@ -59,6 +61,53 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
             }
 
             update_option( 'swifty_lib_version', $swifty_lib_version );
+        }
+    }
+
+    /**
+     * Filter: "swifty_get_area_template_style" - look for area template style
+     *
+     * @param $areaStyle
+     * @param $areaName
+     * @param $areaTemplate
+     * @return mixed
+     */
+    public function swifty_get_area_template_style( $areaStyle, $areaName, $areaTemplate ) {
+
+        if( $areaName === 'page' ) {
+            $area_id = get_the_ID();
+        } else {
+            $area_id = apply_filters( 'swifty_postid_from_area', -1, $areaName, $areaTemplate );
+        }
+
+        if( $area_id <> -1 ) {
+            $areaStyle = get_post_meta( $area_id, 'swifty_style', true );
+        }
+
+        if( $areaStyle === '' ) {
+            $areaStyle = '{}';
+        }
+
+        return $areaStyle;
+    }
+
+    /**
+     * Action: "swifty_set_area_template_style" - store area template style
+     *
+     * @param $areaStyle
+     * @param $areaName
+     * @param $areaTemplate
+     */
+    public function swifty_set_area_template_style( $areaStyle, $areaName, $areaTemplate ) {
+
+        if( $areaName === 'page' ) {
+            $area_id = $areaTemplate;
+        } else {
+            $area_id = apply_filters( 'swifty_postid_from_area', -1, $areaName, $areaTemplate );
+        }
+
+        if( $area_id <> -1 ) {
+            update_post_meta( $area_id, 'swifty_style', $areaStyle );
         }
     }
 

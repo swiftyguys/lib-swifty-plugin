@@ -85,6 +85,61 @@ function swifty_checkImages() {
     } catch( e ) {}
 }
 
+function swifty_startScrolleffect() {
+    try {
+        var scrollTimer;
+        window.onscroll = function() {
+            if( ! scrollTimer ) {
+                scrollTimer = setTimeout( function() {
+                    swifty_updateScrolleffect();
+                    scrollTimer = null;
+                }, 20 );
+            }
+        };
+        swifty_updateScrolleffect();
+    } catch( e ) {}
+}
+
+function swifty_updateScrolleffect() {
+    try {
+        if( typeof JSON !== 'undefined' && typeof JSON.parse !== 'undefined' ) {
+            var wV = window.innerWidth;
+            var hV = window.innerHeight;
+            var sY = window.pageYOffset;
+            var els = document.querySelectorAll( '[data-swc_scrolleffect]' );
+            for( var i = 0; i < els.length; i++ ) {
+                try {
+                    var el = els[ i ];
+                    var viewportOffset = el.getBoundingClientRect();
+                    var xEl = viewportOffset.left;
+                    var yEl = viewportOffset.top;
+                    var wEl = el.clientWidth;
+                    var hEl = el.clientHeight;
+                    var scrD = el.getAttribute( 'data-swc_scrolleffect' );
+                    if( typeof scrD === 'string' && scrD.substr( 0, 1 ) === '{' ) {
+                        scrD = JSON.parse( scrD );
+                        var f = parseFloat( scrD.factor );
+                        var o = parseFloat( scrD.offset );
+                        var bpx = el.style.backgroundPosition.split( ' ' );
+                        var p;
+                        if( scrD.effect === 'parallax0' ) {
+                            el.style.backgroundAttachment = 'fixed';
+                            // el.style.backgroundPosition = xEl + 'px ' + bpx[ 1 ];
+                            // el.style.backgroundSize = wEl + 'px';
+                        }
+                        if( scrD.effect === 'parallax1' ) {
+                            p = 1 - ( yEl + hEl ) / ( hV + hEl );
+                            p = 100.0 * ( f * ( p ) + o );
+                            el.style.backgroundPosition = bpx[ 0 ] + ' ' + p + '%';
+                            // console.log( "p", p, el.style.backgroundPosition );
+                        }
+                    }
+                } catch( e ) {}
+            }
+        }
+    } catch( e ) {}
+}
+
 // Try to make text items fit on one line.
 
 function swifty_checkTextItems() {
@@ -433,6 +488,27 @@ function swifty_initOnLoadJs() {
     } catch( e ) {}
 }
 
+function swifty_addFonts( fonts ) {
+    try {
+        if( ! ssd_list_loadFont ) {
+            ssd_list_loadFont = [];
+        }
+        for( var i = 0; i < fonts.length; i++ ) {
+            var font = fonts[ i ];
+            var exists = false;
+            for( var j = 0; j < ssd_list_loadFont.length; j++ ) {
+                if( ssd_list_loadFont[ j ] === font ) {
+                    exists = true;
+                }
+            }
+            if( ! exists ) {
+                ssd_list_loadFont.push( font );
+            }
+        }
+        swifty_loadFonts();
+    } catch( e ) {}
+}
+
 function swifty_loadFonts() {
     try {
         var ssdWebfonts = {
@@ -447,6 +523,17 @@ function swifty_loadFonts() {
 function swifty_wait_loadFonts() {
     // dorh Quit trying after ... seconds
     if( typeof WebFont !== 'undefined' ) {
+        if( typeof swifty_ssd_page_styles !== "undefined" ) {
+            var st = swifty_ssd_page_styles;
+            for( var prop in st ) {
+                if( st.hasOwnProperty( prop ) ) {
+                    var are = st[ prop ];
+                    if( typeof are.used_fonts !== "undefined" ) {
+                        swifty_addFonts( are.used_fonts );
+                    }
+                }
+            }
+        }
         swifty_loadFonts();
     } else {
         setTimeout( swifty_wait_loadFonts, 50 );
@@ -556,4 +643,5 @@ try {
     swifty_check_inserts();
     swifty_checkTextItems();
     swifty_fixSideMenu();
+    swifty_startScrolleffect();
 } catch( e ) {}

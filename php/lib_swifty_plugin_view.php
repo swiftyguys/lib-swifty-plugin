@@ -172,6 +172,14 @@ class LibSwiftyPluginView
         }
     }
 
+    /*
+     * Is this view request in a hidden view?
+     */
+    public static function is_swifty_hiddenview()
+    {
+        return isset( $_GET[ 'swifty_hiddenview' ] );
+    }
+
     /**
      * test if $plugin_name is active
      * All swifty plugins will respond to the 'swifty_active_plugins' filter and it's name
@@ -365,7 +373,7 @@ class LibSwiftyPluginView
             if( $swifty_build_use === 'build' ) {
                 $script_file_url = get_swifty_lib_dir_url( __FILE__ ) . 'js/libs/bowser.min.js' . $bust_add;
             } else {
-                $script_file_url = get_swifty_lib_dir_url( __FILE__ ) . 'lib/swifty_plugin/js/lib/bowser.js' . $bust_add;
+                $script_file_url = get_swifty_lib_dir_url( __FILE__ ) . 'lib/swifty_plugin/js/lib/bowser.dev.js' . $bust_add;
             }
 
             $script_version = (int) '/*@echo FONT_REL_TAG*/';

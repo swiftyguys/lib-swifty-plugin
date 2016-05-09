@@ -331,7 +331,7 @@ if( ! class_exists( 'Swifty_TGM_Plugin_Activation' ) ) {
 
             $plugin = false;
             foreach( $this->plugins as $current_plugin ) {
-                if( $plugin['slug'] === $plugin_slug ) {
+                if( $current_plugin['slug'] === $plugin_slug ) {
                     $plugin = $current_plugin;
                     break;
                 }
