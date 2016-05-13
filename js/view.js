@@ -110,14 +110,15 @@ function swifty_updateScrolleffect() {
             for( var i = 0; i < els.length; i++ ) {
                 try {
                     var el = els[ i ];
-                    var viewportOffset = el.getBoundingClientRect();
-                    var xEl = viewportOffset.left;
-                    var yEl = viewportOffset.top;
-                    var wEl = el.clientWidth;
-                    var hEl = el.clientHeight;
                     var scrD = el.getAttribute( 'data-swc_scrolleffect' );
                     if( typeof scrD === 'string' && scrD.substr( 0, 1 ) === '{' ) {
                         scrD = JSON.parse( scrD );
+                        var viewportOffset = el.getBoundingClientRect();
+                        var mx = swifty_parseMatrix( getComputedStyle( el, null ).transform );
+                        var xEl = viewportOffset.left - mx.m41;
+                        var yEl = viewportOffset.top - mx.m42;
+                        var wEl = el.clientWidth;
+                        var hEl = el.clientHeight;
                         var f = parseFloat( scrD.factor );
                         var o = parseFloat( scrD.offset );
                         var bpx = el.style.backgroundPosition.split( ' ' );
@@ -131,13 +132,121 @@ function swifty_updateScrolleffect() {
                             p = 1 - ( yEl + hEl ) / ( hV + hEl );
                             p = 100.0 * ( f * ( p ) + o );
                             el.style.backgroundPosition = bpx[ 0 ] + ' ' + p + '%';
-                            // console.log( "p", p, el.style.backgroundPosition );
+                        }
+                        if( scrD.effect === 'move' || scrD.effect === 'movefade' ) {
+                            var yf = f * 2 * ( ( yEl / hV ) - .5 ) + o;
+                            p = f * ( yEl - ( .5 - ( o / 2 ) ) * hV );
+                            if( scrD.direction === 'down' ) {
+                                p = - 2 * f * ( yEl - ( .5 - ( o / 2 ) ) * hV );
+                            }
+                            if( scrD.direction === 'left' ) {
+                                p = ( wV - xEl ) * yf;
+                            }
+                            if( scrD.direction === 'right' ) {
+                                p = - ( xEl + wEl ) * yf;
+                            }
+                            if( scrD.direction === 'up' || scrD.direction === 'left' ) {
+                                if( scrD.motion === 'in' && p < 0 ) {
+                                    p = 0;
+                                }
+                                if( scrD.motion === 'out' && p > 0 ) {
+                                    p = 0;
+                                }
+                            } else {
+                                if( scrD.motion === 'in' && p > 0 ) {
+                                    p = 0;
+                                }
+                                if( scrD.motion === 'out' && p < 0 ) {
+                                    p = 0;
+                                }
+                            }
+                            if( scrD.direction === 'down' || scrD.direction === 'up' ) {
+                                el.style.transform = 'translate(0px,' + p + 'px)';
+                            } else {
+                                el.style.transform = 'translate(' + p + 'px,0px)';
+                            }
+                            el.style.zIndex = '999';
+                        }
+                        if( scrD.effect === 'fade' || scrD.effect === 'movefade' ) {
+                            p = f * ( yEl - ( .5 - ( o / 2 ) ) * hV );
+                            p /= hV / 2;
+                            if( scrD.motion === 'out' ) {
+                                p = - p;
+                            }
+                            if( scrD.motion === 'both' ) {
+                                p = Math.abs( p );
+                            } else {
+                                if( p < 0 ) {
+                                    p = 0;
+                                }
+                            }
+                            if( scrD.reverse === 'reverse' ) {
+                                p = 1 - p;
+                            }
+                            el.style.opacity = Math.min( Math.max( 1 - p, 0 ), 1 );
                         }
                     }
                 } catch( e ) {}
             }
         }
     } catch( e ) {}
+}
+
+function swifty_resetScrolleffect( tp ) {
+    try {
+        var els = document.querySelectorAll( '[data-swc_scrolleffect]' );
+        for( var i = 0; i < els.length; i++ ) {
+            try {
+                var el = els[ i ];
+                var scrD = el.getAttribute( 'data-swc_scrolleffect' );
+                if( typeof scrD === 'string' && scrD.substr( 0, 1 ) === '{' ) {
+                    if( tp === 1 ) {
+                        el.style.backgroundAttachment = 'scroll';
+                        el.style.backgroundPosition = '	0% 0%';
+                    }
+                    if( tp === 2 ) {
+                        el.style.transform = 'translate(0px,0px)';
+                        el.style.opacity = 1;
+                    }
+                }
+            } catch( e ) {}
+        }
+    } catch( e ) {}
+}
+
+// Parses a matrix string and returns a 4x4 matrix.
+
+function swifty_parseMatrix( matrixString ) {
+    var c = matrixString.split( /\s*[(),]\s*/ ).slice( 1, -1 ),
+        matrix;
+
+    if( c.length === 6 ) {
+        // 'matrix()' (3x2)
+        matrix = {
+            m11: +c[ 0 ], m21: +c[ 2 ], m31: 0, m41: +c[ 4 ],
+            m12: +c[ 1 ], m22: +c[ 3 ], m32: 0, m42: +c[ 5 ],
+            m13: 0, m23: 0, m33: 1, m43: 0,
+            m14: 0, m24: 0, m34: 0, m44: 1
+        };
+    } else if( c.length === 16 ) {
+        // matrix3d() (4x4)
+        matrix = {
+            m11: +c[ 0 ], m21: +c[ 4 ], m31: +c[ 8 ], m41: +c[ 12 ],
+            m12: +c[ 1 ], m22: +c[ 5 ], m32: +c[ 9 ], m42: +c[ 13 ],
+            m13: +c[ 2 ], m23: +c[ 6 ], m33: +c[ 10 ], m43: +c[ 14 ],
+            m14: +c[ 3 ], m24: +c[ 7 ], m34: +c[ 11 ], m44: +c[ 15 ]
+        };
+
+    } else {
+        // handle 'none' or invalid values.
+        matrix = {
+            m11: 1, m21: 0, m31: 0, m41: 0,
+            m12: 0, m22: 1, m32: 0, m42: 0,
+            m13: 0, m23: 0, m33: 1, m43: 0,
+            m14: 0, m24: 0, m34: 0, m44: 1
+        };
+    }
+    return matrix;
 }
 
 // Try to make text items fit on one line.

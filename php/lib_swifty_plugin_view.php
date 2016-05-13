@@ -51,6 +51,7 @@ class LibSwiftyPluginView
             // allow every plugin to get to the initialization part, all plugins and theme should be loaded then
             add_action( 'after_setup_theme', array( $this, 'action_after_setup_theme' ) );
             add_filter( 'swifty_SS2_hosting_name', array( $this, 'filter_swifty_SS2_hosting_name' ) );
+            add_filter( 'swifty_get_contentview', array( $this, 'hook_swifty_get_contentview' ), 10, 0 );
         }
         self::$instance_view = $this;
     }
@@ -178,6 +179,33 @@ class LibSwiftyPluginView
     public static function is_swifty_hiddenview()
     {
         return isset( $_GET[ 'swifty_hiddenview' ] );
+    }
+
+    /*
+     * Is this view request in a (demo) content view?
+     */
+    public static function is_swifty_contentview()
+    {
+        return isset( $_GET[ 'swifty_contentview' ] );
+    }
+
+    /**
+     * return the content that we are currently (pre)viewing
+     *
+     * @return bool|mixed false when 'swifty_contentview' is not set
+     * 'web': use the normal page view
+     * 'demo': use demo content for ssd
+     */
+    public function hook_swifty_get_contentview() {
+        $contentview = false;
+        if( isset( $_GET[ 'swifty_contentview' ] ) ) {
+            $contentview = $_GET[ 'swifty_contentview' ];
+        }
+        if( $contentview ) {
+            // make sure the input is not tampered with
+            $contentview = preg_replace( '/[^0-9a-zA-Z_]/', '', $contentview );
+        }
+        return $contentview;
     }
 
     /**
