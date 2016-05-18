@@ -602,6 +602,7 @@ function swifty_addFonts( fonts ) {
         if( ! ssd_list_loadFont ) {
             ssd_list_loadFont = [];
         }
+        var changed = 0;
         for( var i = 0; i < fonts.length; i++ ) {
             var font = fonts[ i ];
             var exists = false;
@@ -612,9 +613,12 @@ function swifty_addFonts( fonts ) {
             }
             if( ! exists ) {
                 ssd_list_loadFont.push( font );
+                changed++;
             }
         }
-        swifty_loadFonts();
+        if( changed > 0 ) {
+            swifty_loadFonts();
+        }
     } catch( e ) {}
 }
 
