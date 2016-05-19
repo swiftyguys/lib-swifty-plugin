@@ -70,7 +70,7 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
             return array( $src_word, $url, $script, $responsive );
         }
 
-        public static function get_img_tag( $url, $alt = '', $go_to_url = false, $href = '', $target = '', $viewer = 'nothing', $atts = array() )
+        public static function get_img_tag( $url, $alt = '', $go_to_url = false, $href = '', $target = '', $viewer = 'nothing', $atts = array(), $class = '' )
         {
             $url_a = $url;
             $image_size = SwiftyImageFunctions::$image_size;
@@ -96,7 +96,7 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
             }
 
             if( $viewer === 'nothing' ) {
-                return '<img ' . $src_word . '="' . $url . '"' . $responsive . ' alt="' . $alt . '">' . $script;
+                return '<img ' . $src_word . '="' . $url . '"' . $responsive . ' alt="' . $alt . '" class="' . $class . '">' . $script;
             }
 
             $html =
@@ -107,11 +107,11 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
                 '>' .
                 '<img ' . $src_word . '="' . $url . '"' . $responsive . ' alt="' . $alt . '" ' .
                 ( $go_to_url ? '' : 'onclick="swcThumbnailClick( this, \'' . $viewer . '\' );return false;"' ) .
-                '>' .
+                ' class="' . $class . '">' .
                 '</a>' . $script;
 
             if( isset( $atts[ 'caption' ] ) && ! empty( $atts[ 'caption' ] ) ) {
-                $html = '<figure class="wp-caption">' . $html . '<figcaption class="wp-caption-text">' . $atts[ 'caption' ] . '</figcaption></figure>';
+                $html = '<figure class="wp-caption ' . $class . '">' . $html . '<figcaption class="wp-caption-text"><span>' . $atts[ 'caption' ] . '</span></figcaption></figure>';
             }
 
             return $html;
