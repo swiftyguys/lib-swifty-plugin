@@ -111,7 +111,7 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
                 '</a>' . $script;
 
             if( isset( $atts[ 'caption' ] ) && ! empty( $atts[ 'caption' ] ) ) {
-                $html = '<figure class="wp-caption ' . $class . '">' . $html . '<figcaption class="wp-caption-text"><span>' . $atts[ 'caption' ] . '</span></figcaption></figure>';
+                $html = '<figure class="wp-caption ' . $class . '">' . $html . '<figcaption class="wp-caption-text"><span><span>' . $atts[ 'caption' ] . '</span></span></figcaption></figure>';
             }
 
             return $html;
