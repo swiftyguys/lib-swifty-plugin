@@ -362,6 +362,25 @@ class LibSwiftyPluginView
     }
 
     /**
+     * use ssd register_style method when ssd is the active theme,
+     * otherwise use wp_register_style
+     *
+     * @param $handle
+     * @param bool|false $src
+     * @param array $deps
+     * @param bool|false $ver
+     * @param string $media
+     */
+    public static function lazy_register_css( $handle, $src = false, $deps = array(), $ver = false, $media = 'all' )
+    {
+        if( self::$required_theme_active_swifty_site_designer ) {
+            do_action( 'swifty_lazy_register_css', $handle, $src, $deps, $ver, $media );
+        } else {
+            wp_register_style( $handle, $src, $deps, $ver, $media );
+        }
+    }
+    
+    /**
      * use ssd enqueue_style method when ssd is the active theme,
      * otherwise use wp_enqueue_style
      *
