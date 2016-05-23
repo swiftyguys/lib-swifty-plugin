@@ -100,7 +100,8 @@ module.exports = function( grunt/*, options*/ ) {
             }
         },
         svn_check_tags: {
-            command: 'svn ls ' + grunt.myCfg.svn_check_tags.url /*'svn ls http://plugins.svn.wordpress.org/swifty-page-manager/tags'*/,
+            // command: 'svn ls ' + grunt.myCfg.svn_check_tags.url /*'svn ls http://plugins.svn.wordpress.org/swifty-page-manager/tags'*/,
+            command: 'svn ls ' + grunt.myCfg.svn.url + 'tags' /*'svn ls http://plugins.svn.wordpress.org/swifty-page-manager/tags'*/,
             options: {
                 stdout: false,
                 execOptions: {
