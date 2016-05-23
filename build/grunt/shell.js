@@ -33,7 +33,8 @@ module.exports = function( grunt/*, options*/ ) {
             }
         },
         svn_co: {
-            command: 'svn co http://plugins.svn.wordpress.org/swifty-page-manager/ svn/swifty-page-manager',
+            // command: 'svn co http://plugins.svn.wordpress.org/swifty-page-manager/ svn/swifty-page-manager',
+            command: 'svn co ' + grunt.myCfg.svn.url + ' ' + grunt.myCfg.svn.path,
             options: {
                 execOptions: {
                     cwd: '../build/'
@@ -47,7 +48,7 @@ module.exports = function( grunt/*, options*/ ) {
             command: 'svn stat',
             options: {
                 execOptions: {
-                    cwd: 'svn/swifty-page-manager/'
+                    cwd: grunt.myCfg.svn.path //'svn/swifty-page-manager/'
                 },
                 'callback': function(err, stdout, stderr, cb) {
                     cb();
@@ -58,7 +59,7 @@ module.exports = function( grunt/*, options*/ ) {
             command: 'svn status | grep "^\\?" | sed -e \'s/? *//\' | sed -e \'s/ /\\\\ /g\' | xargs svn add',
             options: {
                 execOptions: {
-                    cwd: 'svn/swifty-page-manager/'
+                    cwd: grunt.myCfg.svn.path //'svn/swifty-page-manager/'
                 },
                 'callback': function(err, stdout, stderr, cb) {
                     cb();
@@ -69,7 +70,7 @@ module.exports = function( grunt/*, options*/ ) {
             command: 'svn ci -m "v' + grunt.myPkg.version + '" --username "SwiftyOnline" --force-interactive',
             options: {
                 execOptions: {
-                    cwd: 'svn/swifty-page-manager/'
+                    cwd: grunt.myCfg.svn.path //'svn/swifty-page-manager/'
                 },
                 'callback': function(err, stdout, stderr, cb) {
                     cb();
@@ -80,7 +81,7 @@ module.exports = function( grunt/*, options*/ ) {
             command: 'svn cp trunk tags/' + grunt.myPkg.version,
             options: {
                 execOptions: {
-                    cwd: 'svn/swifty-page-manager/'
+                    cwd: grunt.myCfg.svn.path //'svn/swifty-page-manager/'
                 },
                 'callback': function(err, stdout, stderr, cb) {
                     cb();
@@ -91,7 +92,7 @@ module.exports = function( grunt/*, options*/ ) {
             command: 'svn ci -m "Tagging version ' + grunt.myPkg.version + '" --username "SwiftyOnline" --force-interactive',
             options: {
                 execOptions: {
-                    cwd: 'svn/swifty-page-manager/'
+                    cwd: grunt.myCfg.svn.path //'svn/swifty-page-manager/'
                 },
                 'callback': function(err, stdout, stderr, cb) {
                     cb();
