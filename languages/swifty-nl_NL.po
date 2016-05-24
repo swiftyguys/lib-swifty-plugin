@@ -3,12 +3,44 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Swifty Content Creator\n"
-"PO-Revision-Date: 2016-04-05 14:12:25+0000\n"
+"PO-Revision-Date: 2016-05-24 08:51:24+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: GlotPress/0.1\n"
+
+#: lib/swifty_plugin/php/lang.php:7
+msgid "page"
+msgstr "pagina"
+
+#: lib/swifty_plugin/php/lang.php:8
+msgid "topbar"
+msgstr "bovenbalk"
+
+#: lib/swifty_plugin/php/lang.php:9
+msgid "header"
+msgstr "header"
+
+#: lib/swifty_plugin/php/lang.php:10
+msgid "navbar"
+msgstr "navigatiebalk"
+
+#: lib/swifty_plugin/php/lang.php:11
+msgid "sidebar"
+msgstr "zijbalk"
+
+#: lib/swifty_plugin/php/lang.php:12
+msgid "extrasidebar"
+msgstr "extrazijbalk"
+
+#: lib/swifty_plugin/php/lang.php:13
+msgid "footer"
+msgstr "footer"
+
+#: lib/swifty_plugin/php/lang.php:14
+msgid "bottombar"
+msgstr "onderbalk"
 
 #: lib/swifty_plugin/php/lib/swifty-image-functions.php:29
 msgid "Mobile half"
@@ -59,7 +91,7 @@ msgstr[0] "Dit theme adviseert de volgende plugin: %1$s."
 msgstr[1] "Dit theme adviseert de volgende plugins: %1$s."
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:174
-#: php/main.php:1770
+#: php/main.php:2516
 msgid ""
 "Sorry, but you do not have the correct permissions to install the %s plugin. "
 "Contact the administrator of this site for help on getting the plugin "
@@ -78,14 +110,14 @@ msgstr[1] ""
 "krijgen bij het installeren van de plugins."
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:175
-#: php/main.php:1771
+#: php/main.php:2517
 msgid "The following required plugin is currently inactive: %1$s."
 msgid_plural "The following required plugins are currently inactive: %1$s."
 msgstr[0] "De volgende plugin is op dit moment niet geactiveerd: %1$s."
 msgstr[1] "De volgende plugins zijnop dit moment niet geactiveerd: %1$s."
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:176
-#: php/main.php:1772
+#: php/main.php:2518
 msgid "The following recommended plugin is currently inactive: %1$s."
 msgid_plural "The following recommended plugins are currently inactive: %1$s."
 msgstr[0] ""
@@ -94,7 +126,7 @@ msgstr[1] ""
 "De volgende aanbevolen plugins zijn op dit moment niet geactiveerd: %1$s."
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:177
-#: php/main.php:1773
+#: php/main.php:2519
 msgid ""
 "Sorry, but you do not have the correct permissions to activate the %s "
 "plugin. Contact the administrator of this site for help on getting the "
@@ -127,7 +159,7 @@ msgstr[1] ""
 "maximale compatibiliteit met dit theme te verzekeren: %1$s."
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:179
-#: php/main.php:1775
+#: php/main.php:2521
 msgid ""
 "Sorry, but you do not have the correct permissions to update the %s plugin. "
 "Contact the administrator of this site for help on getting the plugin "
@@ -146,26 +178,26 @@ msgstr[1] ""
 "updaten van de plugins."
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:180
-#: php/main.php:1776
+#: php/main.php:2522
 msgid "Begin installing plugin"
 msgid_plural "Begin installing plugins"
 msgstr[0] "Begin plugin te installeren"
 msgstr[1] "Begin plugins te installeren"
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:181
-#: php/main.php:1777
+#: php/main.php:2523
 msgid "Begin activating plugin"
 msgid_plural "Begin activating plugins"
 msgstr[0] "Begin plugin te activeren"
 msgstr[1] "Begin plugins te activeren"
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:184
-#: php/main.php:1779
+#: php/main.php:2525
 msgid "Plugin activated successfully."
 msgstr "Plugin succesvol geactiveerd."
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:185
-#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1709
+#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1781
 msgid "The following plugin was activated successfully:"
 msgid_plural "The following plugins were activated successfully:"
 msgstr[0] "De volgende plugin werd succesvol geactiveerd: "
@@ -175,19 +207,19 @@ msgstr[1] "De volgende plugins werden succesvol geactiveerd: "
 msgid "Dismiss this notice"
 msgstr "Negeer deze melding"
 
-#: lib/swifty_plugin/php/lib_swifty_plugin.php:51
+#: lib/swifty_plugin/php/lib_swifty_plugin.php:123
 msgid "Licenses"
 msgstr "Licenties"
 
-#: lib/swifty_plugin/php/lib_swifty_plugin.php:239
+#: lib/swifty_plugin/php/lib_swifty_plugin.php:318
 msgid "Swifty Plugins"
 msgstr "Swifty Plugins"
 
-#: lib/swifty_plugin/php/lib_swifty_plugin.php:241
+#: lib/swifty_plugin/php/lib_swifty_plugin.php:320
 msgid "Active Swifty Plugins"
 msgstr "Actieve Swifty Plugins"
 
-#: lib/swifty_plugin/php/lib_swifty_plugin.php:326
+#: lib/swifty_plugin/php/lib_swifty_plugin.php:405
 msgid "Swifty Settings"
 msgstr "Swifty Instellingen"
 
@@ -231,7 +263,7 @@ msgstr ""
 msgid "Plugin activated. "
 msgstr "Plugin geactiveerd"
 
-#: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:267
+#: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:261
 msgid ""
 "The license could not be deactivated. Use the License Deactivation tab to "
 "manually deactivate the license before activating a new license."
@@ -240,11 +272,11 @@ msgstr ""
 "tab om handmatig de licentie te de-activeren voordat je een nieuwe licentie "
 "activeert. "
 
-#: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:311
+#: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:308
 msgid "Plugin license deactivated. "
 msgstr "Plugin licentie gede-activeerd"
 
-#: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:385
+#: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:376
 msgid "Deactivates an API License Key so it can be used on another blog."
 msgstr ""
 "De-activeert een API Licentiesleutel zodat die door een ander blog gebruikt "
