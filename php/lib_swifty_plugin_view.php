@@ -51,6 +51,7 @@ class LibSwiftyPluginView
             // allow every plugin to get to the initialization part, all plugins and theme should be loaded then
             add_action( 'after_setup_theme', array( $this, 'action_after_setup_theme' ) );
             add_filter( 'swifty_SS2_hosting_name', array( $this, 'filter_swifty_SS2_hosting_name' ) );
+            add_filter( 'swifty_SS2_hosting_install_days', array( $this, 'filter_swifty_SS2_hosting_install_days' ) );
             add_filter( 'swifty_get_contentview', array( $this, 'hook_swifty_get_contentview' ), 10, 0 );
         }
         self::$instance_view = $this;
@@ -147,6 +148,22 @@ class LibSwiftyPluginView
         } else {
             return $default;
         }
+    }
+
+    /**
+     * Return the days after installation on hosting server, when not set returns $default
+     *
+     * @param $default
+     * @return bool
+     */
+    public function filter_swifty_SS2_hosting_install_days( $default )
+    {
+        $ss2_hosting_install = get_option( 'ss2_hosting_install', $default );
+
+        if( $ss2_hosting_install !== $default ) {
+            return abs( $ss2_hosting_install - time() )/60/60/24;
+        }
+        return $default;
     }
 
     /**
