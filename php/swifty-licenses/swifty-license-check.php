@@ -9,10 +9,10 @@ defined( 'ABSPATH' ) or exit;
 class SwiftyLicenseCheck
 {
     // Base URL to the remote upgrade API Manager server. If not set then the Author URI is used.
-    public $our_upgrade_url = 'https://www.swifty.online/';
+    public $our_upgrade_url = 'https://www.swifty.online/?rss3=upg1';
 
     // URL to renew a license. Trailing slash in the upgrade_url is required.
-    public $our_renew_license_url = 'https://www.swifty.online/my-account/';
+    public $our_renew_license_url = 'https://www.swifty.online/my-account/?rss3=upg2';
 
     public $our_plugin_url;
     public $swifty_admin_page = '';
