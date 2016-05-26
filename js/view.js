@@ -133,39 +133,42 @@ function swifty_updateScrolleffect() {
                             p = 100.0 * ( f * ( p ) + o );
                             el.style.backgroundPosition = bpx[ 0 ] + ' ' + p + '%';
                         }
-                        if( scrD.effect === 'move' || scrD.effect === 'movefade' ) {
-                            var yf = f * 2 * ( ( yEl / hV ) - .5 ) + o;
-                            p = f * ( yEl - ( .5 - ( o / 2 ) ) * hV );
-                            if( scrD.direction === 'down' ) {
-                                p = - 2 * f * ( yEl - ( .5 - ( o / 2 ) ) * hV );
-                            }
-                            if( scrD.direction === 'left' ) {
-                                p = ( wV - xEl ) * yf;
-                            }
-                            if( scrD.direction === 'right' ) {
-                                p = - ( xEl + wEl ) * yf;
-                            }
-                            if( scrD.direction === 'up' || scrD.direction === 'left' ) {
-                                if( scrD.motion === 'in' && p < 0 ) {
-                                    p = 0;
+                        if( ! ( document.documentElement.clientWidth <= 639 ) ) {
+                            // Do not move on smaller screens for now. Causes some problems with swipe scroll.
+                            if( scrD.effect === 'move' || scrD.effect === 'movefade' ) {
+                                var yf = f * 2 * ( ( yEl / hV ) - .5 ) + o;
+                                p = f * ( yEl - ( .5 - ( o / 2 ) ) * hV );
+                                if( scrD.direction === 'down' ) {
+                                    p = -2 * f * ( yEl - ( .5 - ( o / 2 ) ) * hV );
                                 }
-                                if( scrD.motion === 'out' && p > 0 ) {
-                                    p = 0;
+                                if( scrD.direction === 'left' ) {
+                                    p = ( wV - xEl ) * yf;
                                 }
-                            } else {
-                                if( scrD.motion === 'in' && p > 0 ) {
-                                    p = 0;
+                                if( scrD.direction === 'right' ) {
+                                    p = -( xEl + wEl ) * yf;
                                 }
-                                if( scrD.motion === 'out' && p < 0 ) {
-                                    p = 0;
+                                if( scrD.direction === 'up' || scrD.direction === 'left' ) {
+                                    if( scrD.motion === 'in' && p < 0 ) {
+                                        p = 0;
+                                    }
+                                    if( scrD.motion === 'out' && p > 0 ) {
+                                        p = 0;
+                                    }
+                                } else {
+                                    if( scrD.motion === 'in' && p > 0 ) {
+                                        p = 0;
+                                    }
+                                    if( scrD.motion === 'out' && p < 0 ) {
+                                        p = 0;
+                                    }
                                 }
+                                if( scrD.direction === 'down' || scrD.direction === 'up' ) {
+                                    el.style.transform = 'translate(0px,' + p + 'px)';
+                                } else {
+                                    el.style.transform = 'translate(' + p + 'px,0px)';
+                                }
+                                el.style.zIndex = '999';
                             }
-                            if( scrD.direction === 'down' || scrD.direction === 'up' ) {
-                                el.style.transform = 'translate(0px,' + p + 'px)';
-                            } else {
-                                el.style.transform = 'translate(' + p + 'px,0px)';
-                            }
-                            el.style.zIndex = '999';
                         }
                         if( scrD.effect === 'fade' || scrD.effect === 'movefade' ) {
                             p = f * ( yEl - ( .5 - ( o / 2 ) ) * hV );
