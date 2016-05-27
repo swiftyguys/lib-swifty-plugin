@@ -238,7 +238,7 @@ class LibSwiftyPluginView
         if( $value && in_array( $value, array( 'allow', 'disallow' ), true ) ) {
             $default = $value;
         } else {
-            $default = $default ? $default : 'unknown';
+            $default = $default && ( $default !== '') ? $default : 'unknown';
         }
         return get_option( 'swifty_allow_external', $default );
     }
