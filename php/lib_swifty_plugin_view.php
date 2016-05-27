@@ -53,6 +53,9 @@ class LibSwiftyPluginView
             add_filter( 'swifty_SS2_hosting_name', array( $this, 'filter_swifty_SS2_hosting_name' ) );
             add_filter( 'swifty_SS2_hosting_install_days', array( $this, 'filter_swifty_SS2_hosting_install_days' ) );
             add_filter( 'swifty_get_contentview', array( $this, 'hook_swifty_get_contentview' ), 10, 0 );
+
+            add_filter( 'swifty_get_allow_external', array( $this, 'hook_swifty_get_allow_external' ), 10, 1 );
+            add_action( 'swifty_set_allow_external', array( $this, 'hook_swifty_set_allow_external' ), 10, 1 );
         }
         self::$instance_view = $this;
     }
@@ -225,6 +228,31 @@ class LibSwiftyPluginView
         return $contentview;
     }
 
+    /**
+     * Get the "swifty_allow_external" option, use user option if set as default value
+     * 
+     * @return mixed|void
+     */
+    public function hook_swifty_get_allow_external( $default ) {
+        $value = get_user_option( 'swifty_allow_external' );
+        if( $value && in_array( $value, array( 'allow', 'disallow' ), true ) ) {
+            $default = $value;
+        } else {
+            $default = $default && ( $default !== '') ? $default : 'unknown';
+        }
+        return get_option( 'swifty_allow_external', $default );
+    }
+
+    /**
+     * remove old user option, save option "swifty_allow_external"
+     * 
+     * @param $value
+     */
+    public function hook_swifty_set_allow_external( $value ) {
+        delete_user_option( get_current_user_id(), 'swifty_allow_external' );
+        update_option( 'swifty_allow_external', $value );
+    }
+    
     /**
      * test if $plugin_name is active
      * All swifty plugins will respond to the 'swifty_active_plugins' filter and it's name
