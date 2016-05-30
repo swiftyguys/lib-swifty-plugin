@@ -154,6 +154,8 @@ if( ! class_exists( 'SwiftyApiManagerMenu' ) ) {
             $api_key = trim( $input[ $ame->ame_api_key ] );
 
             $activation_status = get_option( $ame->ame_activated_key ) === 'Activated' ? 'Activated' : 'Deactivated';
+            $valid_transient = get_transient( 'active_license_' . $this->plugin_key_name ) === 'Active';
+
             $checkbox_status = get_option( $ame->ame_deactivate_checkbox );
 
             $current_api_key = $ame->ame_options[ $ame->ame_api_key ];
@@ -161,7 +163,7 @@ if( ! class_exists( 'SwiftyApiManagerMenu' ) ) {
             // Should match the settings_fields() value
             if( $_REQUEST[ 'option_page' ] != $ame->ame_deactivate_checkbox ) {
 
-                if( $activation_status == 'Deactivated' || $activation_status == '' || $api_key == '' || $api_email == '' || $checkbox_status == 'on' || $current_api_key != $api_key ) {
+                if( $activation_status == 'Deactivated' || ! $valid_transient || $activation_status == '' || $api_key == '' || $api_email == '' || $checkbox_status == 'on' || $current_api_key != $api_key ) {
 
                     /**
                      * If this is a new key, and an existing key already exists in the database,
@@ -175,12 +177,17 @@ if( ! class_exists( 'SwiftyApiManagerMenu' ) ) {
                         'licence_key' => $api_key,
                     );
 
-                    $activate_results = json_decode( $ame->key()->activate( $args ), true );
-                    if( $activate_results[ 'activated' ] === true ) {
+                    if( $activation_status == 'Activated' && ! $valid_transient ) {
+                        $activate_results = json_decode( $ame->key()->status( $args ), true );
+                    } else {
+                        $activate_results = json_decode( $ame->key()->activate( $args ), true );
+                    }
+                    if( (  key_exists( 'activated', $activate_results ) && ( $activate_results[ 'activated' ] === true ) ) ||
+                        (  key_exists( 'status_check', $activate_results ) && ( $activate_results[ 'status_check' ] === 'active' ) ) ) {
                         add_settings_error( 'api-manager', 'activate_msg', __( 'Plugin activated. ', 'swifty-content-creator' ) . "{$activate_results['message']}.", 'updated' );
                         update_option( $ame->ame_activated_key, 'Activated' );
                         update_option( $ame->ame_deactivate_checkbox, 'off' );
-                        set_transient( 'active_license_' . $this->plugin_name, 'Active', DAY_IN_SECONDS * 3 );
+                        set_transient( 'active_license_' . $this->plugin_key_name, 'Active', DAY_IN_SECONDS * 3 );
                     }
 
                     $reset_activation = false;
@@ -229,7 +236,7 @@ if( ! class_exists( 'SwiftyApiManagerMenu' ) ) {
                         $options[ $ame->ame_api_key ] = '';
                         $options[ $ame->ame_activation_email ] = '';
                         update_option( $ame->ame_activated_key, 'Deactivated' );
-                        delete_transient( 'active_license_' . $this->plugin_name );
+                        delete_transient( 'active_license_' . $this->plugin_key_name );
                     }
 
                 } // End Plugin Activation
@@ -303,7 +310,7 @@ if( ! class_exists( 'SwiftyApiManagerMenu' ) ) {
 
                     update_option( $ame->ame_data_key, $merge_options );
                     update_option( $ame->ame_activated_key, 'Deactivated' );
-                    delete_transient( 'active_license_' . $this->plugin_name );
+                    delete_transient( 'active_license_' . $this->plugin_key_name );
 
                     add_settings_error( 'api-manager', 'deactivate_msg', __( 'Plugin license deactivated. ', 'swifty-content-creator' ) . "{$activate_results['activations_remaining']}.", 'updated' );
 
@@ -348,7 +355,7 @@ if( ! class_exists( 'SwiftyApiManagerMenu' ) ) {
                         $options[ $ame->ame_api_key ] = '';
                         $options[ $ame->ame_activation_email ] = '';
                         update_option( $ame->ame_activated_key, 'Deactivated' );
-                        delete_transient( 'active_license_' . $this->plugin_name );
+                        delete_transient( 'active_license_' . $this->plugin_key_name );
                     }
                 }
             } else {
