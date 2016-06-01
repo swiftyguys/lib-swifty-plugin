@@ -96,19 +96,19 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
             }
 
             if( $viewer === 'nothing' ) {
-                return '<img ' . $src_word . '="' . $url . '"' . $responsive . ' alt="' . $alt . '" class="' . $class . '">' . $script;
+                $html = '<img ' . $src_word . '="' . $url . '"' . $responsive . ' alt="' . $alt . '" class="' . $class . '">' . $script;
+            } else {
+                $html =
+                    '<a ' .
+                    'href="' . ( $go_to_url ? $href : $url_a ) . '" ' .
+                    'class="swc_image_link" ' .
+                    ( $go_to_url && $target ? 'target="' . $target . '" ' : '' ) .
+                    '>' .
+                    '<img ' . $src_word . '="' . $url . '"' . $responsive . ' alt="' . $alt . '" ' .
+                    ( $go_to_url ? '' : 'onclick="swcThumbnailClick( this, \'' . $viewer . '\' );return false;"' ) .
+                    ' class="' . $class . '">' .
+                    '</a>' . $script;
             }
-
-            $html =
-                '<a ' .
-                'href="' . ( $go_to_url ? $href : $url_a ) . '" ' .
-                'class="swc_image_link" ' .
-                ( $go_to_url && $target ? 'target="' . $target . '" ' : '' ) .
-                '>' .
-                '<img ' . $src_word . '="' . $url . '"' . $responsive . ' alt="' . $alt . '" ' .
-                ( $go_to_url ? '' : 'onclick="swcThumbnailClick( this, \'' . $viewer . '\' );return false;"' ) .
-                ' class="' . $class . '">' .
-                '</a>' . $script;
 
             if( isset( $atts[ 'caption' ] ) && ! empty( $atts[ 'caption' ] ) ) {
                 $html = '<figure class="wp-caption ' . $class . '">' . $html . '<figcaption class="wp-caption-text"><span><span>' . $atts[ 'caption' ] . '</span></span></figcaption></figure>';
