@@ -40,7 +40,7 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
 
         // dorh Duplicate code
 
-        public static function get_img_vars( $url, $attach_id = -123 )
+        public static function get_img_vars( $url, $attach_id = -123, $id_post = -1 )
         {
             $src_word = 'src';
             $script = '';
@@ -55,7 +55,7 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
                 }
                 $script = "<script>if( typeof swifty_add_exec === 'function' ) { swifty_add_exec( { 'fn': 'swifty_checkImages' } ); }</script>";
             } else {
-                $responsive = SwiftyImageFunctions::responsive_wp( $url, array() );
+                $responsive = SwiftyImageFunctions::responsive_wp( $url );
                 if( $image_size !== 'full' ) {
                     if( $attach_id === -123 ) {
                         $attach_id = SwiftyImageFunctions::get_attachment_id_from_url( $url );
@@ -70,12 +70,12 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
             return array( $src_word, $url, $script, $responsive );
         }
 
-        public static function get_img_tag( $url, $alt = '', $go_to_url = false, $href = '', $target = '', $viewer = 'nothing', $atts = array(), $class = '' )
+        public static function get_img_tag( $url, $alt = '', $go_to_url = false, $href = '', $target = '', $viewer = 'nothing', $atts = array(), $class = '', $id_post = -1 )
         {
             $url_a = $url;
             $image_size = SwiftyImageFunctions::$image_size;
 
-            list( $src_word, $url, $script, $responsive ) = SwiftyImageFunctions::get_img_vars( $url );
+            list( $src_word, $url, $script, $responsive ) = SwiftyImageFunctions::get_img_vars( $url, -123, $id_post );
 
             // use swifty responsive solution
             if( get_option( 'ss2_hosting_name' ) === 'AMH' ) {
@@ -85,7 +85,7 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
                 }
                 $script = "<script>if( typeof swifty_add_exec === 'function' ) { swifty_add_exec( { 'fn': 'swifty_checkImages' } ); }</script>";
             } else {
-                $responsive = SwiftyImageFunctions::responsive_wp( $url, $atts );
+                $responsive = SwiftyImageFunctions::responsive_wp( $url, $atts, $id_post );
                 if( $image_size !== 'full' ) {
                     $attach_id = SwiftyImageFunctions::get_attachment_id_from_url( $url );
                     if( $attach_id ) {
@@ -165,9 +165,10 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
          *
          * @param $url
          * @param $atts: the attributes of the related shortcode.
+         * @param $id_post: the post/page id used for this image
          * @return string
          */
-        public static function responsive_wp( $url, $atts = array() )
+        public static function responsive_wp( $url, $atts = array(), $id_post = -1 )
         {
             $responsive = '';
 
@@ -195,7 +196,7 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
                             $sizes = wp_calculate_image_sizes( $size_array, $src, $image_meta, $attach_id );
 
                             if( array_key_exists( 'swc_cssid', $atts ) && $atts[ 'swc_cssid' ] . '' !== '' ) {
-                                $sizes = SwiftyImageFunctions::get_image_responsive_sizes( $atts, $sizes, $width );
+                                $sizes = SwiftyImageFunctions::get_image_responsive_sizes( $atts, $sizes, $width, $id_post );
                             }
 
                         }
@@ -216,10 +217,11 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
          * @param $atts: the attributes of the related shortcode.
          * @param $ori_sizes: The previous sizes attribute.
          * @param $width: the default width to be placed in sizes.
+         * @param $id_post: the post/page id used for this image
          * @return string: the sizes attribute.
          *
          */
-        public static function get_image_responsive_sizes( $atts, $ori_sizes, $width ) {
+        public static function get_image_responsive_sizes( $atts, $ori_sizes, $width, $id_post = -1 ) {
             global $wpdb;
 
             $sizes = $ori_sizes;
@@ -229,7 +231,9 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
                 $sizes = '';
                 $found = false;
 
-                $id_post = get_the_ID();
+                if( $id_post === -1 ) {
+                    $id_post = get_the_ID();
+                }
                 $id_asset = 'c' . $atts[ 'swc_cssid' ];
 
                 $show_errors = $wpdb->show_errors;
