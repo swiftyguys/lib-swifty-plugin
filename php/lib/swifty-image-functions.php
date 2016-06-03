@@ -40,7 +40,7 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
 
         // dorh Duplicate code
 
-        public static function get_img_vars( $url, $attach_id = -123, $id_post = -1 )
+        public static function get_img_vars( $url, $attach_id = -123, $atts = array(), $id_post = -1 )
         {
             $src_word = 'src';
             $script = '';
@@ -55,7 +55,7 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
                 }
                 $script = "<script>if( typeof swifty_add_exec === 'function' ) { swifty_add_exec( { 'fn': 'swifty_checkImages' } ); }</script>";
             } else {
-                $responsive = SwiftyImageFunctions::responsive_wp( $url );
+                $responsive = SwiftyImageFunctions::responsive_wp( $url, $atts, $id_post );
                 if( $image_size !== 'full' ) {
                     if( $attach_id === -123 ) {
                         $attach_id = SwiftyImageFunctions::get_attachment_id_from_url( $url );
@@ -75,7 +75,7 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
             $url_a = $url;
             $image_size = SwiftyImageFunctions::$image_size;
 
-            list( $src_word, $url, $script, $responsive ) = SwiftyImageFunctions::get_img_vars( $url, -123, $id_post );
+            list( $src_word, $url, $script, $responsive ) = SwiftyImageFunctions::get_img_vars( $url, -123, $atts, $id_post );
 
             // use swifty responsive solution
             if( get_option( 'ss2_hosting_name' ) === 'AMH' ) {
