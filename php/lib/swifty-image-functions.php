@@ -40,7 +40,7 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
 
         // dorh Duplicate code
 
-        public static function get_img_vars( $url, $attach_id = -123, $atts = array(), $id_post = -1 )
+        public static function get_img_vars( $url, $attach_id = -123, $atts = array(), $id_post = -1, $image_src = '' )
         {
             $src_word = 'src';
             $script = '';
@@ -55,7 +55,7 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
                 }
                 $script = "<script>if( typeof swifty_add_exec === 'function' ) { swifty_add_exec( { 'fn': 'swifty_checkImages' } ); }</script>";
             } else {
-                $responsive = SwiftyImageFunctions::responsive_wp( $url, $atts, $id_post );
+                $responsive = SwiftyImageFunctions::responsive_wp( $url, $atts, $id_post, $image_src );
                 if( $image_size !== 'full' ) {
                     if( $attach_id === -123 ) {
                         $attach_id = SwiftyImageFunctions::get_attachment_id_from_url( $url );
@@ -70,12 +70,12 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
             return array( $src_word, $url, $script, $responsive );
         }
 
-        public static function get_img_tag( $url, $alt = '', $go_to_url = false, $href = '', $target = '', $viewer = 'nothing', $atts = array(), $class = '', $id_post = -1 )
+        public static function get_img_tag( $url, $alt = '', $go_to_url = false, $href = '', $target = '', $viewer = 'nothing', $atts = array(), $class = '', $id_post = -1, $image_src = '' )
         {
             $url_a = $url;
             $image_size = SwiftyImageFunctions::$image_size;
 
-            list( $src_word, $url, $script, $responsive ) = SwiftyImageFunctions::get_img_vars( $url, -123, $atts, $id_post );
+            list( $src_word, $url, $script, $responsive ) = SwiftyImageFunctions::get_img_vars( $url, -123, $atts, $id_post, $image_src );
 
             // use swifty responsive solution
             if( get_option( 'ss2_hosting_name' ) === 'AMH' ) {
@@ -85,7 +85,7 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
                 }
                 $script = "<script>if( typeof swifty_add_exec === 'function' ) { swifty_add_exec( { 'fn': 'swifty_checkImages' } ); }</script>";
             } else {
-                $responsive = SwiftyImageFunctions::responsive_wp( $url, $atts, $id_post );
+                $responsive = SwiftyImageFunctions::responsive_wp( $url, $atts, $id_post, $image_src );
                 if( $image_size !== 'full' ) {
                     $attach_id = SwiftyImageFunctions::get_attachment_id_from_url( $url );
                     if( $attach_id ) {
@@ -166,9 +166,10 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
          * @param $url
          * @param $atts: the attributes of the related shortcode.
          * @param $id_post: the post/page id used for this image
+         * @param $image_src: optional, image url used in DB
          * @return string
          */
-        public static function responsive_wp( $url, $atts = array(), $id_post = -1 )
+        public static function responsive_wp( $url, $atts = array(), $id_post = -1, $image_src = '' )
         {
             $responsive = '';
 
@@ -196,7 +197,7 @@ if( ! class_exists( 'SwiftyImageFunctions' ) ) {
                             $sizes = wp_calculate_image_sizes( $size_array, $src, $image_meta, $attach_id );
 
                             if( array_key_exists( 'swc_cssid', $atts ) && $atts[ 'swc_cssid' ] . '' !== '' ) {
-                                $sizes = SwiftyImageFunctions::get_image_responsive_sizes( $atts, $sizes, $width, $id_post, $url );
+                                $sizes = SwiftyImageFunctions::get_image_responsive_sizes( $atts, $sizes, $width, $id_post, $image_src ? $image_src : $url );
                             }
 
                         }
