@@ -6,7 +6,8 @@ module.exports = {
 
         grunt.myCfg = grunt.file.readJSON( 'mycfg.json' );
         grunt.myPkg = grunt.file.readJSON( 'package.json' );
-    //    console.log( 'aaa', grunt.myCfg );
+        grunt.myPW = grunt.file.readJSON( grunt.myCfg.base_path + '../../../storytest/storyplayer.json' );
+       // console.log( 'aaa', grunt.myPW );
 
         grunt.getSourcePath = function() {
             return grunt.myCfg.base_path;
@@ -368,6 +369,119 @@ module.exports = {
             if( grunt.myCfg.po.allowed === false ) {
                 grunt.fatal( "\n\n========================================\n\nLANGUAGE ACTIONS NOT ALLOWED FOR THIS PROJECT!\n\n========================================\n\n\n" );
             }
+        } );
+
+        grunt.registerTask( 'async_export_docs_2', function() {
+            var done = this.async();
+            var countBusy = 0;
+
+            // console.log( 'ccc', grunt.myExportDocsDocs, grunt.myPW.swifty.fd.ky );
+
+            for( var i = 0; i < grunt.myExportDocsDocs.length; i ++ ) {
+                var docObj = grunt.myExportDocsDocs[ i ];
+                docObj.content = docObj.content.replace( /(?:\r\n|\r|\n)/g, '<br>' );
+
+                // console.log( 'ddd', docObj );
+
+                // Create a new knowledge base article
+
+                ( function( docObj ) {
+                    countBusy++;
+                    var folderId = 11000002663;
+                    var catId = 1000129636;
+                    var curId = parseInt( docObj.id_fd, 10 );
+                    var reqMethod = 'POST';
+                    var url = 'https://support.swifty.online/solution/categories/' + catId + '/folders/' + folderId + '/articles';
+                    if( curId > 0 ) {
+                        url += '/' + curId + '.json';
+                        reqMethod = 'PUT';
+                    } else {
+                        url += '.json';
+                    }
+                    // console.log( 'aaa', curId );
+                    // console.log( 'bbb', url );
+                    var myTerminal = require( "child_process" ).exec;
+                    var commandToBeExecuted = 'curl' +
+                        ' --user ' + grunt.myPW.swifty.fd.ky + ':X' +
+                        ' -H "Content-Type: application/json"' +
+                        ' --request ' + reqMethod +
+                        ' --data ' + "'" + JSON.stringify( {
+                            "solution_article": {
+                                "title": docObj.title,
+                                "status": 2, // ( 1 - draft, 2 - published )
+                                "art_type": 1, // ( 1 - permanent, 2 - workaround )
+                                "description": docObj.content,
+                                "folder_id": folderId
+                            },
+                            "tags": {
+                                "name": docObj.tags
+                            }
+                        } ) + "'" +
+                        ' --url ' + url;
+                    // console.log( 'ccc', commandToBeExecuted );
+                    myTerminal( commandToBeExecuted, function( error, stdout, stderr ) {
+                        if( !error ) {
+                            // console.log( 'stdout', stdout );
+                            try {
+                                var outp = JSON.parse( stdout );
+                                if( typeof outp.article === 'undefined' ) {
+                                    console.log( '\n\n=====================================\n\nATTENTION KNOWLEDGE BASE!!!\n\n' );
+                                    console.log( 'A C T I O N   R E Q U I R E D :\n\n' );
+                                    console.log( 'JSON output not as expected: ' + stdout + '\n' );
+                                    console.log( 'Current article ID: ' + curId + '\n' );
+                                    console.log( 'For article with title: ' + docObj.title + '\n' );
+                                    console.log( 'In file: ' + docObj.file + '\n' );
+                                    console.log( '\n=====================================\n\n' );
+                                } else {
+                                    var article = outp.article;
+                                    var newId = parseInt( article.id, 10 );
+                                    if( ( !( curId > 0 ) ) && newId > 0 ) {
+                                        console.log( '\n\n=====================================\n\nATTENTION KNOWLEDGE BASE!!!\n\n' );
+                                        console.log( 'A C T I O N   R E Q U I R E D :\n\n' );
+                                        console.log( 'New article ID: ' + newId + '\n' );
+                                        console.log( 'For article with title: ' + docObj.title + '\n' );
+                                        console.log( 'In file: ' + docObj.file + '\n' );
+                                        console.log( '\n=====================================\n\n' );
+                                    }
+                                }
+                            } catch( err ) {
+                                console.log( '\n\n=====================================\n\nATTENTION KNOWLEDGE BASE!!!\n\n' );
+                                console.log( 'A C T I O N   R E Q U I R E D :\n\n' );
+                                console.log( 'JSON output not as expected: ' + stdout + '\n' );
+                                console.log( 'Current article ID: ' + curId + '\n' );
+                                console.log( 'For article with title: ' + docObj.title + '\n' );
+                                console.log( 'In file: ' + docObj.file + '\n' );
+                                console.log( '\n=====================================\n\n' );
+                            }
+                        } else {
+                            console.log( '\n=====================================\nERROR IN KNOWLEDGE BASE ACTION\n' );
+                            console.log( 'stderr', stderr );
+                        }
+                        countBusy--;
+                    } );
+                } )( docObj );
+            }
+
+            function checkFlag() {
+                if( countBusy > 0 ) {
+                     setTimeout( checkFlag, 100 );
+                } else {
+                    done();
+                }
+            }
+            setTimeout( checkFlag, 1 );
+        } );
+
+        grunt.registerTask( 'async_export_docs', function() {
+            grunt.myExportDocsDocs = [];
+
+            grunt.task.run( [
+                'search:export_docs'
+            ] );
+
+            grunt.task.run( [
+                'async_export_docs_2'
+            ] );
         } );
 
     }
