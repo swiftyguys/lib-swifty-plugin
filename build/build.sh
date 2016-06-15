@@ -9,9 +9,10 @@ options=(
          1 "Get latests masters and develops" off
          2 "Show commit log since latest changelog" off
          3 "Update pot/po and up/download glotpress" off
-         4 "Build" off
-         5 "Commit + tag + push" off
-         6 "Release to public" off
+         4 "Update documentation" off
+         5 "Build" off
+         6 "Commit + tag + push" off
+         7 "Release to public" off
          . "" off
          . "----------------------------------------" off
          . "" off
@@ -76,15 +77,20 @@ do
             singlecmd=$sss
             ;;
         4)
+            sss="_async_export_docs"
+            gruntcmd=$gruntcmd$sss
+            singlecmd=$sss
+            ;;
+        5)
             sss="_mainbuild"
             gruntcmd=$gruntcmd$sss
             ;;
-        5)
+        6)
             sss="_maintag"
             gruntcmd=$gruntcmd$sss
             singlecmd=$sss
             ;;
-        6)
+        7)
             sss="_mainrelease"
             gruntcmd=$gruntcmd$sss
             ;;
