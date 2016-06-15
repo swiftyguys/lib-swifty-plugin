@@ -4,8 +4,6 @@ module.exports = {
 
         //console.log( '==================' );
 
-        // LJ3svnIP in mycfg.json: uglify, csslint, cssmin, shell
-
         grunt.myCfg = grunt.file.readJSON( 'mycfg.json' );
         grunt.myPkg = grunt.file.readJSON( 'package.json' );
     //    console.log( 'aaa', grunt.myCfg );
@@ -115,20 +113,28 @@ module.exports = {
         };
 
         // Get language files from diverse directories and upload them to swiftylife language site
+        //
+        // If poIn !== '':
+        //     Upload all individual translated language files to Glotpress.
+        //     Translations in Glotpress that exist there will be overwritten, unless the string in our local file is not yet translated ("").
+        //     Use with great care!!!!!!!!!!!!!!!!!!
         grunt.getCommandImportPotInSwiftylife = function( poIn, locale ) {
             var po = 'lang';
+            var poLib = po;
             var ext = 'pot';
             if( poIn !== '' ) {
-                po = 'swifty-' + poIn;
+                //po = 'swifty-' + poIn;
+                poLib = 'swifty-' + poIn;
+                po = grunt.myCfg.po.file_slug + poIn;
                 ext = 'po';
             }
 
             var s = '';
-                if( po !== 'lang' ) {
-                    s +=
-                        // Hardcoded copy lib lang files from SPM to this repo
-                        'cp <%= grunt.getSourcePath() %>../../../swifty_page_manager/plugin/swifty-page-manager/' + grunt.myCfg.rel_swifty_plugin + 'languages/' + po + '.* <%= grunt.getSourcePath() %>' + grunt.myCfg.rel_swifty_plugin + 'languages/; ';
-                }
+                //if( po !== 'lang' ) {
+                //    s +=
+                //        // Hardcoded copy lib lang files from SPM to this repo
+                //        'cp <%= grunt.getSourcePath() %>../../../swifty_page_manager/plugin/swifty-page-manager/' + grunt.myCfg.rel_swifty_plugin + 'languages/' + po + '.* <%= grunt.getSourcePath() %>' + grunt.myCfg.rel_swifty_plugin + 'languages/; ';
+                //}
                 s +=
                     'rm -f temp_<%= grunt.getPluginNameCompact() %>.' + ext +
                     '; msgcat ' +
@@ -143,11 +149,21 @@ module.exports = {
                         '<%= grunt.getSourcePath() %>pro/languages/am/' + po + '.' + ext + ' ';
                 }
                 if( grunt.file.isDir( grunt.getSourcePath() + grunt.myCfg.po.rel_pack_goodies ) ) {
-                    s +=
-                        '<%= grunt.getSourcePath() %>' + grunt.myCfg.po.rel_pack_goodies + 'languages/' + po + '.' + ext + ' ';
+                    if( poIn !== '' ) {
+                        s += '<%= grunt.getSourcePath() %>' + grunt.myCfg.po.rel_pack_goodies + 'languages/' + grunt.myCfg.po.pack_goodies_file_slug + poIn + '.' + ext + ' ';
+                    } else {
+                        s += '<%= grunt.getSourcePath() %>' + grunt.myCfg.po.rel_pack_goodies + 'languages/' + po + '.' + ext + ' ';
+                    }
+                }
+                if( grunt.file.isDir( grunt.getSourcePath() + grunt.myCfg.po.rel_pack_visuals ) ) {
+                    if( poIn !== '' ) {
+                        s += '<%= grunt.getSourcePath() %>' + grunt.myCfg.po.rel_pack_visuals + 'languages/' + grunt.myCfg.po.pack_visuals_file_slug + poIn + '.' + ext + ' ';
+                    } else {
+                        s += '<%= grunt.getSourcePath() %>' + grunt.myCfg.po.rel_pack_visuals + 'languages/' + po + '.' + ext + ' ';
+                    }
                 }
                 s +=
-                        '<%= grunt.getSourcePath() %>' + grunt.myCfg.rel_swifty_plugin + 'languages/' + po + '.' + ext + ' ' +
+                        '<%= grunt.getSourcePath() %>' + grunt.myCfg.rel_swifty_plugin + 'languages/' + poLib + '.' + ext + ' ' +
                         '> temp_<%= grunt.getPluginNameCompact() %>.' + ext +
                     //' && perl -pi -e "s#../plugin/' + grunt.myCfg.plugin_code + '/##g" temp_<%= grunt.getPluginNameCompact() %>.' + ext +
                     ' && perl -pi -e "s#' + grunt.myCfg.base_path + '##g" temp_<%= grunt.getPluginNameCompact() %>.' + ext +
@@ -164,21 +180,28 @@ module.exports = {
                 s +=
                             '; rm temp_<%= grunt.getPluginNameCompact() %>.' + ext +
                         '"' +
+                    //'; cat temp_<%= grunt.getPluginNameCompact() %>.' + ext +
                     '; rm -f temp_<%= grunt.getPluginNameCompact() %>.' + ext;
+
             return s;
         };
 
         grunt.getCommandJoinPO = function( po ) {
+            var poLib = po.replace( grunt.myCfg.po.file_slug, 'swifty-' );
+
             var s = 'msgcat ' +
-                        ' <%= grunt.getDestPathPlugin() %>languages/' + po + '.po';
+                ' <%= grunt.getDestPathPlugin() %>languages/' + po + '.po';
                 if( grunt.file.isDir( grunt.getSourcePath() + 'pro' ) ) {
                     s +=
                         ' <%= grunt.getDestPathPlugin() %>pro/languages/' + po + '.po' +
                         ' <%= grunt.getDestPathPlugin() %>pro/languages/am/' + po + '.po';
                 }
+                if( grunt.myCfg.rel_swifty_plugin ) {
+                    s +=
+                        ' <%= grunt.getDestPathPlugin() %>' + grunt.myCfg.rel_swifty_plugin + 'languages/' + poLib + '.po';
+                }
                 s +=
-                        ' <%= grunt.getDestPathPlugin() %>' + grunt.myCfg.rel_swifty_plugin + 'languages/' + po + '.po' +
-                        ' > <%= grunt.getDestPathPlugin() %>languages/' + po + '.pot' +
+                    ' > <%= grunt.getDestPathPlugin() %>languages/' + po + '.pot' +
                     ' && rm -f <%= grunt.getDestPathPlugin() %>languages/' + po + '.po' +
                     '; rm -f <%= grunt.getDestPathPlugin() %>languages/' + po + '.mo';
                 if( grunt.file.isDir( grunt.getSourcePath() + 'pro' ) ) {
@@ -189,8 +212,8 @@ module.exports = {
                     '; rm -f <%= grunt.getDestPathPlugin() %>pro/languages/am/' + po + '.mo';
                 }
                 s +=
-                    '; rm -f <%= grunt.getDestPathPlugin() %>' + grunt.myCfg.rel_swifty_plugin + 'languages/' + po + '.po' +
-                    '; rm -f <%= grunt.getDestPathPlugin() %>' + grunt.myCfg.rel_swifty_plugin + 'languages/' + po + '.mo' +
+                    '; rm -f <%= grunt.getDestPathPlugin() %>' + grunt.myCfg.rel_swifty_plugin + 'languages/' + poLib + '.po' +
+                    '; rm -f <%= grunt.getDestPathPlugin() %>' + grunt.myCfg.rel_swifty_plugin + 'languages/' + poLib + '.mo' +
                     '; mv -f <%= grunt.getDestPathPlugin() %>languages/' + po + '.pot <%= grunt.getDestPathPlugin() %>languages/' + po + '.po' +
                     ' && msgfmt <%= grunt.getDestPathPlugin() %>languages/' + po + '.po -o <%= grunt.getDestPathPlugin() %>languages/' + po + '.mo';
             return s;
@@ -208,7 +231,14 @@ module.exports = {
         grunt.registerTask( 'if_requirejs', function() {
             if( grunt.myCfg.requirejs.do ) {
                 grunt.task.run( [
-                    'requirejs'
+                    'requirejs:dist'
+                ] );
+            }
+        } );
+        grunt.registerTask( 'if_requirejs2', function() {
+            if( grunt.myCfg.requirejs2 && grunt.myCfg.requirejs2.do ) {
+                grunt.task.run( [
+                    'requirejs:two'
                 ] );
             }
         } );
@@ -257,6 +287,8 @@ module.exports = {
             }
         } );
 
+        // Upload all individual translated language files to Glotpress.
+        // Translations in Glotpress that exist there will be overwritten, unless the string in our local file is not yet translated ("").
         // Use with great care!!!!!!!!!!!!!!!!!!
         grunt.registerTask( 'loop_import_po_languages', function() {
             for( var key in grunt.myCfg.po.languages ) {
@@ -319,6 +351,14 @@ module.exports = {
             if( grunt.file.isDir( grunt.getSourcePath() + grunt.myCfg.po.rel_pack_goodies ) ) {
                 grunt.task.run( [
                     'pot:pack_goodies'
+                ] );
+            }
+        } );
+
+        grunt.registerTask( 'if_pot_pack_visuals', function() {
+            if( grunt.file.isDir( grunt.getSourcePath() + grunt.myCfg.po.rel_pack_visuals ) ) {
+                grunt.task.run( [
+                    'pot:pack_visuals'
                 ] );
             }
         } );

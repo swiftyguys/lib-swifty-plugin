@@ -33,7 +33,8 @@ module.exports = function( grunt/*, options*/ ) {
             }
         },
         svn_co: {
-            command: 'svn co http://plugins.svn.wordpress.org/swifty-page-manager/ svn/swifty-page-manager',
+            // command: 'svn co http://plugins.svn.wordpress.org/swifty-page-manager/ svn/swifty-page-manager',
+            command: 'svn co ' + grunt.myCfg.svn.url + ' ' + grunt.myCfg.svn.path,
             options: {
                 execOptions: {
                     cwd: '../build/'
@@ -44,10 +45,10 @@ module.exports = function( grunt/*, options*/ ) {
             }
         },
         svn_stat: {
-            command: 'svn stat',
+            command: 'sleep 5; svn stat',
             options: {
                 execOptions: {
-                    cwd: 'svn/swifty-page-manager/'
+                    cwd: grunt.myCfg.svn.path //'svn/swifty-page-manager/'
                 },
                 'callback': function(err, stdout, stderr, cb) {
                     cb();
@@ -55,10 +56,10 @@ module.exports = function( grunt/*, options*/ ) {
             }
         },
         svn_add: {
-            command: 'svn status | grep "^\\?" | sed -e \'s/? *//\' | sed -e \'s/ /\\\\ /g\' | xargs svn add',
+            command: 'sleep 5; svn status | grep "^\\?" | sed -e \'s/? *//\' | sed -e \'s/ /\\\\ /g\' | xargs svn add',
             options: {
                 execOptions: {
-                    cwd: 'svn/swifty-page-manager/'
+                    cwd: grunt.myCfg.svn.path //'svn/swifty-page-manager/'
                 },
                 'callback': function(err, stdout, stderr, cb) {
                     cb();
@@ -66,10 +67,10 @@ module.exports = function( grunt/*, options*/ ) {
             }
         },
         svn_ci: {
-            command: 'svn ci -m "v' + grunt.myPkg.version + '" --username "SwiftyLife" --force-interactive',
+            command: 'sleep 5; svn ci -m "v' + grunt.myPkg.version + '" --username "SwiftyOnline" --force-interactive',
             options: {
                 execOptions: {
-                    cwd: 'svn/swifty-page-manager/'
+                    cwd: grunt.myCfg.svn.path //'svn/swifty-page-manager/'
                 },
                 'callback': function(err, stdout, stderr, cb) {
                     cb();
@@ -77,10 +78,10 @@ module.exports = function( grunt/*, options*/ ) {
             }
         },
         svn_cp_trunk: {
-            command: 'svn cp trunk tags/' + grunt.myPkg.version,
+            command: 'sleep 5; svn cp trunk tags/' + grunt.myPkg.version,
             options: {
                 execOptions: {
-                    cwd: 'svn/swifty-page-manager/'
+                    cwd: grunt.myCfg.svn.path //'svn/swifty-page-manager/'
                 },
                 'callback': function(err, stdout, stderr, cb) {
                     cb();
@@ -88,10 +89,10 @@ module.exports = function( grunt/*, options*/ ) {
             }
         },
         svn_ci_tags: {
-            command: 'svn ci -m "Tagging version ' + grunt.myPkg.version + '" --username "SwiftyLife" --force-interactive',
+            command: 'sleep 5; svn ci -m "Tagging version ' + grunt.myPkg.version + '" --username "SwiftyOnline" --force-interactive',
             options: {
                 execOptions: {
-                    cwd: 'svn/swifty-page-manager/'
+                    cwd: grunt.myCfg.svn.path //'svn/swifty-page-manager/'
                 },
                 'callback': function(err, stdout, stderr, cb) {
                     cb();
@@ -99,7 +100,8 @@ module.exports = function( grunt/*, options*/ ) {
             }
         },
         svn_check_tags: {
-            command: 'svn ls ' + grunt.myCfg.svn_check_tags.url /*'svn ls http://plugins.svn.wordpress.org/swifty-page-manager/tags'*/,
+            // command: 'svn ls ' + grunt.myCfg.svn_check_tags.url /*'svn ls http://plugins.svn.wordpress.org/swifty-page-manager/tags'*/,
+            command: 'sleep 5; svn ls ' + grunt.myCfg.svn.url + 'tags' /*'svn ls http://plugins.svn.wordpress.org/swifty-page-manager/tags'*/,
             options: {
                 stdout: false,
                 execOptions: {
@@ -276,6 +278,8 @@ module.exports = function( grunt/*, options*/ ) {
             }
         },
         // Use with great care!!!!!!!!!!!!!!!!!!
+        // Upload all individual translated language files to Glotpress.
+        // Translations in Glotpress that exist there will be overwritten, unless the string in our local file is not yet translated ("").
         import_pot_one_language_in_swiftylife: {
             command: function( p1, p2 ) {
                 return grunt.getCommandImportPotInSwiftylife( p1, p2 );
@@ -355,6 +359,9 @@ module.exports = function( grunt/*, options*/ ) {
                     if( grunt.file.isDir( grunt.getSourcePath() + grunt.myCfg.po.rel_pack_goodies ) ) {
                         grunt.task.run( [ 'shell:split_po_next:' + last + ':' + po2 + ':_=_=__-_-__=_=__-_-_swifty_content_goodies_pack_-_-_plugin_-_-_swifty-content-goodies-pack_-_-_:' + grunt.myCfg.po.rel_pack_goodies + 'languages/' ] );
                     }
+                    if( grunt.file.isDir( grunt.getSourcePath() + grunt.myCfg.po.rel_pack_visuals ) ) {
+                        grunt.task.run( [ 'shell:split_po_next:' + last + ':' + po2 + ':_=_=__-_-__=_=__-_-_swifty_content_visuals_pack_-_-_plugin_-_-_swifty-content-visuals-pack_-_-_:' + grunt.myCfg.po.rel_pack_visuals + 'languages/' ] );
+                    }
                     grunt.task.run( [ 'shell:split_po_next:' + last + ':' + po2 + '::languages/' ] );
                     cb();
                 }
@@ -376,11 +383,66 @@ module.exports = function( grunt/*, options*/ ) {
         },
         split_po_next: {
             command: function( po, po2, filter, path ) {
-                return 'msgcat temp_' + grunt.myCfg.plugin_code + '/' + po + '/' + filter + '* > temp_' + grunt.myCfg.plugin_code + '/' + po + '/' + po + '.po' +
-                        ' && mkdir -p <%= grunt.getSourcePath() %>' + path +
-                        ' && mv -f temp_' + grunt.myCfg.plugin_code + '/' + po + '/' + po + '.po <%= grunt.getSourcePath() %>' + path + 'swifty-' + po2 + '.po' +
-                        ' && msgfmt <%= grunt.getSourcePath() %>' + path + 'swifty-' + po2 + '.po -o <%= grunt.getSourcePath() %>' + path + 'swifty-' + po2 + '.mo' +
-                        ' && rm -f temp_' + grunt.myCfg.plugin_code + '/' + po + '/' + filter + '*';
+                //return 'msgcat temp_' + grunt.myCfg.plugin_code + '/' + po + '/' + filter + '* > temp_' + grunt.myCfg.plugin_code + '/' + po + '/' + po + '.po' +
+                //        ' && mkdir -p <%= grunt.getSourcePath() %>' + path +
+                //        ' && mv -f temp_' + grunt.myCfg.plugin_code + '/' + po + '/' + po + '.po <%= grunt.getSourcePath() %>' + path + 'swifty-' + po2 + '.po' +
+                //        ' && msgfmt <%= grunt.getSourcePath() %>' + path + 'swifty-' + po2 + '.po -o <%= grunt.getSourcePath() %>' + path + 'swifty-' + po2 + '.mo' +
+                //        ' && rm -f temp_' + grunt.myCfg.plugin_code + '/' + po + '/' + filter + '*';
+
+                var source_base = '<%= grunt.getSourcePath() %>' + path;
+                //var source_fp = source_base + 'swifty-' + po2;
+                var source_fp = source_base + grunt.myCfg.po.file_slug + po2;
+                if( filter.indexOf( 'swifty_plugin' ) >= 0 ) {
+                    source_fp = source_base + 'swifty-' + po2;
+                }
+                if( path === grunt.myCfg.po.rel_pack_goodies + 'languages/' ) {
+                    source_fp = source_base + grunt.myCfg.po.pack_goodies_file_slug + po2;
+                }
+                if( path === grunt.myCfg.po.rel_pack_visuals + 'languages/' ) {
+                    source_fp = source_base + grunt.myCfg.po.pack_visuals_file_slug + po2;
+                }
+                var source_po = source_fp + '.po';
+                var source_mo = source_fp + '.mo';
+                var temp_base = 'temp_' + grunt.myCfg.plugin_code + '/' + po + '/';
+                var glotpress_po = temp_base + po + '.po';
+                //var glotpress_translated_po = temp_base + 'glotpress_only_translated_strings.po';
+                var merged_po = temp_base + 'glotpress_source_merged.po';
+
+                //return '' +
+                //    // ??? Merge all files into 1 po file. ???
+                //    'msgcat ' + temp_base + filter + '* > ' + glotpress_po +
+                //    // Remove untranslated strings from glotpress po.
+                //    ' && msgattrib --translated ' + glotpress_po + ' -o ' + glotpress_translated_po +
+                //    ' && cat ' + glotpress_translated_po +
+                //    // Add strings from the local source po file.
+                //    ' && msgmerge ' + source_po + ' ' + glotpress_translated_po + ' --no-fuzzy-matching > ' + merged_po +
+                //    //' && cat ' + merged_po +
+                //    // Make sure this dir exists.
+                //    ' && mkdir -p ' + source_base +
+                //    // Overwrite the old po file in out git sources with the new po file.
+                //    ' && mv -f ' + merged_po + ' ' + source_po +
+                //    // Create a new mo file based on the new po file.
+                //    ' && msgfmt ' + source_po + ' -o ' + source_mo +
+                //    // Remove the temp files.
+                //    ' && rm -f ' + temp_base + filter + '*';
+
+                // console.log( 'aaa=====', temp_base );
+                // console.log( 'bbb=====', filter );
+                // console.log( 'ccc=====', glotpress_po );
+                return '' +
+                    // 'ls -lah temp_swifty-content-creator/nl/ && ' +
+                    // ??? Merge all files into 1 po file. ???
+                    'msgcat ' + temp_base + filter + '* > ' + glotpress_po +
+                    // Add strings from the local source po file.
+                    ' && msgmerge ' + glotpress_po + ' ' + glotpress_po + ' --compendium ' + source_po + ' --no-fuzzy-matching --sort-by-file > ' + merged_po +
+                    // Make sure this dir exists.
+                    ' && mkdir -p ' + source_base +
+                    // Overwrite the old po file in out git sources with the new po file.
+                    ' && mv -f ' + merged_po + ' ' + source_po +
+                    // Create a new mo file based on the new po file.
+                    ' && msgfmt ' + source_po + ' -o ' + source_mo +
+                    // Remove the temp files.
+                    ' && rm -f ' + temp_base + filter + '*';
             },
             options: {
                 execOptions: {

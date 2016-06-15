@@ -9,17 +9,17 @@ from_dialog_do_mainpull:
   - 'from_dialog_do_pullall_mergedev'
 from_dialog_do_mainvpro_mainpull:
   - 'from_dialog_do_mainpull' # It doesn't matter if pro is selected or not
-from_dialog_do_mainvfree_maintest_mainpull:
+from_dialog_do_maintest_mainpull_mainvfree:
   - 'from_dialog_do_mainpull' # It doesn't matter if pro is selected or not
-from_dialog_do_mainvpro_mainmail_mainpull:
+from_dialog_do_mainvpro_mainpull_mainmail:
   - 'from_dialog_do_mainpull' # It doesn't matter if pro is selected or not
 
 # Commit + tag + push
 from_dialog_do_maintag:
   - 'from_dialog_do_commitandtag'
-from_dialog_do_mainvfree_mainmail_maintag:
+from_dialog_do_maintag_mainmail_mainvfree:
   - 'from_dialog_do_commitandtag' # Pro, mail and test don't matter
-from_dialog_do_mainvpro_mainmail_maintag:
+from_dialog_do_mainvpro_maintag_mainmail:
   - 'from_dialog_do_commitandtag' # Pro, mail and test don't matter
 
 # PRO version
@@ -30,9 +30,9 @@ from_dialog_do_mainvpro_maintag:
 # Update pot/po and up/download glotpress
 from_dialog_do_mainpot:
   - 'from_dialog_do_createpot_gettranslations'
-from_dialog_do_mainvfree_maintest_mainpot:
+from_dialog_do_maintest_mainpot_mainvfree:
   - 'from_dialog_do_createpot_gettranslations' # It doesn't matter if pro is selected or not
-from_dialog_do_mainvpro_mainmail_mainpot:
+from_dialog_do_mainvpro_mainpot_mainmail:
   - 'from_dialog_do_createpot_gettranslations' # It doesn't matter if pro is selected or not
 
 # Update pot/po and up/download glotpress
@@ -41,14 +41,14 @@ from_dialog_do_mainvpro_mainpot:
 
 # FREE version
 # Build
-from_dialog_do_mainvfree_mainbuild:
+from_dialog_do_mainbuild_mainvfree:
   - 'from_dialog_do_mainvfree'
   - 'from_dialog_do_mainbuild'
 
 # PRO version
 # Build
 # Test the zip
-from_dialog_do_mainvfree_maintest_mainbuild:
+from_dialog_do_maintest_mainbuild_mainvfree:
   - 'from_dialog_do_mainvfree'
   - 'from_dialog_do_maintest_step1'
   - 'from_dialog_do_mainbuild'
@@ -63,7 +63,7 @@ from_dialog_do_mainvpro_mainbuild:
 # PRO version
 # Build
 # Mail the zip
-from_dialog_do_mainvpro_mainmail_mainbuild:
+from_dialog_do_mainvpro_mainbuild_mainmail:
   - 'from_dialog_do_mainvpro'
   - 'from_dialog_do_mainbuild'
   - 'from_dialog_do_mainmail'
@@ -71,7 +71,7 @@ from_dialog_do_mainvpro_mainmail_mainbuild:
 # FREE version
 # Build
 # Mail the zip
-from_dialog_do_mainvfree_mainmail_mainbuild:
+from_dialog_do_mainbuild_mainmail_mainvfree:
   - 'from_dialog_do_mainvfree'
   - 'from_dialog_do_mainbuild'
   - 'from_dialog_do_mainmail'
@@ -100,7 +100,7 @@ from_dialog_do_mainvpro_mainrelease:
 
 # FREE version
 # Release to public
-from_dialog_do_mainvfree_mainrelease:
+from_dialog_do_mainrelease_mainvfree:
   - 'from_dialog_do_mainvfree'
   - 'from_dialog_do_mainrelease'
 
@@ -117,9 +117,18 @@ from_dialog_do_pullall_mergedev:
   - 'from_dialog_do_mergedev'
 
 # Create all pot files from the PHP sources and upload to glotpress
-# Download po files from glotpress and split a update them is source dirs
+# Download po files from glotpress and split and update them in source dirs
 from_dialog_do_createpot_gettranslations:
+  # Create all pot files from the PHP sources and upload to glotpress
   - 'from_dialog_do_createpot'
+  # Download po files from glotpress and split and update them in source dirs
+  - 'from_dialog_do_gettranslations'
+  # Upload all individual translated language files to Glotpress.
+  # Translations in Glotpress that exist there will be overwritten, unless the string in our local file is not yet translated ("").
+  # So all strings (especially in libs) that we have translated locally, but are not yet in Glotpress will be copied to Glotpress.
+  - 'loop_import_po_languages'
+  # Download po files from glotpress and split and update them is source dirs
+  # This is done e second time, because the previous action might have caused strings to change in Worpress.
   - 'from_dialog_do_gettranslations'
 
 # PRO version
@@ -191,12 +200,13 @@ from_dialog_do_createpot:
 #  - 'pot:lib'
   - 'if_pot_lib'
   - 'if_pot_pack_goodies'
+  - 'if_pot_pack_visuals'
   # Extract text string from mustache and javascript
   - 'helper_xgettext'
   # Get language files from diverse directories and upload them to swiftylife language site
   - 'shell:import_pot_in_swiftylife'
 
-# Download po files from glotpress and split a update them is source dirs
+# Download po files from glotpress and split and update them is source dirs
 from_dialog_do_gettranslations:
   - 'shell:download_po_from_swiftylife'
   - 'loop_split_po'
@@ -252,9 +262,11 @@ helper_build:
   - 'jshint' # Do a lint for all js files
   - 'csslint' # Do a lint for all css files
   - 'if_requirejs' # Do a requirejs build if needed for this plugin; will create concatenated js and css of all required files
+  - 'if_requirejs2' # Do a requirejs build if needed for this plugin; will create concatenated js and css of all required files
   - 'if_clean_unwanted' # Delete all files that are not needed in final zip
   - 'preprocess' # Replace strings and removed lines based on environment vars; like @if and @ifdef
   - 'replace:readme' # Set the current version etc in the readme
+  - 'replace:lang_slugs' # Replace all language slugs to the correct one (in functions like __() ).
   - 'replace:lib_version' # Set the current version etc in the readme
   - 'uglify' # Compress and obfuscate js files and save them with .min in the filename
   - 'rename:post_requirejs' # If needed move files to their final directories

@@ -75,6 +75,13 @@ module.exports = function( grunt/*, options*/ ) {
             replacements: [
                 { 'from': 'msgid "', 'to': '#: <%= grunt.getSourcePath() %>js.php:1\nmsgid "' }
             ]
+        },
+        lang_slugs: {
+            src: '<%= grunt.getDestPathPlugin() %>**/*.php',
+            overwrite: true,
+            replacements: [
+                { 'from': '\'swifty-content-creator\'', 'to': '\'' + grunt.myCfg.plugin_code + '\'' }
+            ]
         }
     };
 };
