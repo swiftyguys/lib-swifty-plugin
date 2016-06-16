@@ -504,6 +504,40 @@ module.exports = function( grunt/*, options*/ ) {
                     cb();
                 }
             }
+        },
+        get_changelog_from_readme: {
+            // command: 'sed -n "/== Changelog ==/,/== Upgrade Notice ==/p" <%= grunt.getDestPath() %>/<%= grunt.getDestPathPluginPart() %>readme.txt',
+            // command: 'sed -n "0,/== Changelog ==/ d; /== Upgrade Notice ==/,$ d; /^$/d; p" <%= grunt.getDestPath() %>/<%= grunt.getDestPathPluginPart() %>readme.txt',
+            command: 'sed -n "0,/== Changelog ==/ d; /== Upgrade Notice ==/,$ d; /^$/d; p" <%= grunt.getSourcePath() %>readme.txt',
+            options: {
+                execOptions: {
+                },
+                'stdout': false,
+                'callback': function(err, stdout, stderr, cb) {
+                    // console.log( '========================================' );
+                    // console.log( stdout );
+                    // console.log( '========================================' );
+
+                    var content = stdout;
+                    content = content.replace( /(?:\r\n\r\n)/g, '&nbsp;<br>&nbsp;<br>' );
+                    content = content.replace( /(?:\r\n|\r|\n)/g, '<br>' );
+                    // console.log( 'aaa', content );
+                    content = content.replace( /(= (.*?) =)/g, '<h4>$2</h4>' );
+
+                    var parseObj = {
+                        id_sol: grunt.myCfg.docs.changelog_id_sol,
+                        id_parent_sol: 5945, // Changelogs
+                        id_fd: grunt.myCfg.docs.changelog_id_fd,
+                        id_parent_fd: 11000002769, // Swifty changelogs
+                        title: 'Changelog for ' + grunt.myPkg.name.replace( /-/g, ' ' ),
+                        tags: 'changelog',
+                        content: content,
+                        file: 'readme'
+                    };
+                    grunt.myExportDocsDocs.push( JSON.parse( JSON.stringify( parseObj ) ) );
+                    cb();
+                }
+            }
         }
     };
 
