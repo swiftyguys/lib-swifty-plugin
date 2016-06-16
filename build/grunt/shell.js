@@ -34,7 +34,8 @@ module.exports = function( grunt/*, options*/ ) {
         },
         svn_co: {
             // command: 'svn co http://plugins.svn.wordpress.org/swifty-page-manager/ svn/swifty-page-manager',
-            command: 'svn co ' + grunt.myCfg.svn.url + ' ' + grunt.myCfg.svn.path,
+            // command: 'svn co ' + grunt.myCfg.svn.url + ' ' + grunt.myCfg.svn.path + ' --ignore-externals --quiet && svn stat',
+            command: 'svn co ' + grunt.myCfg.svn.url + ' ' + grunt.myCfg.svn.path + ' --ignore-externals',
             options: {
                 execOptions: {
                     cwd: '../build/'
@@ -45,6 +46,7 @@ module.exports = function( grunt/*, options*/ ) {
             }
         },
         svn_stat: {
+            // command: 'sleep 15; svn stat',
             command: 'sleep 5; svn stat',
             options: {
                 execOptions: {
