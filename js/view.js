@@ -150,8 +150,12 @@ function swifty_updateScrolleffect() {
                             if( sY >= yAbsY ) {
                                 el.style.position = 'fixed';
                                 if( ! spacer ) {
+                                    var htmlMarginTop = parseInt( swifty_getStyle( document.documentElement, 'margin-top' ), 10 );
+                                    if( ! ( htmlMarginTop >= 0 ) ) {
+                                        htmlMarginTop = 0;
+                                    }
                                     el.style.zIndex = '1000';
-                                    el.style.top = '0';
+                                    el.style.top = htmlMarginTop + 'px';
                                     spId = 'swc_body_spacer_' + Math.random();
                                     var spParent = el.parentElement;
                                     spacer = document.createElement( 'div' );
