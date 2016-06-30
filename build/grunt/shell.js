@@ -47,7 +47,8 @@ module.exports = function( grunt/*, options*/ ) {
         },
         svn_stat: {
             // command: 'sleep 15; svn stat',
-            command: 'sleep 5; svn stat',
+            // command: 'sleep 5; svn stat',
+            command: 'sleep 5; svn cleanup; svn stat',
             options: {
                 execOptions: {
                     cwd: grunt.myCfg.svn.path //'svn/swifty-page-manager/'
@@ -491,7 +492,8 @@ module.exports = function( grunt/*, options*/ ) {
             }
         },
         check_changelog_in_zip: {
-            command: 'unzip -c <%= grunt.getDestZip() %> <%= grunt.getDestPathPluginPart() %>readme.txt | grep "= ' + grunt.myPkg.version + ' ="',
+            // command: 'unzip -c <%= grunt.getDestZip() %> <%= grunt.getDestPathPluginPart() %>readme.txt | grep "= ' + grunt.myPkg.version + ' ="',
+            command: 'unzip -c <%= grunt.getDestZip() %> <%= grunt.getDestPathPluginPart() %>readme.txt | grep "= ' + grunt.myPkg.version + ' "',
             options: {
                 execOptions: {
                 },

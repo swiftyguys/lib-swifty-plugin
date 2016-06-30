@@ -8,7 +8,7 @@ module.exports = function( grunt/*, options*/ ) {
             options: {
                 'force': true
             },
-            src: [ 'svn/' + grunt.myCfg.plugin_code + '/trunk' ]
+            src: [ 'svn/' + grunt.myCfg.plugin_code + '/trunk/*' ]
         },
         languages: [
             '<%= grunt.getDestPathPlugin() %>**/lang.pot',
