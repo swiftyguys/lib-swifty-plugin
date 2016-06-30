@@ -296,11 +296,13 @@ helper_obfuscate:
 
 # Release on swifty.online
 helper_release_swiftylife:
-  - 'helper_git_commits_since_tag'
-  - 'shell:check_changelog_in_zip'
+#  - 'helper_git_commits_since_tag'
+#  - 'shell:check_changelog_in_zip'
   - 'shell:copy_zip_swiftylife'
   - 'shell:mysql_update_version'
   - 'shell:mysql_update_date'
+  - 'shell:mysql_update_zip_woo'
+  - 'shell:mysql_update_zip_stuff'
 
 # Release on wp.org
 helper_release_wporg:

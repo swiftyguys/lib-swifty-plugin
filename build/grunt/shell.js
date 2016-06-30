@@ -163,7 +163,7 @@ module.exports = function( grunt/*, options*/ ) {
             }
         },
         mysql_update_version: {
-            command: "mysql -D swiftylife -h swiftylife.cxbgadkmkhqf.eu-central-1.rds.amazonaws.com -e \"update wp_postmeta set meta_value='" + grunt.myPkg.version + "' where meta_key='_api_new_version' and post_id='2455';\";",
+            command: "mysql -D swiftylife -h swiftylife.cxbgadkmkhqf.eu-central-1.rds.amazonaws.com -e \"update wp_postmeta set meta_value='" + grunt.myPkg.version + "' where meta_key='_api_new_version' and post_id='<%= grunt.myCfg.release.id_product %>';\";",
             options: {
                 execOptions: {
                 },
@@ -173,7 +173,30 @@ module.exports = function( grunt/*, options*/ ) {
             }
         },
         mysql_update_date: {
-            command: "mysql -D swiftylife -h swiftylife.cxbgadkmkhqf.eu-central-1.rds.amazonaws.com -e \"update wp_postmeta set meta_value='" + grunt.getYyyyMmDd() + "' where meta_key='_api_last_updated' and post_id='2455';\";",
+            command: "mysql -D swiftylife -h swiftylife.cxbgadkmkhqf.eu-central-1.rds.amazonaws.com -e \"update wp_postmeta set meta_value='" + grunt.getYyyyMmDd() + "' where meta_key='_api_last_updated' and post_id='<%= grunt.myCfg.release.id_product %>';\";",
+            options: {
+                execOptions: {
+                },
+                'callback': function(err, stdout, stderr, cb) {
+                    cb();
+                }
+            }
+        },
+        mysql_update_zip_woo: {
+            command: 'OUTPT=$(curl -L "https://stuff.swifty.online/stuff/data/get.php?do=getencurl&file=releases/' + grunt.myCfg.git_pull_all.tagcode + '/' + grunt.myCfg.plugin_code + '.' + grunt.myPkg.version + '.zip")' +
+                " ; OUTP2=$(php -r 'echo serialize(array(md5($argv[1])=>array(\"name\"=>\"" + grunt.myCfg.plugin_txt_name + "\",\"file\"=>\"$argv[1]\")));' -- ${OUTPT})" +
+                " ; mysql -D swiftylife -h swiftylife.cxbgadkmkhqf.eu-central-1.rds.amazonaws.com -e \"update wp_postmeta set meta_value='${OUTP2}' where meta_key='_downloadable_files' and post_id='<%= grunt.myCfg.release.id_product %>';\";",
+            options: {
+                execOptions: {
+                },
+                'callback': function(err, stdout, stderr, cb) {
+                    cb();
+                }
+            }
+        },
+        mysql_update_zip_stuff: {
+            command: 'OUTPT=$(curl -L "https://stuff.swifty.online/stuff/data/get.php?do=getencurl&file=releases/' + grunt.myCfg.git_pull_all.tagcode + '/' + grunt.myCfg.plugin_code + '.' + grunt.myPkg.version + '.zip")' +
+                " ; mysql -D swiftylife -h swiftylife.cxbgadkmkhqf.eu-central-1.rds.amazonaws.com -e \"insert into stuff_releases (code,version,url) values ('" + grunt.myCfg.git_pull_all.tagcode + "','" + grunt.myPkg.version + "','${OUTPT}');\";",
             options: {
                 execOptions: {
                 },
@@ -196,7 +219,8 @@ module.exports = function( grunt/*, options*/ ) {
             }
         },
         copy_zip_swiftylife: {
-            command: 'scp -P 2022 <%= grunt.getDestZip() %> swiftylife@green.alphamegahosting.com:/var/www/vhosts/swifty.online/httpdocs/download/swifty-content-creator-alpha-latest.zip',
+            // command: 'scp -P 2022 <%= grunt.getDestZip() %> swiftylife@green.alphamegahosting.com:/var/www/vhosts/swifty.online/httpdocs/download/swifty-content-creator-alpha-latest.zip',
+            command: 'scp -P 2022 <%= grunt.getDestZip() %> root@stuff2.swifty.online:/var/www/vhosts/stuff.swifty.online/httpdocs/static/releases/' + grunt.myCfg.git_pull_all.tagcode + '/' + grunt.myCfg.plugin_code + '.' + grunt.myPkg.version + '.zip',
             options: {
                 execOptions: {
                 },
@@ -556,6 +580,9 @@ module.exports = function( grunt/*, options*/ ) {
             //console.log( '==============', o );
             if( o.indexOf( '= ' ) === 0 && o.indexOf( ' =' ) > 0 ) {
                 latestChangelogVersion = o.substring( o.indexOf( '= ' ) + 2, o.indexOf( ' =' ) );
+                if( latestChangelogVersion.indexOf( ' - 20' ) > 0 ) {
+                    latestChangelogVersion = latestChangelogVersion.substr( 0, latestChangelogVersion.indexOf( ' - 20' ) );
+                }
                 console.log( 'Found latest changelog version: ', latestChangelogVersion );
                 readmeSearching = 3;
             }

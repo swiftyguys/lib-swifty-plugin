@@ -275,7 +275,8 @@ module.exports = {
         } );
 
         grunt.registerTask( 'if_release', function() {
-            if( process.env.PRO_TAG === ' Pro' ) {
+            // if( process.env.PRO_TAG === ' Pro' ) {
+            if( grunt.myCfg.release && grunt.myCfg.release.tp === 'sol' ) {
                 grunt.task.run( [ 'helper_release_swiftylife' ] );
             } else {
                 grunt.task.run( [ 'helper_release_wporg' ] );
