@@ -185,8 +185,12 @@ class SwiftyPackInstall
             'licence_key' => $api_key,
         );
 
+        $additional_info = '';
         if( ! $only_register ) {
             $activate_results = json_decode( $settings->key()->activate( $args ), true );
+            if( is_array( $activate_results ) && key_exists( 'additional info', $activate_results ) ) {
+                $additional_info = $activate_results[ 'additional info' ];
+            }
         }
         if( $only_register ||
             (  key_exists( 'activated', $activate_results ) && ( $activate_results[ 'activated' ] === true ) ) ||
@@ -198,9 +202,9 @@ class SwiftyPackInstall
             update_option( $settings->ame_deactivate_checkbox, 'off' );
             set_transient( 'active_license_' . $this->plugin_key_name, 'Active', DAY_IN_SECONDS * 3 );
             
-            return true;
+            return array( true, $additional_info );
         }
-        return false;
+        return array( false, $additional_info );
     }
 
     /**
@@ -272,11 +276,13 @@ class SwiftyPackInstall
             return false;
         }
 
-        $response = unserialize( wp_remote_retrieve_body( $request ) );
-        if( is_object( $response ) ) {
-            return $response;
-        } else {
-            return false;
+        $body = wp_remote_retrieve_body( $request );
+        if( $body && is_serialized( $body ) ) {
+            $response = unserialize( $body );
+            if( is_object( $response ) ) {
+                return $response;
+            }
         }
+        return false;
     }
 }

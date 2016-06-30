@@ -329,12 +329,26 @@ class LibSwiftyPluginView
      */
     function swifty_get_post_autosave( $post_id, $user_id = 0 ) {
 
+        // WPML kicks in when get_posts is running with a name as argument. This will potentially result in the wrong 
+        // revision being returned
+        global $sitepress;
+        if( $sitepress ) {
+            $restore_action = has_action( 'parse_query', array( $sitepress, 'parse_query' ) );
+            remove_action( 'parse_query', array( $sitepress, 'parse_query' ) );
+        } else {
+            $restore_action = false;
+        }
+
         // there is no proper way to get the "$post_id-autosave-v1" name since wp 4.5, so we hope that it never changes
         $revisions = wp_get_post_revisions( $post_id,
             array(
                 'check_enabled' => false,
                 'name' => "$post_id-autosave-v1"
             ) );
+
+        if( $sitepress && $restore_action ) {
+            add_action( 'parse_query', array( $sitepress, 'parse_query' ) );
+        }
 
         foreach ( $revisions as $revision ) {
             if ( $user_id && $user_id != $revision->post_author )
