@@ -328,35 +328,35 @@ class LibSwiftyPluginView
      * @return bool
      */
     function swifty_get_post_autosave( $post_id, $user_id = 0 ) {
+        global $wpdb;
 
-        // WPML kicks in when get_posts is running with a name as argument. This will potentially result in the wrong 
-        // revision being returned
-        global $sitepress;
-        if( $sitepress ) {
-            $restore_action = has_action( 'parse_query', array( $sitepress, 'parse_query' ) );
-            remove_action( 'parse_query', array( $sitepress, 'parse_query' ) );
-        } else {
-            $restore_action = false;
+        // Construct the autosave query.
+        $autosave_query = "
+                SELECT *
+                FROM $wpdb->posts
+                WHERE post_parent = %d
+                AND   post_type   = 'revision'
+                AND   post_status = 'inherit'
+                AND   post_name   = %s" .
+            ( ( 0 !== $user_id ) ?
+                "AND post_author = %d" : "" ) . "
+                ORDER BY post_date DESC, ID DESC
+                LIMIT 1";
+
+        $autosave_details = $wpdb->get_results(
+            $wpdb->prepare(
+                $autosave_query,
+                $post_id,
+                $post_id . '-autosave-v1',
+                $user_id
+            )
+        );
+
+        if( empty( $autosave_details ) ) {
+            return false;
         }
 
-        // there is no proper way to get the "$post_id-autosave-v1" name since wp 4.5, so we hope that it never changes
-        $revisions = wp_get_post_revisions( $post_id,
-            array(
-                'check_enabled' => false,
-                'name' => "$post_id-autosave-v1"
-            ) );
-
-        if( $sitepress && $restore_action ) {
-            add_action( 'parse_query', array( $sitepress, 'parse_query' ) );
-        }
-
-        foreach ( $revisions as $revision ) {
-            if ( $user_id && $user_id != $revision->post_author )
-                continue;
-
-            return $revision;
-        }
-        return false;
+        return $autosave_details[ 0 ];
     }
 
     /**
