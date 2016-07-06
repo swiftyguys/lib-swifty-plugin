@@ -6,6 +6,41 @@ if( ! defined( 'ABSPATH' ) ) exit;
 // used in other plugins
 require_once plugin_dir_path( __FILE__ ) . 'lib/swifty-captcha.php';
 
+
+// SS_DOC_ARTICLE
+// id_sol: 0
+// id_fd: 0
+// id_parent_sol: 6691 // Globals in Swifty Lib
+// title: Global: $swifty_lib_dir
+// tags: Swifty Lib,global
+// Swifty Lib has an global to load php files only when needed.<br>
+// <br>
+// Some php files in the lib are only used in certain circumstances. This improves load times.<br>
+// <br>
+// Example:<br>
+// <pre lang="php"><nobr>
+// global $swifty_lib_dir;
+// if( isset( $swifty_lib_dir ) ) {
+//   require_once $swifty_lib_dir . '/php/lib/swifty-image-functions.php';
+// }
+// </pre lang="php">
+// SS_DOC_END
+
+// SS_DOC_ARTICLE
+// id_sol: 0
+// id_fd: 0
+// id_parent_sol: 6691 // Globals in Swifty Lib
+// title: Global: $swifty_lib_version
+// tags: Swifty Lib,global
+// Swifty Lib is versioned. Each plugin contains a version. The most recent version is used.<br>
+// <br>
+// Example:<br>
+// <pre lang="php"><nobr>
+// global $swifty_lib_version;
+// </pre lang="php">
+// SS_DOC_END
+
+
 global $swifty_lib_version;
 $swifty_lib_version = '/*@echo SWIFTY_LIB_VERSION*/';
 
@@ -70,14 +105,22 @@ class LibSwiftyPluginView
         return self::$instance_view;
     }
 
-    /**
-     * Checks if WordPress is at least at version $version
-     * @param $version
-     * @return bool
-     *
-     * Usage: if( LibSwiftyPluginView::wordpress_is_at_least_version( '4.0' ) ) {
-     *
-     */
+    // SS_DOC_ARTICLE
+    // id_sol: 0
+    // id_fd: 0
+    // id_parent_sol: 6695 // Functions and methods in Swifty Lib
+    // title: Function: LibSwiftyPluginView::wordpress_is_at_least_version
+    // tags: Swifty Lib,function
+    // Checks if WordPress is at least at version $version<br>
+    // Use this when functionality is only available in certain Wordpress versions and deprecated in earlier ones.<br>
+    // <br>
+    // Example:<br>
+    // <pre lang="php"><nobr>
+    // if( ! LibSwiftyPluginView::wordpress_is_at_least_version( '4.5' ) ) {
+    //   // whatever you want to do in wordpress versions before 4.5
+    // }
+    // </pre lang="php">
+    // SS_DOC_END
     public static function wordpress_is_at_least_version( $version ) {
         global $wp_version;
         if( version_compare( $version, $wp_version, '<' ) )
@@ -91,12 +134,24 @@ class LibSwiftyPluginView
      */
     public static $required_active_plugins = array();
 
-    /**
-     * is this plugin active? Keep track of earlier checks to improve speed
-     *
-     * @param $plugin_name
-     * @return bool
-     */
+    // SS_DOC_ARTICLE
+    // id_sol: 0
+    // id_fd: 0
+    // id_parent_sol: 6695 // Functions and methods in Swifty Lib
+    // title: Function: LibSwiftyPluginView::is_required_plugin_active
+    // tags: Swifty Lib,function
+    // Is this plugin with slug $plugin_name active?<br>
+    // Keep track of earlier checks to improve speed<br>
+    // <br>
+    // Example:<br>
+    // <pre lang="php"><nobr>
+    // if( LibSwiftyPluginView::is_required_plugin_active( 'si-contact-form' ) ) {
+    //   // do something with this plugin
+    // } else {
+    //   return apply_filters( 'swifty_plugin_not_active', 'Fast Secure Contact Form' );
+    // }
+    // </pre lang="php">
+    // SS_DOC_END
     public static function is_required_plugin_active( $plugin_name )
     {
         // do we already know the answer?
@@ -169,9 +224,20 @@ class LibSwiftyPluginView
         return $default;
     }
 
-    /**
-     * Add swifty menu option to the wp-admin bar
-     */
+    // SS_DOC_ARTICLE
+    // id_sol: 0
+    // id_fd: 0
+    // id_parent_sol: 6695 // Functions and methods in Swifty Lib
+    // title: Function: LibSwiftyPluginView::add_swifty_to_admin_bar
+    // tags: Swifty Lib,function
+    // Add swifty menu option to the wp-admin bar.<br>
+    // Look for the admin bar node 'swifty' and add it when not found.<br>
+    // <br>
+    // Example:<br>
+    // <pre lang="php"><nobr>
+    // LibSwiftyPluginView::add_swifty_to_admin_bar();
+    // </pre lang="php">
+    // SS_DOC_END
     public static function add_swifty_to_admin_bar()
     {
 
@@ -253,14 +319,21 @@ class LibSwiftyPluginView
         update_option( 'swifty_allow_external', $value );
     }
     
-    /**
-     * test if $plugin_name is active
-     * All swifty plugins will respond to the 'swifty_active_plugins' filter and it's name
-     * to the array.
-     *
-     * @param $plugin_name
-     * @return bool
-     */
+    // SS_DOC_ARTICLE
+    // id_sol: 0
+    // id_fd: 0
+    // id_parent_sol: 6695 // Functions and methods in Swifty Lib
+    // title: Function: LibSwiftyPluginView::is_swifty_plugin_active
+    // tags: Swifty Lib,function
+    // Test if $plugin_name is active.<br>
+    // All swifty plugins will respond to the 'swifty_active_plugins' filter and add it's name to the array.<br>
+    // <br>
+    // Example:<br>
+    // <pre lang="php"><nobr>
+    // if( LibSwiftyPluginView::is_swifty_plugin_active( 'swifty-site' ) ) {
+    // }
+    // </pre lang="php">
+    // SS_DOC_END
     public static function is_swifty_plugin_active( $plugin_name )
     {
         return in_array( $plugin_name, apply_filters( 'swifty_active_plugins', array() ) );
@@ -359,12 +432,22 @@ class LibSwiftyPluginView
         return $autosave_details[ 0 ];
     }
 
-    /**
-     * find newer version of post, or return null if there is no newer autosave version
-     *
-     * @param $pid
-     * @return mixed|null
-     */
+    // SS_DOC_ARTICLE
+    // id_sol: 0
+    // id_fd: 0
+    // id_parent_sol: 6695 // Functions and methods in Swifty Lib
+    // title: Function: LibSwiftyPluginView::get_autosave_version_if_newer
+    // tags: Swifty Lib,function
+    // Find newer version of post $pid or return null if there is no newer autosave version.<br>
+    // This function will get the latest autosave of any user for a post and return its content when it is newer than
+    // the latest post update.<br>
+    // <br>
+    // Example:<br>
+    // <pre lang="php"><nobr>
+    // if( LibSwiftyPluginView::is_swifty_plugin_active( 'swifty-site' ) ) {
+    // }
+    // </pre lang="php">
+    // SS_DOC_END
     public function get_autosave_version_if_newer( $pid )
     {
         // Detect if there exists an autosave newer than the post and if that autosave is different than the post
@@ -380,15 +463,20 @@ class LibSwiftyPluginView
         return $newer_revision;
     }
 
-    /**
-     * use ssd enqueue_script method when ssd is the active theme, otherwise use wp_enqueue_script
-     *
-     * @param $handle
-     * @param bool|false $src
-     * @param array $deps
-     * @param bool|false $ver
-     * @param bool|false $in_footer
-     */
+    // SS_DOC_ARTICLE
+    // id_sol: 0
+    // id_fd: 0
+    // id_parent_sol: 6695 // Functions and methods in Swifty Lib
+    // title: Function: LibSwiftyPluginView::lazy_load_js
+    // tags: Swifty Lib,function
+    // Use ssd enqueue_script method when ssd is the active theme, otherwise use wp_enqueue_script<br>
+    // See wp_enqueue_script for description of parameters.<br>
+    // <br>
+    // Example:<br>
+    // <pre lang="php"><nobr>
+    // LibSwiftyPluginView::lazy_load_js( 'swc_lightcase_js', $lightcase_url, array( 'jquery' ) );
+    // </pre lang="php">
+    // SS_DOC_END
     public static function lazy_load_js( $handle, $src = false, $deps = array(), $ver = false, $in_footer = false )
     {
         if( self::$required_theme_active_swifty_site_designer ) {
@@ -398,16 +486,22 @@ class LibSwiftyPluginView
         }
     }
 
-    /**
-     * load minified version of script if possible and use ssd enqueue_script method when ssd is the active theme,
-     * otherwise use wp_enqueue_script
-     *
-     * @param $handle
-     * @param bool|false $src
-     * @param array $deps
-     * @param bool|false $ver
-     * @param bool|false $in_footer
-     */
+    // SS_DOC_ARTICLE
+    // id_sol: 0
+    // id_fd: 0
+    // id_parent_sol: 6695 // Functions and methods in Swifty Lib
+    // title: Function: LibSwiftyPluginView::lazy_load_js_min
+    // tags: Swifty Lib,function
+    // Load minified version of script on non development systems and add a bust parameter to the url.<br>
+    // Use ssd enqueue_script method when ssd is the active theme, otherwise use wp_enqueue_script<br>
+    // See wp_enqueue_script for description of parameters.<br>
+    // <br>
+    // Example:<br>
+    // <pre lang="php"><nobr>
+    // LibSwiftyPluginView::lazy_load_js_min( 'slider_view_js',
+    //   plugin_dir_url( __FILE__ ) . 'slider_view.js', array( 'jquery', 'swc_jssor_js' ), false, true );
+    // </pre lang="php">
+    // SS_DOC_END
     public static function lazy_load_js_min( $handle, $src = false, $deps = array(), $ver = false, $in_footer = false )
     {
         global $swifty_build_use;
@@ -420,16 +514,21 @@ class LibSwiftyPluginView
         self::lazy_load_js( $handle, $file, $deps, $ver, $in_footer );
     }
 
-    /**
-     * use ssd register_style method when ssd is the active theme,
-     * otherwise use wp_register_style
-     *
-     * @param $handle
-     * @param bool|false $src
-     * @param array $deps
-     * @param bool|false $ver
-     * @param string $media
-     */
+    // SS_DOC_ARTICLE
+    // id_sol: 0
+    // id_fd: 0
+    // id_parent_sol: 6695 // Functions and methods in Swifty Lib
+    // title: Function: LibSwiftyPluginView::lazy_register_css
+    // tags: Swifty Lib,function
+    // Use ssd register_style method when ssd is the active theme, otherwise use wp_register_style<br>
+    // See wp_register_style for description of parameters.<br>
+    // <br>
+    // Example:<br>
+    // <pre lang="php"><nobr>
+    // global $scc_version;
+    // LibSwiftyPluginView::lazy_register_css( 'swcreator_swcreator_css', $this->this_plugin_url . 'css/swcreator.css', false, $scc_version );
+    // </pre lang="php">
+    // SS_DOC_END
     public static function lazy_register_css( $handle, $src = false, $deps = array(), $ver = false, $media = 'all' )
     {
         if( self::$required_theme_active_swifty_site_designer ) {
@@ -439,16 +538,21 @@ class LibSwiftyPluginView
         }
     }
     
-    /**
-     * use ssd enqueue_style method when ssd is the active theme,
-     * otherwise use wp_enqueue_style
-     *
-     * @param $handle
-     * @param bool|false $src
-     * @param array $deps
-     * @param bool|false $ver
-     * @param string $media
-     */
+    // SS_DOC_ARTICLE
+    // id_sol: 0
+    // id_fd: 0
+    // id_parent_sol: 6695 // Functions and methods in Swifty Lib
+    // title: Function: LibSwiftyPluginView::lazy_load_css
+    // tags: Swifty Lib,function
+    // Use ssd enqueue_style method when ssd is the active theme, otherwise use wp_enqueue_style<br>
+    // See wp_enqueue_style for description of parameters.<br>
+    // <br>
+    // Example:<br>
+    // <pre lang="php"><nobr>
+    // global $scc_version;
+    // LibSwiftyPluginView::lazy_load_css( 'swcreator_swcreator_css' );
+    // </pre lang="php">
+    // SS_DOC_END
     public static function lazy_load_css( $handle, $src = false, $deps = array(), $ver = false, $media = 'all' )
     {
         if( self::$required_theme_active_swifty_site_designer ) {
@@ -459,7 +563,7 @@ class LibSwiftyPluginView
     }
 
     /**
-     * Enqueue script for browser detection in logged-in view / admin / swifty scc
+     * Enqueue script for browser detection. Used in logged-in view / admin / swifty scc
      */
     public function enqueue_script_bowser() {
 
@@ -621,12 +725,25 @@ if( ! function_exists( 'swifty_lib_view_enqueue_styles' ) ) {
     add_action( 'admin_enqueue_scripts', 'swifty_lib_view_enqueue_styles' );
 }
 
+// SS_DOC_ARTICLE
+// id_sol: 0
+// id_fd: 0
+// id_parent_sol: 6695 // Functions and methods in Swifty Lib
+// title: Function: get_swifty_lib_dir_url
+// tags: Swifty Lib,function
+// Returns the plugin or theme url depending on the $file that is used.<br>
+// <br>
+// <br>
+// Example:<br>
+// <pre lang="php"><nobr>
+// $swifty_css_admin_url = get_swifty_lib_dir_url( __FILE__ ) . 'css/swifty-admin.css';
+// </pre lang="php">
+// SS_DOC_END
 if( ! function_exists( 'get_swifty_lib_dir_url' ) ) {
 
     /**
      * returns the plugin or theme url depending on the $file that is used
-     * when the lib is used in a theme then the lib is located in the sub folder 'ssd', use this
-     * to detect that the $file is used in a theme and not in a plugin
+     * 
      *
      * @param $file
      * @return string
@@ -638,6 +755,8 @@ if( ! function_exists( 'get_swifty_lib_dir_url' ) ) {
         // get plugin name
         $plugin_basename = basename( $plugin_dir );
 
+        // when the lib is used in a theme then the lib is located in the sub folder 'ssd', use this to detect that
+        // the $file is used in a theme and not in a plugin
         // make sure we do not use the theme sub-folder of 'ssd' as plugin name
         if( $plugin_basename != 'ssd' ) {
             // this is a plugin
