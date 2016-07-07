@@ -65,8 +65,8 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
     }
 
     // SS_DOC_ARTICLE
-    // id_sol: 0
-    // id_fd: 0
+    // id_sol: 6702
+    // id_fd: 11000013962
     // id_parent_sol: 6685 // Actions and filters in Swifty Lib
     // title: Filter: swifty_get_area_template_style
     // tags: Swifty Lib,filter
@@ -99,8 +99,8 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
     }
 
     // SS_DOC_ARTICLE
-    // id_sol: 0
-    // id_fd: 0
+    // id_sol: 6705
+    // id_fd: 11000013957
     // id_parent_sol: 6685 // Actions and filters in Swifty Lib
     // title: Filter: swifty_set_area_template_style
     // tags: Swifty Lib,filter

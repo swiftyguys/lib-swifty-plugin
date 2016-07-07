@@ -8,8 +8,8 @@ require_once plugin_dir_path( __FILE__ ) . 'lib/swifty-captcha.php';
 
 
 // SS_DOC_ARTICLE
-// id_sol: 0
-// id_fd: 0
+// id_sol: 6699
+// id_fd: 11000013967
 // id_parent_sol: 6691 // Globals in Swifty Lib
 // title: Global: $swifty_lib_dir
 // tags: Swifty Lib,global
@@ -27,8 +27,8 @@ require_once plugin_dir_path( __FILE__ ) . 'lib/swifty-captcha.php';
 // SS_DOC_END
 
 // SS_DOC_ARTICLE
-// id_sol: 0
-// id_fd: 0
+// id_sol: 6697
+// id_fd: 11000013963
 // id_parent_sol: 6691 // Globals in Swifty Lib
 // title: Global: $swifty_lib_version
 // tags: Swifty Lib,global
@@ -106,8 +106,8 @@ class LibSwiftyPluginView
     }
 
     // SS_DOC_ARTICLE
-    // id_sol: 0
-    // id_fd: 0
+    // id_sol: 6701
+    // id_fd: 11000013958
     // id_parent_sol: 6695 // Functions and methods in Swifty Lib
     // title: Function: LibSwiftyPluginView::wordpress_is_at_least_version
     // tags: Swifty Lib,function
@@ -135,8 +135,8 @@ class LibSwiftyPluginView
     public static $required_active_plugins = array();
 
     // SS_DOC_ARTICLE
-    // id_sol: 0
-    // id_fd: 0
+    // id_sol: 6700
+    // id_fd: 11000013960
     // id_parent_sol: 6695 // Functions and methods in Swifty Lib
     // title: Function: LibSwiftyPluginView::is_required_plugin_active
     // tags: Swifty Lib,function
@@ -225,8 +225,8 @@ class LibSwiftyPluginView
     }
 
     // SS_DOC_ARTICLE
-    // id_sol: 0
-    // id_fd: 0
+    // id_sol: 6698
+    // id_fd: 11000013959
     // id_parent_sol: 6695 // Functions and methods in Swifty Lib
     // title: Function: LibSwiftyPluginView::add_swifty_to_admin_bar
     // tags: Swifty Lib,function
@@ -320,8 +320,8 @@ class LibSwiftyPluginView
     }
     
     // SS_DOC_ARTICLE
-    // id_sol: 0
-    // id_fd: 0
+    // id_sol: 6704
+    // id_fd: 11000013961
     // id_parent_sol: 6695 // Functions and methods in Swifty Lib
     // title: Function: LibSwiftyPluginView::is_swifty_plugin_active
     // tags: Swifty Lib,function
@@ -433,8 +433,8 @@ class LibSwiftyPluginView
     }
 
     // SS_DOC_ARTICLE
-    // id_sol: 0
-    // id_fd: 0
+    // id_sol: 6703
+    // id_fd: 11000013966
     // id_parent_sol: 6695 // Functions and methods in Swifty Lib
     // title: Function: LibSwiftyPluginView::get_autosave_version_if_newer
     // tags: Swifty Lib,function
@@ -464,8 +464,8 @@ class LibSwiftyPluginView
     }
 
     // SS_DOC_ARTICLE
-    // id_sol: 0
-    // id_fd: 0
+    // id_sol: 6708
+    // id_fd: 11000013970
     // id_parent_sol: 6695 // Functions and methods in Swifty Lib
     // title: Function: LibSwiftyPluginView::lazy_load_js
     // tags: Swifty Lib,function
@@ -487,8 +487,8 @@ class LibSwiftyPluginView
     }
 
     // SS_DOC_ARTICLE
-    // id_sol: 0
-    // id_fd: 0
+    // id_sol: 6706
+    // id_fd: 11000013964
     // id_parent_sol: 6695 // Functions and methods in Swifty Lib
     // title: Function: LibSwiftyPluginView::lazy_load_js_min
     // tags: Swifty Lib,function
@@ -515,8 +515,8 @@ class LibSwiftyPluginView
     }
 
     // SS_DOC_ARTICLE
-    // id_sol: 0
-    // id_fd: 0
+    // id_sol: 6707
+    // id_fd: 11000013965
     // id_parent_sol: 6695 // Functions and methods in Swifty Lib
     // title: Function: LibSwiftyPluginView::lazy_register_css
     // tags: Swifty Lib,function
@@ -539,8 +539,8 @@ class LibSwiftyPluginView
     }
     
     // SS_DOC_ARTICLE
-    // id_sol: 0
-    // id_fd: 0
+    // id_sol: 6710
+    // id_fd: 11000013969
     // id_parent_sol: 6695 // Functions and methods in Swifty Lib
     // title: Function: LibSwiftyPluginView::lazy_load_css
     // tags: Swifty Lib,function
@@ -726,8 +726,8 @@ if( ! function_exists( 'swifty_lib_view_enqueue_styles' ) ) {
 }
 
 // SS_DOC_ARTICLE
-// id_sol: 0
-// id_fd: 0
+// id_sol: 6709
+// id_fd: 11000013968
 // id_parent_sol: 6695 // Functions and methods in Swifty Lib
 // title: Function: get_swifty_lib_dir_url
 // tags: Swifty Lib,function

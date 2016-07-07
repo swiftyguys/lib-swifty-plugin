@@ -34,7 +34,8 @@ module.exports = function( grunt/*, options*/ ) {
         },
         svn_co: {
             // command: 'svn co http://plugins.svn.wordpress.org/swifty-page-manager/ svn/swifty-page-manager',
-            command: 'svn co ' + grunt.myCfg.svn.url + ' ' + grunt.myCfg.svn.path,
+            // command: 'svn co ' + grunt.myCfg.svn.url + ' ' + grunt.myCfg.svn.path + ' --ignore-externals --quiet && svn stat',
+            command: 'svn co ' + grunt.myCfg.svn.url + ' ' + grunt.myCfg.svn.path + ' --ignore-externals',
             options: {
                 execOptions: {
                     cwd: '../build/'
@@ -45,7 +46,9 @@ module.exports = function( grunt/*, options*/ ) {
             }
         },
         svn_stat: {
-            command: 'sleep 5; svn stat',
+            // command: 'sleep 15; svn stat',
+            // command: 'sleep 5; svn stat',
+            command: 'sleep 5; svn cleanup; svn stat',
             options: {
                 execOptions: {
                     cwd: grunt.myCfg.svn.path //'svn/swifty-page-manager/'
@@ -161,7 +164,7 @@ module.exports = function( grunt/*, options*/ ) {
             }
         },
         mysql_update_version: {
-            command: "mysql -D swiftylife -h swiftylife.cxbgadkmkhqf.eu-central-1.rds.amazonaws.com -e \"update wp_postmeta set meta_value='" + grunt.myPkg.version + "' where meta_key='_api_new_version' and post_id='2455';\";",
+            command: "mysql -D swiftylife -h swiftylife.cxbgadkmkhqf.eu-central-1.rds.amazonaws.com -e \"update wp_postmeta set meta_value='" + grunt.myPkg.version + "' where meta_key='_api_new_version' and post_id='<%= grunt.myCfg.release.id_product %>';\";",
             options: {
                 execOptions: {
                 },
@@ -171,7 +174,30 @@ module.exports = function( grunt/*, options*/ ) {
             }
         },
         mysql_update_date: {
-            command: "mysql -D swiftylife -h swiftylife.cxbgadkmkhqf.eu-central-1.rds.amazonaws.com -e \"update wp_postmeta set meta_value='" + grunt.getYyyyMmDd() + "' where meta_key='_api_last_updated' and post_id='2455';\";",
+            command: "mysql -D swiftylife -h swiftylife.cxbgadkmkhqf.eu-central-1.rds.amazonaws.com -e \"update wp_postmeta set meta_value='" + grunt.getYyyyMmDd() + "' where meta_key='_api_last_updated' and post_id='<%= grunt.myCfg.release.id_product %>';\";",
+            options: {
+                execOptions: {
+                },
+                'callback': function(err, stdout, stderr, cb) {
+                    cb();
+                }
+            }
+        },
+        mysql_update_zip_woo: {
+            command: 'OUTPT=$(curl -L "https://stuff.swifty.online/stuff/data/get.php?do=getencurl&file=releases/' + grunt.myCfg.git_pull_all.tagcode + '/' + grunt.myCfg.plugin_code + '.' + grunt.myPkg.version + '.zip")' +
+                " ; OUTP2=$(php -r 'echo serialize(array(md5($argv[1])=>array(\"name\"=>\"" + grunt.myCfg.plugin_txt_name + "\",\"file\"=>\"$argv[1]\")));' -- ${OUTPT})" +
+                " ; mysql -D swiftylife -h swiftylife.cxbgadkmkhqf.eu-central-1.rds.amazonaws.com -e \"update wp_postmeta set meta_value='${OUTP2}' where meta_key='_downloadable_files' and post_id='<%= grunt.myCfg.release.id_product %>';\";",
+            options: {
+                execOptions: {
+                },
+                'callback': function(err, stdout, stderr, cb) {
+                    cb();
+                }
+            }
+        },
+        mysql_update_zip_stuff: {
+            command: 'OUTPT=$(curl -L "https://stuff.swifty.online/stuff/data/get.php?do=getencurl&file=releases/' + grunt.myCfg.git_pull_all.tagcode + '/' + grunt.myCfg.plugin_code + '.' + grunt.myPkg.version + '.zip")' +
+                " ; mysql -D swiftylife -h swiftylife.cxbgadkmkhqf.eu-central-1.rds.amazonaws.com -e \"insert into stuff_releases (code,version,url) values ('" + grunt.myCfg.git_pull_all.tagcode + "','" + grunt.myPkg.version + "','${OUTPT}');\";",
             options: {
                 execOptions: {
                 },
@@ -194,7 +220,8 @@ module.exports = function( grunt/*, options*/ ) {
             }
         },
         copy_zip_swiftylife: {
-            command: 'scp -P 2022 <%= grunt.getDestZip() %> swiftylife@green.alphamegahosting.com:/var/www/vhosts/swifty.online/httpdocs/download/swifty-content-creator-alpha-latest.zip',
+            // command: 'scp -P 2022 <%= grunt.getDestZip() %> swiftylife@green.alphamegahosting.com:/var/www/vhosts/swifty.online/httpdocs/download/swifty-content-creator-alpha-latest.zip',
+            command: 'scp -P 2022 <%= grunt.getDestZip() %> root@stuff2.swifty.online:/var/www/vhosts/stuff.swifty.online/httpdocs/static/releases/' + grunt.myCfg.git_pull_all.tagcode + '/' + grunt.myCfg.plugin_code + '.' + grunt.myPkg.version + '.zip',
             options: {
                 execOptions: {
                 },
@@ -465,7 +492,8 @@ module.exports = function( grunt/*, options*/ ) {
             }
         },
         check_changelog_in_zip: {
-            command: 'unzip -c <%= grunt.getDestZip() %> <%= grunt.getDestPathPluginPart() %>readme.txt | grep "= ' + grunt.myPkg.version + ' ="',
+            // command: 'unzip -c <%= grunt.getDestZip() %> <%= grunt.getDestPathPluginPart() %>readme.txt | grep "= ' + grunt.myPkg.version + ' ="',
+            command: 'unzip -c <%= grunt.getDestZip() %> <%= grunt.getDestPathPluginPart() %>readme.txt | grep "= ' + grunt.myPkg.version + ' "',
             options: {
                 execOptions: {
                 },
@@ -502,6 +530,40 @@ module.exports = function( grunt/*, options*/ ) {
                     cb();
                 }
             }
+        },
+        get_changelog_from_readme: {
+            // command: 'sed -n "/== Changelog ==/,/== Upgrade Notice ==/p" <%= grunt.getDestPath() %>/<%= grunt.getDestPathPluginPart() %>readme.txt',
+            // command: 'sed -n "0,/== Changelog ==/ d; /== Upgrade Notice ==/,$ d; /^$/d; p" <%= grunt.getDestPath() %>/<%= grunt.getDestPathPluginPart() %>readme.txt',
+            command: 'sed -n "0,/== Changelog ==/ d; /== Upgrade Notice ==/,$ d; /^$/d; p" <%= grunt.getSourcePath() %>readme.txt',
+            options: {
+                execOptions: {
+                },
+                'stdout': false,
+                'callback': function(err, stdout, stderr, cb) {
+                    // console.log( '========================================' );
+                    // console.log( stdout );
+                    // console.log( '========================================' );
+
+                    var content = stdout;
+                    content = content.replace( /(?:\r\n\r\n)/g, '&nbsp;<br>&nbsp;<br>' );
+                    content = content.replace( /(?:\r\n|\r|\n)/g, '<br>' );
+                    // console.log( 'aaa', content );
+                    content = content.replace( /(= (.*?) =)/g, '<h4>$2</h4>' );
+
+                    var parseObj = {
+                        id_sol: grunt.myCfg.docs.changelog_id_sol,
+                        id_parent_sol: 5945, // Changelogs
+                        id_fd: grunt.myCfg.docs.changelog_id_fd,
+                        id_parent_fd: 11000002769, // Swifty changelogs
+                        title: 'Changelog for ' + grunt.myPkg.name.replace( /-/g, ' ' ),
+                        tags: 'changelog',
+                        content: content,
+                        file: 'readme'
+                    };
+                    grunt.myExportDocsDocs.push( JSON.parse( JSON.stringify( parseObj ) ) );
+                    cb();
+                }
+            }
         }
     };
 
@@ -520,6 +582,9 @@ module.exports = function( grunt/*, options*/ ) {
             //console.log( '==============', o );
             if( o.indexOf( '= ' ) === 0 && o.indexOf( ' =' ) > 0 ) {
                 latestChangelogVersion = o.substring( o.indexOf( '= ' ) + 2, o.indexOf( ' =' ) );
+                if( latestChangelogVersion.indexOf( ' - 20' ) > 0 ) {
+                    latestChangelogVersion = latestChangelogVersion.substr( 0, latestChangelogVersion.indexOf( ' - 20' ) );
+                }
                 console.log( 'Found latest changelog version: ', latestChangelogVersion );
                 readmeSearching = 3;
             }

@@ -275,7 +275,8 @@ module.exports = {
         } );
 
         grunt.registerTask( 'if_release', function() {
-            if( process.env.PRO_TAG === ' Pro' ) {
+            // if( process.env.PRO_TAG === ' Pro' ) {
+            if( grunt.myCfg.release && grunt.myCfg.release.tp === 'sol' ) {
                 grunt.task.run( [ 'helper_release_swiftylife' ] );
             } else {
                 grunt.task.run( [ 'helper_release_wporg' ] );
@@ -372,7 +373,7 @@ module.exports = {
         } );
 
         function updateFDDoc( docObj, success ) {
-            var folderId = 11000002663;
+            var folderId = parseInt( docObj.id_parent_fd, 10 );
             var catId = 1000129636;
             var curId = parseInt( docObj.id_fd, 10 );
 
@@ -404,7 +405,7 @@ module.exports = {
                         "title": docObj.title,
                         "status": 2, // ( 1 - draft, 2 - published )
                         "art_type": 1, // ( 1 - permanent, 2 - workaround )
-                        "description": content,
+                        "description": content.replace( /'/g, '\'' + "'" ),
                         "folder_id": folderId
                     },
                     "tags": {
@@ -412,7 +413,7 @@ module.exports = {
                     }
                 } ) + "'" +
                 ' --url ' + url;
-            // console.log( 'ccc', commandToBeExecuted );
+            // console.log( 'commandToBeExecuted', commandToBeExecuted );
             myTerminal( commandToBeExecuted, function( error, stdout, stderr ) {
                 if( !error ) {
                     // console.log( 'stdout', stdout );
@@ -580,6 +581,10 @@ module.exports = {
 
             grunt.task.run( [
                 'search:export_docs'
+            ] );
+
+            grunt.task.run( [
+                'shell:get_changelog_from_readme'
             ] );
 
             grunt.task.run( [

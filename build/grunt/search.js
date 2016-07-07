@@ -11,7 +11,10 @@ module.exports = function( grunt/*, options*/ ) {
                 customLogFormatCallback: function( params ) {
                     var parseMode = 0;
                     var parseObjDef = {
+                        id_sol: 0,
+                        id_parent_sol: 0,
                         id_fd: 0,
+                        id_parent_fd: 11000002663, // Swifty developer documentation
                         title: '',
                         tags: '',
                         content: ''
