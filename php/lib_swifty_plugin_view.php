@@ -549,7 +549,6 @@ class LibSwiftyPluginView
     // <br>
     // Example:<br>
     // <pre lang="php"><nobr>
-    // global $scc_version;
     // LibSwiftyPluginView::lazy_load_css( 'swcreator_swcreator_css' );
     // </pre lang="php">
     // SS_DOC_END

@@ -104,7 +104,7 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
     // id_parent_sol: 6685 // Actions and filters in Swifty Lib
     // title: Filter: swifty_set_area_template_style
     // tags: Swifty Lib,filter
-    // Look for area template style.<br>
+    // Set area template style.<br>
     // Store a json string with style information for the current page / area / areatemplate<br>
     // Use the current page ID when $areaName is 'page'<br>
     // <br>
