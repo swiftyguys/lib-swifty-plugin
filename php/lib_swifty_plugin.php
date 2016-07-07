@@ -64,14 +64,21 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
         }
     }
 
-    /**
-     * Filter: "swifty_get_area_template_style" - look for area template style
-     *
-     * @param $areaStyle
-     * @param $areaName
-     * @param $areaTemplate
-     * @return mixed
-     */
+    // SS_DOC_ARTICLE
+    // id_sol: 0
+    // id_fd: 0
+    // id_parent_sol: 6685 // Actions and filters in Swifty Lib
+    // title: Filter: swifty_get_area_template_style
+    // tags: Swifty Lib,filter
+    // Look for area template style.<br>
+    // Returns a json string with style information for the current page / area / areatemplate<br>
+    // Use the current page ID when $areaName is 'page'<br>
+    // <br>
+    // Example:<br>
+    // <pre lang="php"><nobr>
+    //   echo apply_filters( 'swifty_get_area_template_style', '{}', $areaName, $template );
+    // </pre lang="php">
+    // SS_DOC_END
     public function swifty_get_area_template_style( $areaStyle, $areaName, $areaTemplate ) {
 
         if( $areaName === 'page' ) {
@@ -91,13 +98,21 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
         return $areaStyle;
     }
 
-    /**
-     * Action: "swifty_set_area_template_style" - store area template style
-     *
-     * @param $areaStyle
-     * @param $areaName
-     * @param $areaTemplate
-     */
+    // SS_DOC_ARTICLE
+    // id_sol: 0
+    // id_fd: 0
+    // id_parent_sol: 6685 // Actions and filters in Swifty Lib
+    // title: Filter: swifty_set_area_template_style
+    // tags: Swifty Lib,filter
+    // Look for area template style.<br>
+    // Store a json string with style information for the current page / area / areatemplate<br>
+    // Use the current page ID when $areaName is 'page'<br>
+    // <br>
+    // Example:<br>
+    // <pre lang="php"><nobr>
+    //   do_action( 'swifty_set_area_template_style', $style, $areaName, $template );
+    // </pre lang="php">
+    // SS_DOC_END
     public function swifty_set_area_template_style( $areaStyle, $areaName, $areaTemplate ) {
 
         if( $areaName === 'page' ) {
