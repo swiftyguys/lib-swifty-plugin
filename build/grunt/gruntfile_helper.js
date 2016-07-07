@@ -462,6 +462,7 @@ module.exports = {
 
             // Prevent WP from seeing $... as vairables (and replacing them)
             var content = docObj.content.replace( /(\$)/g, '\\$' );
+            docObj.title = docObj.title.replace( /(\$)/g, '\\$' );
 
             // Replace code blocks
             content = content.replace( /<pre lang="php">/g, '<pre class="line-numbers"><code class="language-php">' );
