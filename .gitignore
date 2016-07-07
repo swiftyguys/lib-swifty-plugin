@@ -5,6 +5,7 @@ storyplayer.json
 settings_private.json
 vendor
 node_modules
-build/grunt
+NOT_build/grunt
+build/grunt/grunt
 build/generated
 build/svn

@@ -35,6 +35,14 @@ from_dialog_do_maintest_mainpot_mainvfree:
 from_dialog_do_mainvpro_mainpot_mainmail:
   - 'from_dialog_do_createpot_gettranslations' # It doesn't matter if pro is selected or not
 
+# Update documentation on FD and swifty.online
+from_dialog_do_async_export_docs:
+  - 'async_export_docs'
+from_dialog_do_maintest_async_export_docs_mainvfree:
+  - 'async_export_docs' # It doesn't matter if pro is selected or not
+from_dialog_do_mainvpro_async_export_docs_mainmail:
+  - 'async_export_docs' # It doesn't matter if pro is selected or not
+
 # Update pot/po and up/download glotpress
 from_dialog_do_mainvpro_mainpot:
   - 'from_dialog_do_mainpot' # It doesn't matter if pro is selected or not
