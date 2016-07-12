@@ -7,7 +7,7 @@ if( ! class_exists( 'LibSwiftyPluginView' ) ) {
 }
 require_once plugin_dir_path( __FILE__ ) . 'lib/swifty_class-tgm-plugin-activation.php';
 require_once plugin_dir_path( __FILE__ ) . 'swifty-licenses/swifty-license-check.php';
-require_once plugin_dir_path( __FILE__ ) . 'lib/class-swifty-theme-uninstaller.php';
+//require_once plugin_dir_path( __FILE__ ) . 'lib/class-swifty-theme-uninstaller.php';
 
 /**
  * Class LibSwiftyPlugin Swifty lib functions available in edit and view mode
