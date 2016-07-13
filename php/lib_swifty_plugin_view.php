@@ -91,6 +91,12 @@ class LibSwiftyPluginView
 
             add_filter( 'swifty_get_allow_external', array( $this, 'hook_swifty_get_allow_external' ), 10, 1 );
             add_action( 'swifty_set_allow_external', array( $this, 'hook_swifty_set_allow_external' ), 10, 1 );
+
+            add_action( 'swifty_lib_enqueue_script_bowser', array( $this, 'enqueue_script_bowser' ) );
+            add_action( 'swifty_lib_init_script_hooks', array( $this, 'init_script_hooks' ) );
+
+            add_filter( 'swifty_lib_is_swifty_contentview', array( 'LibSwiftyPluginView', 'is_swifty_contentview' ) );
+            add_filter( 'swifty_lib_is_swifty_hiddenview', array( 'LibSwiftyPluginView', 'is_swifty_hiddenview' ) );
         }
         self::$instance_view = $this;
     }
