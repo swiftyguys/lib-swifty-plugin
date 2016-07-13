@@ -107,7 +107,7 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
     // tags: Swifty Lib,filter
     // Set area template style.<br>
     // Store a json string with style information for the current page / area / areatemplate<br>
-    // Use the current page ID when $areaName is 'page'<br>
+    // Use the $areaTemplate as ID when $areaName is 'page'<br>
     // <br>
     // Example:<br>
     // <pre lang="php"><nobr>
