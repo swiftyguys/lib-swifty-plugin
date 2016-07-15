@@ -1,6 +1,7 @@
 var swiftyProbe = ( function( $, probe ) {
     probe = probe || {
         tmp_log: '',
+        fail_log: '',
         fail: '',
         dfds_done: [],
         try_list: [],
@@ -114,6 +115,9 @@ var swiftyProbe = ( function( $, probe ) {
         },
 
         SetFail: function( s ){
+            // store the tmp_log and make sure it will be returned to the caller
+            this.fail_log = this.tmp_log;
+            this.tmp_log = '';
             this.fail = s;
         },
 
@@ -200,7 +204,8 @@ var swiftyProbe = ( function( $, probe ) {
 
         GetGenericRetOutput: function() {
             var output = {
-                'tmp_log': this.tmp_log
+                'tmp_log': this.tmp_log,
+                'fail_log': this.fail_log
             };
 
             if ( this.fail !== '' ) {
@@ -308,6 +313,50 @@ var swiftyProbe = ( function( $, probe ) {
             } catch( e ) {
                 this.TmpLog( '=== ERROR in WaitForFn!!! === ' + e.message + ' ===' );
             }
+        },
+
+        LogDifsInStrings: function( content1, content2 ) {
+            var feedback = '';
+
+            if( (content1) && (content2) ) {
+                // feedback += 'content1:' + content1 + '\n';
+                // feedback += 'content2:' + content2 + '\n';
+                // this.TmpLog( 'content1:' + content1 );
+                // this.TmpLog( 'content2:' + content2 );
+
+                var prefix = function( a, b ) {
+                    return a && a[0] === b[0] ? a[0] + prefix( a.slice( 1 ), b.slice( 1 ) ) : '';
+                };
+
+                var diff = function( a, b ) {
+                    return a === b ? - 1 : prefix( a, b ).length;
+                };
+
+                var hexEncode = function( str ) {
+                    var hex, i, result = '';
+                    for( i = 0; i < str.length; i ++ ) {
+                        hex = str.charCodeAt( i ).toString( 16 );
+                        result += ('000' + hex).slice( - 4 );
+                    }
+                    return result;
+                }
+
+                var diffpos = diff( content1, content2 );
+                if( diffpos !== - 1 ) {
+                    this.TmpLog( 'diff at: ' + diffpos );
+                    var txt1 = content1.substr( Math.max( 0, diffpos - 4 ), 10 );
+                    var txt2 = content2.substr( Math.max( 0, diffpos - 4 ), 10 );
+                    var txt1hex = hexEncode( txt1 );
+                    var txt2hex = hexEncode( txt2 );
+                    txt1 = txt1.replace( /(\r)/g, '\\r' ).replace( /(\n)/g, '\\n' ).replace( /(\t)/g, '\\t' ).replace( /(\u000b)/g, '\\v' );
+                    txt2 = txt2.replace( /(\r)/g, '\\r' ).replace( /(\n)/g, '\\n' ).replace( /(\t)/g, '\\t' ).replace( /(\u000b)/g, '\\v' );
+                    this.TmpLog( 'content1:' + txt1hex + ':' + txt1 );
+                    this.TmpLog( 'content2:' + txt2hex + ':' + txt2 );
+                    feedback += 'content1:' + txt1hex + ':' + txt1 + '\n';
+                    feedback += 'content2:' + txt2hex + ':' + txt2 + '\n';
+                }
+            }
+            return feedback;
         },
 
         WaitForDfds: function( dfds, fnName, tm, waitData ) {

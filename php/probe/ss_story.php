@@ -815,6 +815,9 @@ class SSStory
                         file_put_contents( $path . 'latest_test_compare.txt', $ret[ 'ret' ][ 'fail_compare_html' ] );
                     }
                 }
+                if( isset( $ret[ 'ret' ][ 'fail_log' ] ) && $ret[ 'ret' ][ 'fail_log' ] ) {
+                    $this->EchoMsgJs( "FAIL-LOG:\n" . $ret[ 'ret' ][ 'fail_log' ] );
+                }
 
                 $this->EchoMsgJs( "FAIL:" . $ret[ 'ret' ][ 'fail' ] . "\n" );
 //                throw new E5xx_ActionFailed( "JS FAIL", $ret[ 'ret' ][ 'fail' ] );
