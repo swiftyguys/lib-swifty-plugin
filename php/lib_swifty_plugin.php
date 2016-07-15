@@ -17,6 +17,7 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
     protected static $instance;
     protected $our_swifty_plugins = array();
     protected $added_swifty_slugs = array();
+    protected $plugin_action_links = array();
 
     /**
      * Init singleton instance and add actions
@@ -33,6 +34,8 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
         }
         add_filter( 'swifty_get_area_template_style', array( $this, 'swifty_get_area_template_style' ), 10, 3 );
         add_action( 'swifty_set_area_template_style', array( $this, 'swifty_set_area_template_style' ), 10, 3 );
+
+        add_action( 'swifty_setup_plugin_action_links', array( $this, 'setup_plugin_action_links' ), 10, 3 );
     }
 
     /**
@@ -498,6 +501,31 @@ class LibSwiftyPlugin extends LibSwiftyPluginView
         // is only triggered when something actually has changed
         global $wp_rewrite;
         $wp_rewrite->flush_rules();
+    }
+
+    /**
+     * Setup filter for plugin actions links
+     */
+    public function setup_plugin_action_links( $slug, $link, $name ) {
+        $plugin_file = "{$slug}/{$slug}.php";
+        $this->plugin_action_links[ $plugin_file ] = array( 'link' => $link, 'name' => $name );
+        add_filter( "plugin_action_links_{$plugin_file}", array( $this, 'add_plugin_action_links' ), 10, 2 );
+    }
+
+    /**
+     * Add to links
+     *
+     * @param array $links
+     *
+     * @return array
+     */
+    public function add_plugin_action_links( $links, $plugin_file ) {
+        if( isset( $this->plugin_action_links[ $plugin_file ] ) ) {
+            $link = $this->plugin_action_links[ $plugin_file ][ 'link' ];
+            $name = $this->plugin_action_links[ $plugin_file ][ 'name' ];
+            array_unshift( $links, '<a href="' . $link . '" target="_blank" style="color:#ffa100;font-weight:bold;">' . $name . '</a>' );
+        }
+        return $links;
     }
 
     // @if PROBE='include'
