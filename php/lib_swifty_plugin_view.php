@@ -668,6 +668,7 @@ var ssd_add_loadCss = function( s ) {
     }
 };
 var ssd_list_loadJs = [];
+var ssd_list_loadJs_done = false;
 var ssd_add_loadJs = function( s ) {
     ssd_list_loadJs.push(s);
     if( typeof swifty_do_loadJs === 'function' ) {

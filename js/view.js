@@ -22,6 +22,14 @@ function swifty_removeClass( el, cls ) {
     }
 }
 
+/**
+ * Returns true when page is loaded, all scripts are loaded and no commands waiting for executing.
+ * @returns {boolean}
+ */
+function swifty_is_page_loaded() {
+    return ( ssd_status_onload > 0 ) && ( ssd_list_loadJs_done );
+}
+
 function swifty_fixSideMenu() {
     try {
         if( document.documentElement.clientWidth <= 639 ) {
@@ -633,6 +641,7 @@ function swifty_downloadJSAtOnload() {
                     swifty_loadJsHelper( scrpt, i );
                 }
             }
+            ssd_list_loadJs_done = true;
         }
     } catch( e ) {}
 }
