@@ -27,7 +27,19 @@ function swifty_removeClass( el, cls ) {
  * @returns {boolean}
  */
 function swifty_is_page_loaded() {
-    return ( ssd_status_onload > 0 ) && ( ssd_list_loadJs_done );
+    if( ( ssd_status_onload > 0 ) && ssd_list_loadJs_done ) {
+        // To be sure all scripts are actually loaded.
+        var i, scrpt;
+        for( i = 0; i < ssd_list_loadJs.length; i ++ ) {
+            scrpt = ssd_list_loadJs[i];
+
+            if( ( typeof scrpt === 'string' ) || ! scrpt.done && ! scrpt.loading ) {
+                return false;
+            }
+        }
+        return true;
+    }
+    return false;
 }
 
 function swifty_fixSideMenu() {
