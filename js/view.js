@@ -108,6 +108,10 @@ function swifty_checkImages() {
                         } else {
                             el.src = el.getAttribute( 'swifty_src' );
                         }
+                        if( typeof scc_data !== 'undefined' ) {
+                            el.setAttribute( 'swifty_src_org', el.getAttribute( 'swifty_src' ) );
+                        }
+
                         el.removeAttribute( 'swifty_src' );
                     }
                 }
