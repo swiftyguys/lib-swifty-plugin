@@ -200,8 +200,8 @@ class SwiftyPackInstall
             
             update_option( $settings->ame_activated_key, 'Activated' );
             update_option( $settings->ame_deactivate_checkbox, 'off' );
-            set_transient( 'active_license_' . $this->plugin_key_name, 'Active', DAY_IN_SECONDS * 3 );
-            
+            set_transient( 'active_license_' . $this->plugin_key_name, 'Active', DAY_IN_SECONDS * 9 );
+
             return array( true, $additional_info );
         }
         return array( false, $additional_info );

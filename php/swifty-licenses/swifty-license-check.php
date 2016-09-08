@@ -188,7 +188,31 @@ class SwiftyLicenseCheck
     function has_valid_license()
     {
         $licence_code = get_option( $this->plugin_key_name . '_activated' );
-        return ( $licence_code === 'Activated' ) && get_transient( 'active_license_' . $this->plugin_key_name );
+        if ( $licence_code === 'Activated' ) {
+            if ( get_transient( 'active_license_' . $this->plugin_key_name ) ) {
+                return true;
+            } else {
+                if ( get_transient( 'update_checked_' . $this->plugin_key_name ) ) {
+                    return false;
+                } else {
+                    require_once( plugin_dir_path( __FILE__ ) . 'classes/class-swifty-ame_plugin_settings.php' );
+
+                    $settings = swifty_get_ame_plugin_settings( $this->plugin_key_name );
+                    if( ! $settings ) {
+                        $settings = $this->set_api_manager_plugin_settings();
+                    }
+                    $license_info = $settings->is_license_key_status();
+                    if( $license_info !== false ) {
+                        set_transient( 'update_checked_' . $this->plugin_key_name, 'done', DAY_IN_SECONDS * 7 );
+                    }
+                    if( $license_info === 'A' ) {
+                        set_transient( 'active_license_' . $this->plugin_key_name, 'Active', DAY_IN_SECONDS * 9 );
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     /**

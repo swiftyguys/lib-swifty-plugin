@@ -290,10 +290,12 @@ if( ! class_exists( 'SwiftyApiManagerUpdateApiCheck' ) ) {
 
             if( ! empty( $response ) ) {
 
+                set_transient( 'update_checked_' . $this->slug, 'done', DAY_IN_SECONDS * 7 );
+
                 if( isset( $response->errors ) ) {
                     delete_transient( 'active_license_' . $this->slug );
                 } else {
-                    set_transient( 'active_license_' . $this->slug, 'Active', DAY_IN_SECONDS * 3 );
+                    set_transient( 'active_license_' . $this->slug, 'Active', DAY_IN_SECONDS * 9 );
                 }
 
                 if( isset( $response->errors[ 'no_key' ] ) && $response->errors[ 'no_key' ] == 'no_key' && isset( $response->errors[ 'no_subscription' ] ) && $response->errors[ 'no_subscription' ] == 'no_subscription' ) {

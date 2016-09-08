@@ -177,8 +177,11 @@ if( ! class_exists( 'SwiftyApiManagerMenu' ) ) {
                         'licence_key' => $api_key,
                     );
 
+                    $activate_results = json_decode( $ame->key()->status( $args ), true );
                     if( $activation_status == 'Activated' && ! $valid_transient ) {
-                        $activate_results = json_decode( $ame->key()->status( $args ), true );
+                       if(  key_exists( 'status_check', $activate_results ) && ( $activate_results[ 'status_check' ] === 'inactive' ) ) {
+                           $activate_results = json_decode( $ame->key()->activate( $args ), true );
+                       }
                     } else {
                         $activate_results = json_decode( $ame->key()->activate( $args ), true );
                     }
@@ -187,7 +190,7 @@ if( ! class_exists( 'SwiftyApiManagerMenu' ) ) {
                         add_settings_error( 'api-manager', 'activate_msg', __( 'Plugin activated. ', 'swifty-content-creator' ) . "{$activate_results['message']}.", 'updated' );
                         update_option( $ame->ame_activated_key, 'Activated' );
                         update_option( $ame->ame_deactivate_checkbox, 'off' );
-                        set_transient( 'active_license_' . $this->plugin_key_name, 'Active', DAY_IN_SECONDS * 3 );
+                        set_transient( 'active_license_' . $this->plugin_key_name, 'Active', DAY_IN_SECONDS * 9 );
                     }
 
                     $reset_activation = false;
