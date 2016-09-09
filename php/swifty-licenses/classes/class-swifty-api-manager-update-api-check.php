@@ -287,15 +287,13 @@ if( ! class_exists( 'SwiftyApiManagerUpdateApiCheck' ) ) {
          */
         public function check_response_for_errors( $response )
         {
+            set_transient( 'swifty_update_checked_' . $this->slug, 'done', DAY_IN_SECONDS * 7 );
 
             if( ! empty( $response ) ) {
-
-                set_transient( 'update_checked_' . $this->slug, 'done', DAY_IN_SECONDS * 7 );
-
                 if( isset( $response->errors ) ) {
-                    delete_transient( 'active_license_' . $this->slug );
+                    delete_transient( 'swifty_active_license_' . $this->slug );
                 } else {
-                    set_transient( 'active_license_' . $this->slug, 'Active', DAY_IN_SECONDS * 9 );
+                    set_transient( 'swifty_active_license_' . $this->slug, 'Active', DAY_IN_SECONDS * 9 );
                 }
 
                 if( isset( $response->errors[ 'no_key' ] ) && $response->errors[ 'no_key' ] == 'no_key' && isset( $response->errors[ 'no_subscription' ] ) && $response->errors[ 'no_subscription' ] == 'no_subscription' ) {
