@@ -6,10 +6,10 @@
   font-weight: normal;
   font-style: normal;
 }
-#wpadminbar #wp-admin-bar-swifty div.ab-item {
+#wp-admin-bar-swifty div.ab-item {
   cursor: pointer;
 }
-#wpadminbar #wp-admin-bar-swifty div.ab-item .ab-icon:before {
+#wp-admin-bar-swifty div.ab-item .ab-icon:before {
   font-family: 'swiftysiteui' !important;
   font-style: normal;
   font-weight: normal;
