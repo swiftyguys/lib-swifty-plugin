@@ -289,6 +289,10 @@ if( ! class_exists( 'Swifty_TGM_Plugin_Activation' ) ) {
                 // Is plugin installed?
                 if( ! isset( $installed_plugins[ $plugin[ 'file_path' ] ] ) ) {
 
+                    if( $this->_is_alternate_plugin_installed( $plugin ) ) {
+                        continue;
+                    }
+
                     // Create a new instance of Plugin_Upgrader.
                     $upgrader = new Plugin_Upgrader( $skin = new Automatic_Upgrader_Skin() );
 
@@ -348,6 +352,10 @@ if( ! class_exists( 'Swifty_TGM_Plugin_Activation' ) ) {
             }
 
             if( $plugin ) {
+                if( $this->_is_alternate_plugin_installed( $plugin ) ) {
+                    return false;
+                }
+
                 if( $activate ) {
                     if( isset( $installed_plugins[ $plugin[ 'file_path' ] ] ) ) {
                         activate_plugin( $plugin[ 'file_path' ] );
@@ -734,6 +742,11 @@ if( ! class_exists( 'Swifty_TGM_Plugin_Activation' ) ) {
                         continue;
                     }
                 }
+
+                if( $this->_is_alternate_plugin_installed( $plugin ) ) {
+                    continue;
+                }
+
                 // If the plugin is installed and active, check for minimum version argument before moving forward.
                 if( is_plugin_active( $plugin[ 'file_path' ] ) ) {
                     // A minimum version has been specified.
@@ -1029,6 +1042,22 @@ if( ! class_exists( 'Swifty_TGM_Plugin_Activation' ) ) {
         }
 
         /**
+         * Helper function that will look wether there is a alternate plugin installed
+         *
+         * @param $plugin
+         * @return bool
+         */
+        protected function _is_alternate_plugin_installed( $plugin ) {
+            if( isset( $plugin[ 'slug-alt' ] ) ) {
+                $installed_plugins = get_plugins();
+                $filepath = $this->_get_plugin_basename_from_slug( $plugin[ 'slug-alt' ] );
+
+                return isset( $installed_plugins[ $filepath ] );
+            }
+            return false;
+        }
+
+        /**
          * Retrieve plugin data, given the plugin name.
          *
          * Loops through the registered plugins looking for $name. If it finds it,
@@ -1109,6 +1138,12 @@ if( ! class_exists( 'Swifty_TGM_Plugin_Activation' ) ) {
             $installed_plugins = get_plugins();
 
             foreach( $this->plugins as $plugin ) {
+                // do not force plugin installation when alternate is installed, user should choose one of them we can
+                // not force this
+                if( $this->_is_alternate_plugin_installed( $plugin ) ) {
+                    continue;
+                }
+
                 // Oops, plugin isn't there so iterate to next condition.
                 if( isset( $plugin[ 'force_activation' ] ) && $plugin[ 'force_activation' ] && ! isset( $installed_plugins[ $plugin[ 'file_path' ] ] ) ) {
                     continue;
