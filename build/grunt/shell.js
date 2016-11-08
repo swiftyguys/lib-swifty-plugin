@@ -35,7 +35,8 @@ module.exports = function( grunt/*, options*/ ) {
         svn_co: {
             // command: 'svn co http://plugins.svn.wordpress.org/swifty-page-manager/ svn/swifty-page-manager',
             // command: 'svn co ' + grunt.myCfg.svn.url + ' ' + grunt.myCfg.svn.path + ' --ignore-externals --quiet && svn stat',
-            command: 'svn co ' + grunt.myCfg.svn.url + ' ' + grunt.myCfg.svn.path + ' --ignore-externals',
+            // command: 'svn co ' + grunt.myCfg.svn.url + ' ' + grunt.myCfg.svn.path + ' --ignore-externals',
+            command: 'rm -Rf ' + grunt.myCfg.svn.path + ' && svn co -q ' + grunt.myCfg.svn.url + ' ' + grunt.myCfg.svn.path + ' --ignore-externals',
             options: {
                 execOptions: {
                     cwd: '../build/'
@@ -48,7 +49,8 @@ module.exports = function( grunt/*, options*/ ) {
         svn_stat: {
             // command: 'sleep 15; svn stat',
             // command: 'sleep 5; svn stat',
-            command: 'sleep 5; svn cleanup; svn stat',
+            // command: 'sleep 5; svn cleanup; svn resolved -R .; svn update; sleep 5; svn stat',
+            command: 'svn stat',
             options: {
                 execOptions: {
                     cwd: grunt.myCfg.svn.path //'svn/swifty-page-manager/'
@@ -59,7 +61,8 @@ module.exports = function( grunt/*, options*/ ) {
             }
         },
         svn_add: {
-            command: 'sleep 5; svn status | grep "^\\?" | sed -e \'s/? *//\' | sed -e \'s/ /\\\\ /g\' | xargs svn add',
+            // command: 'sleep 5; svn status | grep "^\\?" | sed -e \'s/? *//\' | sed -e \'s/ /\\\\ /g\' | xargs svn add',
+            command: 'svn status | grep "^\\?" | sed -e \'s/? *//\' | sed -e \'s/ /\\\\ /g\' | xargs svn add',
             options: {
                 execOptions: {
                     cwd: grunt.myCfg.svn.path //'svn/swifty-page-manager/'
@@ -70,7 +73,8 @@ module.exports = function( grunt/*, options*/ ) {
             }
         },
         svn_ci: {
-            command: 'sleep 5; svn ci -m "v' + grunt.myPkg.version + '" --username "SwiftyOnline" --force-interactive',
+            // command: 'sleep 5; svn update; sleep 5; svn ci -m "v' + grunt.myPkg.version + '" --username "SwiftyOnline" --force-interactive',
+            command: 'svn ci -m "v' + grunt.myPkg.version + '" --username "SwiftyOnline" --force-interactive',
             options: {
                 execOptions: {
                     cwd: grunt.myCfg.svn.path //'svn/swifty-page-manager/'
@@ -81,7 +85,8 @@ module.exports = function( grunt/*, options*/ ) {
             }
         },
         svn_cp_trunk: {
-            command: 'sleep 5; svn cp trunk tags/' + grunt.myPkg.version,
+            // command: 'sleep 5; svn cp trunk tags/' + grunt.myPkg.version,
+            command: 'svn cp trunk tags/' + grunt.myPkg.version,
             options: {
                 execOptions: {
                     cwd: grunt.myCfg.svn.path //'svn/swifty-page-manager/'
@@ -92,7 +97,8 @@ module.exports = function( grunt/*, options*/ ) {
             }
         },
         svn_ci_tags: {
-            command: 'sleep 5; svn ci -m "Tagging version ' + grunt.myPkg.version + '" --username "SwiftyOnline" --force-interactive',
+            // command: 'sleep 5; svn ci -m "Tagging version ' + grunt.myPkg.version + '" --username "SwiftyOnline" --force-interactive',
+            command: 'svn ci -m "Tagging version ' + grunt.myPkg.version + '" --username "SwiftyOnline" --force-interactive',
             options: {
                 execOptions: {
                     cwd: grunt.myCfg.svn.path //'svn/swifty-page-manager/'
@@ -104,7 +110,8 @@ module.exports = function( grunt/*, options*/ ) {
         },
         svn_check_tags: {
             // command: 'svn ls ' + grunt.myCfg.svn_check_tags.url /*'svn ls http://plugins.svn.wordpress.org/swifty-page-manager/tags'*/,
-            command: 'sleep 5; svn ls ' + grunt.myCfg.svn.url + 'tags' /*'svn ls http://plugins.svn.wordpress.org/swifty-page-manager/tags'*/,
+            // command: 'sleep 5; svn ls ' + grunt.myCfg.svn.url + 'tags' /*'svn ls http://plugins.svn.wordpress.org/swifty-page-manager/tags'*/,
+            command: 'svn ls ' + grunt.myCfg.svn.url + 'tags' /*'svn ls http://plugins.svn.wordpress.org/swifty-page-manager/tags'*/,
             options: {
                 stdout: false,
                 execOptions: {
