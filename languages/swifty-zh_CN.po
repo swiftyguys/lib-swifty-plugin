@@ -155,7 +155,7 @@ msgid "Plugin activated successfully."
 msgstr ""
 
 #: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:185
-#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1781
+#: lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1816
 msgid "The following plugin was activated successfully:"
 msgid_plural "The following plugins were activated successfully:"
 msgstr[0] ""
@@ -164,19 +164,19 @@ msgstr[0] ""
 msgid "Dismiss this notice"
 msgstr ""
 
-#: lib/swifty_plugin/php/lib_swifty_plugin.php:123
+#: lib/swifty_plugin/php/lib_swifty_plugin.php:142
 msgid "Licenses"
 msgstr ""
 
-#: lib/swifty_plugin/php/lib_swifty_plugin.php:318
+#: lib/swifty_plugin/php/lib_swifty_plugin.php:337
 msgid "Swifty Plugins"
 msgstr ""
 
-#: lib/swifty_plugin/php/lib_swifty_plugin.php:320
+#: lib/swifty_plugin/php/lib_swifty_plugin.php:339
 msgid "Active Swifty Plugins"
 msgstr ""
 
-#: lib/swifty_plugin/php/lib_swifty_plugin.php:405
+#: lib/swifty_plugin/php/lib_swifty_plugin.php:424
 msgid "Swifty Settings"
 msgstr ""
 
@@ -214,21 +214,21 @@ msgid ""
 "'Activate' button."
 msgstr ""
 
-#: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:180
+#: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:190
 msgid "Plugin activated. "
 msgstr ""
 
-#: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:261
+#: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:271
 msgid ""
 "The license could not be deactivated. Use the License Deactivation tab to "
 "manually deactivate the license before activating a new license."
 msgstr ""
 
-#: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:308
+#: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:318
 msgid "Plugin license deactivated. "
 msgstr ""
 
-#: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:376
+#: lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:386
 msgid "Deactivates an API License Key so it can be used on another blog."
 msgstr ""
 
@@ -266,13 +266,13 @@ msgstr ""
 msgid "Deactivate %s"
 msgstr ""
 
-#: lib/swifty_plugin/php/swifty-licenses/swifty-license-check.php:263
+#: lib/swifty_plugin/php/swifty-licenses/swifty-license-check.php:287
 msgid ""
 "The license key for <b>%s</b> has not been activated, so the plugin is "
 "inactive! %sClick here%s to activate the license key and the plugin."
 msgstr ""
 
-#: lib/swifty_plugin/php/swifty-licenses/swifty-license-check.php:283
+#: lib/swifty_plugin/php/swifty-licenses/swifty-license-check.php:307
 msgid ""
 "<b>Warning!</b> You're blocking external requests which means you won't be "
 "able to get %s updates. Please add %s to %s."
