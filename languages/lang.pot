@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-13 15:59+0100\n"
+"POT-Creation-Date: 2016-12-15 14:46+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,89 +18,89 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lang.php:7
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lang.php:7
 msgid "page"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lang.php:8
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lang.php:8
 msgid "topbar"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lang.php:9
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lang.php:9
 msgid "header"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lang.php:10
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lang.php:10
 msgid "navbar"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lang.php:11
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lang.php:11
 msgid "sidebar"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lang.php:12
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lang.php:12
 msgid "extrasidebar"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lang.php:13
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lang.php:13
 msgid "footer"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lang.php:14
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lang.php:14
 msgid "bottombar"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty-image-functions.php:29
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty-image-functions.php:29
 msgid "Mobile half"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty-image-functions.php:30
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty-image-functions.php:30
 msgid "Mobile small"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty-image-functions.php:31
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty-image-functions.php:31
 msgid "Mobile regular"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty-image-functions.php:32
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty-image-functions.php:32
 msgid "Mobile landscape"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty-image-functions.php:33
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty-image-functions.php:33
 msgid "Desktop smallest"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty-image-functions.php:34
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty-image-functions.php:34
 msgid "Desktop small"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty-image-functions.php:35
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty-image-functions.php:35
 msgid "Desktop medium"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty-image-functions.php:36
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty-image-functions.php:36
 msgid "Desktop large"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty-image-functions.php:37
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty-image-functions.php:37
 msgid "Full HD"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:172
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:172
 #, php-format
 msgid "This theme requires the following plugin: %1$s."
 msgid_plural "This theme requires the following plugins: %1$s."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:173
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:173
 #, php-format
 msgid "This theme recommends the following plugin: %1$s."
 msgid_plural "This theme recommends the following plugins: %1$s."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:174
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:174
 #, php-format
 msgid ""
 "Sorry, but you do not have the correct permissions to install the %s plugin. "
@@ -113,21 +113,21 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:175
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:175
 #, php-format
 msgid "The following required plugin is currently inactive: %1$s."
 msgid_plural "The following required plugins are currently inactive: %1$s."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:176
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:176
 #, php-format
 msgid "The following recommended plugin is currently inactive: %1$s."
 msgid_plural "The following recommended plugins are currently inactive: %1$s."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:177
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:177
 #, php-format
 msgid ""
 "Sorry, but you do not have the correct permissions to activate the %s "
@@ -140,7 +140,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:178
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:178
 #, php-format
 msgid ""
 "The following plugin needs to be updated to its latest version to ensure "
@@ -151,7 +151,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:179
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:179
 #, php-format
 msgid ""
 "Sorry, but you do not have the correct permissions to update the %s plugin. "
@@ -164,118 +164,118 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:180
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:180
 msgid "Begin installing plugin"
 msgid_plural "Begin installing plugins"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:181
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:181
 msgid "Begin activating plugin"
 msgid_plural "Begin activating plugins"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:184
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:184
 msgid "Plugin activated successfully."
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:185
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1816
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:185
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:1816
 msgid "The following plugin was activated successfully:"
 msgid_plural "The following plugins were activated successfully:"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:187
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib/swifty_class-tgm-plugin-activation.php:187
 msgid "Dismiss this notice"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib_swifty_plugin.php:142
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib_swifty_plugin.php:142
 msgid "Licenses"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib_swifty_plugin.php:337
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib_swifty_plugin.php:337
 msgid "Swifty Plugins"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib_swifty_plugin.php:339
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib_swifty_plugin.php:339
 msgid "Active Swifty Plugins"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/lib_swifty_plugin.php:424
+#: ../plugin/swifty-site/lib/swifty_plugin/php/lib_swifty_plugin.php:424
 msgid "Swifty Settings"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:75
+#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:75
 msgid "Activate"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:86
+#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:86
 msgid "Save Changes"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:98
+#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:98
 #, php-format
 msgid "License activation of %s"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:99
+#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:99
 msgid "Email"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:100
+#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:100
 msgid "License key"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:104
+#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:104
 #, php-format
 msgid "License deactivation of %s"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:105
+#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:105
 msgid "Deactivate License Key"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:113
+#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:113
 msgid ""
 "Please enter the activation details you received from us, and click the "
 "'Activate' button."
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:190
+#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:190
 msgid "Plugin activated. "
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:271
+#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:271
 msgid ""
 "The license could not be deactivated. Use the License Deactivation tab to "
 "manually deactivate the license before activating a new license."
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:318
+#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:318
 msgid "Plugin license deactivated. "
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:386
+#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/admin/class-swifty-api-manager-menu.php:386
 msgid "Deactivates an API License Key so it can be used on another blog."
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/swifty-licenses/classes/class-swifty-api-manager-update-api-check.php:365
+#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/classes/class-swifty-api-manager-update-api-check.php:365
 #, php-format
 msgid ""
 "The license key for %s has expired. You can reactivate or purchase a license "
 "key from your account <a href=\"%s\" target=\"_blank\">dashboard</a>."
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/swifty-licenses/classes/class-swifty-api-manager-update-api-check.php:395
+#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/classes/class-swifty-api-manager-update-api-check.php:395
 #, php-format
 msgid ""
 "The subscription for %s has expired. You can reactivate the subscription "
 "from your account <a href=\"%s\" target=\"_blank\">dashboard</a>."
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/swifty-licenses/classes/class-swifty-api-manager-update-api-check.php:445
+#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/classes/class-swifty-api-manager-update-api-check.php:445
 #, php-format
 msgid ""
 "A license key for %s could not be found. Maybe you forgot to enter a license "
@@ -284,31 +284,31 @@ msgid ""
 "\"_blank\">dashboard</a>."
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/swifty-licenses/classes/class-swifty-api-manager-update-api-check.php:465
+#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/classes/class-swifty-api-manager-update-api-check.php:465
 #, php-format
 msgid ""
 "%s has not been activated. Go to the settings page and enter the license key "
 "and license email to activate %s."
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/swifty-licenses/swifty-license-check.php:146
+#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/swifty-license-check.php:146
 #, php-format
 msgid "Activate %s"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/swifty-licenses/swifty-license-check.php:147
+#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/swifty-license-check.php:147
 #, php-format
 msgid "Deactivate %s"
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/swifty-licenses/swifty-license-check.php:287
+#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/swifty-license-check.php:287
 #, php-format
 msgid ""
 "The license key for <b>%s</b> has not been activated, so the plugin is "
 "inactive! %sClick here%s to activate the license key and the plugin."
 msgstr ""
 
-#: ../plugin/swifty-page-manager/lib/swifty_plugin/php/swifty-licenses/swifty-license-check.php:307
+#: ../plugin/swifty-site/lib/swifty_plugin/php/swifty-licenses/swifty-license-check.php:307
 #, php-format
 msgid ""
 "<b>Warning!</b> You're blocking external requests which means you won't be "
